@@ -1,6 +1,7 @@
 {
   "name": "CrateStack",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,7 @@
         "verts": 2880
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

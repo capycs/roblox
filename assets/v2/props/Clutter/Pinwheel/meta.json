@@ -1,0 +1,41 @@
+{
+  "name": "Pinwheel",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 24,
+        "verts": 40
+      },
+      "Pinwheel": {
+        "tris": 44,
+        "verts": 59
+      }
+    },
+    "parts": {
+      "Pinwheel": {
+        "pivot": [
+          0,
+          3,
+          -0.12
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          -0.019019238650798798
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "BreakableCoins",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 864,
+        "verts": 1368
+      },
+      "HoverGlint": {
+        "tris": 24,
+        "verts": 72
+      }
+    },
+    "parts": {
+      "HoverGlint": {
+        "pivot": [
+          0,
+          1.6,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.20000001788139343,
+          -2.9802322387695312e-8,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

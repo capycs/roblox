@@ -1,6 +1,7 @@
 {
   "name": "TreeEmber",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -16,6 +17,7 @@
         "verts": 328
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

@@ -1,0 +1,61 @@
+{
+  "name": "PotionShelf",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 732,
+        "verts": 1184
+      },
+      "Swing": {
+        "tris": 12,
+        "verts": 24
+      },
+      "PotionR": {
+        "tris": 216,
+        "verts": 156
+      },
+      "PotionG": {
+        "tris": 216,
+        "verts": 156
+      },
+      "PotionB": {
+        "tris": 216,
+        "verts": 156
+      },
+      "PotionY": {
+        "tris": 216,
+        "verts": 156
+      },
+      "Glass": {
+        "tris": 1440,
+        "verts": 936
+      }
+    },
+    "parts": {
+      "Swing": {
+        "pivot": [
+          0,
+          4.5,
+          -0.3
+        ],
+        "pivotFromCenter": [
+          0,
+          0.2999999523162842,
+          -3.725290298461914e-9
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

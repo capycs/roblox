@@ -1,0 +1,49 @@
+{
+  "name": "TeleportPortal",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 928,
+        "verts": 799
+      },
+      "Glow": {
+        "tris": 72,
+        "verts": 76
+      },
+      "GlowCore": {
+        "tris": 24,
+        "verts": 26
+      },
+      "PortalRing": {
+        "tris": 696,
+        "verts": 935
+      }
+    },
+    "parts": {
+      "PortalRing": {
+        "pivot": [
+          0,
+          3.2,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

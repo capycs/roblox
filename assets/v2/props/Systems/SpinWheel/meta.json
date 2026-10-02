@@ -1,0 +1,45 @@
+{
+  "name": "SpinWheel",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 36,
+        "verts": 72
+      },
+      "Wheel": {
+        "tris": 1008,
+        "verts": 963
+      },
+      "Glow": {
+        "tris": 18,
+        "verts": 23
+      }
+    },
+    "parts": {
+      "Wheel": {
+        "pivot": [
+          0,
+          3.6,
+          -0.3
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          0.09803848713636398
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

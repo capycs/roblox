@@ -1,0 +1,73 @@
+{
+  "name": "LanternPost",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 642,
+        "verts": 1035
+      },
+      "Lantern": {
+        "tris": 208,
+        "verts": 312
+      },
+      "Rustle": {
+        "tris": 840,
+        "verts": 2520
+      },
+      "LanternLamp": {
+        "tris": 24,
+        "verts": 40
+      }
+    },
+    "parts": {
+      "Lantern": {
+        "pivot": [
+          1.2,
+          6.95,
+          0
+        ],
+        "pivotFromCenter": [
+          -2.9802322387695312e-8,
+          0.6849999185651541,
+          0
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.04599758982658386,
+          -1.8669849634170532,
+          -0.11886516213417053
+        ]
+      },
+      "LanternLamp": {
+        "pivot": [
+          1.2,
+          6.95,
+          0
+        ],
+        "pivotFromCenter": [
+          -2.9802322387695312e-8,
+          0.9999999701976776,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

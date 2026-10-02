@@ -1,0 +1,45 @@
+{
+  "name": "StoneLantern",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 488,
+        "verts": 900
+      },
+      "Rustle": {
+        "tris": 720,
+        "verts": 2160
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 96
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.06819328665733337,
+          -1.9642788581550121,
+          -0.2919168323278427
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "VIPRope",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 488,
+        "verts": 526
+      },
+      "Swing": {
+        "tris": 336,
+        "verts": 170
+      }
+    },
+    "parts": {
+      "Swing": {
+        "pivot": [
+          0,
+          1.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          0.30064715817570686,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

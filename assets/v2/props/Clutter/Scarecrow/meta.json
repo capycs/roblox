@@ -1,0 +1,41 @@
+{
+  "name": "Scarecrow",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 24,
+        "verts": 40
+      },
+      "Rustle": {
+        "tris": 928,
+        "verts": 1144
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          2.2,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -1.4973654989153147,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

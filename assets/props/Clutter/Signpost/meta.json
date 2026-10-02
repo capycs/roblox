@@ -1,6 +1,7 @@
 {
   "name": "Signpost",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,7 @@
         "verts": 193
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

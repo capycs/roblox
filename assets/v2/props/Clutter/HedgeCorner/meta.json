@@ -1,0 +1,41 @@
+{
+  "name": "HedgeCorner",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1600,
+        "verts": 4800
+      },
+      "Rustle": {
+        "tris": 6240,
+        "verts": 18720
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          -1,
+          0,
+          -1
+        ],
+        "pivotFromCenter": [
+          0.7036311626434326,
+          -1.3016504645347595,
+          0.6631338596343994
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,6 +1,7 @@
 {
   "name": "GrassTuft",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Sway": {
@@ -21,7 +22,13 @@
           -0.0332537442445755
         ]
       }
-    }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
   },
   "sprite": {
     "frames": 24,

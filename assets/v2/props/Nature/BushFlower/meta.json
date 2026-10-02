@@ -1,0 +1,37 @@
+{
+  "name": "BushFlower",
+  "category": "Nature",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Sway": {
+        "tris": 6696,
+        "verts": 15400
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.009213566780090332,
+          -1.1581095904111862,
+          0.029440760612487793
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

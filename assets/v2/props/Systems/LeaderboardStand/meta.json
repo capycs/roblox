@@ -1,0 +1,41 @@
+{
+  "name": "LeaderboardStand",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 204,
+        "verts": 408
+      },
+      "HoverCrown": {
+        "tris": 152,
+        "verts": 179
+      }
+    },
+    "parts": {
+      "HoverCrown": {
+        "pivot": [
+          0,
+          6.6,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.04106135666370392,
+          -0.19999994337558746,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

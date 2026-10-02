@@ -24,7 +24,7 @@ async function exportGLB(spec, style) {
     : new THREE.MeshStandardMaterial({ color: spec.glow[n], emissive: spec.glow[n], name: n });
   const { group, boneMap, stats } = buildCreature(spec, mat);
   group.traverse((o) => o.geometry && o.geometry.deleteAttribute('outlineK'));
-  const clips = bakeClips(style, boneMap);
+  const clips = bakeClips(style, boneMap, 30, spec.spinners || []);
   const glb = await new GLTFExporter().parseAsync(group, { binary: true, animations: clips });
   const bytes = new Uint8Array(glb);
   let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000));

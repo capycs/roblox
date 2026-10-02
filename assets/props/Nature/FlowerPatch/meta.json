@@ -1,6 +1,7 @@
 {
   "name": "FlowerPatch",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Sway": {
@@ -21,7 +22,13 @@
           -0.20348158478736877
         ]
       }
-    }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
   },
   "sprite": {
     "frames": 24,

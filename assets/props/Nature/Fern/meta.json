@@ -1,6 +1,7 @@
 {
   "name": "Fern",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Sway": {
@@ -21,7 +22,13 @@
           -0.0000026226043701171875
         ]
       }
-    }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
   },
   "sprite": {
     "frames": 24,

@@ -1,0 +1,41 @@
+{
+  "name": "Beehive",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1524,
+        "verts": 1040
+      },
+      "HoverBees": {
+        "tris": 224,
+        "verts": 236
+      }
+    },
+    "parts": {
+      "HoverBees": {
+        "pivot": [
+          0,
+          1.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0.025000035762786865,
+          -0.26504744589328766,
+          -0.25
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

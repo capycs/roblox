@@ -1,6 +1,7 @@
 {
   "name": "EggGoldenHuge",
   "category": "Eggs",
+  "whole": "wobble",
   "stats": {
     "meshes": {
       "Body": {
@@ -12,6 +13,16 @@
         "verts": 360
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.857
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2.857
   }
 }

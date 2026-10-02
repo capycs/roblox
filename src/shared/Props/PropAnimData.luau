@@ -10,16 +10,21 @@ return {
 		Blades = { axis = Vector3.new(0, 0, 1), speed = 0.8 },
 		Ring = { axis = Vector3.new(0, 1, 0), speed = 1.2 },
 		Pinwheel = { axis = Vector3.new(0, 0, 1), speed = 5 },
+		Wheel = { axis = Vector3.new(0, 0, 1), speed = 0.6 },
+		PortalRing = { axis = Vector3.new(0, 0, 1), speed = 0.8 },
 	},
 	Sway = {
 		Canopy = { amp = 0.035, freq = 0.5 },
 		Sway = { amp = 0.07, freq = 1 },
 		Fronds = { amp = 0.07, freq = 0.5 },
+		Rustle = { amp = 0.025, freq = 0.8 },
 	},
 	Swing = {
 		Lantern = { amp = 0.14, freq = 0.5 },
 		LanternLamp = { amp = 0.14, freq = 0.5 },
 		Bucket = { amp = 0.08, freq = 0.5 },
+		TentFlap = { amp = 0.1, freq = 0.35 },
+		Swing = { amp = 0.1, freq = 0.6 },
 	},
 	Float = {
 		Float = { height = 0.06, freq = 0.5, tilt = 0.05 },
@@ -28,15 +33,73 @@ return {
 		WingL = { amp = 0.9, freq = 3, side = 1 },
 		WingR = { amp = 0.9, freq = 3, side = -1 },
 	},
+	WholeRules = { wobble = { amp = 0.07, freq = 0.7 }, spinbob = { height = 0.15, freq = 0.5, spin = 1.2 } },
+	-- Props whose whole model idles (eggs wobble, icon models spin + bob).
+	Whole = {
+		Bolt3D = "spinbob",
+		ChestRarity = "spinbob",
+		Clover3D = "spinbob",
+		Coin3D = "spinbob",
+		CoinStack = "spinbob",
+		Crown3D = "spinbob",
+		EggCandy = "wobble",
+		EggCelestial = "wobble",
+		EggCosmic = "wobble",
+		EggCrystal = "wobble",
+		EggDragon = "wobble",
+		EggForest = "wobble",
+		EggFrost = "wobble",
+		EggGoldenHuge = "wobble",
+		EggOcean = "wobble",
+		EggRainbow = "wobble",
+		EggSpooky = "wobble",
+		EggStorm = "wobble",
+		EggVoid = "wobble",
+		EggVolcano = "wobble",
+		Gem3D = "spinbob",
+		GemPile = "spinbob",
+		GiftBox3D = "spinbob",
+		Heart3D = "spinbob",
+		Hourglass3D = "spinbob",
+		Hoverboard = "spinbob",
+		Key3D = "spinbob",
+		Lock3D = "spinbob",
+		Magnet3D = "spinbob",
+		Paw3D = "spinbob",
+		PotionCoins = "spinbob",
+		PotionLuck = "spinbob",
+		PotionPower = "spinbob",
+		PotionSpeed = "spinbob",
+		Scroll3D = "spinbob",
+		Shield3D = "spinbob",
+		Star3D = "spinbob",
+		Ticket3D = "spinbob",
+		Trophy3D = "spinbob",
+	},
 	Hover = { height = 0.3, freq = 0.5, spin = 0.5 }, -- any part named Hover*
 	Flag = { amp = 0.32, freq = 1, lag = 1, droop = 0.05 }, -- bones Flag1..N
 	Flicker = { names = { Flame = true, FlameCore = true }, amount = 0.09, freq = 6 },
 	Pulse = { names = { Glow = true, GlowCore = true, Rune = true, Potion = true, Lamp = true, HoverCore = true, HoverGem = true, HoverSignGlow = true }, amount = 0.25, freq = 0.6 },
 	-- Offset from each moving MeshPart's centre to its pivot, per prop.
 	Pivots = {
+		Beehive = {
+			HoverBees = Vector3.new(0.025, -0.265, -0.25),
+		},
+		Bench = {
+			Rustle = Vector3.new(-0.0146, -0.3946, -0.0114),
+		},
 		Bird = {
 			WingL = Vector3.new(0.8428, 0, 0.0036),
 			WingR = Vector3.new(-0.8428, 0, 0.0036),
+		},
+		BreakableChest = {
+			HoverGlint = Vector3.new(-0.2, 0, 0),
+		},
+		BreakableCoins = {
+			HoverGlint = Vector3.new(-0.2, 0, 0),
+		},
+		BreakableGems = {
+			HoverGlint = Vector3.new(-0.2, 0, 0),
 		},
 		Bush = {
 			Sway = Vector3.new(-0.0911, -1.1182, 0.0554),
@@ -51,13 +114,35 @@ return {
 			WingL = Vector3.new(0.27, -0.0065, 0.0551),
 			WingR = Vector3.new(-0.27, -0.0065, 0.0551),
 		},
+		CampTent = {
+			TentFlap = Vector3.new(0.45, 1.055, 0.72),
+		},
+		ClayPot = {
+			Sway = Vector3.new(-0.0588, -0.1372, 0.1661),
+		},
+		ClayPotGroup = {
+			Sway = Vector3.new(-0.0051, -0.1398, -0.4615),
+		},
+		DailyChest = {
+			Swing = Vector3.new(0, -0.375, 0.75),
+			HoverGift = Vector3.new(0, 0, 0),
+		},
+		EggCapsule = {
+			HoverEgg = Vector3.new(0, 0.42, 0),
+		},
 		EggShop = {
 			HoverSign = Vector3.new(0, -0.68, 0),
 			HoverSignGlow = Vector3.new(0, -0.7, 0),
 		},
+		EnchantAltar = {
+			HoverBook = Vector3.new(0, -0.228, 0),
+		},
 		ExtractionBeacon = {
 			Ring = Vector3.new(0, 0, 0),
 			HoverCore = Vector3.new(0, -0.825, 0),
+		},
+		FenceSegment = {
+			Rustle = Vector3.new(2.8233, -1.0443, -0.1746),
 		},
 		Fern = {
 			Sway = Vector3.new(0, -0.5084, 0),
@@ -66,8 +151,17 @@ return {
 			HoverRock = Vector3.new(-0.1329, 2.4796, 0.0099),
 			HoverGlow = Vector3.new(0, 6.3, 0),
 		},
+		FlowerBed = {
+			Rustle = Vector3.new(0.0813, -0.3557, -0.0276),
+		},
 		FlowerPatch = {
 			Sway = Vector3.new(-0.0693, -0.6249, -0.2035),
+		},
+		FlowerPot = {
+			Sway = Vector3.new(-0.0206, -0.2518, -0.0162),
+		},
+		GardenArch = {
+			Rustle = Vector3.new(-0.0039, -2.9371, 0.0099),
 		},
 		GemShop = {
 			HoverRing = Vector3.new(0, 0, 0),
@@ -82,27 +176,88 @@ return {
 		HavenWindmill = {
 			Blades = Vector3.new(0, 0, 0),
 		},
+		HayBale = {
+			Rustle = Vector3.new(-0.0152, 0.0262, 0.0118),
+		},
+		Haystack = {
+			Rustle = Vector3.new(-0.0097, -1.3509, 0.0197),
+		},
+		HedgeCorner = {
+			Rustle = Vector3.new(0.7036, -1.3017, 0.6631),
+		},
+		HedgeStraight = {
+			Rustle = Vector3.new(-0.0001, -1.3316, -0.06),
+		},
 		IndexKiosk = {
 			HoverRing = Vector3.new(0, 0, 0),
 			HoverGem = Vector3.new(0, -0.2, 0),
 		},
 		LanternPost = {
 			Lantern = Vector3.new(0, 0.685, 0),
+			Rustle = Vector3.new(-0.046, -1.867, -0.1189),
 			LanternLamp = Vector3.new(0, 1, 0),
+		},
+		LeaderboardStand = {
+			HoverCrown = Vector3.new(-0.0411, -0.2, 0),
+		},
+		LeafPile = {
+			Rustle = Vector3.new(-0.0628, -0.0888, -0.0126),
 		},
 		Lilypad = {
 			Float = Vector3.new(-0.4456, -0.2203, -0.1952),
 		},
+		PetPedestal = {
+			HoverRing = Vector3.new(0, 0, 0),
+		},
+		PicnicSet = {
+			Sway = Vector3.new(-0.0083, -0.1394, 0.05),
+		},
 		Pinwheel = {
 			Pinwheel = Vector3.new(0, 0, -0.019),
 		},
+		PlanterBox = {
+			Sway = Vector3.new(-0.0371, -0.4977, 0),
+		},
+		PotionShelf = {
+			Swing = Vector3.new(0, 0.3, 0),
+		},
+		ProduceCrate = {
+			Rustle = Vector3.new(0.2163, -0.0674, 0),
+		},
+		Pumpkins = {
+			Rustle = Vector3.new(0.0741, -0.08, -0.0311),
+		},
+		RebirthShrine = {
+			HoverOrb = Vector3.new(0, 0, 0),
+		},
 		Reeds = {
 			Sway = Vector3.new(0.0535, -1.551, -0.0476),
+		},
+		Scarecrow = {
+			Rustle = Vector3.new(0, -1.4974, 0),
 		},
 		Skyship = {
 			PropL = Vector3.new(-0.6, 0, 0.4),
 			PropR = Vector3.new(-0.6, 0, 0.4),
 			PropBack = Vector3.new(0, 0, 0.4),
+		},
+		SpawnPad = {
+			HoverRune = Vector3.new(0, 0, 0),
+		},
+		SpinWheel = {
+			Wheel = Vector3.new(0, 0, 0.098),
+		},
+		SteppingStones = {
+			Sway = Vector3.new(-0.1414, -0.1374, -0.0694),
+		},
+		StoneLantern = {
+			Rustle = Vector3.new(0.0682, -1.9643, -0.2919),
+		},
+		TeleportPortal = {
+			PortalRing = Vector3.new(0, 0, 0),
+		},
+		Topiary = {
+			Rustle = Vector3.new(0.0234, -1.9369, -0.0096),
 		},
 		TreeBlossom = {
 			Canopy = Vector3.new(-0.3931, -3.5901, -0.2926),
@@ -119,11 +274,24 @@ return {
 		TreePineSnow = {
 			Sway = Vector3.new(-0.1288, -6.7708, -0.1225),
 		},
+		VIPRope = {
+			Swing = Vector3.new(0, 0.3006, 0),
+		},
 		VineCurtain = {
 			Sway = Vector3.new(0.0261, 1.8779, 0.0203),
 		},
 		Well = {
 			Bucket = Vector3.new(0, 1.05, 0),
+			Rustle = Vector3.new(0.1662, -2.4731, -0.6891),
+		},
+		Wheelbarrow = {
+			Sway = Vector3.new(-0.4081, -0.1377, -0.0902),
+		},
+		Woodpile = {
+			Sway = Vector3.new(-0.5149, -0.1372, -0.906),
+		},
+		ZoneGate = {
+			HoverSignGlow = Vector3.new(0, 0, 0.1),
 		},
 	},
 }

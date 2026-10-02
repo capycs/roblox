@@ -1,0 +1,41 @@
+{
+  "name": "SteppingStones",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 496,
+        "verts": 1308
+      },
+      "Sway": {
+        "tris": 384,
+        "verts": 464
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.141448974609375,
+          -0.13737434893846512,
+          -0.0693502426147461
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,6 +1,7 @@
 {
   "name": "Reeds",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Sway": {
@@ -21,7 +22,13 @@
           -0.047631412744522095
         ]
       }
-    }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
   },
   "sprite": {
     "frames": 24,

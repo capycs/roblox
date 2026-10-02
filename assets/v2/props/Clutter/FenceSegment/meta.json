@@ -1,0 +1,41 @@
+{
+  "name": "FenceSegment",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1800,
+        "verts": 1810
+      },
+      "Rustle": {
+        "tris": 1080,
+        "verts": 3240
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          2.823319673538208,
+          -1.0442890375852585,
+          -0.17463849484920502
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

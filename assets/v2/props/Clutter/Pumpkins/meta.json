@@ -1,0 +1,41 @@
+{
+  "name": "Pumpkins",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1558,
+        "verts": 946
+      },
+      "Rustle": {
+        "tris": 350,
+        "verts": 280
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.07409965991973877,
+          -0.0800000000745058,
+          -0.031131267547607422
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

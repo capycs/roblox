@@ -1,6 +1,7 @@
 {
   "name": "MushroomCluster",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,7 @@
         "verts": 1827
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

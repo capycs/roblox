@@ -1,0 +1,61 @@
+{
+  "name": "DailyChest",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 100,
+        "verts": 176
+      },
+      "Swing": {
+        "tris": 64,
+        "verts": 100
+      },
+      "Glow": {
+        "tris": 96,
+        "verts": 78
+      },
+      "HoverGift": {
+        "tris": 300,
+        "verts": 199
+      }
+    },
+    "parts": {
+      "Swing": {
+        "pivot": [
+          0,
+          1.45,
+          0.75
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.37500005364418065,
+          0.75
+        ]
+      },
+      "HoverGift": {
+        "pivot": [
+          0,
+          2.8,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -5.960464477539063e-8,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

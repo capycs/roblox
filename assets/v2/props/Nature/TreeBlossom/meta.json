@@ -1,0 +1,41 @@
+{
+  "name": "TreeBlossom",
+  "category": "Nature",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1658,
+        "verts": 1261
+      },
+      "Canopy": {
+        "tris": 8700,
+        "verts": 26100
+      }
+    },
+    "parts": {
+      "Canopy": {
+        "pivot": [
+          -0.48,
+          6,
+          -0.24
+        ],
+        "pivotFromCenter": [
+          -0.39307522773742676,
+          -3.590052366256714,
+          -0.2925581932067871
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

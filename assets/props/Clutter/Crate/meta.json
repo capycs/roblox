@@ -1,6 +1,7 @@
 {
   "name": "Crate",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,7 @@
         "verts": 720
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

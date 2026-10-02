@@ -1,6 +1,7 @@
 {
   "name": "GemPile",
   "category": "Icons",
+  "whole": "spinbob",
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,16 @@
         "verts": 556
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

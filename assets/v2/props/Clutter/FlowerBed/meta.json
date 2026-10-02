@@ -1,0 +1,41 @@
+{
+  "name": "FlowerBed",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 684,
+        "verts": 1875
+      },
+      "Rustle": {
+        "tris": 5124,
+        "verts": 8386
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.08127689361572266,
+          -0.35572338104248047,
+          -0.027610957622528076
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "name": "GardenArch",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 4108,
+        "verts": 6628
+      },
+      "Rustle": {
+        "tris": 5040,
+        "verts": 15120
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.0038781166076660156,
+          -2.937070155516267,
+          0.009942680597305298
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

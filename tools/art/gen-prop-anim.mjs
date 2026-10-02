@@ -6,7 +6,7 @@ import { repo } from './serve.mjs';
 import { RULES, WIND } from './anim.js';
 
 const v3 = (a) => `Vector3.new(${a.map((x) => +x.toFixed(4)).join(', ')})`;
-const pivots = {};
+const pivots = {}, whole = {};
 // v2 is scanned last so its pivots win: a v2 prop replaces the original of the same name.
 for (const root of [path.join(repo, 'assets/props'), path.join(repo, 'assets/v2/props')].filter((d) => fs.existsSync(d)))
 for (const cat of fs.readdirSync(root)) {
@@ -14,7 +14,9 @@ for (const cat of fs.readdirSync(root)) {
   for (const name of fs.readdirSync(path.join(root, cat))) {
     const f = path.join(root, cat, name, 'meta.json');
     if (!fs.existsSync(f)) continue;
-    const parts = JSON.parse(fs.readFileSync(f, 'utf8')).stats.parts || {};
+    const meta = JSON.parse(fs.readFileSync(f, 'utf8'));
+    if (meta.whole) whole[name] = meta.whole; else delete whole[name];
+    const parts = meta.stats.parts || {};
     if (Object.keys(parts).length) pivots[name] = Object.fromEntries(Object.entries(parts).map(([n, p]) => [n, p.pivotFromCenter]));
   }
 }
@@ -25,6 +27,9 @@ L.push('\tSpin = {'); for (const [n, r] of Object.entries(RULES.spin)) L.push(`\
 for (const k of ['sway', 'swing']) { L.push(`\t${k[0].toUpperCase() + k.slice(1)} = {`); for (const [n, r] of Object.entries(RULES[k])) L.push(`\t\t${n} = { amp = ${r.amp}, freq = ${r.freq} },`); L.push('\t},'); }
 L.push('\tFloat = {'); for (const [n, r] of Object.entries(RULES.float)) L.push(`\t\t${n} = { height = ${r.height}, freq = ${r.freq}, tilt = ${r.tilt} },`); L.push('\t},');
 L.push('\tFlap = {'); for (const [n, r] of Object.entries(RULES.flap)) L.push(`\t\t${n} = { amp = ${r.amp}, freq = ${r.freq}, side = ${r.side} },`); L.push('\t},');
+L.push(`\tWholeRules = { wobble = { amp = ${RULES.whole.wobble.amp}, freq = ${RULES.whole.wobble.freq} }, spinbob = { height = ${RULES.whole.spinbob.height}, freq = ${RULES.whole.spinbob.freq}, spin = ${RULES.whole.spinbob.spin} } },`);
+L.push('\t-- Props whose whole model idles (eggs wobble, icon models spin + bob).');
+L.push('\tWhole = {'); for (const [n, k] of Object.entries(whole).sort()) L.push(`\t\t${n} = "${k}",`); L.push('\t},');
 L.push(`\tHover = { height = ${RULES.hover.height}, freq = ${RULES.hover.freq}, spin = ${RULES.hover.spin} }, -- any part named Hover*`);
 L.push(`\tFlag = { amp = ${RULES.flag.amp}, freq = ${RULES.flag.freq}, lag = ${RULES.flag.lag}, droop = ${RULES.flag.droop} }, -- bones Flag1..N`);
 for (const k of ['flicker', 'pulse']) { const r = RULES[k]; L.push(`\t${k[0].toUpperCase() + k.slice(1)} = { names = { ${r.names.map((n) => `${n} = true`).join(', ')} }, amount = ${r.amount}, freq = ${r.freq} },`); }

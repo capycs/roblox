@@ -1,0 +1,37 @@
+{
+  "name": "Bush",
+  "category": "Nature",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Sway": {
+        "tris": 4200,
+        "verts": 12600
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.09112358093261719,
+          -1.118192195892334,
+          0.05544233322143555
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

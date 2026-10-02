@@ -1,0 +1,41 @@
+{
+  "name": "ProduceCrate",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1606,
+        "verts": 1715
+      },
+      "Rustle": {
+        "tris": 150,
+        "verts": 126
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0.8,
+          1,
+          0
+        ],
+        "pivotFromCenter": [
+          0.21634145826101303,
+          -0.06739485263824463,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

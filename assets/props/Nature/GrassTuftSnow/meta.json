@@ -1,6 +1,7 @@
 {
   "name": "GrassTuftSnow",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -25,7 +26,13 @@
           0.07178838551044464
         ]
       }
-    }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
   },
   "sprite": {
     "frames": 24,

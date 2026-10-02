@@ -1,0 +1,45 @@
+{
+  "name": "EnchantAltar",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 76,
+        "verts": 128
+      },
+      "Glow": {
+        "tris": 640,
+        "verts": 504
+      },
+      "HoverBook": {
+        "tris": 344,
+        "verts": 300
+      }
+    },
+    "parts": {
+      "HoverBook": {
+        "pivot": [
+          0,
+          2.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.2279820553958416,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

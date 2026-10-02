@@ -1,0 +1,41 @@
+{
+  "name": "HedgeStraight",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1980,
+        "verts": 5940
+      },
+      "Rustle": {
+        "tris": 6240,
+        "verts": 18720
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.00009489059448242188,
+          -1.3315736949443817,
+          -0.05996131896972656
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

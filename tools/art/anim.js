@@ -5,17 +5,20 @@ export const WIND = { dir: [1, 0, 0.35], strength: 1 };
 export const RULES = {
   spin: {
     PropL: { axis: [0, 0, 1], speed: 14 }, PropR: { axis: [0, 0, 1], speed: -14 }, PropBack: { axis: [0, 0, 1], speed: 9 },
-    Blades: { axis: [0, 0, 1], speed: 0.8 }, Ring: { axis: [0, 1, 0], speed: 1.2 }, Pinwheel: { axis: [0, 0, 1], speed: 5 },
+    Blades: { axis: [0, 0, 1], speed: 0.8 }, Ring: { axis: [0, 1, 0], speed: 1.2 }, Pinwheel: { axis: [0, 0, 1], speed: 5 }, Wheel: { axis: [0, 0, 1], speed: 0.6 }, PortalRing: { axis: [0, 0, 1], speed: 0.8 },
   },
   // lean with the wind plus gusts; amp in radians, freq in Hz
-  sway: { Canopy: { amp: 0.035, freq: 0.5 }, Sway: { amp: 0.07, freq: 1.0 }, Fronds: { amp: 0.07, freq: 0.5 } },
-  swing: { Lantern: { amp: 0.14, freq: 0.5 }, LanternLamp: { amp: 0.14, freq: 0.5 }, Bucket: { amp: 0.08, freq: 0.5 } },
+  sway: { Canopy: { amp: 0.035, freq: 0.5 }, Sway: { amp: 0.07, freq: 1.0 }, Fronds: { amp: 0.07, freq: 0.5 }, Rustle: { amp: 0.025, freq: 0.8 } },
+  swing: { Lantern: { amp: 0.14, freq: 0.5 }, LanternLamp: { amp: 0.14, freq: 0.5 }, Bucket: { amp: 0.08, freq: 0.5 }, TentFlap: { amp: 0.1, freq: 0.35 }, Swing: { amp: 0.1, freq: 0.6 } },
   float: { Float: { height: 0.06, freq: 0.5, tilt: 0.05 } },
   // wings flap around their pivot (+ for the left wing, - for the right)
   flap: { WingL: { amp: 0.9, freq: 3, side: 1 }, WingR: { amp: 0.9, freq: 3, side: -1 } },
   hover: { height: 0.3, freq: 0.5, spin: 0.5 }, // any mesh named Hover*
   flag: { amp: 0.32, freq: 1.0, lag: 1.0, droop: 0.05 }, // bones named Flag1..FlagN
   flicker: { names: ['Flame', 'FlameCore'], amount: 0.09, freq: 6 },
+  // whole-model idles, chosen per prop with spec.whole: eggs wobble like they're about to hatch,
+  // icon models spin and bob
+  whole: { wobble: { amp: 0.07, freq: 0.7 }, spinbob: { height: 0.15, freq: 0.5, spin: 1.2 } },
   pulse: { names: ['Glow', 'GlowCore', 'Rune', 'Potion', 'Lamp', 'HoverCore', 'HoverGem', 'HoverSignGlow'], amount: 0.25, freq: 0.6 },
 };
 
@@ -47,6 +50,14 @@ export function animate3(obj, name, t, phase = 0) {
   if (k === 'float') { const r = RULES.float[name], w = TAU * r.freq; obj.position.y += r.height * Math.sin(w * t + phase); obj.rotation.x += r.tilt * Math.sin(w * t + phase + 1); obj.rotation.z += r.tilt * Math.sin(w * t * 2 + phase); }
   if (k === 'flap') { const r = RULES.flap[name]; obj.rotation.z += r.side * r.amp * (0.35 + 0.65 * Math.sin(TAU * r.freq * t + phase)); }
   if (k === 'hover') { const r = RULES.hover, w = TAU * r.freq; obj.position.y += r.height * Math.sin(w * t + phase); obj.rotation.y += r.spin * t; }
+}
+export function animateWhole3(group, kind, t, phase = 0) {
+  const r = RULES.whole[kind]; if (!r) return;
+  const b = group.userData.base || (group.userData.base = { pos: group.position.clone(), rot: group.rotation.clone() });
+  group.position.copy(b.pos); group.rotation.copy(b.rot);
+  const w = TAU * r.freq;
+  if (kind === 'wobble') { group.rotation.z += r.amp * Math.sin(w * t + phase) * (0.6 + 0.4 * Math.sin(w * 0.37 * t)); group.rotation.x += r.amp * 0.5 * Math.sin(w * 1.3 * t + phase + 1); }
+  if (kind === 'spinbob') { group.position.y += r.height * Math.sin(w * t + phase); group.rotation.y += r.spin * t; }
 }
 export function animateFlag3(boneMap, t, phase = 0) {
   const r = RULES.flag, w = TAU * r.freq;

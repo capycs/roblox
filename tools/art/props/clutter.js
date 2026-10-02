@@ -66,7 +66,7 @@ add({
 add({
   // Wooden hook post with a hanging lantern (Lantern/LanternLamp swing in the wind).
   name: 'LanternPost', v2: true, palette: pal(['wood', 'woodDark', 'bark', 'metalDark', 'gold', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), glow: { LanternLamp: '#ffd36b' }, heroSize: [440, 640],
-  parts: { Lantern: { pivot: [1.2, 6.95, 0] }, LanternLamp: { pivot: [1.2, 6.95, 0] } },
+  parts: { Lantern: { pivot: [1.2, 6.95, 0] }, LanternLamp: { pivot: [1.2, 6.95, 0] }, Rustle: { pivot: [0, 0, 0] } },
   build(B) {
     const Lt = into(B, 'Lantern');
     B.add(loft({ points: [[0, -0.1, 0], [0.08, 3.5, 0.05], [0, 7.3, 0]], rx: (t) => 0.3 - 0.1 * t, ry: (t) => 0.3 - 0.1 * t, rings: 10, seg: 8 }), { color: 'bark' });
@@ -80,7 +80,7 @@ add({
     for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2; Lt.add(cyl(0.03, 0.03, 0.64, 4), { pos: [1.2 + Math.cos(a) * 0.3, 5.95, Math.sin(a) * 0.3], color: 'metalDark' }); }
     Lt.add(cyl(0.34, 0.28, 0.1, 6), { pos: [1.2, 5.6, 0], color: 'metalDark' });
     // ivy climbing the post
-    leafy(B, { blobs: [[0.05, 1.0, 0.1, 0.5], [-0.05, 2.0, 0.15, 0.42], [0.1, 3.0, -0.05, 0.34]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 70, size: [0.42, 0.24], seed: 61 });
+    leafy(B, { blobs: [[0.05, 1.0, 0.1, 0.5], [-0.05, 2.0, 0.15, 0.42], [0.1, 3.0, -0.05, 0.34]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 70, size: [0.42, 0.24], seed: 61, cardMesh: 'Rustle' });
   },
 });
 add({
@@ -89,7 +89,7 @@ add({
 });
 add({
   // Rustic split-rail fence: round posts with rope lashing, sagging rails, ivy on one post.
-  name: 'FenceSegment', v2: true, palette: pal(['wood', 'woodDark', 'bark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [640, 420],
+  name: 'FenceSegment', v2: true, parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal(['wood', 'woodDark', 'bark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [640, 420],
   build(B) {
     for (const [x, h, tilt] of [[-3, 2.3, 0.04], [0, 2.5, -0.03], [3, 2.2, 0.05]]) {
       B.add(loft({ points: [[x, -0.1, 0], [x + tilt, h * 0.6, 0], [x + tilt * 1.4, h, 0]], rx: (t) => 0.24 - 0.04 * t, ry: (t) => 0.24 - 0.04 * t, rings: 6, seg: 8 }), { color: 'bark' });
@@ -99,13 +99,13 @@ add({
     for (const [y, c] of [[0.85, 'wood'], [1.75, 'woodDark']]) for (const [x0, x1] of [[-3, 0], [0, 3]]) {
       B.add(loft({ points: [[x0, y, 0.22], [(x0 + x1) / 2, y - 0.12, 0.24], [x1, y, 0.22]], rx: () => 0.13, ry: () => 0.11, rings: 8, seg: 6 }), { color: c });
     }
-    leafy(B, { blobs: [[-3, 0.5, 0.15, 0.45], [-3.05, 1.3, 0.12, 0.36], [-2.5, 1.8, 0.22, 0.28]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 90, size: [0.42, 0.24], seed: 63 });
+    leafy(B, { blobs: [[-3, 0.5, 0.15, 0.45], [-3.05, 1.3, 0.12, 0.36], [-2.5, 1.8, 0.22, 0.28]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 90, size: [0.42, 0.24], seed: 63, cardMesh: 'Rustle' });
     for (let k = 0; k < 7; k++) { const x = -2.6 + k * 0.85; B.add(cone(0.08, 0.45 + (k % 3) * 0.15, 4), { pos: [x, 0.2, 0.05 * (k % 2)], quat: quatTo([(k % 2 ? 0.3 : -0.3), 1, 0.2]), color: k % 2 ? 'leaf' : 'leafLight' }); }
   },
 });
 add({
   // Half-log bench on two stumps, with a moss patch.
-  name: 'Bench', v2: true, palette: pal(['wood', 'woodDark', 'woodLight', 'bark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [600, 440],
+  name: 'Bench', v2: true, parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal(['wood', 'woodDark', 'woodLight', 'bark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [600, 440],
   build(B) {
     const seat = new THREE.CylinderGeometry(0.55, 0.55, 4.2, 12, 1, false, Math.PI, Math.PI); seat.rotateZ(Math.PI / 2);
     B.add(seat, { pos: [0, 1.05, 0], color: 'bark' });
@@ -116,7 +116,7 @@ add({
       B.add(cyl(0.4, 0.4, 0.04, 10), { pos: [x, 0.56, 0], color: 'woodLight' });
       for (let i = 0; i < 3; i++) { const a = i * 2.1 + x; B.add(cone(0.16, 0.5, 6), { pos: [x + Math.cos(a) * 0.45, 0.12, Math.sin(a) * 0.45], quat: quatTo([Math.cos(a), -0.5, Math.sin(a)]), color: 'woodDark' }); }
     }
-    leafy(B, { blobs: [[-1.6, 0.5, 0.45, 0.32], [1.7, 0.25, -0.45, 0.28]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 40, size: [0.34, 0.2], seed: 65 });
+    leafy(B, { blobs: [[-1.6, 0.5, 0.45, 0.32], [1.7, 0.25, -0.45, 0.28]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 40, size: [0.34, 0.2], seed: 65, cardMesh: 'Rustle' });
   },
 });
 add({
@@ -165,7 +165,7 @@ add({
 });
 add({
   // Stone well with a shingled roof, crank, bucket and ivy.
-  name: 'Well', v2: true, palette: pal(['stone', 'stoneDark', 'wood', 'woodDark', 'bark', 'shingle', 'shingleDark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [520, 600], parts: { Bucket: { pivot: [0, 3.2, 0] } },
+  name: 'Well', v2: true, palette: pal(['stone', 'stoneDark', 'wood', 'woodDark', 'bark', 'shingle', 'shingleDark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [520, 600], parts: { Bucket: { pivot: [0, 3.2, 0] }, Rustle: { pivot: [0, 0, 0] } },
   build(B) {
     B.add(new THREE.CylinderGeometry(1.5, 1.6, 1.35, 16, 1, true), { pos: [0, 0.67, 0], color: 'stoneDark' });
     B.add(new THREE.CylinderGeometry(1.25, 1.25, 0.1, 16), { pos: [0, 0.6, 0], color: 'stoneDark' });
@@ -181,7 +181,7 @@ add({
     }
     B.add(box(4.1, 0.2, 0.3), { pos: [0, 5.02, 0], color: 'woodDark' });
     into(B, 'Bucket').add(cyl(0.03, 0.03, 1.8, 4), { pos: [0, 2.3, 0], color: 'rope' }); into(B, 'Bucket').add(cyl(0.3, 0.25, 0.4, 8), { pos: [0, 1.3, 0], color: 'wood' });
-    leafy(B, { blobs: [[-1.55, 2.2, 0.2, 0.42], [-1.4, 3.2, 0.1, 0.36], [-0.9, 4.4, 0.6, 0.38], [1.2, 0.8, 1.2, 0.5]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 120, size: [0.4, 0.24], seed: 67 });
+    leafy(B, { blobs: [[-1.55, 2.2, 0.2, 0.42], [-1.4, 3.2, 0.1, 0.36], [-0.9, 4.4, 0.6, 0.38], [1.2, 0.8, 1.2, 0.5]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 120, size: [0.4, 0.24], seed: 67, cardMesh: 'Rustle' });
   },
 });
 add({

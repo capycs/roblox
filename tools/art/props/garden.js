@@ -43,11 +43,13 @@ const grassTufts = (B, pts, seed) => { const r = seeded(seed); for (const [x, z]
 // ---------- hedges + topiary ----------
 add({
   name: 'HedgeStraight', palette: pal(LEAF), heroSize: [640, 420],
-  build(B) { const blobs = []; for (let i = 0; i < 6; i++) blobs.push([-3 + i * 1.2, 1.05, (i % 2) * 0.12, 1.05]); for (let i = 0; i < 5; i++) blobs.push([-2.4 + i * 1.2, 2.0, 0, 0.8]); leafy(B, { blobs, shades: LEAF, count: 520, size: [0.6, 0.34], seed: 101, centre: [0, 0.6, 0] }); },
+  build(B) { const blobs = []; for (let i = 0; i < 6; i++) blobs.push([-3 + i * 1.2, 1.05, (i % 2) * 0.12, 1.05]); for (let i = 0; i < 5; i++) blobs.push([-2.4 + i * 1.2, 2.0, 0, 0.8]); leafy(B, { blobs, shades: LEAF, count: 520, size: [0.6, 0.34], seed: 101, centre: [0, 0.6, 0], cardMesh: 'Rustle' }); },
+  parts: { Rustle: { pivot: [0, 0, 0] } },
 });
 add({
   name: 'HedgeCorner', palette: pal(LEAF),
-  build(B) { const blobs = []; for (let i = 0; i < 4; i++) { blobs.push([-i * 1.15, 1.05, 0, 1.05]); if (i) blobs.push([0, 1.05, -i * 1.15, 1.05]); } blobs.push([-0.6, 1.95, -0.6, 0.85], [-2.2, 1.9, 0, 0.75], [0, 1.9, -2.2, 0.75]); leafy(B, { blobs, shades: LEAF, count: 520, size: [0.6, 0.34], seed: 103, centre: [-1, 0.6, -1] }); },
+  build(B) { const blobs = []; for (let i = 0; i < 4; i++) { blobs.push([-i * 1.15, 1.05, 0, 1.05]); if (i) blobs.push([0, 1.05, -i * 1.15, 1.05]); } blobs.push([-0.6, 1.95, -0.6, 0.85], [-2.2, 1.9, 0, 0.75], [0, 1.9, -2.2, 0.75]); leafy(B, { blobs, shades: LEAF, count: 520, size: [0.6, 0.34], seed: 103, centre: [-1, 0.6, -1], cardMesh: 'Rustle' }); },
+  parts: { Rustle: { pivot: [-1, 0, -1] } },
 });
 function pot(B, h, r, col = 'clay', rim = 'clayDark', band) {
   B.add(lathe([[r * 0.62, 0], [r * 0.7, 0.05], [r * 0.95, h * 0.55], [r, h * 0.88], [r * 1.1, h * 0.9], [r * 1.12, h], [r * 0.95, h], [r * 0.9, h * 0.97]], 16), { color: col });
@@ -57,14 +59,16 @@ function pot(B, h, r, col = 'clay', rim = 'clayDark', band) {
 }
 add({
   name: 'Topiary', palette: pal([...LEAF, 'clay', 'clayDark', 'clayPaint', 'soil', 'bark']), heroSize: [440, 600],
-  build(B) { pot(B, 1.0, 0.75, 'clay', 'clayDark', 'clayPaint'); B.add(cyl(0.08, 0.1, 2.6, 6), { pos: [0, 1.9, 0], color: 'bark' }); leafy(B, { blobs: [[0, 2.35, 0, 0.75]], shades: LEAF, count: 150, size: [0.42, 0.26], seed: 105 }); leafy(B, { blobs: [[0, 3.75, 0, 0.6]], shades: LEAF, count: 110, size: [0.38, 0.24], seed: 106 }); },
+  build(B) { pot(B, 1.0, 0.75, 'clay', 'clayDark', 'clayPaint'); B.add(cyl(0.08, 0.1, 2.6, 6), { pos: [0, 1.9, 0], color: 'bark' }); leafy(B, { blobs: [[0, 2.35, 0, 0.75]], shades: LEAF, count: 150, size: [0.42, 0.26], seed: 105, cardMesh: 'Rustle' }); leafy(B, { blobs: [[0, 3.75, 0, 0.6]], shades: LEAF, count: 110, size: [0.38, 0.24], seed: 106, cardMesh: 'Rustle' }); },
+  parts: { Rustle: { pivot: [0, 1.0, 0] } },
 });
 add({
   name: 'FlowerPot', palette: pal([...LEAF, 'clay', 'clayDark', 'clayPaint', 'soil', 'petalPink', 'petalWhite', 'petalYellow']), heroSize: [440, 480],
-  build(B) { pot(B, 0.8, 0.55, 'clayLight' in C ? 'clay' : 'clay', 'clayDark', 'clayPaint'); leafy(B, { blobs: [[0, 1.05, 0, 0.5], [0.3, 0.95, 0.15, 0.36], [-0.28, 0.98, -0.1, 0.36]], shades: LEAF, count: 120, size: [0.36, 0.22], seed: 107, centre: [0, 0.7, 0], extra: ({ surface }) => { for (let i = 0; i < 6; i++) { const { p, n } = surface(); flower(B, p, n, i % 2 ? 'petalPink' : 'petalWhite', 0.11); } } }); },
+  build(B) { pot(B, 0.8, 0.55, 'clayLight' in C ? 'clay' : 'clay', 'clayDark', 'clayPaint'); leafy(B, { blobs: [[0, 1.05, 0, 0.5], [0.3, 0.95, 0.15, 0.36], [-0.28, 0.98, -0.1, 0.36]], shades: LEAF, count: 120, size: [0.36, 0.22], seed: 107, centre: [0, 0.7, 0], cardMesh: 'Sway', extra: ({ surface }) => { for (let i = 0; i < 6; i++) { const { p, n } = surface(); flower(into(B, 'Sway'), p, n, i % 2 ? 'petalPink' : 'petalWhite', 0.11); } } }); },
+  parts: { Sway: { pivot: [0, 0.75, 0] } },
 });
 add({
-  name: 'PlanterBox', palette: pal([...LEAF, 'wood', 'woodDark', 'woodLight', 'soil', 'petalPink', 'petalWhite', 'petalYellow', 'petalBlue', 'petalRed']), heroSize: [600, 440],
+  name: 'PlanterBox', parts: { Sway: { pivot: [0, 0.6, 0] } }, palette: pal([...LEAF, 'wood', 'woodDark', 'woodLight', 'soil', 'petalPink', 'petalWhite', 'petalYellow', 'petalBlue', 'petalRed']), heroSize: [600, 440],
   build(B) {
     for (const z of [-0.55, 0.55]) for (const y of [0.18, 0.5]) B.add(box(3.0, 0.3, 0.12), { pos: [0, y, z], color: y > 0.3 ? 'wood' : 'woodDark' });
     for (const x of [-1.45, 1.45]) for (const y of [0.18, 0.5]) B.add(box(0.12, 0.3, 1.2), { pos: [x, y, 0], color: 'wood' });
@@ -72,39 +76,43 @@ add({
     B.add(box(2.8, 0.05, 1.0), { pos: [0, 0.6, 0], color: 'soil' });
     leafy(B, { blobs: [[-1, 0.75, 0, 0.42], [0, 0.75, 0, 0.44], [1, 0.75, 0, 0.42]], shades: LEAF, count: 120, size: [0.32, 0.2], seed: 109, centre: [0, 0.4, 0] });
     const cols = ['petalPink', 'petalWhite', 'petalBlue', 'petalRed', 'petalPink', 'petalWhite', 'petalYellow'];
-    cols.forEach((c, i) => B.add(loft({ points: [[-1.2 + i * 0.4, 0.6, (i % 2 - 0.5) * 0.4], [-1.2 + i * 0.4, 1.0, (i % 2 - 0.5) * 0.4], [-1.18 + i * 0.4, 1.3 + (i % 3) * 0.1, (i % 2 - 0.5) * 0.45]], rx: () => 0.025, ry: () => 0.025, rings: 3, seg: 4 }), { color: 'leafDark' }));
-    cols.forEach((c, i) => flower(B, [-1.18 + i * 0.4, 1.3 + (i % 3) * 0.1, (i % 2 - 0.5) * 0.45], [0, 1, -0.2], c, 0.13));
+    const SW = into(B, 'Sway');
+    cols.forEach((c, i) => SW.add(loft({ points: [[-1.2 + i * 0.4, 0.6, (i % 2 - 0.5) * 0.4], [-1.2 + i * 0.4, 1.0, (i % 2 - 0.5) * 0.4], [-1.18 + i * 0.4, 1.3 + (i % 3) * 0.1, (i % 2 - 0.5) * 0.45]], rx: () => 0.025, ry: () => 0.025, rings: 3, seg: 4 }), { color: 'leafDark' }));
+    cols.forEach((c, i) => flower(SW, [-1.18 + i * 0.4, 1.3 + (i % 3) * 0.1, (i % 2 - 0.5) * 0.45], [0, 1, -0.2], c, 0.13));
   },
 });
 
 // ---------- farm ----------
 add({
-  name: 'HayBale', palette: pal([...HAY, 'rope']), heroSize: [520, 420],
+  name: 'HayBale', parts: { Rustle: { pivot: [0, 0.85, 0] } }, palette: pal([...HAY, 'rope']), heroSize: [520, 420],
   build(B) {
     const g = cyl(0.85, 0.85, 1.7, 16); g.rotateZ(Math.PI / 2); B.add(g, { pos: [0, 0.85, 0], color: 'hay' });
     for (const x of [-0.86, 0.86]) { for (const [rr, c] of [[0.82, 'hayDark'], [0.55, 'hay'], [0.28, 'hayDark']]) { const d = cyl(rr, rr, 0.03, 16); d.rotateZ(Math.PI / 2); B.add(d, { pos: [x + Math.sign(x) * 0.005 * (1 - rr), 0.85, 0], color: c }); } }
     for (const x of [-0.45, 0.45]) B.add(torus(0.87, 0.04, 4, 20), { pos: [x, 0.85, 0], rot: [0, Math.PI / 2, 0], color: 'rope' });
-    leafy(B, { blobs: [[0, 0.85, 0, 0.86]], shades: HAY, count: 90, size: [0.6, 0.06], seed: 111, core: false, droop: 0.2, flare: 0.25 });
+    leafy(B, { blobs: [[0, 0.85, 0, 0.86]], shades: HAY, count: 90, size: [0.6, 0.06], seed: 111, core: false, droop: 0.2, flare: 0.25, cardMesh: 'Rustle' });
   },
 });
 add({
   name: 'Haystack', palette: pal([...HAY, 'wood']), heroSize: [520, 520],
-  build(B) { B.add(cyl(0.08, 0.1, 4.2, 6), { pos: [0, 2.1, 0], color: 'wood' }); leafy(B, { blobs: [[0, 1.0, 0, 1.55], [0.2, 2.0, 0.1, 1.15], [0, 2.85, 0, 0.7]], shades: HAY, count: 560, size: [1.0, 0.1], seed: 113, droop: 0.85, flare: 0.2, centre: [0, 0.8, 0] }); },
+  build(B) { B.add(cyl(0.08, 0.1, 4.2, 6), { pos: [0, 2.1, 0], color: 'wood' }); leafy(B, { blobs: [[0, 1.0, 0, 1.55], [0.2, 2.0, 0.1, 1.15], [0, 2.85, 0, 0.7]], shades: HAY, count: 560, size: [1.0, 0.1], seed: 113, droop: 0.85, flare: 0.2, centre: [0, 0.8, 0], cardMesh: 'Rustle' }); },
+  parts: { Rustle: { pivot: [0, 0, 0] } },
 });
 add({
-  name: 'Beehive', palette: pal([...HAY, 'bark', 'woodLight', 'ink', 'gold']), heroSize: [440, 520],
+  name: 'Beehive', parts: { HoverBees: { pivot: [0, 1.6, 0] } }, palette: pal([...HAY, 'bark', 'woodLight', 'ink', 'gold']), heroSize: [440, 520],
   build(B) {
     B.add(cyl(0.6, 0.7, 0.9, 10), { pos: [0, 0.45, 0], color: 'bark' }); B.add(cyl(0.58, 0.58, 0.04, 10), { pos: [0, 0.91, 0], color: 'woodLight' });
     for (let i = 0; i < 6; i++) { const t = i / 6, r = 0.85 * Math.cos(t * 1.35) + 0.05, y = 1.05 + Math.sin(t * 1.35) * 1.15; B.add(torus(r, 0.13, 6, 18), { pos: [0, y, 0], rot: [Math.PI / 2, 0, 0], color: i % 2 ? 'hay' : 'hayDark' }); }
     B.add(lathe([[0.85, 0.95], [0.8, 1.6], [0.5, 2.05], [0.05, 2.3]], 14), { color: 'hayDark' });
     B.add(ell(0.2, 0.14, 0.08, 8, 5), { pos: [0, 1.15, -0.86], color: 'ink' });
-    for (const [x, y, z] of [[0.5, 1.6, -0.9], [-0.6, 1.9, -0.6], [0.2, 2.4, -0.5]]) { B.add(ell(0.08, 0.06, 0.1, 6, 4), { pos: [x, y, z], color: 'gold' }); B.add(ell(0.07, 0.015, 0.05, 5, 3), { pos: [x, y + 0.06, z], rot: [0, 0, 0.5], color: 'white' in C ? 'woodLight' : 'woodLight' }); }
+    const bees = into(B, 'HoverBees');
+    for (const [x, y, z] of [[0.95, 1.6, -0.5], [-1.0, 1.9, -0.2], [0.3, 2.4, 0.95], [-0.4, 1.3, 1.0]]) { bees.add(ell(0.08, 0.06, 0.1, 6, 4), { pos: [x, y, z], color: 'gold' }); bees.add(ell(0.07, 0.015, 0.05, 5, 3), { pos: [x, y + 0.06, z], rot: [0, 0, 0.5], color: 'woodLight' }); }
   },
 });
 add({
-  name: 'Scarecrow', palette: pal(['bark', 'wood', 'straw', 'hayDark', 'sackcloth', 'shirt', 'hat', 'ink', 'canvasRed']), heroSize: [480, 640],
-  build(B) {
-    B.add(cyl(0.12, 0.14, 4.6, 6), { pos: [0, 2.3, 0], color: 'bark' });
+  name: 'Scarecrow', parts: { Rustle: { pivot: [0, 2.2, 0] } }, palette: pal(['bark', 'wood', 'straw', 'hayDark', 'sackcloth', 'shirt', 'hat', 'ink', 'canvasRed']), heroSize: [480, 640],
+  build(B0) {
+    B0.add(cyl(0.12, 0.14, 4.6, 6), { pos: [0, 2.3, 0], color: 'bark' });
+    const B = into(B0, 'Rustle');
     const arm = cyl(0.09, 0.09, 3.2, 6); arm.rotateZ(Math.PI / 2); B.add(arm, { pos: [0, 3.2, 0], color: 'bark' });
     B.add(cyl(0.55, 0.42, 1.4, 8), { pos: [0, 2.85, 0], color: 'shirt' });
     for (const x of [-1, 1]) { const sl = cyl(0.22, 0.26, 0.9, 7); sl.rotateZ(Math.PI / 2); B.add(sl, { pos: [x * 0.85, 3.2, 0], color: 'shirt' }); for (let k = 0; k < 4; k++) B.add(cone(0.06, 0.45, 4), { pos: [x * 1.38, 3.2, (k - 1.5) * 0.08], quat: quatTo([x, -0.3 + k * 0.15, (k - 1.5) * 0.3]), color: 'straw' }); }
@@ -118,8 +126,9 @@ add({
   },
 });
 add({
-  name: 'Wheelbarrow', palette: pal(['wood', 'woodDark', 'woodLight', 'metalDark', 'soil', 'apple', 'appleGreen']), heroSize: [600, 440],
+  name: 'Wheelbarrow', parts: { Sway: { pivot: [0, 0, 0] } }, palette: pal(['wood', 'woodDark', 'woodLight', 'metalDark', 'soil', 'apple', 'appleGreen', 'leaf', 'leafLight', 'leafDark']), heroSize: [600, 440],
   build(B) {
+    grassTufts(into(B, 'Sway'), [[1.9, 0.5], [1.3, -0.6], [-1.2, 0.8]], 77);
     const tray = new THREE.CylinderGeometry(1.0, 0.65, 0.7, 4, 1, true); tray.rotateY(Math.PI / 4); tray.scale(1.4, 1, 1);
     B.add(tray, { pos: [0, 1.05, 0], color: 'wood' }); B.add(box(1.25, 0.06, 0.88), { pos: [0, 0.72, 0], color: 'woodDark' });
     B.add(box(1.85, 0.06, 1.3), { pos: [0, 1.25, 0], color: 'soil' });
@@ -129,8 +138,9 @@ add({
   },
 });
 add({
-  name: 'Woodpile', palette: pal(['bark', 'wood', 'woodLight', 'woodDark', 'metal', 'metalDark']), heroSize: [600, 480],
+  name: 'Woodpile', parts: { Sway: { pivot: [0, 0, 0] } }, palette: pal(['bark', 'wood', 'woodLight', 'woodDark', 'metal', 'metalDark', 'leaf', 'leafLight', 'leafDark']), heroSize: [600, 480],
   build(B) {
+    grassTufts(into(B, 'Sway'), [[-1.6, 0.9], [2.7, 0.9], [0.4, 1.0]], 56);
     const log = (x, y, z, r = 0.32, len = 2.4) => { const g = cyl(r, r, len, 9); g.rotateX(Math.PI / 2); B.add(g, { pos: [x, y, z], color: 'bark' }); for (const s of [-1, 1]) { for (const [rr, c] of [[r * 0.92, 'woodLight'], [r * 0.45, 'wood']]) { const d = cyl(rr, rr, 0.02, 9); d.rotateX(Math.PI / 2); B.add(d, { pos: [x, y, z + s * (len / 2 + 0.01)], color: c }); } } };
     for (let row = 0; row < 3; row++) for (let i = 0; i < 4 - row; i++) log(-1.0 + i * 0.66 + row * 0.33, 0.32 + row * 0.56, 0);
     B.add(cyl(0.55, 0.62, 0.8, 10), { pos: [2.0, 0.4, 0.4], color: 'bark' }); B.add(cyl(0.52, 0.52, 0.03, 10), { pos: [2.0, 0.81, 0.4], color: 'woodLight' });
@@ -139,7 +149,7 @@ add({
   },
 });
 add({
-  name: 'Pumpkins', palette: pal(['pumpkin', 'pumpkinDark', 'stem', ...LEAF]), heroSize: [560, 440],
+  name: 'Pumpkins', parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal(['pumpkin', 'pumpkinDark', 'stem', ...LEAF]), heroSize: [560, 440],
   build(B) {
     const pumpkin = (x, z, r, seed) => {
       const g = new THREE.SphereGeometry(r, 20, 12), P = g.attributes.position;
@@ -149,31 +159,31 @@ add({
     };
     pumpkin(0, 0, 0.8, 1); pumpkin(1.2, 0.5, 0.55, 2); pumpkin(-1.0, 0.7, 0.45, 3);
     B.add(loft({ points: [[0, 0.1, 0], [0.7, 0.08, -0.7], [1.6, 0.1, -0.4], [2.2, 0.12, 0.3]], rx: () => 0.05, ry: () => 0.05, rings: 10, seg: 4 }), { color: 'stem' });
-    for (const [x, z, a] of [[0.8, -0.8, 0.4], [1.7, -0.3, 1.6], [-0.6, -0.5, 2.8], [-1.5, 0.2, 3.6], [0.3, 1.1, 5]]) B.add(blade(0.9, 0.45, 0.04, 7), { pos: [x, 0.08, z], quat: surfaceQuat([0, 1, 0], [Math.cos(a), 0.15, Math.sin(a)]), color: ['leafDark', 'leaf', 'leafLight'][Math.floor(a) % 3] });
+    for (const [x, z, a] of [[0.8, -0.8, 0.4], [1.7, -0.3, 1.6], [-0.6, -0.5, 2.8], [-1.5, 0.2, 3.6], [0.3, 1.1, 5]]) into(B, 'Rustle').add(blade(0.9, 0.45, 0.04, 7), { pos: [x, 0.08, z], quat: surfaceQuat([0, 1, 0], [Math.cos(a), 0.15, Math.sin(a)]), color: ['leafDark', 'leaf', 'leafLight'][Math.floor(a) % 3] });
   },
 });
 add({
-  name: 'ProduceCrate', palette: pal(['wood', 'woodDark', 'woodLight', 'apple', 'appleGreen', 'carrot', 'leaf', 'leafLight']), heroSize: [520, 440],
+  name: 'ProduceCrate', parts: { Rustle: { pivot: [0.8, 1.0, 0] } }, palette: pal(['wood', 'woodDark', 'woodLight', 'apple', 'appleGreen', 'carrot', 'leaf', 'leafLight']), heroSize: [520, 440],
   build(B) {
     for (const z of [-0.6, 0.6]) for (const y of [0.15, 0.45, 0.75]) B.add(box(1.8, 0.22, 0.08), { pos: [0, y, z], color: y > 0.5 ? 'woodLight' : 'wood' });
     for (const x of [-0.9, 0.9]) for (const y of [0.15, 0.45, 0.75]) B.add(box(0.08, 0.22, 1.2), { pos: [x, y, 0], color: 'wood' });
     for (const [x, z] of [[-0.9, -0.6], [0.9, -0.6], [-0.9, 0.6], [0.9, 0.6]]) B.add(box(0.12, 0.95, 0.12), { pos: [x, 0.47, z], color: 'woodDark' });
     const r = seeded(31);
     for (let i = 0; i < 14; i++) { const x = -0.6 + (i % 5) * 0.3, z = -0.35 + Math.floor(i / 5) * 0.35, c = i % 4 === 0 ? 'appleGreen' : 'apple'; B.add(ell(0.17, 0.16, 0.17, 8, 6), { pos: [x + (r() - 0.5) * 0.08, 0.92 + r() * 0.06, z], color: c }); B.add(cyl(0.015, 0.015, 0.08, 3), { pos: [x, 1.1, z], color: 'woodDark' }); }
-    for (let i = 0; i < 3; i++) { const z = -0.3 + i * 0.3; B.add(cone(0.08, 0.6, 7), { pos: [1.0, 0.98, z], quat: quatTo([1, -0.2, 0]), color: 'carrot' }); B.add(blade(0.3, 0.08, 0.02, 5), { pos: [0.7, 1.0, z], quat: surfaceQuat([0, 0, 1], [-1, 0.6, 0]), color: 'leafLight' }); }
+    for (let i = 0; i < 3; i++) { const z = -0.3 + i * 0.3; B.add(cone(0.08, 0.6, 7), { pos: [1.0, 0.98, z], quat: quatTo([1, -0.2, 0]), color: 'carrot' }); into(B, 'Rustle').add(blade(0.3, 0.08, 0.02, 5), { pos: [0.7, 1.0, z], quat: surfaceQuat([0, 0, 1], [-1, 0.6, 0]), color: 'leafLight' }); }
   },
 });
 
 // ---------- garden + paths ----------
 add({
-  name: 'SteppingStones', palette: pal(['stone', 'stoneDark', 'stoneLight', 'moss', ...LEAF]), heroSize: [600, 420],
+  name: 'SteppingStones', parts: { Sway: { pivot: [0, 0, 0] } }, palette: pal(['stone', 'stoneDark', 'stoneLight', 'moss', ...LEAF]), heroSize: [600, 420],
   build(B) {
     [[-2.4, 0.3, 0.55], [-1.1, -0.2, 0.62], [0.2, 0.25, 0.5], [1.4, -0.15, 0.6], [2.6, 0.2, 0.48]].forEach(([x, z, r], i) => { const g = rock(r, 70 + i, 0.25, 1); B.add(g, { pos: [x, 0.05, z], rot: [0, i, 0], scale: [1.2, 1, 1], color: i % 2 ? 'stone' : 'stoneLight' }); if (i % 2 === 0) B.add(ell(r * 0.4, 0.05, r * 0.3, 8, 3), { pos: [x + r * 0.3, 0.14, z - r * 0.2], color: 'moss' }); });
-    grassTufts(B, [[-1.8, 0.7], [-0.4, -0.7], [0.9, 0.7], [2.0, -0.6]], 33);
+    grassTufts(into(B, 'Sway'), [[-1.8, 0.7], [-0.4, -0.7], [0.9, 0.7], [2.0, -0.6]], 33);
   },
 });
 add({
-  name: 'StoneLantern', palette: pal(['stone', 'stoneDark', 'stoneLight', 'moss', ...LEAF]), glow: { Lamp: '#ffd36b' }, heroSize: [440, 600],
+  name: 'StoneLantern', parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal(['stone', 'stoneDark', 'stoneLight', 'moss', ...LEAF]), glow: { Lamp: '#ffd36b' }, heroSize: [440, 600],
   build(B) {
     B.add(cyl(0.9, 1.0, 0.35, 6), { pos: [0, 0.17, 0], color: 'stoneDark' });
     B.add(cyl(0.3, 0.38, 1.6, 8), { pos: [0, 1.15, 0], color: 'stone' });
@@ -183,11 +193,11 @@ add({
     const roof = new THREE.ConeGeometry(1.15, 0.75, 6, 1); B.add(roof, { pos: [0, 3.4, 0], color: 'stone' });
     for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2 + Math.PI / 6; B.add(cone(0.12, 0.3, 4), { pos: [Math.cos(a) * 1.08, 3.1, Math.sin(a) * 1.08], quat: quatTo([Math.cos(a), 0.6, Math.sin(a)]), color: 'stone' }); }
     B.add(ell(0.18, 0.22, 0.18, 8, 6), { pos: [0, 3.95, 0], color: 'stoneLight' });
-    leafy(B, { blobs: [[0.3, 3.45, 0.2, 0.45], [-0.6, 0.45, 0.5, 0.4]], shades: LEAF, count: 60, size: [0.3, 0.18], seed: 115 });
+    leafy(B, { blobs: [[0.3, 3.45, 0.2, 0.45], [-0.6, 0.45, 0.5, 0.4]], shades: LEAF, count: 60, size: [0.3, 0.18], seed: 115, cardMesh: 'Rustle' });
   },
 });
 add({
-  name: 'GardenArch', palette: pal(['wood', 'woodDark', 'bark', ...LEAF, 'petalPink', 'petalWhite', 'petalYellow']), heroSize: [520, 600],
+  name: 'GardenArch', parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal(['wood', 'woodDark', 'bark', ...LEAF, 'petalPink', 'petalWhite', 'petalYellow']), heroSize: [520, 600],
   build(B) {
     for (const x of [-1.6, 1.6]) for (const z of [-0.35, 0.35]) B.add(box(0.16, 3.6, 0.16), { pos: [x, 1.8, z], color: 'woodDark' });
     for (const z of [-0.35, 0.35]) B.add(torus(1.6, 0.08, 5, 16, Math.PI), { pos: [0, 3.6, z], color: 'woodDark' });
@@ -196,17 +206,17 @@ add({
     const blobs = [];
     for (let k = 0; k < 7; k++) { const a = (k / 6) * Math.PI; blobs.push([Math.cos(a) * 1.6, 3.6 + Math.sin(a) * 1.6, 0, 0.55]); }
     for (const x of [-1.6, 1.6]) for (const y of [0.6, 1.5, 2.5]) blobs.push([x, y, 0.05, 0.42 - y * 0.02]);
-    leafy(B, { blobs, shades: LEAF, count: 420, size: [0.38, 0.22], seed: 117, centre: [0, 3, 0], extra: ({ surface }) => { for (let i = 0; i < 16; i++) { const { p, n } = surface(); flower(B, p, n, i % 3 ? 'petalPink' : 'petalWhite', 0.13); } } });
+    leafy(B, { blobs, shades: LEAF, count: 420, size: [0.38, 0.22], seed: 117, centre: [0, 3, 0], cardMesh: 'Rustle', extra: ({ surface }) => { for (let i = 0; i < 16; i++) { const { p, n } = surface(); flower(B, p, n, i % 3 ? 'petalPink' : 'petalWhite', 0.13); } } });
   },
 });
 add({
-  name: 'FlowerBed', palette: pal(['stone', 'stoneDark', 'soil', ...LEAF, 'petalPink', 'petalWhite', 'petalYellow', 'petalBlue', 'petalRed']), heroSize: [560, 440],
+  name: 'FlowerBed', parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal(['stone', 'stoneDark', 'soil', ...LEAF, 'petalPink', 'petalWhite', 'petalYellow', 'petalBlue', 'petalRed']), heroSize: [560, 440],
   build(B) {
     for (let k = 0; k < 14; k++) { const a = (k / 14) * Math.PI * 2; B.add(rock(0.32, 80 + k, 0.6, 0), { pos: [Math.cos(a) * 1.7, 0.15, Math.sin(a) * 1.3], color: k % 3 ? 'stone' : 'stoneDark' }); }
     B.add(ell(1.6, 0.12, 1.2, 14, 4), { pos: [0, 0.05, 0], color: 'soil' });
-    leafy(B, { blobs: [[-0.7, 0.25, -0.2, 0.5], [0.5, 0.25, 0.3, 0.55], [0.2, 0.25, -0.5, 0.45], [-0.4, 0.25, 0.5, 0.45]], shades: LEAF, count: 140, size: [0.3, 0.18], seed: 119, centre: [0, -0.2, 0] });
+    leafy(B, { blobs: [[-0.7, 0.25, -0.2, 0.5], [0.5, 0.25, 0.3, 0.55], [0.2, 0.25, -0.5, 0.45], [-0.4, 0.25, 0.5, 0.45]], shades: LEAF, count: 140, size: [0.3, 0.18], seed: 119, centre: [0, -0.2, 0], cardMesh: 'Rustle' });
     const cols = ['petalPink', 'petalWhite', 'petalBlue', 'petalRed', 'petalYellow'], r = seeded(35);
-    for (let i = 0; i < 14; i++) { const a = r() * 6.28, d = r() * 1.0; stemFlower(B, Math.cos(a) * d * 1.2, Math.sin(a) * d * 0.85, 0.55 + r() * 0.5, cols[i % 5], 0.2, i + 3); }
+    for (let i = 0; i < 14; i++) { const a = r() * 6.28, d = r() * 1.0; stemFlower(into(B, 'Rustle'), Math.cos(a) * d * 1.2, Math.sin(a) * d * 0.85, 0.55 + r() * 0.5, cols[i % 5], 0.2, i + 3); }
   },
 });
 add({
@@ -223,24 +233,27 @@ add({
 
 // ---------- camp + decor ----------
 add({
-  name: 'ClayPot', palette: pal(['clay', 'clayDark', 'clayLight', 'clayPaint']), heroSize: [420, 480],
+  name: 'ClayPot', parts: { Sway: { pivot: [0, 0, 0] } }, palette: pal(['clay', 'clayDark', 'clayLight', 'clayPaint', 'leaf', 'leafLight', 'leafDark']), heroSize: [420, 480],
   build(B) {
+    grassTufts(into(B, 'Sway'), [[0.75, 0.35], [-0.6, 0.55], [0.2, -0.75]], 49);
     B.add(lathe([[0.35, 0], [0.55, 0.15], [0.72, 0.55], [0.7, 0.9], [0.45, 1.15], [0.32, 1.25], [0.38, 1.38], [0.3, 1.4], [0.27, 1.3]], 16), { color: 'clay' });
     for (const [y, r, c] of [[0.55, 0.735, 'clayPaint'], [0.75, 0.73, 'clayDark']]) B.add(torus(r, 0.04, 4, 18), { pos: [0, y, 0], rot: [Math.PI / 2, 0, 0], color: c });
     for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2; B.add(ell(0.07, 0.07, 0.02, 6, 3), { pos: [Math.cos(a) * 0.72, 0.65, Math.sin(a) * 0.72], quat: surfaceQuat([Math.cos(a), 0, Math.sin(a)], [0, 1, 0]), color: 'clayPaint' }); }
   },
 });
 add({
-  name: 'ClayPotGroup', palette: pal(['clay', 'clayDark', 'clayLight', 'clayPaint']), heroSize: [560, 440],
+  name: 'ClayPotGroup', parts: { Sway: { pivot: [0, 0, 0] } }, palette: pal(['clay', 'clayDark', 'clayLight', 'clayPaint', 'leaf', 'leafLight', 'leafDark']), heroSize: [560, 440],
   build(B) {
+    grassTufts(into(B, 'Sway'), [[1.6, -0.2], [-1.6, 0.0], [0.6, 1.1]], 84);
     const one = (x, z, s, c) => { B.add(lathe([[0.35, 0], [0.55, 0.15], [0.72, 0.55], [0.7, 0.9], [0.45, 1.15], [0.32, 1.25], [0.38, 1.38], [0.3, 1.4], [0.27, 1.3]].map(([r, y]) => [r * s, y * s]), 14), { pos: [x, 0, z], color: c }); B.add(torus(0.735 * s, 0.04 * s, 4, 16), { pos: [x, 0.55 * s, z], rot: [Math.PI / 2, 0, 0], color: 'clayPaint' }); };
     one(0, 0, 1, 'clay'); one(1.2, 0.4, 0.75, 'clayLight'); one(-1.0, 0.5, 0.85, 'clayDark');
     for (const [x, z, sz, c] of [[0.9, -0.7, 0.2, 'clayDark'], [0.3, -1.2, 0.26, 'clay'], [-0.3, -0.9, 0.16, 'clayPaint'], [0.75, -1.3, 0.14, 'clay']]) B.add(new THREE.TetrahedronGeometry(sz), { pos: [x, sz * 0.4, z], rot: [x, z, 0], scale: [1.4, 0.5, 1], color: c });
   },
 });
 add({
-  name: 'PicnicSet', palette: pal(['blanketA', 'blanketB', 'wicker', 'wickerDark', 'apple', 'appleGreen', 'canvasRed', 'woodLight']), heroSize: [600, 440],
+  name: 'PicnicSet', parts: { Sway: { pivot: [0, 0, 0] } }, palette: pal(['blanketA', 'blanketB', 'wicker', 'wickerDark', 'apple', 'appleGreen', 'canvasRed', 'woodLight', 'leaf', 'leafLight', 'leafDark']), heroSize: [600, 440],
   build(B) {
+    grassTufts(into(B, 'Sway'), [[1.6, 1.4], [-1.6, -1.3], [1.5, -1.5]], 63);
     for (let i = 0; i < 6; i++) for (let j = 0; j < 6; j++) B.add(box(0.5, 0.03, 0.5), { pos: [-1.25 + i * 0.5, 0.02 + ((i + j) % 2) * 0.002, -1.25 + j * 0.5], color: (i + j) % 2 ? 'blanketA' : 'blanketB' });
     B.add(cyl(0.55, 0.45, 0.5, 12), { pos: [0.6, 0.27, 0.4], color: 'wicker' }); for (const y of [0.15, 0.32, 0.48]) B.add(torus(0.5 + (y - 0.3) * 0.15, 0.03, 4, 14), { pos: [0.6, y, 0.4], rot: [Math.PI / 2, 0, 0], color: 'wickerDark' });
     B.add(torus(0.42, 0.04, 4, 14, Math.PI), { pos: [0.6, 0.52, 0.4], color: 'wickerDark' });
@@ -250,12 +263,12 @@ add({
   },
 });
 add({
-  name: 'CampTent', palette: pal(['canvas', 'canvasDark', 'canvasBlue', 'woodDark', 'rope', 'ink']), heroSize: [600, 480],
+  name: 'CampTent', parts: { TentFlap: { pivot: [-1.6, 2.1, 0] } }, palette: pal(['canvas', 'canvasDark', 'canvasBlue', 'woodDark', 'rope', 'ink']), heroSize: [600, 480],
   build(B) {
     const L = 3.2, W = 1.6, H = 2.2;
     for (const s of [-1, 1]) { const g = new THREE.BufferGeometry(); const p = [[-L / 2, 0, s * W], [L / 2, 0, s * W], [L / 2, H, 0], [-L / 2, H, 0]]; g.setAttribute('position', new THREE.Float32BufferAttribute([...p[0], ...p[1], ...p[2], ...p[0], ...p[2], ...p[3], ...p[0], ...p[2], ...p[1], ...p[0], ...p[3], ...p[2]], 3)); g.computeVertexNormals(); B.add(g, { color: s > 0 ? 'canvas' : 'canvasDark' }); }
     { const g = new THREE.BufferGeometry(); const p = [[L / 2, 0, -W], [L / 2, 0, W], [L / 2, H, 0]]; g.setAttribute('position', new THREE.Float32BufferAttribute([...p[0], ...p[1], ...p[2], ...p[0], ...p[2], ...p[1]], 3)); g.computeVertexNormals(); B.add(g, { color: 'canvasDark' }); }
-    { const g = new THREE.BufferGeometry(); const p = [[-L / 2, 0, -W * 0.15], [-L / 2 - 0.9, 0, -W * 0.9], [-L / 2, H * 0.95, 0]]; g.setAttribute('position', new THREE.Float32BufferAttribute([...p[0], ...p[1], ...p[2], ...p[0], ...p[2], ...p[1]], 3)); g.computeVertexNormals(); B.add(g, { color: 'canvasBlue' }); }
+    { const g = new THREE.BufferGeometry(); const p = [[-L / 2, 0, -W * 0.15], [-L / 2 - 0.9, 0, -W * 0.9], [-L / 2, H * 0.95, 0]]; g.setAttribute('position', new THREE.Float32BufferAttribute([...p[0], ...p[1], ...p[2], ...p[0], ...p[2], ...p[1]], 3)); g.computeVertexNormals(); into(B, 'TentFlap').add(g, { color: 'canvasBlue' }); }
     { const g = new THREE.BufferGeometry(); const p = [[-L / 2, 0, -W], [-L / 2, 0, -W * 0.15], [-L / 2, H, 0]]; g.setAttribute('position', new THREE.Float32BufferAttribute([...p[0], ...p[1], ...p[2], ...p[0], ...p[2], ...p[1]], 3)); g.computeVertexNormals(); B.add(g, { color: 'canvasDark' }); }
     B.add(box(L + 0.3, 0.08, 0.08), { pos: [0, H + 0.02, 0], color: 'woodDark' });
     for (const x of [-L / 2 - 0.1, L / 2 + 0.1]) { B.add(box(0.08, H + 0.3, 0.08), { pos: [x, (H + 0.3) / 2, 0], color: 'woodDark' }); B.add(loft({ points: [[x, H + 0.2, 0], [x + Math.sign(x) * 0.8, H * 0.5, 0], [x + Math.sign(x) * 1.4, 0.05, 0]], rx: () => 0.02, ry: () => 0.02, rings: 4, seg: 3 }), { color: 'rope' }); B.add(cone(0.05, 0.3, 4), { pos: [x + Math.sign(x) * 1.4, 0.1, 0], rot: [Math.PI, 0, 0], color: 'woodDark' }); }
@@ -275,9 +288,9 @@ add({
   loopSeconds: 2,
 });
 add({
-  name: 'LeafPile', palette: pal([...AUTUMN, 'woodDark', 'metal']), heroSize: [560, 420],
+  name: 'LeafPile', parts: { Rustle: { pivot: [0, 0, 0] } }, palette: pal([...AUTUMN, 'woodDark', 'metal']), heroSize: [560, 420],
   build(B) {
-    leafy(B, { blobs: [[0, 0.1, 0, 1.2], [0.9, 0.0, 0.4, 0.8], [-0.8, 0.0, -0.3, 0.85]], shades: AUTUMN, count: 320, size: [0.45, 0.3], seed: 125, droop: 0.3, centre: [0, -1, 0] });
+    leafy(B, { blobs: [[0, 0.1, 0, 1.2], [0.9, 0.0, 0.4, 0.8], [-0.8, 0.0, -0.3, 0.85]], shades: AUTUMN, count: 320, size: [0.45, 0.3], seed: 125, droop: 0.3, centre: [0, -1, 0], cardMesh: 'Rustle' });
     B.add(cyl(0.04, 0.04, 3.0, 5), { pos: [1.4, 0.35, -0.8], rot: [0, 0.5, 1.35], color: 'woodDark' });
     for (let k = 0; k < 6; k++) B.add(box(0.03, 0.03, 0.18), { pos: [2.7 + 0, 0.06, -0.85 + k * 0.08 - 0.2], rot: [0, 0.5, 0], color: 'metal' });
   },

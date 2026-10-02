@@ -1,6 +1,7 @@
 {
   "name": "EggCelestial",
   "category": "Eggs",
+  "whole": "wobble",
   "stats": {
     "meshes": {
       "Body": {
@@ -20,10 +21,16 @@
         "verts": 255
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.857
+      }
+    ]
   },
   "sprite": {
     "frames": 24,
-    "duration": 2
+    "duration": 2.857
   }
 }

@@ -1,0 +1,45 @@
+{
+  "name": "SpawnPad",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 160,
+        "verts": 248
+      },
+      "Glow": {
+        "tris": 960,
+        "verts": 574
+      },
+      "HoverRune": {
+        "tris": 640,
+        "verts": 504
+      }
+    },
+    "parts": {
+      "HoverRune": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          7.450580596923828e-9,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

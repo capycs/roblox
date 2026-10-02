@@ -1,0 +1,41 @@
+{
+  "name": "FlowerPot",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 808,
+        "verts": 1131
+      },
+      "Sway": {
+        "tris": 2376,
+        "verts": 5370
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0.75,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.020629405975341797,
+          -0.2517565041780472,
+          -0.01623597741127014
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

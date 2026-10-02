@@ -1,0 +1,41 @@
+{
+  "name": "CampTent",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 168,
+        "verts": 224
+      },
+      "TentFlap": {
+        "tris": 2,
+        "verts": 6
+      }
+    },
+    "parts": {
+      "TentFlap": {
+        "pivot": [
+          -1.6,
+          2.1,
+          0
+        ],
+        "pivotFromCenter": [
+          0.4500000000000002,
+          1.054999995045364,
+          0.7200000286102295
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

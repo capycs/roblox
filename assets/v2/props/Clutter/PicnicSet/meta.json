@@ -1,0 +1,41 @@
+{
+  "name": "PicnicSet",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1228,
+        "verts": 1529
+      },
+      "Sway": {
+        "tris": 288,
+        "verts": 348
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.008271992206573486,
+          -0.13935906440019608,
+          0.04997110366821289
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

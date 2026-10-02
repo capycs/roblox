@@ -1,0 +1,41 @@
+{
+  "name": "ClayPot",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 688,
+        "verts": 511
+      },
+      "Sway": {
+        "tris": 288,
+        "verts": 348
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.05883067846298218,
+          -0.1372370943427086,
+          0.16607439517974854
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

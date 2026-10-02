@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import { V, ell, cone, quatTo, loft, blade, crystal, flame, bolt, torus, surfaceQuat } from '../lib.js';
 
 const list = [];
-const add = (spec) => list.push({ category: 'Icons', v2: true, icon: true, heroSize: [512, 512], view: [-0.32, 0.22, -1], margin: 0.8, bg: '#2a2236', ...spec });
+const add = (spec) => list.push({ category: 'Icons', v2: true, icon: true, whole: 'spinbob', heroSize: [512, 512], view: [-0.32, 0.22, -1], margin: 0.8, bg: '#2a2236', ...spec });
 const lathe = (pts, seg = 24) => new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(Math.max(r, 0.0001), y)), seg);
 // extruded 2D shape (in XY), centred, depth along Z
 function slab(pts, depth, bevel = 0.06, curve = 6) {

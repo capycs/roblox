@@ -7,7 +7,7 @@ import { eggGeo, EGG_H as H, onShell, band, spots } from './eggs.js';
 import { canopy } from '../foliage.js';
 
 const list = [];
-const add = (spec) => list.push({ category: 'Eggs', v2: true, heroSize: [440, 520], view: [-1, 0.35, -1.2], ...spec });
+const add = (spec) => list.push({ category: 'Eggs', v2: true, whole: 'wobble', loopSeconds: 2.857, heroSize: [440, 520], view: [-1, 0.35, -1.2], ...spec });
 const shell = (B, color, s = 1) => B.add(eggGeo(26, 20), { color, scale: [s, s, s] });
 const ring = (B, th, mesh, color, tube = 0.06) => band(B, th, color, mesh, tube);
 const around = (n, f) => { for (let k = 0; k < n; k++) f((k / n) * Math.PI * 2, k); };

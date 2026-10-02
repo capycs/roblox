@@ -1,0 +1,49 @@
+{
+  "name": "EggCapsule",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 208,
+        "verts": 324
+      },
+      "HoverEgg": {
+        "tris": 504,
+        "verts": 285
+      },
+      "Glow": {
+        "tris": 384,
+        "verts": 231
+      },
+      "Glass": {
+        "tris": 744,
+        "verts": 523
+      }
+    },
+    "parts": {
+      "HoverEgg": {
+        "pivot": [
+          0,
+          1.9,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          0.41999996826052666,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

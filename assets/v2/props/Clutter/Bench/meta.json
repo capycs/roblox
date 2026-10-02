@@ -1,0 +1,41 @@
+{
+  "name": "Bench",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 692,
+        "verts": 1234
+      },
+      "Rustle": {
+        "tris": 480,
+        "verts": 1440
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.014613866806030273,
+          -0.3945685029029846,
+          -0.011388808488845825
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "name": "Well",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1672,
+        "verts": 3639
+      },
+      "Bucket": {
+        "tris": 48,
+        "verts": 80
+      },
+      "Rustle": {
+        "tris": 1440,
+        "verts": 4320
+      }
+    },
+    "parts": {
+      "Bucket": {
+        "pivot": [
+          0,
+          3.2,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          1.049999928474426,
+          0
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.16616427898406982,
+          -2.473134580999613,
+          -0.6890750974416733
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -145,7 +145,9 @@ export function applyPose(style, boneMap, rest, name, t) {
   boneMap.Hips.position.add(new THREE.Vector3(...hips));
 }
 
-export function bakeClips(style, boneMap, fps = 30) {
+// spinners: spec.spinners (halos, orbiting orbs...) baked into every clip; speeds are rounded
+// to whole turns per clip so each clip still loops seamlessly.
+export function bakeClips(style, boneMap, fps = 30, spinners = []) {
   const names = Object.keys(boneMap);
   return CLIP_NAMES.map((clip) => {
     const D = style.dur[clip];
@@ -156,7 +158,12 @@ export function bakeClips(style, boneMap, fps = 30) {
     for (let i = 0; i <= n; i++) {
       const t = (i / n) * D; times.push(t);
       const { rot, hips } = pose(style, clip, Math.min(t, D - 1e-6));
-      for (const b of names) { const r = rot[b] || [0, 0, 0]; e.set(r[0], r[1], r[2], 'XYZ'); quat.setFromEuler(e); q[b].push(quat.x, quat.y, quat.z, quat.w); }
+      for (const b of names) {
+        const r = rot[b] || [0, 0, 0]; e.set(r[0], r[1], r[2], 'XYZ'); quat.setFromEuler(e);
+        const sp = spinners.find((s) => s.bone === b);
+        if (sp) { const turns = Math.max(1, Math.round(Math.abs(sp.speed || 1) * D / (Math.PI * 2))) * Math.sign(sp.speed || 1); quat.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(...sp.axis).normalize(), (turns * Math.PI * 2 * t) / D)); }
+        q[b].push(quat.x, quat.y, quat.z, quat.w);
+      }
       hp.push(hipsRest.x + hips[0], hipsRest.y + hips[1], hipsRest.z + hips[2]);
     }
     const tracks = names.map((b) => new THREE.QuaternionKeyframeTrack(`${b}.quaternion`, times, q[b]));

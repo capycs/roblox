@@ -1,6 +1,7 @@
 {
   "name": "Bones",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,7 @@
         "verts": 778
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

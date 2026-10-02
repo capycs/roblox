@@ -1,0 +1,41 @@
+{
+  "name": "Wheelbarrow",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 968,
+        "verts": 774
+      },
+      "Sway": {
+        "tris": 288,
+        "verts": 348
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.4080793857574463,
+          -0.13769742846488953,
+          -0.09021008014678955
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

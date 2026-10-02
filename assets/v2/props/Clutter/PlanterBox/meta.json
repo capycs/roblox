@@ -1,0 +1,41 @@
+{
+  "name": "PlanterBox",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1836,
+        "verts": 5352
+      },
+      "Sway": {
+        "tris": 1316,
+        "verts": 1351
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.03714752197265625,
+          -0.49772537946701334,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

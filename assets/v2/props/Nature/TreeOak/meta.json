@@ -1,0 +1,41 @@
+{
+  "name": "TreeOak",
+  "category": "Nature",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1226,
+        "verts": 757
+      },
+      "Canopy": {
+        "tris": 9420,
+        "verts": 28260
+      }
+    },
+    "parts": {
+      "Canopy": {
+        "pivot": [
+          0.4,
+          6.5,
+          0.2
+        ],
+        "pivotFromCenter": [
+          0.3161602020263672,
+          -3.363240957260132,
+          0.16057372093200684
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

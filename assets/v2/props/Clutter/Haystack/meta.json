@@ -1,0 +1,41 @@
+{
+  "name": "Haystack",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 464,
+        "verts": 1360
+      },
+      "Rustle": {
+        "tris": 6720,
+        "verts": 20160
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.009661972522735596,
+          -1.350860834121704,
+          0.01973426342010498
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -24,6 +24,8 @@ type Entry = {
 	flicker: { { part: BasePart, size: Vector3 } },
 	pulse: { { part: BasePart, t: number } },
 	skip: number,
+	whole: string?,
+	base: CFrame,
 }
 
 local entries: { [Model]: Entry } = {}
@@ -49,6 +51,7 @@ local function attach(model: Instance)
 		model = model,
 		phase = pivotCf.Position:Dot(Data.Wind.dir) * 0.06 + (pivotCf.Position.Z * 0.013),
 		moving = {}, bones = {}, flicker = {}, pulse = {}, skip = 0,
+		whole = Data.Whole[propName], base = pivotCf,
 	}
 	for _, d in model:GetDescendants() do
 		if d:IsA("BasePart") then
@@ -115,8 +118,7 @@ RunService.RenderStepped:Connect(function(dt)
 			entries[model] = nil
 			continue
 		end
-		local pivotCf = model:GetPivot()
-		local dist = (pivotCf.Position - camPos).Magnitude
+		local dist = (e.base.Position - camPos).Magnitude
 		if dist > FAR then
 			continue
 		elseif dist > NEAR then
@@ -126,6 +128,17 @@ RunService.RenderStepped:Connect(function(dt)
 			end
 		end
 		local ph = e.phase
+		-- whole-model idle (eggs wobble, icon models spin + bob) around where it was placed
+		if e.whole then
+			local r = Data.WholeRules[e.whole]
+			local w = TAU * r.freq
+			if e.whole == "wobble" then
+				model:PivotTo(e.base * CFrame.Angles(r.amp * 0.5 * math.sin(w * 1.3 * t + ph + 1), 0, r.amp * math.sin(w * t + ph) * (0.6 + 0.4 * math.sin(w * 0.37 * t))))
+			else
+				model:PivotTo(e.base * CFrame.new(0, r.height * math.sin(w * t + ph), 0) * CFrame.Angles(0, r.spin * t, 0))
+			end
+		end
+		local pivotCf = model:GetPivot()
 		for _, m in e.moving do
 			local p = pivotCf * m.rel * CFrame.new(m.pivot)
 			m.part.CFrame = p * motion(m.kind, m.rule, t, ph, gust) * CFrame.new(-m.pivot)

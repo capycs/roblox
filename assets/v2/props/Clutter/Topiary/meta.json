@@ -1,0 +1,41 @@
+{
+  "name": "Topiary",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 752,
+        "verts": 931
+      },
+      "Rustle": {
+        "tris": 3120,
+        "verts": 9360
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          1,
+          0
+        ],
+        "pivotFromCenter": [
+          0.023383617401123047,
+          -1.9369345307350159,
+          -0.009603828191757202
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,6 +1,7 @@
 {
   "name": "TreasureChest",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -12,6 +13,7 @@
         "verts": 66
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

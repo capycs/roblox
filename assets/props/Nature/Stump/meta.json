@@ -1,6 +1,7 @@
 {
   "name": "Stump",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -8,6 +9,7 @@
         "verts": 1416
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

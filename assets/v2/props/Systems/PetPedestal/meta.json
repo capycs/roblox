@@ -1,0 +1,45 @@
+{
+  "name": "PetPedestal",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 240,
+        "verts": 376
+      },
+      "Glow": {
+        "tris": 384,
+        "verts": 231
+      },
+      "HoverRing": {
+        "tris": 464,
+        "verts": 355
+      }
+    },
+    "parts": {
+      "HoverRing": {
+        "pivot": [
+          0,
+          1.8,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -1.4901161193847656e-8,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

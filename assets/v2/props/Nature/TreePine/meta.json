@@ -1,0 +1,37 @@
+{
+  "name": "TreePine",
+  "category": "Nature",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Sway": {
+        "tris": 4016,
+        "verts": 11998
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.06209135055541992,
+          -6.770807079970837,
+          0.012323379516601562
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

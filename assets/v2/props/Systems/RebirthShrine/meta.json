@@ -1,0 +1,45 @@
+{
+  "name": "RebirthShrine",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 336,
+        "verts": 516
+      },
+      "Glow": {
+        "tris": 384,
+        "verts": 231
+      },
+      "HoverOrb": {
+        "tris": 1068,
+        "verts": 653
+      }
+    },
+    "parts": {
+      "HoverOrb": {
+        "pivot": [
+          0,
+          4.2,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -5.960464477539063e-8,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

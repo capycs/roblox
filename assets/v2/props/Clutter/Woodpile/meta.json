@@ -1,0 +1,41 @@
+{
+  "name": "Woodpile",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1796,
+        "verts": 2902
+      },
+      "Sway": {
+        "tris": 288,
+        "verts": 348
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.514896810054779,
+          -0.13723952323198318,
+          -0.9059607982635498
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

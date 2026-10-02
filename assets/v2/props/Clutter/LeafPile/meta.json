@@ -1,0 +1,41 @@
+{
+  "name": "LeafPile",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 632,
+        "verts": 1798
+      },
+      "Rustle": {
+        "tris": 3840,
+        "verts": 11520
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.06278413534164429,
+          -0.08883458375930786,
+          -0.01262807846069336
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -1,6 +1,7 @@
 {
   "name": "Torch",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -16,6 +17,7 @@
         "verts": 256
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

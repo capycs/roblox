@@ -1,6 +1,7 @@
 {
   "name": "TreeFrost",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -12,6 +13,7 @@
         "verts": 756
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

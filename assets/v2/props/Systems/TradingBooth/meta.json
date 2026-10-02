@@ -1,0 +1,34 @@
+{
+  "name": "TradingBooth",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 192,
+        "verts": 358
+      },
+      "Flag": {
+        "tris": 30,
+        "verts": 75
+      }
+    },
+    "parts": {},
+    "bones": [
+      "Flag1",
+      "Flag2",
+      "Flag3",
+      "Flag4"
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

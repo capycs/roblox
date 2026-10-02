@@ -1,6 +1,7 @@
 {
   "name": "TreeCrystal",
   "category": "Nature",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -16,6 +17,7 @@
         "verts": 108
       }
     },
-    "parts": {}
+    "parts": {},
+    "clips": []
   }
 }

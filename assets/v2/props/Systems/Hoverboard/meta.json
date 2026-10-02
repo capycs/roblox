@@ -1,0 +1,28 @@
+{
+  "name": "Hoverboard",
+  "category": "Systems",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 332,
+        "verts": 520
+      },
+      "Glow": {
+        "tris": 128,
+        "verts": 200
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

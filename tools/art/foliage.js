@@ -48,8 +48,9 @@ const sphNormal = (p, clumpC, treeC, k = 0.35) => p.clone().sub(clumpC).normaliz
  * blobs: [[x, y, z, r], ...]   shades: palette keys dark -> light (>= 3)
  * count: leaf cards   size: [len, width] of a card (studs)
  */
-export function canopy(B, { blobs, shades, count = 500, size = [1.1, 0.5], seed = 1, droop = 0.55, flare = 0.45, core = true, centre, add = {}, extra }) {
-  const rnd = seeded(seed), batch = new Batch();
+// cardMesh: put the leaf cards on their own (moving) part, e.g. 'Rustle', while the core stays solid.
+export function canopy(B, { blobs, shades, count = 500, size = [1.1, 0.5], seed = 1, droop = 0.55, flare = 0.45, core = true, centre, add = {}, extra, cardMesh }) {
+  const rnd = seeded(seed), batch = new Batch(), cards = cardMesh ? new Batch() : batch;
   const C = blobs.map(([x, y, z, r]) => ({ c: new THREE.Vector3(x, y, z), r }));
   const treeC = centre ? v3(centre) : C.reduce((s, b) => s.add(b.c.clone().multiplyScalar(b.r ** 2)), new THREE.Vector3()).divideScalar(C.reduce((s, b) => s + b.r ** 2, 0));
   let y0 = Infinity, y1 = -Infinity; for (const b of C) { y0 = Math.min(y0, b.c.y - b.r); y1 = Math.max(y1, b.c.y + b.r); }
@@ -94,7 +95,7 @@ export function canopy(B, { blobs, shades, count = 500, size = [1.1, 0.5], seed 
     dir.crossVectors(side, up).normalize();
     const s = 0.75 + rnd() * 0.5, len = size[0] * s, wid = size[1] * s;
     const o = p.clone().addScaledVector(dir, -len * 0.3);
-    leaf(batch, shadeAt(p, n, rnd()), o, dir, side, up, len, wid, n);
+    leaf(cards, shadeAt(p, n, rnd()), o, dir, side, up, len, wid, n);
     made++;
   }
   if (extra) extra({ blobs: C, treeC, rnd, surface: (k) => {
@@ -102,6 +103,7 @@ export function canopy(B, { blobs, shades, count = 500, size = [1.1, 0.5], seed 
     const d = new THREE.Vector3(rr * Math.cos(a), z, rr * Math.sin(a)); return { p: b.c.clone().addScaledVector(d, b.r * 1.13), n: d };
   } });
   batch.flush(B, add);
+  if (cardMesh) cards.flush(B, { ...add, mesh: cardMesh });
 }
 
 /**

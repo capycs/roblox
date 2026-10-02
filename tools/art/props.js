@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { buildProp } from './lib.js';
 import { makeRenderer, shoot, fitBox, paletteTexture } from './render.js';
-import { kindOf, animate3, animateFlag3 } from './anim.js';
+import { kindOf, animate3, animateFlag3, animateWhole3, RULES } from './anim.js';
 
 function glbToBase64(buf) {
   const bytes = new Uint8Array(buf);
@@ -18,10 +18,41 @@ async function exportGLB(spec) {
     : spec.glass && spec.glass[n]
       ? new THREE.MeshStandardMaterial({ color: spec.glass[n], transparent: true, opacity: 0.35, roughness: 0.1, name: n })
       : new THREE.MeshStandardMaterial({ color: spec.glow[n], emissive: spec.glow[n], name: n });
-  const { group, stats } = buildProp(spec, mat);
+  const { group, stats, meshes, boneMap } = buildProp(spec, mat);
   group.updateMatrixWorld(true);
   group.traverse((o) => o.geometry && o.geometry.deleteAttribute('outlineK'));
-  return { glb: glbToBase64(await new GLTFExporter().parseAsync(group, { binary: true })), stats };
+  const clips = bakePropIdle(spec, group, meshes, boneMap);
+  stats.clips = clips.map((c) => ({ name: c.name, duration: c.duration }));
+  return { glb: glbToBase64(await new GLTFExporter().parseAsync(group, { binary: true, animations: clips })), stats };
+}
+
+// Built-in "Idle" clip: samples the same rules the game uses (sway, spin, swing, hover, flag
+// bones, whole-model wobble/spin) over one loop and stores them as glTF animation tracks.
+function bakePropIdle(spec, group, meshes, boneMap) {
+  const movers = Object.entries(meshes).filter(([n]) => kindOf(n));
+  const flags = boneMap ? Object.keys(boneMap).filter((n) => /^Flag\d+$/.test(n)) : [];
+  if (!movers.length && !flags.length && !spec.whole) return [];
+  const D = spec.loopSeconds || (spec.whole === 'spinbob' ? (Math.PI * 2) / RULES.whole.spinbob.spin : 2.0), fps = 20, n = Math.round(D * fps);
+  const times = [], tr = {};
+  const track = (obj) => { const k = obj.uuid; return tr[k] || (tr[k] = { obj, q: [], p: [] }); };
+  for (let i = 0; i <= n; i++) {
+    const t = (i / n) * D; times.push(t);
+    for (const [name, m] of movers) animate3(m, name, t);
+    if (boneMap) animateFlag3(boneMap, t);
+    if (spec.whole) animateWhole3(group, spec.whole, t);
+    for (const [, m] of movers) { const e = track(m); e.q.push(...m.quaternion.toArray()); e.p.push(...m.position.toArray()); }
+    for (const f of flags) { const e = track(boneMap[f]); e.q.push(...boneMap[f].quaternion.toArray()); e.p.push(...boneMap[f].position.toArray()); }
+    if (spec.whole) { const e = track(group); e.q.push(...group.quaternion.toArray()); e.p.push(...group.position.toArray()); }
+  }
+  const tracks = [];
+  for (const { obj, q, p } of Object.values(tr)) {
+    tracks.push(new THREE.QuaternionKeyframeTrack(`${obj.name}.quaternion`, times, q));
+    tracks.push(new THREE.VectorKeyframeTrack(`${obj.name}.position`, times, p));
+  }
+  // leave the model in its rest pose for the export
+  for (const [name, m] of movers) animate3(m, name, 0);
+  if (spec.whole) animateWhole3(group, spec.whole, 0);
+  return [new THREE.AnimationClip('Idle', D, tracks)];
 }
 
 function toonScene(spec) {
@@ -110,7 +141,7 @@ export async function runProps(file) {
   const specs = Array.isArray(mod.default) ? mod.default : [mod.default];
   const results = [];
   for (const spec of specs) {
-    const out = { name: spec.name, category: spec.category || file, v2: !!spec.v2, images: {} };
+    const out = { name: spec.name, category: spec.category || file, v2: !!spec.v2, whole: spec.whole || null, images: {} };
     const exp = await exportGLB(spec);
     out.glb = exp.glb; out.stats = exp.stats;
     const S = toonScene(spec);
@@ -118,12 +149,13 @@ export async function runProps(file) {
     const r = makeRenderer(w, h);
     const view = spec.view || [-1, 0.55, -1.15], bloom = spec.bloom ?? 0.45;
     const cam = fitBox(S.box, spec.fov || 30, w, h, view, spec.margin || 0.84, S.pts);
-    const animated = spec.animate || spec.bones || Object.keys(S.model.meshes).some((n) => kindOf(n));
+    const animated = spec.animate || spec.bones || spec.whole || Object.keys(S.model.meshes).some((n) => kindOf(n));
     const step = (u) => {
       const t = u * (spec.loopSeconds || 2);
       for (const [n, m] of Object.entries(S.model.meshes)) animate3(m, n, t);
       if (S.model.boneMap) animateFlag3(S.model.boneMap, t);
       if (spec.animate) spec.animate(S.model.meshes, S.model.group, u);
+      if (spec.whole) animateWhole3(S.model.group, spec.whole, t);
     };
     if (animated) step(0.15);
     const olc = spec.outline || '#120c10';

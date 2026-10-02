@@ -1,0 +1,45 @@
+{
+  "name": "ZoneGate",
+  "category": "Systems",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1716,
+        "verts": 4992
+      },
+      "Glow": {
+        "tris": 84,
+        "verts": 240
+      },
+      "HoverSignGlow": {
+        "tris": 12,
+        "verts": 24
+      }
+    },
+    "parts": {
+      "HoverSignGlow": {
+        "pivot": [
+          0,
+          6.6,
+          -0.6
+        ],
+        "pivotFromCenter": [
+          0,
+          -1.4901161193847656e-7,
+          0.09999999031424522
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

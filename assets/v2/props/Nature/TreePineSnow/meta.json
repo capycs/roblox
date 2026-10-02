@@ -1,0 +1,37 @@
+{
+  "name": "TreePineSnow",
+  "category": "Nature",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Sway": {
+        "tris": 4850,
+        "verts": 14500
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.12882328033447266,
+          -6.770807079970837,
+          -0.12252926826477051
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -13,7 +13,10 @@ local PropSetup = {}
 PropSetup.AnimTag = "PropAnim"
 PropSetup.OutlineTag = "Outline" -- Outlines.client draws the cartoon outline on these
 
-local GLOW = { Glow = true, GlowCore = true, Lamp = true, Flame = true, FlameCore = true, Rune = true, Potion = true, Eyes = true, LanternLamp = true, HoverCore = true, HoverGem = true, HoverSignGlow = true, HoverGlow = true }
+local GLOW = { Glow = true, GlowCore = true, Lamp = true, Flame = true, FlameCore = true, Rune = true, Potion = true, Eyes = true, LanternLamp = true, HoverCore = true, HoverGem = true, HoverSignGlow = true, HoverGlow = true,
+	-- v2 props
+	HoverOrb = true, HoverCrown = true, HoverGift = true, HoverRing = true, HoverGlint = true, HoverBook = true, HoverRune = true, PortalRing = true,
+	PotionR = true, PotionG = true, PotionB = true, PotionY = true }
 local GLASS = { Glass = true }
 
 -- Props players walk through (grass, flowers...). Everything else collides.
@@ -41,7 +44,7 @@ function PropSetup.prepare(model: Model, propName: string?): Model
 	local name = propName or (model:GetAttribute("Prop") :: string?) or model.Name
 	model:SetAttribute("Prop", name)
 	local walkThrough = PropSetup.NoCollide[name] == true
-	local animated = false
+	local animated = AnimData.Whole[name] ~= nil
 	for _, d in model:GetDescendants() do
 		if isAnimated(d) then
 			animated = true
@@ -66,6 +69,12 @@ function PropSetup.prepare(model: Model, propName: string?): Model
 				d.CanCollide = false
 			end
 		end
+	end
+	-- eggs wobble on their base, not their middle
+	if AnimData.Whole[name] == "wobble" and not model:GetAttribute("BasePivot") then
+		local cf, size = model:GetBoundingBox()
+		model.WorldPivot = cf * CFrame.new(0, -size.Y / 2, 0)
+		model:SetAttribute("BasePivot", true)
 	end
 	if not PropSetup.NoOutline[name] then
 		CollectionService:AddTag(model, PropSetup.OutlineTag)

@@ -1,6 +1,7 @@
 {
   "name": "BannerPole",
   "category": "Clutter",
+  "whole": null,
   "stats": {
     "meshes": {
       "Body": {
@@ -18,6 +19,12 @@
       "Flag2",
       "Flag3",
       "Flag4"
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
     ]
   },
   "sprite": {

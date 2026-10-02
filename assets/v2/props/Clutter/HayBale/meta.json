@@ -1,0 +1,41 @@
+{
+  "name": "HayBale",
+  "category": "Clutter",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 768,
+        "verts": 910
+      },
+      "Rustle": {
+        "tris": 1080,
+        "verts": 3240
+      }
+    },
+    "parts": {
+      "Rustle": {
+        "pivot": [
+          0,
+          0.85,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.015172243118286133,
+          0.026215016841888428,
+          0.011815845966339111
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}
