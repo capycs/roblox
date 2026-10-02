@@ -14,7 +14,10 @@ and check it all works. Read docs/ROBLOX_AGENT_PROMPT.md and SETUP.md in the rep
 RULES
 - Keep every model's name exactly as its file name (TreeOak, Voltgriff, ...). The code
   finds parts by name (mesh names inside each model matter too: Body, Glow, Canopy,
-  PropL, Flag1... never rename children).
+  PropL, Flag1, HoverOrb, Halo... never rename children).
+- assets/v2 holds the newest props (Zelda-style trees and bushes, restyled clutter, new
+  clutter, eggs, 3D icon models, gameplay-system props). When a name exists in both
+  assets/props and assets/v2/props (TreeOak, Bush, Bench, Well, ...), ALWAYS use the v2 one.
 - Don't edit generated files except to paste asset IDs: src/shared/AssetIds.luau (fill IDs
   only) and src/shared/Props/PropAnimData.luau (never). Gameplay numbers live in config
   modules (CreatureConfig, AtmosphereConfig, SkyshipConfig, ShopCatalog).
@@ -26,13 +29,22 @@ RULES
   src/server -> ServerScriptService.Server, src/client -> StarterPlayerScripts.Client).
 
 STEP 1 - Import the 3D models (Import 3D, scale unit Stud, rotation 0, keep skinning)
-- 6 creatures: assets/creatures/<Name>/<Name>.glb -> ServerStorage/Creatures/<Name>
-  (Emberfang, Voltgriff, Frostusk, Nyxwing, Tidefin, Mossback). Keep the rig.
+- 16 creatures: assets/creatures/<Name>/<Name>.glb -> ServerStorage/Creatures/<Name>
+  (Bramblepup, Shellsnap, Sparkit, Mossback, Tidefin, Blazehorn, Frostfawn, Emberfang,
+  Frostusk, Umbrapaw, Voltgriff, Nyxwing, Solarion, Glaciarch, Sylvanthorn, Aetherion).
+  Keep the rig. Legendaries/mythic have extra spinner bones (Halo, SunOrbit, FrostOrbit,
+  CrownHover, WispOrbit, RuneRing, Halo1-3, Crown, ElementOrbit, Rune*) that
+  CreatureAnimator spins; they must survive the import.
+- v2 props: assets/v2/props/<Category>/<Name>/<Name>.glb -> ServerStorage/Props/<Category>/<Name>
+  (categories Nature, Clutter, Eggs, Icons, Systems; full list in the reference below).
+  Every v2 GLB has a baked "Idle" clip, and PropAnimation.client animates the same parts
+  in code (PropAnimData). Use the code path (it's distance-culled); don't also play the
+  baked clip on the same model.
 - Skyship: assets/props/Skyship/Skyship/Skyship.glb -> ServerStorage/Props/Skyship
 - Ambient critters: Butterfly, Bird (assets/props/Atmosphere/...) ->
   ReplicatedStorage/Props/Ambient
 - Every other prop: assets/props/<Category>/<Name>/<Name>.glb -> keep one master copy in
-  ServerStorage/Props/<Category>/<Name>; clone those into the map.
+  ServerStorage/Props/<Category>/<Name>; clone those into the map (skip any name v2 has).
   meta.json next to each GLB lists its meshes, triangle counts and animated parts.
 
 STEP 2 - Replace the old models in the map
@@ -49,15 +61,20 @@ STEP 2 - Replace the old models in the map
     require(game.ReplicatedStorage.Shared.Props.PropSetup).prepareAll(workspace)
     require(game.ReplicatedStorage.Shared.Props.PropSetup).prepareAll(game.ServerStorage.Props)
   This sets glow meshes to Neon, glass to Glass, makes grass/flowers walk-through, tags
-  moving props "PropAnim" (client animates them) and tags props "Outline".
+  moving props "PropAnim" (client animates them) and tags props "Outline". Eggs bob and
+  wobble and 3D icons spin as whole models (PropAnimData.Whole); they get the tag too.
 
 STEP 3 - Upload images and paste their IDs into src/shared/AssetIds.luau
 - Asset Manager > Bulk Import, then copy each ID into the matching key:
   assets/fx/textures/*.png (41 particle textures, AssetIds.Fx)
-  assets/ui/icons/*.png (54 icons, AssetIds.Icons)
+  assets/ui/icons/*.png (55 icons incl. ElementPrism, AssetIds.Icons)
+  assets/creatures/<Name>/mutations/<Mutation>.png (80 mutation body textures,
+    AssetIds.Mutations[species][mutation])
   assets/textures/<Name>/{color,normal,roughness}.png (14 ground materials, AssetIds.Textures)
   assets/sky/{Day,Dusk}/{Bk,Dn,Ft,Lf,Rt,Up}.png (AssetIds.Sky)
-  assets/creatures/<Name>/previews/hero.png (AssetIds.Portraits)
+  assets/creatures/<Name>/previews/hero.png (16 portraits, AssetIds.Portraits)
+- Optional: assets/v2/icons/*.png are transparent renders of the 3D icon models (coins,
+  gems, potions, trophy...) for shop/reward UI. Not wired to any key yet.
 - Anything left at rbxassetid://0 is skipped with a warning, so missing IDs show up in
   Output. Fix every "[Effects] Fx texture ... has no asset ID" warning.
 
@@ -96,11 +113,49 @@ STEP 7 - Effects (particles)
   ExtractPortal; Crystal* props -> attach CrystalGlint with the crystal's glow colour;
   skyship travel -> attach SpeedLines to a box part ahead of the ship.
 - Waterfalls: Effects.waterfall(topAttachment, bottomAttachment, width).
+- Creature abilities: one preset per creature, named in CreatureInfo.Species[name].ability.effect
+  (ThornBurst, TidalShell, StaticDash, SporeBloom, RiptideSpiral, MagmaCharge, AuroraVeil,
+  FlamePounce, GlacierStomp, ShadeStep, ThunderDive, UmbralVeil, SolarFlare, AbsoluteZero,
+  AncientGrove, PrismJudgement). Burst at the creature's PrimaryPart CFrame when it uses
+  its ability. Previews: assets/fx/previews/<Name>.png.
+- Mutation auras (MutShiny, MutGolden, MutCrystal, MutVoid, MutRainbow, MutGiant,
+  MutCharged) are attached automatically by MutationVisuals.client - don't add them by hand.
+
+STEP 7b - Creature data, abilities and mutations (server)
+- src/shared/Creatures/CreatureInfo.luau: rarity, element, description, ability
+  (name, description, effect, cooldown, power, radius) and passive for all 16. Index order:
+  CreatureInfo.Order. Build the hatch tables from it (pick species by egg rarity).
+- src/shared/Creatures/Mutations.luau: on hatch, muts = Mutations.roll(rng, luck) then
+  Mutations.applyServer(model, muts) after CreatureSetup.prepare. That sets the
+  "Mutations" attribute (saved as Mutations.encode(muts)) and scales Giants. Stats:
+  Mutations.stat(muts, "power" | "coins" | "hp" | "defense" | "ability").
+  Save the mutation string with the pet in the player's data and re-apply on spawn.
+- MutationVisuals.client handles textures, glow colour, Rainbow cycling and auras from
+  the attribute. The UI hatch reveal takes info.mutations; the Incubators screen
+  currently does a demo client roll - replace it with the server result.
+- Abilities: implement the gameplay described in each ability.description on the
+  server (damage = power x creature stat x Mutations.stat(muts, "ability")), then
+  FxService.play the effect preset for everyone nearby.
+
+STEP 7c - Gameplay-system props (assets/v2/props/Systems), suggested wiring
+- ZoneGate: zone unlock gate (sign glows). TeleportPortal: zone teleport (ring spins).
+- RebirthShrine, EnchantAltar, PetPedestal (pet display), EggCapsule (egg-shop display,
+  glass), SpawnPad, VIPRope (VIP area), TradingBooth, PotionShelf, LeaderboardStand
+  (put a SurfaceGui on the board), DailyChest, SpinWheel (rotate the Wheel part server-side
+  for the result; the idle spin is cosmetic), Hoverboard.
+- BreakableCoins/Gems/Chest: farmable breakables; play Pickup on break.
+- v2 Eggs (EggCosmic, EggCandy, EggVolcano, ... EggCelestial): world egg stands / shop
+  displays; they bob and wobble on their own.
 
 STEP 8 - Check it
-- Press Play: creatures walk/run/attack/roar in front of spawn (CreatureDemo), props
-  animate (propellers, flags, swaying trees, lanterns), wind swirls curl over tagged
-  islands, outlines show on nearby props and creatures, zones change lighting.
+- Press Play: creatures walk/run/attack/roar in front of spawn (CreatureDemo); halos,
+  orbs and crowns spin on the legendaries/mythic; props animate (propellers, flags,
+  swaying trees, rustling ivy, hovering bees, lanterns, eggs wobbling, icons spinning);
+  wind swirls curl over tagged islands; outlines show on nearby props and creatures;
+  zones change lighting.
+- Test mutations: set a creature model's "Mutations" attribute to "Rainbow,Giant" (or
+  any of Shiny, Golden, Crystal, Void, Rainbow, Giant, Supercharged) in Studio and check
+  texture, glow and aura change.
 - Output must have no errors and no missing-asset warnings.
 - Check performance with the MicroProfiler and on a phone (Device emulator, low
   graphics): if needed lower AtmosphereConfig.WindSwirls.MaxActive,
@@ -117,12 +172,14 @@ STEP 8 - Check it
 
 | Path | What |
 |---|---|
-| `assets/creatures/<Name>/<Name>.glb` | 6 rigged creatures (skinned, 26-32 bones, baked clips). `previews/` has renders. |
-| `assets/props/<Category>/<Name>/<Name>.glb` | 96 props + `meta.json` (meshes, tris, animated parts, pivots) + `hero.png` |
+| `assets/creatures/<Name>/<Name>.glb` | 16 rigged creatures (skinned, 26-41 bones, baked clips incl. spinners). `previews/` has renders, `mutations/` the mutation textures. See `docs/CREATURES.md`. |
+| `assets/props/<Category>/<Name>/<Name>.glb` | 96 original props + `meta.json` (meshes, tris, animated parts, pivots) + `hero.png` |
+| `assets/v2/props/<Category>/<Name>/<Name>.glb` | 90 new props, each with a baked `Idle` clip. v2 wins on name clashes. |
+| `assets/v2/icons/*.png` | 24 transparent renders of the 3D icon models |
 | `assets/textures/<Name>/` | 14 tiling ground materials (color, normal, roughness), `index.json` maps them to terrain materials |
 | `assets/fx/textures/*.png` | 41 particle textures (white so they tint; flipbooks are 4x4 grids) |
 | `assets/fx/previews/*.png` | animated preview strips of every effect preset (`meta.json` has frame counts) |
-| `assets/ui/icons/*.png` | 54 UI icons |
+| `assets/ui/icons/*.png` | 55 UI icons |
 | `assets/sky/{Day,Dusk}/` | skybox faces |
 | `src/` | all Luau (Rojo) |
 | `tools/art/` | the generators (three.js, run headless). `npm run build/props/textures/fx/icons/sky`, then `npm run prop-anim` and `npm run asset-ids` |
@@ -141,6 +198,16 @@ STEP 8 - Check it
 | Skyship | 1 | Skyship |
 | Structures | 6 | ExtractionBeacon, FloatingIsland, HavenHouseBlue, HavenHouseRed, HavenWindmill, SkyDock |
 
+### v2 props by category (use these over the originals)
+
+| Category | Count | Props |
+|---|---|---|
+| Nature | 7 | Bush, BushBerry, BushFlower, TreeBlossom, TreeOak, TreePine, TreePineSnow (Zelda-style leafy canopies; replace the originals) |
+| Clutter | 28 | Beehive, Bench, CampTent, ClayPot, ClayPotGroup, FenceSegment, FlowerBed, FlowerPot, GardenArch, HayBale, Haystack, HedgeCorner, HedgeStraight, LanternPost, LeafPile, PicnicSet, Pinwheel, PlanterBox, ProduceCrate, Pumpkins, Scarecrow, SteppingStones, StoneLantern, Topiary, VineCurtain, Well, Wheelbarrow, Woodpile |
+| Eggs | 14 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggRainbow, EggSpooky, EggStorm, EggVoid, EggVolcano |
+| Icons | 24 | Bolt3D, ChestRarity, Clover3D, Coin3D, CoinStack, Crown3D, Gem3D, GemPile, GiftBox3D, Heart3D, Hourglass3D, Key3D, Lock3D, Magnet3D, Paw3D, PotionCoins, PotionLuck, PotionPower, PotionSpeed, Scroll3D, Shield3D, Star3D, Ticket3D, Trophy3D |
+| Systems | 17 | BreakableChest, BreakableCoins, BreakableGems, DailyChest, EggCapsule, EnchantAltar, Hoverboard, LeaderboardStand, PetPedestal, PotionShelf, RebirthShrine, SpawnPad, SpinWheel, TeleportPortal, TradingBooth, VIPRope, ZoneGate |
+
 ### Ground textures -> terrain material
 
 Grass→Grass, GrassLush→LeafyGrass, Dirt→Ground, Mud→Mud, Rock→Rock, Cliff→Slate, Sand→Sand, Snow→Snow, Ice→Glacier, Basalt→Basalt, CrackedLava→CrackedLava, Cobblestone→Cobblestone, WoodPlanks→WoodPlanks, RuinTiles→Pavement
@@ -149,8 +216,9 @@ Grass→Grass, GrassLush→LeafyGrass, Dirt→Ground, Mud→Mud, Rock→Rock, Cl
 
 | Script | Does |
 |---|---|
-| `CreatureAnimation.client` | drives creature bones (idle/walk/run/attack/roar + springs) |
-| `PropAnimation.client` | spins propellers, sways trees/grass, waves flags, swings lanterns, flickers flames |
+| `CreatureAnimation.client` | drives creature bones (idle/walk/run/attack/roar + springs, spinner bones, glow pulse) |
+| `MutationVisuals.client` | mutation textures, glow recolour, Rainbow cycling, Crystal sheen, auras (from the `Mutations` attribute) |
+| `PropAnimation.client` | spins propellers/wheels/portal rings, sways trees/grass/ivy, waves flags, swings lanterns and signs, hovers orbs/books/bees, flickers flames, wobbles eggs, spins icons |
 | `Atmosphere.client` | per-zone lighting, sky, grade, ambient particles; publishes `Lighting.AtmospherePreset` |
 | `WindSwirls.client` | anime wind swirls (3D Trails that curl into loops) over `SkyIsland`-tagged islands |
 | `Outlines.client` | outline-only Highlight pool on the nearest `Creature`/`Outline` tagged models |
