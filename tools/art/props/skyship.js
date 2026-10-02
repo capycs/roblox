@@ -4,7 +4,7 @@
 // crystal under the keel. Propellers are separate meshes so Roblox code can spin them.
 // About 58 studs long, 40 tall. Faces -Z.
 import * as THREE from 'three';
-import { V, ell, cone, quatTo, loft, blade, crystal, box, cyl, torus, surfaceQuat } from '../lib.js';
+import { V, ell, cone, quatTo, loft, blade, crystal, box, cyl, torus, surfaceQuat, flagCloth } from '../lib.js';
 
 const palette = [
   ['paint', '#2f4a7a'], ['paintDark', '#1f3358'], ['gold', '#f2b33d'], ['goldDeep', '#c27e1c'],
@@ -19,6 +19,7 @@ const zAt = (t) => Z0 + (Z1 - Z0) * t;
 const halfW = (t) => 8.2 * Math.pow(Math.sin(Math.PI * Math.min(0.999, 0.12 + 0.88 * t)), 0.6) * (t < 0.1 ? 0.75 + 2.5 * t : 1);
 const depth = (t) => 7.2 * Math.pow(Math.sin(Math.PI * Math.min(0.999, 0.06 + 0.94 * t)), 0.5);
 const deckY = (t) => 9 + 1.6 * Math.pow(Math.abs(t - 0.45) / 0.55, 2.2);
+const FLAG_Y = deckY(0.12) + 11.9;
 
 // Closed U-section hull: curved bottom and sides up to the deck line, flat top.
 function hull(rings = 44, n = 26, m = 8) {
@@ -174,7 +175,7 @@ function build(B) {
     B.add(cone(0.5, 0.45, 8), { pos: [x, y + 2.6, z], color: 'metalDark' });
   }
   B.add(cyl(0.15, 0.15, 6, 6), { pos: [0, cy + 9, 21], color: 'metalDark' });
-  B.add(blade(3.6, 1.1, 0.12), { pos: [0, cy + 11.3, 21], quat: surfaceQuat([1, 0, 0], [0, -0.1, 1]), color: 'gold' });
+  flagCloth(B, 3.6, 1.6, ['Flag1', 'Flag2', 'Flag3', 'Flag4'], [0.15, FLAG_Y, 21], { color: 'gold', notch: 0.35 });
   B.add(crystal(1.6, 4.6), { pos: [0, 2.4, -2], rot: [Math.PI, 0, 0], mesh: 'Glow' });
   B.add(torus(1.9, 0.3, 6, 18), { pos: [0, 1.7, -2], rot: [Math.PI / 2, 0, 0], color: 'gold' });
   for (let k = 0; k < 4; k++) { const a = (k / 4) * Math.PI * 2 + 0.4; B.add(crystal(0.5, 1.8), { pos: [Math.cos(a) * 1.9, 1.4, -2 + Math.sin(a) * 1.9], quat: quatTo([Math.cos(a), -1, Math.sin(a)]), mesh: 'Glow' }); }
@@ -183,10 +184,11 @@ function build(B) {
 export default {
   name: 'Skyship', category: 'Skyship', palette, glow, build,
   parts: { PropL: { pivot: [-16.8, 11.6, 5.0] }, PropR: { pivot: [16.8, 11.6, 5.0] }, PropBack: { pivot: [0, 9.2, 30.5] } },
-  bg: '#1b2433', rim: '#9fd6ff', view: [-1.15, 0.42, -0.95], fit: 0.6, heroSize: [1200, 860], loopSeconds: 1.6, frames: 24, outlineWidth: 0.12,
+  skinned: ['Flag'],
+  bones: [['Flag1', null, [0.15, FLAG_Y, 21]], ['Flag2', 'Flag1', [1.35, FLAG_Y, 21]], ['Flag3', 'Flag2', [2.55, FLAG_Y, 21]], ['Flag4', 'Flag3', [3.75, FLAG_Y, 21]]],
+  bg: '#1b2433', rim: '#9fd6ff', view: [-1.15, 0.42, -0.95], fit: 0.6, heroSize: [1200, 860], loopSeconds: 2, frames: 24, outlineWidth: 0.12,
   animate(meshes, group, u) {
     const a = u * Math.PI * 2;
-    meshes.PropL.rotation.z = a * 3; meshes.PropR.rotation.z = -a * 3; meshes.PropBack.rotation.z = a * 2;
     group.position.y = Math.sin(a) * 0.6; group.rotation.z = Math.sin(a) * 0.02; group.rotation.x = Math.cos(a) * 0.012;
   },
 };

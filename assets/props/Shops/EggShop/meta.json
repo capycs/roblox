@@ -4,10 +4,14 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 4584,
-        "verts": 3496
+        "tris": 3792,
+        "verts": 3059
       },
-      "Glow": {
+      "HoverSign": {
+        "tris": 792,
+        "verts": 437
+      },
+      "HoverSignGlow": {
         "tris": 288,
         "verts": 175
       },
@@ -15,6 +19,36 @@
         "tris": 160,
         "verts": 126
       }
+    },
+    "parts": {
+      "HoverSign": {
+        "pivot": [
+          0,
+          8.9,
+          -0.8
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.6800001263618469,
+          -2.9802322387695312e-8
+        ]
+      },
+      "HoverSignGlow": {
+        "pivot": [
+          0,
+          8.9,
+          -0.8
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.7000001072883606,
+          -1.4901161193847656e-8
+        ]
+      }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

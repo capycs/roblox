@@ -1,7 +1,7 @@
 // Haven shop stands and machines: egg shop, incubator + station, upgrades booth,
 // Index kiosk, gem shop and a quest board. Incubator domes are Glass.
 import * as THREE from 'three';
-import { V, ell, cone, quatTo, loft, blade, crystal, cyl, box, torus, surfaceQuat } from '../lib.js';
+import { V, ell, cone, quatTo, loft, blade, crystal, cyl, box, torus, surfaceQuat, into } from '../lib.js';
 import { eggGeo } from './eggs.js';
 
 const C = {
@@ -26,7 +26,8 @@ function awning(B, w, d, y, colors) {
 function eggOn(B, pos, color, s = 0.5) { B.add(eggGeo(12, 10), { pos, scale: [s, s, s], color }); }
 
 add({
-  name: 'EggShop', palette: pal(['wood', 'woodDark', 'woodLight', 'canvas', 'canvasRed', 'gold', 'goldDeep', 'eggCream', 'eggBlue', 'eggPurple']), glow: { Glow: '#ffe07a', Lamp: '#ffd36b' },
+  name: 'EggShop', palette: pal(['wood', 'woodDark', 'woodLight', 'canvas', 'canvasRed', 'gold', 'goldDeep', 'eggCream', 'eggBlue', 'eggPurple']), glow: { HoverSignGlow: '#ffe07a', Lamp: '#ffd36b' },
+  parts: { HoverSign: { pivot: [0, 8.9, -0.8] }, HoverSignGlow: { pivot: [0, 8.9, -0.8] } },
   build(B) {
     B.add(box(10, 0.4, 6), { pos: [0, 0.2, 0], color: 'woodDark' });
     B.add(box(9, 2.4, 1.6), { pos: [0, 1.6, -1.6], color: 'wood' });
@@ -39,8 +40,8 @@ add({
     for (let k = 0; k < 3; k++) eggOn(B, [-2 + k * 2, 3.0, -1.6], ['eggBlue', 'gold', 'eggPurple'][k], 0.55);
     // big egg sign
     B.add(box(0.3, 2, 0.3), { pos: [0, 7.4, -0.8], color: 'woodDark' });
-    B.add(eggGeo(), { pos: [0, 7.9, -0.8], scale: [1.4, 1.4, 0.45], color: 'gold' });
-    B.add(torus(1.0, 0.1, 6, 24), { pos: [0, 9.7, -0.8], scale: [1.3, 1.6, 1], mesh: 'Glow' });
+    B.add(eggGeo(), { pos: [0, 7.9, -0.8], scale: [1.4, 1.4, 0.45], color: 'gold', mesh: 'HoverSign' });
+    B.add(torus(1.0, 0.1, 6, 24), { pos: [0, 9.6, -0.8], scale: [1.3, 1.7, 1], mesh: 'HoverSignGlow' });
     for (const x of [-4.6, 4.6]) B.add(ell(0.3, 0.42, 0.3, 8, 6), { pos: [x, 5.1, -2.9], mesh: 'Lamp' });
   },
 });
@@ -86,7 +87,8 @@ add({
   },
 });
 add({
-  name: 'IndexKiosk', palette: pal(['stone', 'woodDark', 'wood', 'gold', 'goldDeep', 'paper', 'canvasPurple', 'canvasRed']), glow: { Glow: '#9fe0ff', Rune: '#ffd36b' }, heroSize: [620, 680],
+  name: 'IndexKiosk', palette: pal(['stone', 'woodDark', 'wood', 'gold', 'goldDeep', 'paper', 'canvasPurple', 'canvasRed']), glow: { HoverGem: '#9fe0ff', Rune: '#ffd36b' }, heroSize: [620, 680],
+  parts: { HoverGem: { pivot: [0, 6.2, 0] }, HoverRing: { pivot: [0, 6.2, 0] } },
   build(B) {
     B.add(cyl(2.4, 2.8, 0.6, 8), { pos: [0, 0.3, 0], color: 'stone' });
     B.add(cyl(1.0, 1.4, 2.8, 8), { pos: [0, 2.0, 0], color: 'canvasPurple' });
@@ -96,12 +98,13 @@ add({
       B.add(box(1.85, 0.2, 2.4), { pos: [side * 0.95, 4.25, 0], rot: [0, 0, side * 0.2], color: 'paper' });
       for (let k = 0; k < 3; k++) B.add(box(1.2, 0.04, 0.12), { pos: [side * 0.95, 4.42 + (k === 1 ? 0 : 0), -0.6 + k * 0.6], rot: [0, 0, side * 0.2], mesh: 'Rune' });
     }
-    B.add(crystal(0.5, 1.6), { pos: [0, 5.6, 0], mesh: 'Glow' });
-    B.add(torus(0.9, 0.06, 4, 24), { pos: [0, 6.2, 0], rot: [Math.PI / 2 - 0.3, 0, 0], color: 'gold' });
+    B.add(crystal(0.5, 1.6), { pos: [0, 5.6, 0], mesh: 'HoverGem' });
+    B.add(torus(0.9, 0.06, 4, 24), { pos: [0, 6.2, 0], rot: [Math.PI / 2 - 0.3, 0, 0], color: 'gold', mesh: 'HoverRing' });
   },
 });
 add({
-  name: 'GemShop', palette: pal(['woodDark', 'wood', 'canvas', 'canvasPurple', 'gold', 'goldDeep', 'stone']), glow: { Glow: '#c88aff', GlowCore: '#7ff3ff' },
+  name: 'GemShop', palette: pal(['woodDark', 'wood', 'canvas', 'canvasPurple', 'gold', 'goldDeep', 'stone']), glow: { Glow: '#c88aff', GlowCore: '#7ff3ff', HoverGem: '#c88aff' },
+  parts: { HoverGem: { pivot: [0, 7.6, -0.6] }, HoverRing: { pivot: [0, 7.6, -0.6] } },
   build(B) {
     B.add(box(8, 0.4, 5), { pos: [0, 0.2, 0], color: 'stone' });
     B.add(box(7, 2.2, 1.6), { pos: [0, 1.5, -1.3], color: 'canvasPurple' });
@@ -109,9 +112,9 @@ add({
     for (const x of [-3.6, 3.6]) for (const z of [-2, 2]) B.add(box(0.4, 5.4, 0.4), { pos: [x, 2.9, z], color: 'woodDark' });
     awning(B, 8.4, 4.8, 5.8, ['canvasPurple', 'canvas']);
     for (let k = 0; k < 4; k++) B.add(crystal(0.28, 0.8), { pos: [-2.4 + k * 1.6, 2.85, -1.3], mesh: k % 2 ? 'GlowCore' : 'Glow' });
-    B.add(crystal(0.9, 2.6), { pos: [0, 7.0, -0.6], mesh: 'Glow' });
-    B.add(crystal(0.9, 1.2), { pos: [0, 7.05, -0.6], rot: [Math.PI, 0, 0], mesh: 'Glow' });
-    B.add(torus(1.3, 0.1, 5, 24), { pos: [0, 7.6, -0.6], rot: [Math.PI / 2, 0, 0], color: 'gold' });
+    B.add(crystal(0.9, 2.6), { pos: [0, 7.0, -0.6], mesh: 'HoverGem' });
+    B.add(crystal(0.9, 1.2), { pos: [0, 7.05, -0.6], rot: [Math.PI, 0, 0], mesh: 'HoverGem' });
+    B.add(torus(1.3, 0.1, 5, 24), { pos: [0, 7.6, -0.6], rot: [Math.PI / 2, 0, 0], color: 'gold', mesh: 'HoverRing' });
   },
 });
 add({

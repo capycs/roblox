@@ -1,0 +1,50 @@
+{
+  "name": "Butterfly",
+  "category": "Atmosphere",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 192,
+        "verts": 182
+      },
+      "WingL": {
+        "tris": 196,
+        "verts": 161
+      },
+      "WingR": {
+        "tris": 196,
+        "verts": 161
+      }
+    },
+    "parts": {
+      "WingL": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0.23751347581855953,
+          -0.0035000001080334187,
+          0.048065587878227234
+        ]
+      },
+      "WingR": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.23751347581855953,
+          -0.0035000001080334187,
+          0.048065587878227234
+        ]
+      }
+    }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

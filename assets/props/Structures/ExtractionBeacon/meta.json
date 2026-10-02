@@ -15,10 +15,40 @@
         "tris": 672,
         "verts": 965
       },
-      "GlowCore": {
+      "HoverCore": {
         "tris": 72,
         "verts": 216
       }
+    },
+    "parts": {
+      "Ring": {
+        "pivot": [
+          0,
+          6.5,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          0
+        ]
+      },
+      "HoverCore": {
+        "pivot": [
+          0,
+          5,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.8249999284744263,
+          0
+        ]
+      }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

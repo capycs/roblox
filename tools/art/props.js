@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { buildProp } from './lib.js';
 import { makeRenderer, shoot, fitCam, paletteTexture } from './render.js';
+import { kindOf, animate3, animateFlag3 } from './anim.js';
 
 function glbToBase64(buf) {
   const bytes = new Uint8Array(buf);
@@ -18,6 +19,7 @@ async function exportGLB(spec) {
       ? new THREE.MeshStandardMaterial({ color: spec.glass[n], transparent: true, opacity: 0.35, roughness: 0.1, name: n })
       : new THREE.MeshStandardMaterial({ color: spec.glow[n], emissive: spec.glow[n], name: n });
   const { group, stats } = buildProp(spec, mat);
+  group.updateMatrixWorld(true);
   return { glb: glbToBase64(await new GLTFExporter().parseAsync(group, { binary: true })), stats };
 }
 
@@ -43,6 +45,7 @@ function toonScene(spec) {
     m.userData.glow = !!(spec.glow && spec.glow[n]);
     const isGlass = !!(spec.glass && spec.glass[n]);
     if (isGlass) { m.userData.noBloomOccluder = true; m.renderOrder = 2; continue; }
+    if (m.isSkinnedMesh) continue;
     if (!m.userData.glow || spec.outlineGlow) m.add(new THREE.Mesh(m.geometry, outline));
   }
   const scene = new THREE.Scene();
@@ -75,17 +78,24 @@ export async function runProps(file) {
     const [w, h] = spec.heroSize || [900, 720];
     const r = makeRenderer(w, h);
     const cam = fitCam(S, spec.fov || 30, w, h, spec.view || [-1, 0.55, -1.15], spec.fit || 0.78, spec.lift ?? 1);
-    if (spec.animate) spec.animate(S.model.meshes, S.model.group, 0.15);
+    const animated = spec.animate || spec.bones || Object.keys(S.model.meshes).some((n) => kindOf(n));
+    const step = (u) => {
+      const t = u * (spec.loopSeconds || 2);
+      for (const [n, m] of Object.entries(S.model.meshes)) animate3(m, n, t);
+      if (S.model.boneMap) animateFlag3(S.model.boneMap, t);
+      if (spec.animate) spec.animate(S.model.meshes, S.model.group, u);
+    };
+    if (animated) step(0.15);
     shoot(r, S.scene, cam);
     out.images.hero = r.domElement.toDataURL('image/png');
     r.dispose(); r.forceContextLoss();
-    if (spec.animate) {
+    if (animated) {
       const FW = 400, FH = 320, n = spec.frames || 24;
       const rr = makeRenderer(FW, FH);
       const c2 = fitCam(S, spec.fov || 30, FW, FH, spec.view || [-1, 0.55, -1.15], (spec.fit || 0.78) * 1.08, spec.lift ?? 1);
       const sheet = document.createElement('canvas'); sheet.width = FW * n; sheet.height = FH;
       for (let i = 0; i < n; i++) {
-        spec.animate(S.model.meshes, S.model.group, i / n);
+        step(i / n);
         shoot(rr, S.scene, c2);
         sheet.getContext('2d').drawImage(rr.domElement, i * FW, 0);
       }

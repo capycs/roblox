@@ -3,10 +3,28 @@
   "category": "Nature",
   "stats": {
     "meshes": {
-      "Body": {
+      "Sway": {
         "tris": 560,
         "verts": 441
       }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.07908397912979126,
+          -0.5024922378361225,
+          -0.0005722641944885254
+        ]
+      }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

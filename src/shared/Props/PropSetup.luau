@@ -1,56 +1,78 @@
 --!strict
 -- Prepares imported prop models (skyship, trees, rocks, shops, eggs...):
--- glow meshes become Neon, glass becomes Glass, small clutter stops blocking players,
--- and moving parts get tagged so clients spin them.
+-- glow meshes become Neon, glass becomes Glass, small plants stop blocking players,
+-- and anything that moves gets tagged so clients animate it (PropAnimation.client).
 --
 -- Mesh names come from tools/art (each GLB node keeps its name on import).
 
 local CollectionService = game:GetService("CollectionService")
+local AnimData = require(script.Parent.PropAnimData)
 
 local PropSetup = {}
 
-PropSetup.GlowMeshes = { Glow = true, GlowCore = true, Lamp = true, Flame = true, FlameCore = true, Rune = true, Potion = true, Eyes = true }
-PropSetup.GlassMeshes = { Glass = true }
+PropSetup.AnimTag = "PropAnim"
 
--- Moving parts by mesh name: spin axis in the part's own space and speed (rad/s).
-PropSetup.Spinners = {
-	PropL = { axis = Vector3.zAxis, speed = 14 },
-	PropR = { axis = Vector3.zAxis, speed = -14 },
-	PropBack = { axis = Vector3.zAxis, speed = 9 },
-	Blades = { axis = Vector3.zAxis, speed = 0.8 },
-	Ring = { axis = Vector3.yAxis, speed = 1.2 },
-}
-PropSetup.SpinTag = "PropSpinner"
+local GLOW = { Glow = true, GlowCore = true, Lamp = true, Flame = true, FlameCore = true, Rune = true, Potion = true, Eyes = true, LanternLamp = true, HoverCore = true, HoverGem = true, HoverSignGlow = true, HoverGlow = true }
+local GLASS = { Glass = true }
 
--- Props players should walk through (grass, flowers...). Everything else collides.
+-- Props players walk through (grass, flowers...). Everything else collides.
 PropSetup.NoCollide = {
 	GrassTuft = true, GrassTuftSnow = true, FlowerPatch = true, Fern = true, Reeds = true, Lilypad = true,
 	MushroomCluster = true, GlowShroom = true, Bush = true, BushBerry = true, BushFlower = true,
 }
 
+local function isAnimated(d: Instance): boolean
+	if d:IsA("Bone") then
+		return d.Name:match("^Flag%d+$") ~= nil
+	end
+	if not d:IsA("BasePart") then
+		return false
+	end
+	local n = d.Name
+	return AnimData.Spin[n] ~= nil or AnimData.Sway[n] ~= nil or AnimData.Swing[n] ~= nil or AnimData.Float[n] ~= nil or AnimData.Flap[n] ~= nil
+		or n:sub(1, 5) == "Hover" or AnimData.Flicker.names[n] ~= nil or AnimData.Pulse.names[n] ~= nil
+end
+
 function PropSetup.prepare(model: Model, propName: string?): Model
-	local name = propName or model.Name
+	local name = propName or (model:GetAttribute("Prop") :: string?) or model.Name
+	model:SetAttribute("Prop", name)
 	local walkThrough = PropSetup.NoCollide[name] == true
+	local animated = false
 	for _, d in model:GetDescendants() do
+		if isAnimated(d) then
+			animated = true
+		end
 		if d:IsA("BasePart") then
 			d.Anchored = true
 			if walkThrough then
 				d.CanCollide = false
 				d.CanQuery = false
 			end
-			if PropSetup.GlowMeshes[d.Name] then
+			if GLOW[d.Name] then
 				d.Material = Enum.Material.Neon
 				d.CastShadow = false
 				d.CanCollide = false
-			elseif PropSetup.GlassMeshes[d.Name] then
+			elseif GLASS[d.Name] then
 				d.Material = Enum.Material.Glass
 				d.Transparency = 0.55
 				d.CastShadow = false
 			end
-			if PropSetup.Spinners[d.Name] then
-				CollectionService:AddTag(d, PropSetup.SpinTag)
+			-- moving parts shouldn't shove players around
+			if AnimData.Spin[d.Name] or AnimData.Sway[d.Name] or AnimData.Swing[d.Name] then
+				d.CanCollide = false
 			end
 		end
+	end
+	if animated then
+		-- The animator positions parts relative to the model pivot, so the pivot must not
+		-- follow a moving part.
+		local primary = model.PrimaryPart
+		if primary and isAnimated(primary) then
+			local pivot = model:GetPivot()
+			model.PrimaryPart = nil
+			model.WorldPivot = pivot
+		end
+		CollectionService:AddTag(model, PropSetup.AnimTag)
 	end
 	return model
 end

@@ -1,7 +1,7 @@
 // Trees, bushes, grass and small plants for every biome. Low-poly cartoon shapes with
 // chunky canopies so maps can use lots of them. Units: studs, base at y = 0.
 import * as THREE from 'three';
-import { V, ell, cone, quatTo, loft, blade, crystal, cyl, surfaceQuat, flame } from '../lib.js';
+import { V, ell, cone, quatTo, loft, blade, crystal, cyl, surfaceQuat, flame, into } from '../lib.js';
 
 const P = {
   trunk: '#7a5132', trunkDark: '#553620', bark: '#9a6a42', leaf: '#4f9a3d', leafDark: '#357a2f', leafLight: '#7cc44c',
@@ -35,13 +35,14 @@ const add = (spec) => nature.push({ category: 'Nature', heroSize: [640, 640], ..
 
 add({
   name: 'TreeOak', palette: pal(P, ['trunk', 'trunkDark', 'leaf', 'leafDark', 'leafLight']),
-  build(B) { const t = trunk(B, 6.5, 0.75, 'trunk', 0.5, 4, 'trunkDark'); canopy(B, t, OAK, ['leaf', 'leafDark', 'leafLight', 'leaf', 'leafDark', 'leafLight', 'leaf']); },
+  parts: { Canopy: { pivot: [0.4, 6.5, 0.2] } },
+  build(B) { const t = trunk(B, 6.5, 0.75, 'trunk', 0.5, 4, 'trunkDark'); canopy(into(B, 'Canopy'), t, OAK, ['leaf', 'leafDark', 'leafLight', 'leaf', 'leafDark', 'leafLight', 'leaf']); },
 });
 add({
-  name: 'TreeBlossom', palette: pal(P, ['trunk', 'trunkDark', 'blossom', 'blossomDeep', 'snow']),
+  name: 'TreeBlossom', palette: pal(P, ['trunk', 'trunkDark', 'blossom', 'blossomDeep', 'snow']), parts: { Canopy: { pivot: [-0.48, 6, -0.24] } },
   build(B) {
     const t = trunk(B, 6, 0.65, 'trunk', -0.6, 4, 'trunkDark');
-    canopy(B, t, OAK.map(([x, y, z, r]) => [x * 0.9, y, z * 0.9, r * 0.9]), ['blossom', 'blossomDeep', 'blossom', 'snow', 'blossomDeep', 'blossom', 'blossomDeep']);
+    canopy(into(B, 'Canopy'), t, OAK.map(([x, y, z, r]) => [x * 0.9, y, z * 0.9, r * 0.9]), ['blossom', 'blossomDeep', 'blossom', 'snow', 'blossomDeep', 'blossom', 'blossomDeep']);
   },
 });
 function pine(B, h, tiers, snowy) {
@@ -55,20 +56,21 @@ function pine(B, h, tiers, snowy) {
     if (snowy) B.add(cone(r * 0.78, hh * 0.62, 9), { pos: [0, y + hh * 0.42 + hh * 0.31, 0], rot: [0, i * 0.5 + 0.2, 0], color: i % 2 ? 'snowShade' : 'snow' });
   }
 }
-add({ name: 'TreePine', palette: pal(P, ['trunkDark', 'pine', 'pineDark']), build(B) { pine(B, 13, 4, false); } });
-add({ name: 'TreePineSnow', palette: pal(P, ['trunkDark', 'pine', 'pineDark', 'snow', 'snowShade']), build(B) { pine(B, 13, 4, true); } });
+add({ name: 'TreePine', palette: pal(P, ['trunkDark', 'pine', 'pineDark']), parts: { Sway: { pivot: [0, 0, 0] } }, build(B) { pine(into(B, 'Sway'), 13, 4, false); } });
+add({ name: 'TreePineSnow', palette: pal(P, ['trunkDark', 'pine', 'pineDark', 'snow', 'snowShade']), parts: { Sway: { pivot: [0, 0, 0] } }, build(B) { pine(into(B, 'Sway'), 13, 4, true); } });
 add({
-  name: 'TreePalm', palette: pal(P, ['palmTrunk', 'trunk', 'palmLeaf', 'leafDark', 'coconut']),
+  name: 'TreePalm', palette: pal(P, ['palmTrunk', 'trunk', 'palmLeaf', 'leafDark', 'coconut']), parts: { Fronds: { pivot: [3.2, 8.5, 0.4] } },
   build(B) {
+    const F = into(B, 'Fronds');
     const pts = [[0, 0, 0], [0.6, 3, 0], [1.8, 6, 0.2], [3.2, 8.5, 0.4]];
     const curve = new THREE.CatmullRomCurve3(pts.map(V));
     for (let i = 0; i < 9; i++) { const t = i / 9; B.add(cyl(0.48 - t * 0.15, 0.56 - t * 0.15, 1.05, 9), { pos: curve.getPoint(t + 0.05).toArray(), quat: quatTo(curve.getTangent(t + 0.05).toArray()), color: i % 2 ? 'palmTrunk' : 'trunk' }); }
     const top = V(pts[3]);
     for (let k = 0; k < 7; k++) {
       const a = (k / 7) * Math.PI * 2, d = V([Math.cos(a), 0.25, Math.sin(a)]).normalize();
-      B.add(blade(4.6, 0.9, 0.12), { pos: top.toArray(), quat: surfaceQuat([Math.cos(a) * 0.2, 1, Math.sin(a) * 0.2], d.clone().add(V([0, -0.25, 0])).toArray()), color: k % 2 ? 'palmLeaf' : 'leafDark' });
+      F.add(blade(4.6, 0.9, 0.12), { pos: top.toArray(), quat: surfaceQuat([Math.cos(a) * 0.2, 1, Math.sin(a) * 0.2], d.clone().add(V([0, -0.25, 0])).toArray()), color: k % 2 ? 'palmLeaf' : 'leafDark' });
     }
-    for (let k = 0; k < 3; k++) { const a = k * 2.1; B.add(ell(0.42, 0.45, 0.42, 9, 7), { pos: [top.x + Math.cos(a) * 0.45, top.y - 0.45, top.z + Math.sin(a) * 0.45], color: 'coconut' }); }
+    for (let k = 0; k < 3; k++) { const a = k * 2.1; F.add(ell(0.42, 0.45, 0.42, 9, 7), { pos: [top.x + Math.cos(a) * 0.45, top.y - 0.45, top.z + Math.sin(a) * 0.45], color: 'coconut' }); }
   },
 });
 add({
@@ -109,26 +111,27 @@ function bush(B, colors, extra) {
     .forEach(([x, y, z, r], i) => B.add(ell(r, r * 0.85, r, 11, 8), { pos: [x, y, z], color: colors[i % colors.length] }));
   if (extra) extra();
 }
-add({ name: 'Bush', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), build(B) { bush(B, ['leaf', 'leafDark', 'leafLight']); } });
+const SWAY = { Sway: { pivot: [0, 0, 0] } };
+add({ name: 'Bush', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), parts: SWAY, build(B) { bush(into(B, 'Sway'), ['leaf', 'leafDark', 'leafLight']); } });
 add({
-  name: 'BushBerry', palette: pal(P, ['leaf', 'leafDark', 'leafLight', 'berry']),
-  build(B) { bush(B, ['leafDark', 'leaf'], () => { const r = seeded(3); for (let i = 0; i < 14; i++) { const a = r() * 6.28, e = r() * 1.2; B.add(ell(0.16, 0.16, 0.16, 7, 5), { pos: [Math.cos(a) * 1.35 * Math.cos(e * 0.6), 0.8 + Math.sin(e) * 1.2, Math.sin(a) * 1.35 * Math.cos(e * 0.6)], color: 'berry' }); } }); },
+  name: 'BushBerry', palette: pal(P, ['leaf', 'leafDark', 'leafLight', 'berry']), parts: SWAY,
+  build(B) { B = into(B, 'Sway'); bush(B, ['leafDark', 'leaf'], () => { const r = seeded(3); for (let i = 0; i < 14; i++) { const a = r() * 6.28, e = r() * 1.2; B.add(ell(0.16, 0.16, 0.16, 7, 5), { pos: [Math.cos(a) * 1.35 * Math.cos(e * 0.6), 0.8 + Math.sin(e) * 1.2, Math.sin(a) * 1.35 * Math.cos(e * 0.6)], color: 'berry' }); } }); },
 });
 add({
-  name: 'BushFlower', palette: pal({ ...P, ...P2 }, ['leaf', 'leafDark', 'blossom', 'petalY', 'petalW']),
-  build(B) { bush(B, ['leaf', 'leafDark'], () => { const r = seeded(7); for (let i = 0; i < 12; i++) { const a = r() * 6.28, e = 0.3 + r() * 1.0; const p = [Math.cos(a) * 1.3 * Math.cos(e * 0.7), 0.8 + Math.sin(e) * 1.1, Math.sin(a) * 1.3 * Math.cos(e * 0.7)]; B.add(ell(0.22, 0.08, 0.22, 8, 4), { pos: p, quat: quatTo([p[0], p[1] - 0.6, p[2]]), color: ['blossom', 'petalY', 'petalW'][i % 3] }); } }); },
+  name: 'BushFlower', palette: pal({ ...P, ...P2 }, ['leaf', 'leafDark', 'blossom', 'petalY', 'petalW']), parts: SWAY,
+  build(B) { B = into(B, 'Sway'); bush(B, ['leaf', 'leafDark'], () => { const r = seeded(7); for (let i = 0; i < 12; i++) { const a = r() * 6.28, e = 0.3 + r() * 1.0; const p = [Math.cos(a) * 1.3 * Math.cos(e * 0.7), 0.8 + Math.sin(e) * 1.1, Math.sin(a) * 1.3 * Math.cos(e * 0.7)]; B.add(ell(0.22, 0.08, 0.22, 8, 4), { pos: p, quat: quatTo([p[0], p[1] - 0.6, p[2]]), color: ['blossom', 'petalY', 'petalW'][i % 3] }); } }); },
 });
 add({
-  name: 'GrassTuft', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), heroSize: [480, 480],
-  build(B) { const r = seeded(11); for (let i = 0; i < 11; i++) { const a = r() * 6.28, d = r() * 0.45; B.add(cone(0.13, 0.9 + r() * 0.8, 4), { pos: [Math.cos(a) * d, 0.5, Math.sin(a) * d], quat: quatTo([Math.cos(a) * 0.4, 1, Math.sin(a) * 0.4]), color: ['leaf', 'leafDark', 'leafLight'][i % 3] }); } },
+  name: 'GrassTuft', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), heroSize: [480, 480], parts: SWAY,
+  build(B) { B = into(B, 'Sway'); const r = seeded(11); for (let i = 0; i < 11; i++) { const a = r() * 6.28, d = r() * 0.45; B.add(cone(0.13, 0.9 + r() * 0.8, 4), { pos: [Math.cos(a) * d, 0.5, Math.sin(a) * d], quat: quatTo([Math.cos(a) * 0.4, 1, Math.sin(a) * 0.4]), color: ['leaf', 'leafDark', 'leafLight'][i % 3] }); } },
 });
 add({
-  name: 'GrassTuftSnow', palette: pal(P, ['pine', 'snow', 'snowShade']), heroSize: [480, 480],
-  build(B) { const r = seeded(13); for (let i = 0; i < 9; i++) { const a = r() * 6.28, d = r() * 0.45; B.add(cone(0.12, 0.8 + r() * 0.6, 4), { pos: [Math.cos(a) * d, 0.45, Math.sin(a) * d], quat: quatTo([Math.cos(a) * 0.4, 1, Math.sin(a) * 0.4]), color: i % 3 ? 'pine' : 'snowShade' }); } B.add(ell(0.8, 0.18, 0.8, 9, 5), { pos: [0, 0.05, 0], color: 'snow' }); },
+  name: 'GrassTuftSnow', palette: pal(P, ['pine', 'snow', 'snowShade']), heroSize: [480, 480], parts: SWAY,
+  build(B) { const r = seeded(13); for (let i = 0; i < 9; i++) { const a = r() * 6.28, d = r() * 0.45; into(B, 'Sway').add(cone(0.12, 0.8 + r() * 0.6, 4), { pos: [Math.cos(a) * d, 0.45, Math.sin(a) * d], quat: quatTo([Math.cos(a) * 0.4, 1, Math.sin(a) * 0.4]), color: i % 3 ? 'pine' : 'snowShade' }); } B.add(ell(0.8, 0.18, 0.8, 9, 5), { pos: [0, 0.05, 0], color: 'snow' }); },
 });
 add({
-  name: 'FlowerPatch', palette: pal({ ...P, ...P2 }, ['leaf', 'leafDark', 'blossom', 'petalY', 'petalW', 'berry']), heroSize: [480, 480],
-  build(B) {
+  name: 'FlowerPatch', palette: pal({ ...P, ...P2 }, ['leaf', 'leafDark', 'blossom', 'petalY', 'petalW', 'berry']), heroSize: [480, 480], parts: SWAY,
+  build(B) { B = into(B, 'Sway');
     const r = seeded(5);
     for (let i = 0; i < 7; i++) {
       const a = r() * 6.28, d = 0.3 + r() * 0.9, h = 0.6 + r() * 0.7, x = Math.cos(a) * d, z = Math.sin(a) * d;
@@ -141,8 +144,8 @@ add({
   },
 });
 add({
-  name: 'Fern', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), heroSize: [480, 480],
-  build(B) { for (let i = 0; i < 7; i++) { const a = (i / 7) * 6.28; const d = V([Math.cos(a), 0.9, Math.sin(a)]).normalize(); B.add(blade(1.8, 0.35, 0.05), { pos: [0, 0.1, 0], quat: surfaceQuat([Math.cos(a) * -0.5, 1, Math.sin(a) * -0.5], d.toArray()), color: ['leaf', 'leafDark', 'leafLight'][i % 3] }); } },
+  name: 'Fern', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), heroSize: [480, 480], parts: SWAY,
+  build(B) { B = into(B, 'Sway'); for (let i = 0; i < 7; i++) { const a = (i / 7) * 6.28; const d = V([Math.cos(a), 0.9, Math.sin(a)]).normalize(); B.add(blade(1.8, 0.35, 0.05), { pos: [0, 0.1, 0], quat: surfaceQuat([Math.cos(a) * -0.5, 1, Math.sin(a) * -0.5], d.toArray()), color: ['leaf', 'leafDark', 'leafLight'][i % 3] }); } },
 });
 function shroom(B, x, z, h, r, cap, spot, glowMesh) {
   B.add(cyl(r * 0.28, r * 0.38, h, 8), { pos: [x, h / 2, z], color: 'stem' });
@@ -153,12 +156,12 @@ function shroom(B, x, z, h, r, cap, spot, glowMesh) {
 add({ name: 'MushroomCluster', palette: pal(P2, ['stem', 'capRed', 'capSpot']), heroSize: [480, 480], build(B) { shroom(B, 0, 0, 1.3, 0.8, 'capRed', 'capSpot'); shroom(B, 0.9, 0.4, 0.8, 0.5, 'capRed', 'capSpot'); shroom(B, -0.6, 0.7, 0.6, 0.38, 'capRed', 'capSpot'); } });
 add({ name: 'GlowShroom', palette: pal(P2, ['stem', 'capBlue']), glow: { Glow: '#6fd8ff' }, bg: '#141a24', heroSize: [480, 480], build(B) { shroom(B, 0, 0, 1.6, 0.85, null, null, 'Glow'); shroom(B, 1.0, 0.3, 1.0, 0.5, null, null, 'Glow'); shroom(B, -0.7, 0.8, 0.7, 0.4, null, null, 'Glow'); } });
 add({
-  name: 'Reeds', palette: pal(P2, ['reed', 'reedTop']), heroSize: [480, 480],
-  build(B) { const r = seeded(17); for (let i = 0; i < 8; i++) { const a = r() * 6.28, d = r() * 0.5, h = 2 + r() * 1.2, x = Math.cos(a) * d, z = Math.sin(a) * d; B.add(cyl(0.04, 0.06, h, 5), { pos: [x, h / 2, z], color: 'reed' }); if (i % 2 === 0) B.add(cyl(0.12, 0.12, 0.6, 7), { pos: [x, h - 0.2, z], color: 'reedTop' }); else B.add(blade(1.4, 0.1, 0.03), { pos: [x, 0.3, z], quat: surfaceQuat([1, 0, 0], [Math.cos(a) * 0.3, 1, Math.sin(a) * 0.3]), color: 'reed' }); } },
+  name: 'Reeds', palette: pal(P2, ['reed', 'reedTop']), heroSize: [480, 480], parts: SWAY,
+  build(B) { B = into(B, 'Sway'); const r = seeded(17); for (let i = 0; i < 8; i++) { const a = r() * 6.28, d = r() * 0.5, h = 2 + r() * 1.2, x = Math.cos(a) * d, z = Math.sin(a) * d; B.add(cyl(0.04, 0.06, h, 5), { pos: [x, h / 2, z], color: 'reed' }); if (i % 2 === 0) B.add(cyl(0.12, 0.12, 0.6, 7), { pos: [x, h - 0.2, z], color: 'reedTop' }); else B.add(blade(1.4, 0.1, 0.03), { pos: [x, 0.3, z], quat: surfaceQuat([1, 0, 0], [Math.cos(a) * 0.3, 1, Math.sin(a) * 0.3]), color: 'reed' }); } },
 });
 add({
-  name: 'Lilypad', palette: pal(P2, ['lily', 'lilyDark', 'petalW', 'petalY']), heroSize: [480, 480],
-  build(B) {
+  name: 'Lilypad', palette: pal(P2, ['lily', 'lilyDark', 'petalW', 'petalY']), heroSize: [480, 480], parts: { Float: { pivot: [0, 0, 0] } },
+  build(B) { B = into(B, 'Float');
     const g = new THREE.CylinderGeometry(1.2, 1.2, 0.1, 18, 1, false, 0.4, Math.PI * 2 - 0.8); B.add(g, { pos: [0, 0.05, 0], color: 'lily' });
     const g2 = new THREE.CylinderGeometry(0.7, 0.7, 0.1, 14, 1, false, 2.2, Math.PI * 2 - 0.8); B.add(g2, { pos: [1.4, 0.04, 0.9], color: 'lilyDark' });
     for (let k = 0; k < 6; k++) { const a = (k / 6) * 6.28; B.add(ell(0.3, 0.1, 0.14, 7, 5), { pos: [Math.cos(a) * 0.25, 0.28, Math.sin(a) * 0.25], rot: [0, -a, 0.6], color: 'petalW' }); }

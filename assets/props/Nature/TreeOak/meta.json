@@ -4,9 +4,31 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 1772,
-        "verts": 1230
+        "tris": 428,
+        "verts": 320
+      },
+      "Canopy": {
+        "tris": 1344,
+        "verts": 910
+      }
+    },
+    "parts": {
+      "Canopy": {
+        "pivot": [
+          0.4,
+          6.5,
+          0.2
+        ],
+        "pivotFromCenter": [
+          -0.0007596015930175781,
+          -1.999999761581421,
+          -0.049240827560424805
+        ]
       }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

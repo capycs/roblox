@@ -4,13 +4,47 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 316,
-        "verts": 377
+        "tris": 172,
+        "verts": 160
       },
-      "Lamp": {
+      "Lantern": {
+        "tris": 144,
+        "verts": 217
+      },
+      "LanternLamp": {
         "tris": 140,
         "verts": 99
       }
+    },
+    "parts": {
+      "Lantern": {
+        "pivot": [
+          1.2,
+          6.95,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          0.8375000730156898,
+          0
+        ]
+      },
+      "LanternLamp": {
+        "pivot": [
+          1.2,
+          6.95,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          0.7500002086162567,
+          0
+        ]
+      }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

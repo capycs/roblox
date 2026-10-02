@@ -34,6 +34,14 @@ const TEX = {
   Gem(g) { const pts = [[128, 20], [220, 96], [128, 236], [36, 96]]; g.fillStyle = '#7a4fd8'; g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.fill(); g.fillStyle = '#b58cff'; g.beginPath(); g.moveTo(128, 20); g.lineTo(220, 96); g.lineTo(128, 112); g.lineTo(36, 96); g.fill(); g.fillStyle = '#e0ccff'; g.beginPath(); g.moveTo(128, 20); g.lineTo(170, 96); g.lineTo(128, 112); g.lineTo(86, 96); g.fill(); g.strokeStyle = '#3a2470'; g.lineWidth = 8; g.lineJoin = 'round'; g.beginPath(); pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.closePath(); g.stroke(); },
   BeamGradient(g, c) { c.width = 64; c.height = 256; const gr = g.createLinearGradient(0, 0, 64, 0); gr.addColorStop(0, W + '0)'); gr.addColorStop(0.5, W + '1)'); gr.addColorStop(1, W + '0)'); g.fillStyle = gr; g.fillRect(0, 0, 64, 256); },
   TrailGradient(g, c) { c.width = 256; c.height = 64; const gr = g.createLinearGradient(0, 0, 256, 0); gr.addColorStop(0, W + '1)'); gr.addColorStop(1, W + '0)'); g.fillStyle = gr; g.fillRect(0, 0, 256, 64); const v = g.createLinearGradient(0, 0, 0, 64); v.addColorStop(0, 'rgba(0,0,0,1)'); v.addColorStop(0.5, 'rgba(0,0,0,0)'); v.addColorStop(1, 'rgba(0,0,0,1)'); g.globalCompositeOperation = 'destination-out'; g.fillStyle = v; g.fillRect(0, 0, 256, 64); },
+  WindStreak(g, c) { c.width = 512; c.height = 128; g.lineCap = 'round'; for (const [w, al] of [[10, 0.25], [4, 0.9]]) { const gr = g.createLinearGradient(20, 0, 492, 0); gr.addColorStop(0, W + '0)'); gr.addColorStop(0.35, W + al + ')'); gr.addColorStop(0.75, W + al + ')'); gr.addColorStop(1, W + '0)'); g.strokeStyle = gr; g.lineWidth = w; g.beginPath(); g.moveTo(20, 80); g.bezierCurveTo(160, 40, 300, 100, 420, 56); g.quadraticCurveTo(470, 40, 492, 60); g.stroke(); } },
+  CloudSoft(g) { for (const [x, y, r] of [[128, 150, 90], [70, 150, 60], [186, 146, 64], [104, 110, 62], [158, 108, 56]]) { g.fillStyle = radial(g, x, y - r * 0.2, r, [[0, W + '0.95)'], [0.6, W + '0.6)'], [1, W + '0)']]); g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); } },
+  Fog(g) { g.fillStyle = radial(g, 128, 128, 128, [[0, W + '0.5)'], [0.5, W + '0.25)'], [1, W + '0)']]); g.fillRect(0, 0, S, S); },
+  Mote(g) { g.fillStyle = radial(g, 128, 128, 128, [[0, W + '1)'], [0.2, W + '0.9)'], [0.45, W + '0.2)'], [1, W + '0)']]); g.fillRect(0, 0, S, S); },
+  Rain(g, c) { c.width = 64; c.height = 256; const gr = g.createLinearGradient(0, 0, 0, 256); gr.addColorStop(0, W + '0)'); gr.addColorStop(1, W + '0.9)'); g.fillStyle = gr; g.fillRect(28, 0, 8, 256); },
+  LightShaft(g, c) { c.width = 128; c.height = 512; for (let x = 0; x < 128; x++) { const k = Math.sin((x / 128) * Math.PI); const n = 0.7 + 0.3 * Math.sin(x * 0.37) * Math.sin(x * 0.11); const gr = g.createLinearGradient(0, 0, 0, 512); gr.addColorStop(0, W + (0.75 * k * n) + ')'); gr.addColorStop(1, W + '0)'); g.fillStyle = gr; g.fillRect(x, 0, 1, 512); } },
+  WaterfallStrip(g, c) { c.width = 128; c.height = 256; g.fillStyle = 'rgba(160,230,255,0.55)'; g.fillRect(0, 0, 128, 256); for (let k = 0; k < 26; k++) { const x = (k * 37) % 128, y = (k * 71) % 256, h = 40 + (k * 13) % 80; const gr = g.createLinearGradient(0, y, 0, y + h); gr.addColorStop(0, W + '0)'); gr.addColorStop(0.5, W + '0.95)'); gr.addColorStop(1, W + '0)'); g.fillStyle = gr; g.fillRect(x, y, 6 + (k % 3) * 3, h); g.fillRect(x, y - 256, 6 + (k % 3) * 3, h); } },
+  Splash(g) { g.strokeStyle = W + '0.9)'; g.lineWidth = 10; g.beginPath(); g.ellipse(128, 170, 100, 40, 0, 0, Math.PI * 2); g.stroke(); for (let k = 0; k < 9; k++) { const a = Math.PI + (k / 8) * Math.PI; g.fillStyle = W + '0.95)'; g.beginPath(); g.ellipse(128 + Math.cos(a) * 80, 150 + Math.sin(a) * 90, 9, 16, a + Math.PI / 2, 0, Math.PI * 2); g.fill(); } },
   // 4x4 flipbook of a flame tongue flickering (for ParticleEmitter.FlipbookLayout = Grid4x4)
   FlameFlipbook(g, c) {
     c.width = c.height = 512;
@@ -100,6 +108,15 @@ const PRESETS = {
     { tex: 'Ember', rate: 24, life: 2.2, size: [14, 4], vel: [10, -90], jitter: 160, wave: 30, alpha: [1, 0], spawnY: 300 } ] },
   BiomeSnow: { bg: '#141d27', tint: ['#ffffff', '#cfe8ff'], loop: true, emit: [
     { tex: 'Snowflake', rate: 16, life: 3.0, size: [20, 20], vel: [20, 100], jitter: 170, wave: 20, alpha: [1, 0.6], spawnY: 0, spin: 1 } ] },
+  Wind: { bg: '#2a3a52', tint: ['#ffffff', '#dff4ff'], loop: true, emit: [
+    { tex: 'WindStreak', rate: 7, life: 1.3, size: [150, 190], vel: [230, -10], jitter: 140, alpha: [0.8, 0], spawnY: 160, xstart: -60 } ] },
+  WindLeaves: { bg: '#2c4630', tint: ['#ffffff', '#ffffff'], loop: true, emit: [
+    { tex: 'Leaf', rate: 7, life: 1.6, size: [22, 22], vel: [200, 20], jitter: 130, wave: 25, alpha: [1, 0.2], spawnY: 160, spin: 4, raw: true, xstart: -40 },
+    { tex: 'Petal', rate: 5, life: 1.6, size: [16, 16], vel: [210, 10], jitter: 130, wave: 30, alpha: [1, 0.2], spawnY: 160, spin: 5, raw: true, xstart: -40 } ] },
+  Motes: { bg: '#3a3024', tint: ['#fff6d8', '#ffe7a0'], loop: true, emit: [
+    { tex: 'Mote', rate: 14, life: 2.6, size: [10, 10], vel: [12, -18], jitter: 160, wave: 18, alpha: [0.9, 0], spawnY: 220, pulse: true } ] },
+  Rain: { bg: '#24303e', tint: ['#cfe6ff', '#9fc8f0'], loop: true, emit: [
+    { tex: 'Rain', rate: 90, life: 0.45, size: [26, 26], vel: [-60, 720], jitter: 220, alpha: [0.8, 0.8], spawnY: -20, align: true } ] },
   BiomeFireflies: { bg: '#141b12', tint: ['#fff7a0', '#a8ff4f'], loop: true, emit: [
     { tex: 'SoftGlow', rate: 6, life: 3.2, size: [26, 26], vel: [0, -15], jitter: 160, wave: 40, alpha: [1, 0], pulse: true } ] },
 };
@@ -127,7 +144,7 @@ export async function previewEffects(textures) {
       const spawn = (t0, k) => {
         const a = e.up ? -Math.PI / 2 + (r() - 0.5) * Math.PI * (e.spread ?? 1) : r() * Math.PI * 2;
         const sp = e.speed ? e.speed[0] + r() * (e.speed[1] - e.speed[0]) : 0;
-        parts.push({ e, t0, x: FW / 2 + (e.jitter ? (r() - 0.5) * e.jitter * 2 : 0), y: e.spawnY ?? e.y ?? FH / 2, vx: e.vel ? e.vel[0] : Math.cos(a) * sp, vy: e.vel ? e.vel[1] : Math.sin(a) * sp, rot: r() * 6.28, k, ph: r() * 6.28, col: P.tint[k % 2] });
+        parts.push({ e, t0, x: e.xstart !== undefined ? e.xstart + r() * 40 : FW / 2 + (e.jitter ? (r() - 0.5) * e.jitter * 2 : 0), y: e.xstart !== undefined ? (e.spawnY ?? FH / 2) + (r() - 0.5) * (e.jitter || 0) * 2 : e.spawnY ?? e.y ?? FH / 2, vx: e.vel ? e.vel[0] : Math.cos(a) * sp, vy: e.vel ? e.vel[1] : Math.sin(a) * sp, rot: r() * 6.28, k, ph: r() * 6.28, col: P.tint[k % 2] });
       };
       if (e.rate) { for (let t = -e.life; t < DUR; t += 1 / e.rate) spawn(t, Math.floor(r() * 2)); }
       else if (e.orbit || e.beam) { spawn(0, 0); }

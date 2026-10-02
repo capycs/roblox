@@ -4,9 +4,31 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 288,
-        "verts": 321
+        "tris": 72,
+        "verts": 60
+      },
+      "Sway": {
+        "tris": 216,
+        "verts": 261
+      }
+    },
+    "parts": {
+      "Sway": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.008863776922225952,
+          -0.4311307817697525,
+          0.07178838551044464
+        ]
       }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

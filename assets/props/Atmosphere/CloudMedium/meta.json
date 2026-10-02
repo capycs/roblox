@@ -1,0 +1,13 @@
+{
+  "name": "CloudMedium",
+  "category": "Atmosphere",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2900,
+        "verts": 1993
+      }
+    },
+    "parts": {}
+  }
+}

@@ -14,8 +14,10 @@ AssetIds.Icons = {
 	Check = "rbxassetid://0",
 	Close = "rbxassetid://0",
 	Coin = "rbxassetid://0",
+	CoinPile = "rbxassetid://0",
 	Creatures = "rbxassetid://0",
 	Crown = "rbxassetid://0",
+	DoubleCoins = "rbxassetid://0",
 	EggCommon = "rbxassetid://0",
 	EggEpic = "rbxassetid://0",
 	EggLegendary = "rbxassetid://0",
@@ -30,6 +32,7 @@ AssetIds.Icons = {
 	ElementWater = "rbxassetid://0",
 	Extract = "rbxassetid://0",
 	Gem = "rbxassetid://0",
+	GemPile = "rbxassetid://0",
 	Gift = "rbxassetid://0",
 	Heart = "rbxassetid://0",
 	Home = "rbxassetid://0",
@@ -41,6 +44,7 @@ AssetIds.Icons = {
 	Lock = "rbxassetid://0",
 	Luck = "rbxassetid://0",
 	Map = "rbxassetid://0",
+	Pass = "rbxassetid://0",
 	Paw = "rbxassetid://0",
 	Plus = "rbxassetid://0",
 	Quests = "rbxassetid://0",
@@ -51,9 +55,11 @@ AssetIds.Icons = {
 	SoundOff = "rbxassetid://0",
 	SoundOn = "rbxassetid://0",
 	Star = "rbxassetid://0",
+	StarterPack = "rbxassetid://0",
 	Sword = "rbxassetid://0",
 	Timer = "rbxassetid://0",
 	Trade = "rbxassetid://0",
+	VIP = "rbxassetid://0",
 	Warning = "rbxassetid://0",
 }
 
@@ -62,6 +68,7 @@ AssetIds.Fx = {
 	BeamGradient = "rbxassetid://0",
 	Bolt = "rbxassetid://0",
 	Bubble = "rbxassetid://0",
+	CloudSoft = "rbxassetid://0",
 	Coin = "rbxassetid://0",
 	CrackBurst = "rbxassetid://0",
 	Droplet = "rbxassetid://0",
@@ -69,10 +76,14 @@ AssetIds.Fx = {
 	Ember = "rbxassetid://0",
 	Flame = "rbxassetid://0",
 	FlameFlipbook = "rbxassetid://0",
+	Fog = "rbxassetid://0",
 	Gem = "rbxassetid://0",
 	Leaf = "rbxassetid://0",
+	LightShaft = "rbxassetid://0",
+	Mote = "rbxassetid://0",
 	Petal = "rbxassetid://0",
 	Puff = "rbxassetid://0",
+	Rain = "rbxassetid://0",
 	Rays = "rbxassetid://0",
 	Ring = "rbxassetid://0",
 	RuneCircle = "rbxassetid://0",
@@ -82,9 +93,12 @@ AssetIds.Fx = {
 	Spark = "rbxassetid://0",
 	Sparkle4 = "rbxassetid://0",
 	Sparkle8 = "rbxassetid://0",
+	Splash = "rbxassetid://0",
 	Star = "rbxassetid://0",
 	Swirl = "rbxassetid://0",
 	TrailGradient = "rbxassetid://0",
+	WaterfallStrip = "rbxassetid://0",
+	WindStreak = "rbxassetid://0",
 	Wisp = "rbxassetid://0",
 }
 
@@ -173,6 +187,26 @@ AssetIds.Textures = {
 		color = "rbxassetid://0", -- RuinTiles_color
 		normal = "rbxassetid://0", -- RuinTiles_normal
 		roughness = "rbxassetid://0", -- RuinTiles_roughness
+	},
+}
+
+--[Sky] assets/sky/<Name>/<Face>.png
+AssetIds.Sky = {
+	Day = {
+		Bk = "rbxassetid://0", -- Day_Bk
+		Dn = "rbxassetid://0", -- Day_Dn
+		Ft = "rbxassetid://0", -- Day_Ft
+		Lf = "rbxassetid://0", -- Day_Lf
+		Rt = "rbxassetid://0", -- Day_Rt
+		Up = "rbxassetid://0", -- Day_Up
+	},
+	Dusk = {
+		Bk = "rbxassetid://0", -- Dusk_Bk
+		Dn = "rbxassetid://0", -- Dusk_Dn
+		Ft = "rbxassetid://0", -- Dusk_Ft
+		Lf = "rbxassetid://0", -- Dusk_Lf
+		Rt = "rbxassetid://0", -- Dusk_Rt
+		Up = "rbxassetid://0", -- Dusk_Up
 	},
 }
 

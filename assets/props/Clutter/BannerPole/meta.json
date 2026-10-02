@@ -4,9 +4,24 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 248,
-        "verts": 274
+        "tris": 132,
+        "verts": 149
+      },
+      "Flag": {
+        "tris": 288,
+        "verts": 194
       }
-    }
+    },
+    "parts": {},
+    "bones": [
+      "Flag1",
+      "Flag2",
+      "Flag3",
+      "Flag4"
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

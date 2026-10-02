@@ -65,8 +65,8 @@ add({
   },
 });
 add({
-  name: 'ExtractionBeacon', palette: pal(['stone', 'stoneDark', 'stoneLight', 'gold', 'metalDark']), glow: { Glow: '#5ff0ff', GlowCore: '#e6ffff' }, heroSize: [760, 760], bg: '#14202a',
-  parts: { Ring: { pivot: [0, 6.5, 0] } },
+  name: 'ExtractionBeacon', palette: pal(['stone', 'stoneDark', 'stoneLight', 'gold', 'metalDark']), glow: { Glow: '#5ff0ff', HoverCore: '#e6ffff' }, heroSize: [760, 760], bg: '#14202a',
+  parts: { Ring: { pivot: [0, 6.5, 0] }, HoverCore: { pivot: [0, 5.0, 0] } },
   build(B) {
     B.add(cyl(7, 7.4, 0.8, 32), { pos: [0, 0.4, 0], color: 'stoneDark' });
     B.add(cyl(6, 6, 0.3, 32), { pos: [0, 0.9, 0], color: 'stone' });
@@ -79,8 +79,8 @@ add({
       B.add(cyl(0.8, 0.6, 0.5, 6), { pos: [x, 8.0, z], color: 'gold' });
       B.add(crystal(0.45, 1.6), { pos: [x, 8.2, z], mesh: 'Glow' });
     }
-    B.add(crystal(1.0, 3.2), { pos: [0, 5.0, 0], mesh: 'GlowCore' });
-    B.add(crystal(1.0, 1.6), { pos: [0, 5.05, 0], rot: [Math.PI, 0, 0], mesh: 'GlowCore' });
+    B.add(crystal(1.0, 3.2), { pos: [0, 5.0, 0], mesh: 'HoverCore' });
+    B.add(crystal(1.0, 1.6), { pos: [0, 5.05, 0], rot: [Math.PI, 0, 0], mesh: 'HoverCore' });
     B.add(torus(2.6, 0.2, 6, 40), { pos: [0, 6.5, 0], rot: [Math.PI / 2 - 0.3, 0, 0], color: 'gold', mesh: 'Ring' });
     B.add(torus(2.6, 0.08, 4, 40), { pos: [0, 6.5, 0], rot: [Math.PI / 2 - 0.3, 0, 0], color: 'gold', mesh: 'Ring' });
   },
@@ -118,7 +118,7 @@ add({
       B.add(box(1.8, 5.5, 0.1), { pos: V([0, 13, -3.65]).addScaledVector(d, 4.1).add(V([-Math.sin(a) * 1.0, Math.cos(a) * 1.0, 0])).toArray(), rot: [0, 0, a - Math.PI / 2], color: 'wallCream', mesh: 'Blades' });
     }
   },
-  animate(meshes, group, u) { meshes.Blades.rotation.z = u * Math.PI / 2; }, frames: 16, loopSeconds: 2,
+  frames: 16, loopSeconds: 2,
 });
 
 export default list;

@@ -1,0 +1,13 @@
+{
+  "name": "CloudLarge",
+  "category": "Atmosphere",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 8088,
+        "verts": 5552
+      }
+    },
+    "parts": {}
+  }
+}

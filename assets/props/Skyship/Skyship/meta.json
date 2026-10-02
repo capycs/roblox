@@ -4,8 +4,8 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 19012,
-        "verts": 13412
+        "tris": 18932,
+        "verts": 13349
       },
       "PropL": {
         "tris": 360,
@@ -19,6 +19,10 @@
         "tris": 440,
         "verts": 405
       },
+      "Flag": {
+        "tris": 240,
+        "verts": 154
+      },
       "Glow": {
         "tris": 216,
         "verts": 648
@@ -27,10 +31,54 @@
         "tris": 2028,
         "verts": 1458
       }
-    }
+    },
+    "parts": {
+      "PropL": {
+        "pivot": [
+          -16.8,
+          11.6,
+          5
+        ],
+        "pivotFromCenter": [
+          -0.6000001430511475,
+          0,
+          0.40000009536743164
+        ]
+      },
+      "PropR": {
+        "pivot": [
+          16.8,
+          11.6,
+          5
+        ],
+        "pivotFromCenter": [
+          -0.6000006198883057,
+          0,
+          0.40000009536743164
+        ]
+      },
+      "PropBack": {
+        "pivot": [
+          0,
+          9.2,
+          30.5
+        ],
+        "pivotFromCenter": [
+          0,
+          1.1920928955078125e-7,
+          0.39999961853027344
+        ]
+      }
+    },
+    "bones": [
+      "Flag1",
+      "Flag2",
+      "Flag3",
+      "Flag4"
+    ]
   },
   "sprite": {
     "frames": 24,
-    "duration": 1.6
+    "duration": 2
   }
 }

@@ -3,10 +3,28 @@
   "category": "Nature",
   "stats": {
     "meshes": {
-      "Body": {
+      "Float": {
         "tris": 520,
         "verts": 536
       }
+    },
+    "parts": {
+      "Float": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.4455896019935608,
+          -0.2203261055983603,
+          -0.19515258073806763
+        ]
+      }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

@@ -380,28 +380,53 @@ export function crystal(r, h) {
 // own meshes with their origin at `pivot`, so Roblox code can spin or sway them.
 export function buildProp(spec, materialFor) {
   const parts = spec.parts || {};
-  const textured = ['Body', ...Object.keys(parts)];
+  const glowNames = new Set([...Object.keys(spec.glow || {}), ...Object.keys(spec.glass || {})]);
+  const textured = ['Body', ...Object.keys(parts).filter((n) => !glowNames.has(n)), ...(spec.skinned || [])];
   const cell = Object.fromEntries(spec.palette.map(([k], i) => [k, (i + 0.5) / 16]));
-  const B = new Builder({ Root: 0 }, cell, [...textured, ...Object.keys(spec.glow || {}), ...Object.keys(spec.glass || {})], textured);
+  // optional bone chain for skinned parts (flags): spec.bones = [[name, parent|null, [x,y,z]], ...]
+  const boneDefs = [['Root', null, [0, 0, 0]], ...(spec.bones || [])];
+  const boneIndex = Object.fromEntries(boneDefs.map(([n], i) => [n, i]));
+  const B = new Builder(boneIndex, cell, [...new Set([...textured, ...glowNames])], textured);
   spec.build(B);
   const group = new THREE.Group(); group.name = spec.name;
-  const meshes = {}, stats = { meshes: {} };
+  let skeleton = null; const boneMap = {};
+  if (spec.bones) {
+    const world = Object.fromEntries(boneDefs.map(([n, , p]) => [n, p]));
+    const bones = boneDefs.map(([n, parent, p]) => {
+      const b = new THREE.Bone(); b.name = n; const pp = parent ? world[parent] : [0, 0, 0];
+      b.position.set(p[0] - pp[0], p[1] - pp[1], p[2] - pp[2]); boneMap[n] = b; return b;
+    });
+    boneDefs.forEach(([n, parent]) => { if (parent) boneMap[parent].add(boneMap[n]); });
+    group.add(boneMap.Root); group.updateMatrixWorld(true);
+    skeleton = new THREE.Skeleton(bones);
+  }
+  const skinned = new Set(spec.skinned || []);
+  const meshes = {}, stats = { meshes: {}, parts: {} };
   for (const [name, list] of Object.entries(B.parts)) {
     if (!list.length) continue;
     const geo = mergeGeometries(list, false);
-    geo.deleteAttribute('skinIndex'); geo.deleteAttribute('skinWeight');
+    const isSkinned = skinned.has(name) && skeleton;
+    if (!isSkinned) { geo.deleteAttribute('skinIndex'); geo.deleteAttribute('skinWeight'); }
     const pivot = parts[name] && parts[name].pivot;
     if (pivot) geo.translate(-pivot[0], -pivot[1], -pivot[2]);
     geo.computeBoundingSphere(); geo.computeBoundingBox();
     geo.name = name;
-    const m = new THREE.Mesh(geo, materialFor(name, textured.includes(name)));
+    const mat = materialFor(name, textured.includes(name) || isSkinned);
+    const m = isSkinned ? new THREE.SkinnedMesh(geo, mat) : new THREE.Mesh(geo, mat);
     m.name = name;
     if (pivot) m.position.set(...pivot);
     group.add(m);
+    if (isSkinned) m.bind(skeleton, new THREE.Matrix4());
     meshes[name] = m;
     stats.meshes[name] = { tris: geo.index.count / 3, verts: geo.attributes.position.count };
+    if (pivot) {
+      // Roblox centres a MeshPart on its bounding box; store the pivot relative to that centre.
+      const c = geo.boundingBox.getCenter(new THREE.Vector3());
+      stats.parts[name] = { pivot, pivotFromCenter: [-c.x, -c.y, -c.z] };
+    }
   }
-  return { group, meshes, stats };
+  if (spec.bones) stats.bones = spec.bones.map(([n]) => n);
+  return { group, meshes, stats, boneMap };
 }
 
 // Simple box with optional bevel-ish rounding via scale (cartoon planks, crates).
@@ -410,3 +435,20 @@ export function box(w, h, d) { return new THREE.BoxGeometry(w, h, d); }
 export function cyl(rt, rb, h, seg = 12) { return new THREE.CylinderGeometry(rt, rb, h, seg); }
 // Torus helper (in XY plane, rotate as needed).
 export function torus(r, t, rs = 8, ts = 24, arc = Math.PI * 2) { return new THREE.TorusGeometry(r, t, rs, ts, arc); }
+
+// Route every add() without an explicit mesh into `mesh` (e.g. a swaying canopy part).
+export const into = (B, mesh) => ({ add: (g, o = {}) => B.add(g, { ...o, mesh: o.mesh || mesh }) });
+
+// Two-sided subdivided cloth for flags: hangs from x=0 (pole) to x=w, top at y=0.
+// notch > 0 cuts a swallowtail into the free end. Skinned along X to bones `names`.
+export function flagCloth(B, w, h, names, origin, { color, mesh = 'Flag', notch = 0, segW = 10, segH = 6 } = {}) {
+  const g = new THREE.PlaneGeometry(w, h, segW, segH); g.translate(w / 2, -h / 2, 0);
+  const P = g.attributes.position;
+  if (notch) { for (let i = 0; i < P.count; i++) { const u = P.getX(i) / w, v = -P.getY(i) / h; if (u > 0.7) P.setX(i, P.getX(i) - notch * w * Math.max(0, 1 - Math.abs(v - 0.5) * 2) * ((u - 0.7) / 0.3)); } g.computeVertexNormals(); }
+  const back = g.clone(); back.scale(1, 1, -1); back.translate(0, 0, -0.03);
+  const idx = back.index.array; for (let i = 0; i < idx.length; i += 3) { const t = idx[i + 1]; idx[i + 1] = idx[i + 2]; idx[i + 2] = t; }
+  back.computeVertexNormals();
+  const n = names.length;
+  const weights = (p) => { const u = Math.min(0.9999, Math.max(0, (p.x - origin[0]) / w)) * (n - 1); const k = Math.floor(u), f = u - k; return k + 1 < n ? [[names[k], 1 - f], [names[k + 1], f]] : [[names[n - 1], 1]]; };
+  for (const geo of [g, back]) B.add(geo, { pos: origin, color, mesh, weights });
+}

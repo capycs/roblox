@@ -4,9 +4,31 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 1208,
-        "verts": 1203
+        "tris": 324,
+        "verts": 522
+      },
+      "Fronds": {
+        "tris": 884,
+        "verts": 681
+      }
+    },
+    "parts": {
+      "Fronds": {
+        "pivot": [
+          3.2,
+          8.5,
+          0.4
+        ],
+        "pivotFromCenter": [
+          -0.22334837913513184,
+          0.4510672092437744,
+          0
+        ]
       }
     }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
   }
 }

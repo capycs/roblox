@@ -1,0 +1,46 @@
+{
+  "name": "FloatingRock",
+  "category": "Atmosphere",
+  "stats": {
+    "meshes": {
+      "HoverRock": {
+        "tris": 656,
+        "verts": 896
+      },
+      "HoverGlow": {
+        "tris": 36,
+        "verts": 108
+      }
+    },
+    "parts": {
+      "HoverRock": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.13286983966827393,
+          2.479645788669586,
+          0.00993967056274414
+        ]
+      },
+      "HoverGlow": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          6.299999952316284,
+          0
+        ]
+      }
+    }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

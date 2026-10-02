@@ -51,6 +51,22 @@
     "frames": 24,
     "duration": 1.4
   },
+  "Wind": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "WindLeaves": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "Motes": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "Rain": {
+    "frames": 24,
+    "duration": 1.4
+  },
   "BiomeFireflies": {
     "frames": 24,
     "duration": 1.4

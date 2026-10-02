@@ -47,6 +47,18 @@ for (const t of textures) {
 }
 lines.push('}');
 lines.push('');
+lines.push('--[Sky] assets/sky/<Name>/<Face>.png');
+lines.push('AssetIds.Sky = {');
+for (const sky of fs.readdirSync(path.join(repo, 'assets/sky')).sort()) {
+  lines.push(`\t${sky} = {`);
+  for (const face of ['Bk', 'Dn', 'Ft', 'Lf', 'Rt', 'Up']) {
+    const m = old.match(new RegExp(`${face} = "(rbxassetid://\\d+)", -- ${sky}_${face}\\b`));
+    lines.push(`\t\t${face} = "${m ? m[1] : 'rbxassetid://0'}", -- ${sky}_${face}`);
+  }
+  lines.push('\t},');
+}
+lines.push('}');
+lines.push('');
 lines.push('-- Returns the ID, or nil when it has not been uploaded yet.');
 lines.push('function AssetIds.get(id: string?): string?');
 lines.push('\tif id == nil or id == "" or id == "rbxassetid://0" then');

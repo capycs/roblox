@@ -1,0 +1,50 @@
+{
+  "name": "Bird",
+  "category": "Atmosphere",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 520,
+        "verts": 403
+      },
+      "WingL": {
+        "tris": 80,
+        "verts": 63
+      },
+      "WingR": {
+        "tris": 80,
+        "verts": 63
+      }
+    },
+    "parts": {
+      "WingL": {
+        "pivot": [
+          0,
+          0.1,
+          0
+        ],
+        "pivotFromCenter": [
+          0.8428085818886757,
+          -1.862645149230957e-9,
+          0.0035787075757980347
+        ]
+      },
+      "WingR": {
+        "pivot": [
+          0,
+          0.1,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.8428085818886757,
+          -1.862645149230957e-9,
+          0.0035787075757980347
+        ]
+      }
+    }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

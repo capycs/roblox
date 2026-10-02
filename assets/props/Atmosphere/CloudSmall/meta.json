@@ -1,0 +1,13 @@
+{
+  "name": "CloudSmall",
+  "category": "Atmosphere",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1660,
+        "verts": 1145
+      }
+    },
+    "parts": {}
+  }
+}
