@@ -1,0 +1,17 @@
+{
+  "name": "EggRainbow",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3712,
+        "verts": 6654
+      },
+      "Glow": {
+        "tris": 640,
+        "verts": 540
+      }
+    },
+    "parts": {}
+  }
+}

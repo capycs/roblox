@@ -1,0 +1,17 @@
+{
+  "name": "Hourglass3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 280,
+        "verts": 319
+      },
+      "Glass": {
+        "tris": 240,
+        "verts": 147
+      }
+    },
+    "parts": {}
+  }
+}

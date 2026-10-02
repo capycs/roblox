@@ -1,0 +1,29 @@
+{
+  "name": "EggVoid",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1040,
+        "verts": 567
+      },
+      "Glow": {
+        "tris": 380,
+        "verts": 194
+      },
+      "GlowCore": {
+        "tris": 570,
+        "verts": 291
+      },
+      "HoverGlow": {
+        "tris": 180,
+        "verts": 540
+      }
+    },
+    "parts": {}
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

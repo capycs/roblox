@@ -1,0 +1,13 @@
+{
+  "name": "Paw3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1108,
+        "verts": 749
+      }
+    },
+    "parts": {}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "EggFrost",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1556,
+        "verts": 1008
+      },
+      "Glow": {
+        "tris": 360,
+        "verts": 410
+      }
+    },
+    "parts": {}
+  }
+}

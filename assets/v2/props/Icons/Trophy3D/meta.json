@@ -1,0 +1,13 @@
+{
+  "name": "Trophy3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 924,
+        "verts": 889
+      }
+    },
+    "parts": {}
+  }
+}

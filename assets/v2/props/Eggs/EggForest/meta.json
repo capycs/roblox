@@ -1,0 +1,13 @@
+{
+  "name": "EggForest",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3982,
+        "verts": 6356
+      }
+    },
+    "parts": {}
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "ChestRarity",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 240,
+        "verts": 396
+      },
+      "Glow": {
+        "tris": 60,
+        "verts": 55
+      }
+    },
+    "parts": {}
+  }
+}

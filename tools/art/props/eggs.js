@@ -85,4 +85,4 @@ for (const [el, c, d, g] of EL) {
 }
 
 export default eggs;
-export { eggGeo, H as EGG_H };
+export { eggGeo, H as EGG_H, onShell, band, spots };

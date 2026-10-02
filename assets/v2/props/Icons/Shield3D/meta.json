@@ -1,0 +1,13 @@
+{
+  "name": "Shield3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 592,
+        "verts": 1776
+      }
+    },
+    "parts": {}
+  }
+}

@@ -76,7 +76,7 @@ function toonScene(spec) {
 
 // Outline-only silhouette around the whole model, the same thing Roblox's Highlight draws.
 const MASK = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-function shootOutlined(r, scene, cam, bloom, color, px) {
+function shootOutlined(r, scene, cam, bloom, color, px, transparent = false) {
   shoot(r, scene, cam, bloom);
   const w = r.domElement.width, h = r.domElement.height;
   const A = document.createElement('canvas'); A.width = w; A.height = h; A.getContext('2d').drawImage(r.domElement, 0, 0);
@@ -95,6 +95,13 @@ function shootOutlined(r, scene, cam, bloom, color, px) {
   og.globalCompositeOperation = 'source-in'; og.fillStyle = color; og.fillRect(0, 0, w, h);
   og.globalCompositeOperation = 'destination-out'; og.drawImage(M, 0, 0);
   A.getContext('2d').drawImage(O, 0, 0);
+  if (transparent) {
+    // icons: keep only the silhouette + outline, everything else becomes see-through
+    const D = document.createElement('canvas'); D.width = w; D.height = h; const dg = D.getContext('2d');
+    for (let k = 0; k < 16; k++) { const a = (k / 16) * Math.PI * 2; dg.drawImage(M, Math.cos(a) * (px + 1), Math.sin(a) * (px + 1)); }
+    dg.drawImage(M, 0, 0);
+    const ag = A.getContext('2d'); ag.globalCompositeOperation = 'destination-in'; ag.drawImage(D, 0, 0); ag.globalCompositeOperation = 'source-over';
+  }
   return A;
 }
 
@@ -103,7 +110,7 @@ export async function runProps(file) {
   const specs = Array.isArray(mod.default) ? mod.default : [mod.default];
   const results = [];
   for (const spec of specs) {
-    const out = { name: spec.name, category: spec.category || file, images: {} };
+    const out = { name: spec.name, category: spec.category || file, v2: !!spec.v2, images: {} };
     const exp = await exportGLB(spec);
     out.glb = exp.glb; out.stats = exp.stats;
     const S = toonScene(spec);
@@ -121,6 +128,7 @@ export async function runProps(file) {
     if (animated) step(0.15);
     const olc = spec.outline || '#120c10';
     out.images.hero = shootOutlined(r, S.scene, cam, bloom, olc, Math.max(2, Math.round(w / 220))).toDataURL('image/png');
+    if (spec.icon) out.images.icon = shootOutlined(r, S.scene, cam, bloom * 0.6, olc, Math.max(3, Math.round(w / 140)), true).toDataURL('image/png');
     r.dispose(); r.forceContextLoss();
     if (animated) {
       const FW = 400, FH = 320, n = spec.frames || 24;

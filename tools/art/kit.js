@@ -28,7 +28,7 @@ export function legs(B, W, { front, back, color, footColor, clawColor, foot = 'p
       const mid = (a, b, k = 0.5) => a.clone().lerp(b, k);
       const pts = [U.clone().add(V([0, o.top ?? 0.35, o.topZ ?? 0])), mid(U, L), L, mid(L, P), V([P.x, (o.ground ?? 0.14), P.z])];
       const w = (p) => blend([[P.y, `${kind}${s}Paw`], [P.y + 0.18, `${kind}${s}Lower`], [L.y - 0.12, `${kind}${s}Lower`], [L.y + 0.2, `${kind}${s}Upper`]], p.y);
-      B.add(loft({ points: pts.map((v) => v.toArray()), rx: limbR(o.r[0], o.r[1]), ry: limbR(o.r[0] * 1.08, o.r[1] * 1.08), rings: 20, seg: 12 }), { color, weights: w });
+      B.add(loft({ points: pts.map((v) => v.toArray()), rx: limbR(o.r[0], o.r[1]), ry: limbR(o.r[0] * 1.08, o.r[1] * 1.08), rings: 16, seg: 12 }), { color, weights: w });
       if (kind === 'Back' && thighs) B.add(ell(o.r[0] * 1.05, o.r[0] * 1.4, o.r[0] * 1.3), { pos: [U.x * 0.97, U.y - 0.15, U.z + 0.08], color, bone: `Back${s}Upper` });
       const pb = `${kind}${s}Paw`, fz = P.z, fx = P.x, fr = o.r[1];
       if (foot === 'paw') {
@@ -57,3 +57,17 @@ export function tail(B, { pts, r, color, rings = 26, seg = 12 }) {
 }
 
 export { V, SIDES, env, ell, cone, loft, blend, quatTo };
+
+// Armour plate: a flattened shell on the surface (p, outward n, long axis dir) with a
+// slightly larger trim plate peeking out underneath, plus optional rivets.
+export function armor(B, { p, n, dir, w, l, t = 0.09, color, trim, rivets, opts }) {
+  const q = (() => { const z = V(n).normalize(), d = V(dir); const x = d.sub(z.clone().multiplyScalar(d.dot(z))).normalize(); const y = new THREE.Vector3().crossVectors(z, x); return new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().makeBasis(y, z, x)); })();
+  const P = V(p), N = V(n).normalize();
+  if (trim) B.add(ell(w * 1.1, t * 0.8, l * 1.08, 12, 5), { pos: P.clone().addScaledVector(N, -t * 0.25).toArray(), quat: q, color: trim, ...opts });
+  B.add(ell(w, t, l, 12, 5), { pos: P.toArray(), quat: q, color, ...opts });
+  if (rivets) for (const s of [-1, 1]) for (const k of [-0.6, 0.6]) {
+    const off = new THREE.Vector3(s * w * 0.75, t * 0.6, k * l).applyQuaternion(q);
+    B.add(ell(t * 0.45, t * 0.45, t * 0.45, 6, 4), { pos: P.clone().add(off).toArray(), color: rivets, ...opts });
+  }
+  return q;
+}

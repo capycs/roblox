@@ -159,6 +159,17 @@ export function fitCam(S, fov, w, h, dir, k, lift = 0.8) {
   c.lookAt(target); return c;
 }
 
+// Spinner bones (halos, orbiting orbs, hovering charms) rotate/bob on their own clock.
+// Mirrors the spinner loop in src/shared/Creatures/CreatureAnimator.luau.
+function applySpin(spec, boneMap, t) {
+  for (const s of spec.spinners || []) {
+    const b = boneMap[s.bone]; if (!b) continue;
+    const q = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(...s.axis).normalize(), (s.speed || 1) * t);
+    b.quaternion.premultiply(q);
+    if (s.bob) b.position.y += s.bob * Math.sin(t * (s.bobFreq || 1) * Math.PI * 2);
+  }
+}
+
 export async function runAll(specName) {
   const spec = (await import(`./species/${specName}.js`)).default;
   const style = makeStyle(spec.style);
@@ -170,13 +181,14 @@ export async function runAll(specName) {
   const V = spec.views || {};
   const still = (name, w, h, fov, dir, k, clip = 'Idle', t = 0.3) => {
     const r = makeRenderer(w, h);
-    applyPose(style, S.model.boneMap, S.rest, clip, t);
-    shoot(r, S.scene, fitCam(S, fov, w, h, dir, k));
+    applyPose(style, S.model.boneMap, S.rest, clip, t); applySpin(spec, S.model.boneMap, t + 0.7);
+    shoot(r, S.scene, fitCam(S, fov, w, h, dir, k), spec.bloom ?? 0.7);
     out.images[name] = r.domElement.toDataURL('image/png');
     r.dispose(); r.forceContextLoss();
   };
-  still('hero', 1200, 1000, 30, V.hero || [-7.2, 2.35, -9.5], 0.66);
-  still('roar', 900, 900, 30, V.roar || [-7.8, 0.9, -7.8], 0.82, 'Roar', 1.0);
+  const F = spec.fit || {};
+  still('hero', 1200, 1000, 30, V.hero || [-7.2, 2.35, -9.5], F.hero || 0.66);
+  still('roar', 900, 900, 30, V.roar || [-7.8, 0.9, -7.8], F.roar || 0.82, 'Roar', 1.0);
   still('front', 600, 640, 22, [0, 0.2, -1], 0.74);
   still('side', 600, 640, 22, [-1, 0.03, 0], 0.74);
   still('back', 600, 640, 22, [0, 0.05, 1], 0.74);
@@ -199,15 +211,15 @@ export async function runAll(specName) {
   // sprite strips for each clip
   const FW = 400, FH = 320, FPS = 20;
   const r = makeRenderer(FW, FH);
-  const camera = fitCam(S, 28, FW, FH, V.sprite || [-9.5, 2.0, -8.7], 0.66);
+  const camera = fitCam(S, 28, FW, FH, V.sprite || [-9.5, 2.0, -8.7], F.sprite || 0.66);
   out.sprites = {};
   for (const clip of CLIP_NAMES) {
     const D = style.dur[clip], n = Math.round(D * FPS);
     const sheet = document.createElement('canvas'); sheet.width = FW * n; sheet.height = FH;
     const g = sheet.getContext('2d');
     for (let i = 0; i < n; i++) {
-      applyPose(style, S.model.boneMap, S.rest, clip, (i / n) * D);
-      shoot(r, S.scene, camera);
+      applyPose(style, S.model.boneMap, S.rest, clip, (i / n) * D); applySpin(spec, S.model.boneMap, (i / n) * D);
+      shoot(r, S.scene, camera, spec.bloom ?? 0.7);
       g.drawImage(r.domElement, i * FW, 0);
     }
     out.images['sprite_' + clip] = sheet.toDataURL('image/png');

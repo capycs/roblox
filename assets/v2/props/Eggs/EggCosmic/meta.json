@@ -1,0 +1,29 @@
+{
+  "name": "EggCosmic",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1878,
+        "verts": 1048
+      },
+      "Glow": {
+        "tris": 1086,
+        "verts": 743
+      },
+      "GlowCore": {
+        "tris": 1408,
+        "verts": 1188
+      },
+      "HoverGlow": {
+        "tris": 480,
+        "verts": 287
+      }
+    },
+    "parts": {}
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

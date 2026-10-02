@@ -1,0 +1,13 @@
+{
+  "name": "Ticket3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 256,
+        "verts": 744
+      }
+    },
+    "parts": {}
+  }
+}

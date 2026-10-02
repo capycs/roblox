@@ -304,8 +304,9 @@ export function featherWing(B, W, x, o) {
       const base = arm.getPoint(u), tan = arm.getTangent(u);
       const back = V([0, -0.05, 1]);
       const dir = back.clone().multiplyScalar(1 - u * 0.75).addScaledVector(tan, u * 0.9).normalize();
-      const len = layer ? (0.7 + 0.4 * u) : (1.0 + 1.6 * Math.pow(u, 1.3));
-      const wid = layer ? 0.3 : 0.26 + 0.08 * u;
+      const sc = o.scale || 1;
+      const len = (layer ? (0.7 + 0.4 * u) : (1.0 + 1.6 * Math.pow(u, 1.3))) * sc;
+      const wid = (layer ? 0.3 : 0.26 + 0.08 * u) * sc;
       const nrm = new THREE.Vector3().crossVectors(dir, tan).normalize(); if (nrm.y < 0) nrm.negate();
       const p0 = base.clone().addScaledVector(nrm, layer ? 0.06 : -0.01);
       B.add(blade(len, wid, 0.045), { pos: p0.toArray(), quat: surfaceQuat(nrm.toArray(), dir.toArray()), color: layer ? o.covert : (i % 2 ? o.primary : o.primary2 || o.primary), weights: ww });

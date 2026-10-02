@@ -1,0 +1,13 @@
+{
+  "name": "Key3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 520,
+        "verts": 374
+      }
+    },
+    "parts": {}
+  }
+}

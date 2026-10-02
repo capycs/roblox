@@ -1,0 +1,13 @@
+{
+  "name": "CoinStack",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 4312,
+        "verts": 8988
+      }
+    },
+    "parts": {}
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "GiftBox3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 464,
+        "verts": 369
+      }
+    },
+    "parts": {}
+  }
+}

@@ -57,6 +57,8 @@ export function pose(style, name, t) {
   const add = (b, x = 0, y = 0, z = 0) => { const r = rot[b] || (rot[b] = [0, 0, 0]); r[0] += x; r[1] += y; r[2] += z; };
   const flicker = (k) => add(S.tip, k * (0.07 * sin(5 * p) + 0.04 * sin(9 * p + 1)), 0, k * 0.07 * sin(7 * p + 2));
   const T = S.dur[name], p = TAU * t / T;
+  // wings held part-open at all times (hovering mythics)
+  if (S.wings && S.wingRest) { wing(add, 'Upper', S.wingRest, -S.wingRest * 0.4); wing(add, 'Lower', S.wingRest * 0.4); }
 
   if (name === 'Idle') {
     hips[1] = 0.025 * sin(p) * S.bob;

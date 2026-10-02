@@ -65,7 +65,7 @@ add({
 });
 add({
   // Wooden hook post with a hanging lantern (Lantern/LanternLamp swing in the wind).
-  name: 'LanternPost', palette: pal(['wood', 'woodDark', 'bark', 'metalDark', 'gold', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), glow: { LanternLamp: '#ffd36b' }, heroSize: [440, 640],
+  name: 'LanternPost', v2: true, palette: pal(['wood', 'woodDark', 'bark', 'metalDark', 'gold', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), glow: { LanternLamp: '#ffd36b' }, heroSize: [440, 640],
   parts: { Lantern: { pivot: [1.2, 6.95, 0] }, LanternLamp: { pivot: [1.2, 6.95, 0] } },
   build(B) {
     const Lt = into(B, 'Lantern');
@@ -89,7 +89,7 @@ add({
 });
 add({
   // Rustic split-rail fence: round posts with rope lashing, sagging rails, ivy on one post.
-  name: 'FenceSegment', palette: pal(['wood', 'woodDark', 'bark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [640, 420],
+  name: 'FenceSegment', v2: true, palette: pal(['wood', 'woodDark', 'bark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [640, 420],
   build(B) {
     for (const [x, h, tilt] of [[-3, 2.3, 0.04], [0, 2.5, -0.03], [3, 2.2, 0.05]]) {
       B.add(loft({ points: [[x, -0.1, 0], [x + tilt, h * 0.6, 0], [x + tilt * 1.4, h, 0]], rx: (t) => 0.24 - 0.04 * t, ry: (t) => 0.24 - 0.04 * t, rings: 6, seg: 8 }), { color: 'bark' });
@@ -105,7 +105,7 @@ add({
 });
 add({
   // Half-log bench on two stumps, with a moss patch.
-  name: 'Bench', palette: pal(['wood', 'woodDark', 'woodLight', 'bark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [600, 440],
+  name: 'Bench', v2: true, palette: pal(['wood', 'woodDark', 'woodLight', 'bark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [600, 440],
   build(B) {
     const seat = new THREE.CylinderGeometry(0.55, 0.55, 4.2, 12, 1, false, Math.PI, Math.PI); seat.rotateZ(Math.PI / 2);
     B.add(seat, { pos: [0, 1.05, 0], color: 'bark' });
@@ -165,7 +165,7 @@ add({
 });
 add({
   // Stone well with a shingled roof, crank, bucket and ivy.
-  name: 'Well', palette: pal(['stone', 'stoneDark', 'wood', 'woodDark', 'bark', 'shingle', 'shingleDark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [520, 600], parts: { Bucket: { pivot: [0, 3.2, 0] } },
+  name: 'Well', v2: true, palette: pal(['stone', 'stoneDark', 'wood', 'woodDark', 'bark', 'shingle', 'shingleDark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [520, 600], parts: { Bucket: { pivot: [0, 3.2, 0] } },
   build(B) {
     B.add(new THREE.CylinderGeometry(1.5, 1.6, 1.35, 16, 1, true), { pos: [0, 0.67, 0], color: 'stoneDark' });
     B.add(new THREE.CylinderGeometry(1.25, 1.25, 0.1, 16), { pos: [0, 0.6, 0], color: 'stoneDark' });

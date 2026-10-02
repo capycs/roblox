@@ -1,0 +1,21 @@
+{
+  "name": "EggCrystal",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1610,
+        "verts": 854
+      },
+      "Glow": {
+        "tris": 288,
+        "verts": 864
+      },
+      "GlowCore": {
+        "tris": 108,
+        "verts": 324
+      }
+    },
+    "parts": {}
+  }
+}

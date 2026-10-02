@@ -1,0 +1,13 @@
+{
+  "name": "Bolt3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 80,
+        "verts": 240
+      }
+    },
+    "parts": {}
+  }
+}

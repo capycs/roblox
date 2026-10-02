@@ -1,0 +1,13 @@
+{
+  "name": "Lock3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 488,
+        "verts": 419
+      }
+    },
+    "parts": {}
+  }
+}

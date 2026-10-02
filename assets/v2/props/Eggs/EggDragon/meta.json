@@ -1,0 +1,17 @@
+{
+  "name": "EggDragon",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3308,
+        "verts": 3066
+      },
+      "Glow": {
+        "tris": 100,
+        "verts": 77
+      }
+    },
+    "parts": {}
+  }
+}

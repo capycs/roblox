@@ -1,0 +1,13 @@
+{
+  "name": "Crown3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1360,
+        "verts": 1160
+      }
+    },
+    "parts": {}
+  }
+}

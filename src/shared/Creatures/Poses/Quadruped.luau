@@ -30,6 +30,7 @@ export type Style = {
 	headLow: number?,
 	attack: string?,
 	wings: boolean?,
+	wingRest: number?, -- wings held part-open in every clip (radians)
 }
 
 local DEFAULT = {
@@ -126,6 +127,11 @@ function Quadruped.make(over: Style?)
 		end
 		local function flicker(k: number)
 			add(S.tip, k * (0.07 * sin(5 * p) + 0.04 * sin(9 * p + 1)), 0, k * 0.07 * sin(7 * p + 2))
+		end
+
+		if S.wings and S.wingRest then
+			wing("Upper", S.wingRest, -S.wingRest * 0.4)
+			wing("Lower", S.wingRest * 0.4)
 		end
 
 		if name == "Idle" then

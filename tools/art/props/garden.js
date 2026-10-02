@@ -23,7 +23,7 @@ const LEAF = ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'];
 const AUTUMN = ['autumnDeep', 'autumnDark', 'autumn', 'autumnLight', 'autumnTip'];
 const HAY = ['hayDeep', 'hayDark', 'hay', 'hayLight', 'hayTip'];
 const list = [];
-const add = (spec) => list.push({ category: 'Clutter', heroSize: [520, 520], ...spec });
+const add = (spec) => list.push({ category: 'Clutter', v2: true, heroSize: [520, 520], ...spec });
 const lathe = (pts, seg = 16) => new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(Math.max(r, 0.0001), y)), seg);
 
 // tiny 5-petal flower facing n at p

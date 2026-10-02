@@ -1,0 +1,17 @@
+{
+  "name": "EggOcean",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3530,
+        "verts": 2151
+      },
+      "Glow": {
+        "tris": 570,
+        "verts": 287
+      }
+    },
+    "parts": {}
+  }
+}

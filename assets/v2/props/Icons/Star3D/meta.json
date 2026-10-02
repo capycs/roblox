@@ -1,0 +1,13 @@
+{
+  "name": "Star3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 232,
+        "verts": 696
+      }
+    },
+    "parts": {}
+  }
+}

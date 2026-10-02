@@ -1,0 +1,17 @@
+{
+  "name": "EggSpooky",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2388,
+        "verts": 1320
+      },
+      "Glow": {
+        "tris": 84,
+        "verts": 95
+      }
+    },
+    "parts": {}
+  }
+}

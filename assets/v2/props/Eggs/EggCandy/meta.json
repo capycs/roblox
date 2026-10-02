@@ -1,0 +1,13 @@
+{
+  "name": "EggCandy",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 4096,
+        "verts": 2837
+      }
+    },
+    "parts": {}
+  }
+}

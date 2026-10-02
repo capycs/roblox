@@ -1,0 +1,17 @@
+{
+  "name": "Coin3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 616,
+        "verts": 1284
+      },
+      "Glow": {
+        "tris": 8,
+        "verts": 24
+      }
+    },
+    "parts": {}
+  }
+}

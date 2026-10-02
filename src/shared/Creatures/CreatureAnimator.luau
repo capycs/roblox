@@ -39,6 +39,8 @@ export type Animator = typeof(setmetatable({} :: {
 	light: PointLight?,
 	lightBase: number,
 	time: number,
+	def: any,
+	glowParts: { { part: BasePart, base: Color3, amount: number } },
 }, Animator))
 
 function Animator.new(model: Model, poses: any): Animator
@@ -49,6 +51,14 @@ function Animator.new(model: Model, poses: any): Animator
 		end
 	end
 	local light = model:FindFirstChild("GlowLight", true)
+	local def = Config.Species[model:GetAttribute("Species") or model.Name] or {}
+	-- glow meshes that pulse (def.pulse = { Glow = 0.3, ... }: fraction of brightness lost at the dip)
+	local glowParts = {}
+	for _, d in model:GetDescendants() do
+		if d:IsA("BasePart") and def.pulse and def.pulse[d.Name] then
+			table.insert(glowParts, { part = d, base = d.Color, amount = def.pulse[d.Name] })
+		end
+	end
 	local self = setmetatable({
 		model = model,
 		poses = poses,
@@ -66,6 +76,8 @@ function Animator.new(model: Model, poses: any): Animator
 		light = if light and light:IsA("PointLight") then light else nil,
 		lightBase = if light and light:IsA("PointLight") then light.Brightness else 0,
 		time = 0,
+		def = def,
+		glowParts = glowParts,
 	}, Animator)
 	return self
 end
@@ -177,6 +189,20 @@ function Animator.step(self: Animator, dt: number)
 			cf = CFrame.new(hips) * cf
 		end
 		bone.Transform = cf
+	end
+
+	-- Spinner bones: halos, orbiting orbs and hovering charms on their own clock.
+	for _, s in self.def.spinners or {} do
+		local bone = self.bones[s.bone]
+		if bone then
+			local t = self.time
+			local bob = (s.bob or 0) * math.sin(t * (s.bobFreq or 1) * 2 * math.pi)
+			bone.Transform = CFrame.new(0, bob, 0) * CFrame.fromAxisAngle(s.axis.Unit, (s.speed or 1) * t)
+		end
+	end
+	for i, g in self.glowParts do
+		local k = 1 - g.amount * (0.5 + 0.5 * math.sin(self.time * 2.4 + i * 0.9))
+		g.part.Color = Color3.new(g.base.R * k, g.base.G * k, g.base.B * k)
 	end
 
 	-- Glow light flicker.

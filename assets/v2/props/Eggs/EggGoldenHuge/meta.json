@@ -1,0 +1,17 @@
+{
+  "name": "EggGoldenHuge",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3372,
+        "verts": 2037
+      },
+      "Glow": {
+        "tris": 120,
+        "verts": 360
+      }
+    },
+    "parts": {}
+  }
+}

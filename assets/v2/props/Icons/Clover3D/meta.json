@@ -1,0 +1,13 @@
+{
+  "name": "Clover3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1718,
+        "verts": 1180
+      }
+    },
+    "parts": {}
+  }
+}

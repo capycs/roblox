@@ -1,0 +1,29 @@
+{
+  "name": "EggCelestial",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3140,
+        "verts": 1897
+      },
+      "Glow": {
+        "tris": 24,
+        "verts": 72
+      },
+      "GlowCore": {
+        "tris": 24,
+        "verts": 72
+      },
+      "HoverGlow": {
+        "tris": 392,
+        "verts": 255
+      }
+    },
+    "parts": {}
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

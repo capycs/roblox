@@ -1,0 +1,13 @@
+{
+  "name": "GemPile",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 320,
+        "verts": 556
+      }
+    },
+    "parts": {}
+  }
+}

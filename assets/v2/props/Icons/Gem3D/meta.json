@@ -1,0 +1,17 @@
+{
+  "name": "Gem3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 80,
+        "verts": 139
+      },
+      "Glow": {
+        "tris": 8,
+        "verts": 24
+      }
+    },
+    "parts": {}
+  }
+}

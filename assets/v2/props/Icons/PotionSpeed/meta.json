@@ -1,0 +1,21 @@
+{
+  "name": "PotionSpeed",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 112,
+        "verts": 130
+      },
+      "Glow": {
+        "tris": 192,
+        "verts": 125
+      },
+      "Glass": {
+        "tris": 336,
+        "verts": 200
+      }
+    },
+    "parts": {}
+  }
+}

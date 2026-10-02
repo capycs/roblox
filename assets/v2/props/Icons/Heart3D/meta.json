@@ -1,0 +1,13 @@
+{
+  "name": "Heart3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 620,
+        "verts": 1761
+      }
+    },
+    "parts": {}
+  }
+}

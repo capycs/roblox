@@ -64,7 +64,7 @@ function branchyTrunk(B, h, r, bend, clumps, color, rootColor) {
 }
 const OAK_CLUMPS = [[0.3, 10.2, 0.2, 3.0], [3.5, 8.3, 0.8, 2.3], [-3.3, 8.6, -0.5, 2.4], [0.3, 8.1, 3.4, 2.1], [-0.4, 8.4, -3.3, 2.1], [-1.2, 12.3, 1.0, 1.7], [1.6, 11.9, -1.2, 1.5]];
 add({
-  name: 'TreeOak', palette: pal(P, ['trunk', 'trunkDark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']),
+  name: 'TreeOak', v2: true, palette: pal(P, ['trunk', 'trunkDark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']),
   parts: { Canopy: { pivot: [0.4, 6.5, 0.2] } },
   build(B) {
     branchyTrunk(B, 7, 0.8, 0.5, OAK_CLUMPS, 'trunk', 'trunkDark');
@@ -73,7 +73,7 @@ add({
 });
 const BLOSSOM_CLUMPS = OAK_CLUMPS.map(([x, y, z, r]) => [-x * 0.9, y - 0.4, z * 0.9, r * 0.92]);
 add({
-  name: 'TreeBlossom', palette: pal(P, ['trunk', 'trunkDark', 'blossomDark', 'blossomDeep', 'blossom', 'blossomPale', 'blossomTip']), parts: { Canopy: { pivot: [-0.48, 6, -0.24] } },
+  name: 'TreeBlossom', v2: true, palette: pal(P, ['trunk', 'trunkDark', 'blossomDark', 'blossomDeep', 'blossom', 'blossomPale', 'blossomTip']), parts: { Canopy: { pivot: [-0.48, 6, -0.24] } },
   build(B) {
     branchyTrunk(B, 6.6, 0.7, -0.6, BLOSSOM_CLUMPS, 'trunk', 'trunkDark');
     leafy(into(B, 'Canopy'), { blobs: BLOSSOM_CLUMPS, shades: ['blossomDark', 'blossomDeep', 'blossom', 'blossomPale', 'blossomTip'], count: 620, size: [0.85, 0.55], seed: 21, droop: 0.4 });
@@ -82,9 +82,9 @@ add({
     for (let k = 0; k < 18; k++) { const a = r() * 6.28, d = 1.4 + r() * 3.2; B.add(ell(0.16, 0.02, 0.11, 6, 3), { pos: [Math.cos(a) * d, 0.03, Math.sin(a) * d], rot: [0, a, 0], color: k % 3 ? 'blossom' : 'blossomPale' }); }
   },
 });
-add({ name: 'TreePine', palette: pal(P, ['trunkDark', 'pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'pineTip']), parts: { Sway: { pivot: [0, 0, 0] } },
+add({ name: 'TreePine', v2: true, palette: pal(P, ['trunkDark', 'pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'pineTip']), parts: { Sway: { pivot: [0, 0, 0] } },
   build(B) { conifer(into(B, 'Sway'), { height: 13, tiers: 5, radius: 3.6, shades: ['pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'pineTip'], trunkColor: 'trunkDark', seed: 5 }); } });
-add({ name: 'TreePineSnow', palette: pal(P, ['trunkDark', 'pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'snow', 'snowShade']), parts: { Sway: { pivot: [0, 0, 0] } },
+add({ name: 'TreePineSnow', v2: true, palette: pal(P, ['trunkDark', 'pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'snow', 'snowShade']), parts: { Sway: { pivot: [0, 0, 0] } },
   build(B) { conifer(into(B, 'Sway'), { height: 13, tiers: 5, radius: 3.6, shades: ['pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight'], snow: ['snow', 'snowShade'], trunkColor: 'trunkDark', seed: 7 }); } });
 add({
   name: 'TreePalm', palette: pal(P, ['palmTrunk', 'trunk', 'palmLeaf', 'leafDark', 'coconut']), parts: { Fronds: { pivot: [3.2, 8.5, 0.4] } },
@@ -143,16 +143,16 @@ function bush(B, seed, extra) {
 }
 const SWAY = { Sway: { pivot: [0, 0, 0] } };
 const BUSH_PAL = ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'];
-add({ name: 'Bush', palette: pal(P, BUSH_PAL), parts: SWAY, build(B) { bush(into(B, 'Sway'), 31); } });
+add({ name: 'Bush', v2: true, palette: pal(P, BUSH_PAL), parts: SWAY, build(B) { bush(into(B, 'Sway'), 31); } });
 add({
-  name: 'BushBerry', palette: pal(P, [...BUSH_PAL, 'berry', 'snow']), parts: SWAY,
+  name: 'BushBerry', v2: true, palette: pal(P, [...BUSH_PAL, 'berry', 'snow']), parts: SWAY,
   build(B) {
     B = into(B, 'Sway');
     bush(B, 37, ({ surface }) => { for (let i = 0; i < 22; i++) { const { p } = surface(); B.add(ell(0.17, 0.17, 0.17, 7, 5), { pos: p.toArray(), color: 'berry' }); B.add(ell(0.04, 0.04, 0.04, 4, 3), { pos: p.clone().add(V([-0.05, 0.08, -0.08])).toArray(), color: 'snow' }); } });
   },
 });
 add({
-  name: 'BushFlower', palette: pal({ ...P, ...P2 }, [...BUSH_PAL, 'blossom', 'petalY', 'petalW']), parts: SWAY,
+  name: 'BushFlower', v2: true, palette: pal({ ...P, ...P2 }, [...BUSH_PAL, 'blossom', 'petalY', 'petalW']), parts: SWAY,
   build(B) {
     B = into(B, 'Sway');
     bush(B, 41, ({ surface }) => {

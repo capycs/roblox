@@ -1,0 +1,13 @@
+{
+  "name": "Magnet3D",
+  "category": "Icons",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 528,
+        "verts": 371
+      }
+    },
+    "parts": {}
+  }
+}

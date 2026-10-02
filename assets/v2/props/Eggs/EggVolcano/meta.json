@@ -1,0 +1,21 @@
+{
+  "name": "EggVolcano",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1180,
+        "verts": 987
+      },
+      "Glow": {
+        "tris": 1520,
+        "verts": 793
+      },
+      "GlowCore": {
+        "tris": 96,
+        "verts": 78
+      }
+    },
+    "parts": {}
+  }
+}

@@ -7,7 +7,8 @@ import { RULES, WIND } from './anim.js';
 
 const v3 = (a) => `Vector3.new(${a.map((x) => +x.toFixed(4)).join(', ')})`;
 const pivots = {};
-const root = path.join(repo, 'assets/props');
+// v2 is scanned last so its pivots win: a v2 prop replaces the original of the same name.
+for (const root of [path.join(repo, 'assets/props'), path.join(repo, 'assets/v2/props')].filter((d) => fs.existsSync(d)))
 for (const cat of fs.readdirSync(root)) {
   if (!fs.statSync(path.join(root, cat)).isDirectory()) continue;
   for (const name of fs.readdirSync(path.join(root, cat))) {
