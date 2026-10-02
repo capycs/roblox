@@ -96,8 +96,8 @@
     "duration": 1.4
   },
   "StaticDash": {
-    "frames": 24,
-    "duration": 1.4
+    "frames": 16,
+    "duration": 0.8
   },
   "SporeBloom": {
     "frames": 30,
