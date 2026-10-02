@@ -20,7 +20,7 @@ class Batch {
       const g = new THREE.BufferGeometry();
       g.setAttribute('position', new THREE.Float32BufferAttribute(e.p, 3));
       g.setAttribute('normal', new THREE.Float32BufferAttribute(e.n, 3));
-      B.add(g, { ...opts, color });
+      B.add(g, { ...opts, color, noOutline: true });
     }
     this.byColor.clear();
   }
@@ -64,7 +64,7 @@ export function canopy(B, { blobs, shades, count = 500, size = [1.1, 0.5], seed 
   // dark core so gaps between cards read as depth, never as holes
   if (core) {
     for (const b of C) {
-      const g = new THREE.IcosahedronGeometry(b.r * 0.86, 2), P = g.attributes.position;
+      const g = new THREE.IcosahedronGeometry(b.r * 0.86, b.r < 0.8 ? 1 : 2), P = g.attributes.position;
       for (let i = 0; i < P.count; i += 3) {
         const pts = [0, 1, 2].map((k) => new THREE.Vector3().fromBufferAttribute(P, i + k).add(b.c));
         const ns = pts.map((p) => sphNormal(p, b.c, treeC));

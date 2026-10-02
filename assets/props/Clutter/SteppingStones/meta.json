@@ -1,0 +1,13 @@
+{
+  "name": "SteppingStones",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 880,
+        "verts": 1772
+      }
+    },
+    "parts": {}
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "FlowerPot",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3184,
+        "verts": 6501
+      }
+    },
+    "parts": {}
+  }
+}

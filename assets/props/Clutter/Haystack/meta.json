@@ -1,0 +1,13 @@
+{
+  "name": "Haystack",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 7184,
+        "verts": 21520
+      }
+    },
+    "parts": {}
+  }
+}

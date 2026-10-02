@@ -1,0 +1,13 @@
+{
+  "name": "Topiary",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3872,
+        "verts": 10291
+      }
+    },
+    "parts": {}
+  }
+}

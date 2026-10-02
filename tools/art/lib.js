@@ -114,7 +114,7 @@ export function flame(r, h, { rings = 16, seg = 15, twist = 2.2, lean = 0.18 } =
 // ---------- builder ----------
 export class Builder {
   constructor(boneIndex, cell, meshNames, textured = ['Body'], warp = null) { this.bi = boneIndex; this.cell = cell; this.textured = new Set(textured); this.warp = warp; this.parts = Object.fromEntries(meshNames.map((n) => [n, []])); }
-  add(geo, { pos = [0, 0, 0], rot = [0, 0, 0], quat, scale = [1, 1, 1], color = 'fur', mesh = 'Body', bone = 'Root', weights }) {
+  add(geo, { pos = [0, 0, 0], rot = [0, 0, 0], quat, scale = [1, 1, 1], color = 'fur', mesh = 'Body', bone = 'Root', weights, noOutline = false }) {
     if (!geo.index) geo.setIndex([...Array(geo.attributes.position.count).keys()]);
     const q = quat || new THREE.Quaternion().setFromEuler(new THREE.Euler(...rot, 'XYZ'));
     geo.applyMatrix4(new THREE.Matrix4().compose(V(pos), q, V(scale)));
@@ -139,6 +139,8 @@ export class Builder {
       });
     }
     out.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    // preview-only: leaf/wool cards opt out of the inverted-hull outline (stripped before export)
+    out.setAttribute('outlineK', new THREE.BufferAttribute(new Float32Array(n).fill(noOutline ? 0 : 1), 1));
     if (this.warp) {
       const OP = out.attributes.position, q = new THREE.Vector3();
       for (let i = 0; i < n; i++) { q.fromBufferAttribute(OP, i); this.warp(q); OP.setXYZ(i, q.x, q.y, q.z); }

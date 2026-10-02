@@ -20,6 +20,7 @@ async function exportGLB(spec) {
       : new THREE.MeshStandardMaterial({ color: spec.glow[n], emissive: spec.glow[n], name: n });
   const { group, stats } = buildProp(spec, mat);
   group.updateMatrixWorld(true);
+  group.traverse((o) => o.geometry && o.geometry.deleteAttribute('outlineK'));
   return { glb: glbToBase64(await new GLTFExporter().parseAsync(group, { binary: true })), stats };
 }
 

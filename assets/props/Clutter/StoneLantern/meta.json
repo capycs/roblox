@@ -1,0 +1,17 @@
+{
+  "name": "StoneLantern",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1208,
+        "verts": 3060
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 96
+      }
+    },
+    "parts": {}
+  }
+}

@@ -206,6 +206,17 @@ AssetIds.Portraits = {
 	Voltgriff = "rbxassetid://0",
 }
 
+--[Mutations] assets/creatures/<Name>/mutations/<Mutation>.png (Body texture swaps)
+AssetIds.Mutations = {
+	Sparkit = {
+		Crystal = "rbxassetid://0", -- Sparkit_Crystal
+		Golden = "rbxassetid://0", -- Sparkit_Golden
+		Rainbow = "rbxassetid://0", -- Sparkit_Rainbow
+		Shiny = "rbxassetid://0", -- Sparkit_Shiny
+		Void = "rbxassetid://0", -- Sparkit_Void
+	},
+}
+
 --[Sky] assets/sky/<Name>/<Face>.png
 AssetIds.Sky = {
 	Day = {

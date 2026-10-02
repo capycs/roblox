@@ -107,5 +107,80 @@ return {
 			light = { bone = "Spine", color = Color3.fromRGB(178, 255, 99), brightness = 1.5, range = 12 },
 			yawOffset = 0,
 		},
+		Blazehorn = {
+			element = "Fire",
+			style = {
+				tip = "TailTip", attack = "charge",
+				dur = { Idle = 2.6, Walk = 1.0, Run = 0.6, Attack = 1.1, Roar = 2.2 },
+				bob = 1.1, roll = 0.03, tail = 0.6, headLow = -0.1,
+			},
+			glow = {
+				Eyes = Color3.fromRGB(255, 210, 63),
+				Glow = Color3.fromRGB(255, 106, 26),
+				GlowCore = Color3.fromRGB(255, 211, 107),
+			},
+			light = { bone = "Head", color = Color3.fromRGB(255, 122, 42), brightness = 1.8, range = 12 },
+			yawOffset = 0,
+		},
+		Sparkit = {
+			element = "Storm",
+			style = { tip = "TailTip", dur = { Idle = 1.8, Walk = 0.6, Run = 0.38, Attack = 0.8, Roar = 1.8 }, bob = 1.3, tail = 1.5, sway = 1.2 },
+			glow = {
+				Eyes = Color3.fromRGB(143, 246, 255),
+				Glow = Color3.fromRGB(63, 220, 255),
+				GlowCore = Color3.fromRGB(251, 255, 158),
+			},
+			light = { bone = "TailTip", color = Color3.fromRGB(95, 216, 255), brightness = 1.6, range = 10 },
+			yawOffset = 0,
+		},
+		Frostfawn = {
+			element = "Ice",
+			style = {
+				tip = "TailTip", dur = { Idle = 2.8, Walk = 0.9, Run = 0.52, Attack = 1.0, Roar = 2.2 },
+				walk = { 0.5, 0.8, 0.45, 0.6 }, run = { 0.95, 1.1, 0.9, 0.9 }, bob = 1.1, tail = 0.5, neck = 0.4,
+			},
+			glow = {
+				Eyes = Color3.fromRGB(159, 240, 255),
+				Glow = Color3.fromRGB(95, 208, 244),
+				GlowCore = Color3.fromRGB(168, 236, 255),
+			},
+			light = { bone = "Head", color = Color3.fromRGB(143, 232, 255), brightness = 1.5, range = 12 },
+			yawOffset = 0,
+		},
+		Umbrapaw = {
+			element = "Shadow",
+			style = { tip = "TailTip", dur = { Idle = 2.6, Walk = 0.95, Run = 0.55, Attack = 0.95, Roar = 2.2 }, walk = { 0.5, 0.75, 0.45, 0.55 }, bob = 0.8, sway = 1.3, tail = 1.4, headLow = -0.06 },
+			glow = {
+				Eyes = Color3.fromRGB(217, 139, 255),
+				Glow = Color3.fromRGB(165, 77, 255),
+				GlowCore = Color3.fromRGB(243, 205, 255),
+			},
+			light = { bone = "TailTip", color = Color3.fromRGB(176, 107, 255), brightness = 1.8, range = 12 },
+			yawOffset = 0,
+		},
+		Shellsnap = {
+			element = "Water",
+			style = {
+				tip = "TailTip", attack = "charge", dur = { Idle = 3.0, Walk = 1.2, Run = 0.75, Attack = 1.2, Roar = 2.4 },
+				walk = { 0.4, 0.5, 0.4, 0.45 }, run = { 0.65, 0.7, 0.6, 0.65 }, bob = 0.7, roll = 0.06, sway = 0.6, tail = 0.6,
+			},
+			glow = {
+				Eyes = Color3.fromRGB(111, 244, 255),
+				Glow = Color3.fromRGB(56, 226, 255),
+			},
+			light = { bone = "Spine", color = Color3.fromRGB(56, 226, 255), brightness = 1.5, range = 12 },
+			yawOffset = 0,
+		},
+		Bramblepup = {
+			element = "Nature",
+			style = { tip = "TailTip", dur = { Idle = 2.0, Walk = 0.7, Run = 0.45, Attack = 0.9, Roar = 2.0 }, bob = 1.4, tail = 1.6, sway = 1.1 },
+			glow = {
+				Eyes = Color3.fromRGB(200, 255, 106),
+				Glow = Color3.fromRGB(168, 255, 79),
+				GlowCore = Color3.fromRGB(255, 247, 160),
+			},
+			light = { bone = "Head", color = Color3.fromRGB(178, 255, 99), brightness = 1.3, range = 10 },
+			yawOffset = 0,
+		},
 	},
 }

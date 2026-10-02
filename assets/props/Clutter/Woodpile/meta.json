@@ -1,0 +1,13 @@
+{
+  "name": "Woodpile",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1796,
+        "verts": 2902
+      }
+    },
+    "parts": {}
+  }
+}

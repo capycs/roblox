@@ -1,11 +1,13 @@
 // Camp and town clutter: crates, barrels, lanterns, signs, fences, campfire, chest...
 import * as THREE from 'three';
-import { V, ell, cone, quatTo, loft, blade, cyl, box, torus, flame, surfaceQuat, into, flagCloth } from '../lib.js';
+import { V, ell, cone, quatTo, loft, blade, cyl, box, torus, flame, surfaceQuat, into, flagCloth, rock } from '../lib.js';
+import { canopy as leafy } from '../foliage.js';
 
 const C = {
   wood: '#a8703f', woodDark: '#744828', woodLight: '#c99258', metal: '#5b6470', metalDark: '#353b44', rope: '#b89466',
   canvas: '#f4e8cf', canvasRed: '#d9483b', gold: '#f2b33d', goldDeep: '#c27e1c', bone: '#ece2cc', boneShade: '#c9bea6',
   stone: '#8b8e8c', stoneDark: '#5f6466', cloth: '#3d6fc4', clothDark: '#2a4f91',
+  leafDeep: '#28552b', leafDark: '#357a2f', leaf: '#4f9a3d', leafLight: '#74b84a', leafTip: '#98cf58', bark: '#8a5a34', shingle: '#c4553f', shingleDark: '#9c3f30', paper: '#fff1c8',
   burlap: '#d2ad74', burlapDark: '#a9844f', grain: '#f2d27a', gem: '#e8473a',
 };
 const pal = (keys) => keys.map((k) => [k, C[k]]);
@@ -62,21 +64,60 @@ add({
   },
 });
 add({
-  name: 'LanternPost', palette: pal(['metal', 'metalDark', 'gold']), glow: { LanternLamp: '#ffd36b' }, heroSize: [440, 640],
+  // Wooden hook post with a hanging lantern (Lantern/LanternLamp swing in the wind).
+  name: 'LanternPost', palette: pal(['wood', 'woodDark', 'bark', 'metalDark', 'gold', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), glow: { LanternLamp: '#ffd36b' }, heroSize: [440, 640],
   parts: { Lantern: { pivot: [1.2, 6.95, 0] }, LanternLamp: { pivot: [1.2, 6.95, 0] } },
-  build(B) { const Lt = into(B, 'Lantern'); B.add(cyl(0.18, 0.28, 7, 8), { pos: [0, 3.5, 0], color: 'metalDark' }); B.add(cyl(0.6, 0.75, 0.4, 8), { pos: [0, 0.2, 0], color: 'metal' }); B.add(loft({ points: [[0, 6.6, 0], [0.6, 7.2, 0], [1.2, 7.0, 0]], rx: () => 0.08, ry: () => 0.08, rings: 8, seg: 6 }), { color: 'metalDark' }); Lt.add(cyl(0.38, 0.3, 0.2, 8), { pos: [1.2, 6.75, 0], color: 'gold' }); B.add(ell(0.34, 0.48, 0.34, 10, 8), { pos: [1.2, 6.2, 0], mesh: 'LanternLamp' }); Lt.add(cone(0.48, 0.45, 8), { pos: [1.2, 5.6, 0], rot: [Math.PI, 0, 0], color: 'gold' }); for (let k = 0; k < 4; k++) { const a = k * Math.PI / 2 + Math.PI / 4; Lt.add(cyl(0.035, 0.035, 0.9, 4), { pos: [1.2 + Math.cos(a) * 0.36, 6.2, Math.sin(a) * 0.36], color: 'metalDark' }); } },
+  build(B) {
+    const Lt = into(B, 'Lantern');
+    B.add(loft({ points: [[0, -0.1, 0], [0.08, 3.5, 0.05], [0, 7.3, 0]], rx: (t) => 0.3 - 0.1 * t, ry: (t) => 0.3 - 0.1 * t, rings: 10, seg: 8 }), { color: 'bark' });
+    for (let i = 0; i < 4; i++) { const a = i * 1.6 + 0.3; B.add(cone(0.18, 0.8, 6), { pos: [Math.cos(a) * 0.3, 0.2, Math.sin(a) * 0.3], quat: quatTo([Math.cos(a), -0.6, Math.sin(a)]), color: 'woodDark' }); }
+    B.add(box(1.7, 0.22, 0.22), { pos: [0.65, 7.0, 0], color: 'wood' });
+    B.add(loft({ points: [[0.05, 6.3, 0], [0.45, 6.75, 0], [0.75, 6.92, 0]], rx: () => 0.06, ry: () => 0.06, rings: 6, seg: 5 }), { color: 'woodDark' });
+    Lt.add(cyl(0.025, 0.025, 0.4, 4), { pos: [1.2, 6.78, 0], color: 'rope' });
+    Lt.add(cone(0.42, 0.32, 6), { pos: [1.2, 6.45, 0], color: 'metalDark' });
+    Lt.add(ell(0.08, 0.08, 0.08, 6, 4), { pos: [1.2, 6.65, 0], color: 'gold' });
+    B.add(cyl(0.26, 0.3, 0.62, 6), { pos: [1.2, 5.95, 0], mesh: 'LanternLamp' });
+    for (let k = 0; k < 6; k++) { const a = (k / 6) * Math.PI * 2; Lt.add(cyl(0.03, 0.03, 0.64, 4), { pos: [1.2 + Math.cos(a) * 0.3, 5.95, Math.sin(a) * 0.3], color: 'metalDark' }); }
+    Lt.add(cyl(0.34, 0.28, 0.1, 6), { pos: [1.2, 5.6, 0], color: 'metalDark' });
+    // ivy climbing the post
+    leafy(B, { blobs: [[0.05, 1.0, 0.1, 0.5], [-0.05, 2.0, 0.15, 0.42], [0.1, 3.0, -0.05, 0.34]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 70, size: [0.42, 0.24], seed: 61 });
+  },
 });
 add({
   name: 'Signpost', palette: pal(['wood', 'woodDark', 'woodLight']), heroSize: [480, 600],
   build(B) { B.add(cyl(0.18, 0.22, 4.6, 8), { pos: [0, 2.3, 0], color: 'woodDark' }); for (const [y, a, w] of [[3.8, 0.3, 2.6], [3.0, -0.5, 2.2], [2.3, 2.6, 2.0]]) { const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0, a, 0)); B.add(box(w, 0.55, 0.14), { pos: V([w / 2 - 0.1, 0, 0.2]).applyQuaternion(q).add(V([0, y, 0])).toArray(), quat: q, color: 'woodLight' }); B.add(cone(0.4, 0.55, 3, 0.25), { pos: V([w - 0.05, 0, 0.2]).applyQuaternion(q).add(V([0, y, 0])).toArray(), quat: q.clone().multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(0, 0, -Math.PI / 2))), color: 'woodLight' }); } },
 });
 add({
-  name: 'FenceSegment', palette: pal(['wood', 'woodDark']), heroSize: [640, 420],
-  build(B) { for (const x of [-3, 0, 3]) { B.add(box(0.4, 2.4, 0.4), { pos: [x, 1.2, 0], color: 'woodDark' }); B.add(cone(0.32, 0.4, 4), { pos: [x, 2.6, 0], rot: [0, Math.PI / 4, 0], color: 'woodDark' }); } for (const y of [0.8, 1.7]) B.add(box(6.4, 0.3, 0.16), { pos: [0, y, 0.25], rot: [0, 0, y > 1 ? 0.02 : -0.02], color: 'wood' }); },
+  // Rustic split-rail fence: round posts with rope lashing, sagging rails, ivy on one post.
+  name: 'FenceSegment', palette: pal(['wood', 'woodDark', 'bark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [640, 420],
+  build(B) {
+    for (const [x, h, tilt] of [[-3, 2.3, 0.04], [0, 2.5, -0.03], [3, 2.2, 0.05]]) {
+      B.add(loft({ points: [[x, -0.1, 0], [x + tilt, h * 0.6, 0], [x + tilt * 1.4, h, 0]], rx: (t) => 0.24 - 0.04 * t, ry: (t) => 0.24 - 0.04 * t, rings: 6, seg: 8 }), { color: 'bark' });
+      B.add(cone(0.22, 0.25, 8), { pos: [x + tilt * 1.4, h + 0.1, 0], color: 'woodDark' });
+      for (const y of [0.85, 1.75]) B.add(torus(0.27, 0.05, 4, 10), { pos: [x + tilt, y, 0], rot: [Math.PI / 2, 0, 0], color: 'rope' });
+    }
+    for (const [y, c] of [[0.85, 'wood'], [1.75, 'woodDark']]) for (const [x0, x1] of [[-3, 0], [0, 3]]) {
+      B.add(loft({ points: [[x0, y, 0.22], [(x0 + x1) / 2, y - 0.12, 0.24], [x1, y, 0.22]], rx: () => 0.13, ry: () => 0.11, rings: 8, seg: 6 }), { color: c });
+    }
+    leafy(B, { blobs: [[-3, 0.5, 0.15, 0.45], [-3.05, 1.3, 0.12, 0.36], [-2.5, 1.8, 0.22, 0.28]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 90, size: [0.42, 0.24], seed: 63 });
+    for (let k = 0; k < 7; k++) { const x = -2.6 + k * 0.85; B.add(cone(0.08, 0.45 + (k % 3) * 0.15, 4), { pos: [x, 0.2, 0.05 * (k % 2)], quat: quatTo([(k % 2 ? 0.3 : -0.3), 1, 0.2]), color: k % 2 ? 'leaf' : 'leafLight' }); }
+  },
 });
 add({
-  name: 'Bench', palette: pal(['wood', 'woodDark', 'metalDark']), heroSize: [600, 440],
-  build(B) { for (const z of [-0.3, 0, 0.3]) B.add(box(4, 0.15, 0.26), { pos: [0, 1.0, z], color: 'wood' }); for (const y of [1.45, 1.8]) B.add(box(4, 0.25, 0.12), { pos: [0, y, 0.48], color: 'wood' }); for (const x of [-1.7, 1.7]) { B.add(box(0.16, 1.0, 1.0), { pos: [x, 0.5, 0], color: 'metalDark' }); B.add(box(0.16, 1.1, 0.12), { pos: [x, 1.5, 0.48], color: 'metalDark' }); } },
+  // Half-log bench on two stumps, with a moss patch.
+  name: 'Bench', palette: pal(['wood', 'woodDark', 'woodLight', 'bark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [600, 440],
+  build(B) {
+    const seat = new THREE.CylinderGeometry(0.55, 0.55, 4.2, 12, 1, false, Math.PI, Math.PI); seat.rotateZ(Math.PI / 2);
+    B.add(seat, { pos: [0, 1.05, 0], color: 'bark' });
+    B.add(box(4.2, 0.04, 1.08), { pos: [0, 1.06, 0], color: 'woodLight' });
+    for (const x of [-2.12, 2.12]) { const c = new THREE.CylinderGeometry(0.55, 0.55, 0.05, 12, 1, false, Math.PI, Math.PI); c.rotateZ(Math.PI / 2); B.add(c, { pos: [x, 1.06, 0], color: 'wood' }); }
+    for (const x of [-1.5, 1.5]) {
+      B.add(cyl(0.42, 0.5, 0.55, 10), { pos: [x, 0.27, 0], color: 'bark' });
+      B.add(cyl(0.4, 0.4, 0.04, 10), { pos: [x, 0.56, 0], color: 'woodLight' });
+      for (let i = 0; i < 3; i++) { const a = i * 2.1 + x; B.add(cone(0.16, 0.5, 6), { pos: [x + Math.cos(a) * 0.45, 0.12, Math.sin(a) * 0.45], quat: quatTo([Math.cos(a), -0.5, Math.sin(a)]), color: 'woodDark' }); }
+    }
+    leafy(B, { blobs: [[-1.6, 0.5, 0.45, 0.32], [1.7, 0.25, -0.45, 0.28]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 40, size: [0.34, 0.2], seed: 65 });
+  },
 });
 add({
   name: 'Campfire', palette: pal(['woodDark', 'wood', 'stone', 'stoneDark']), glow: { Flame: '#ff6a1a', FlameCore: '#ffd36b' }, bg: '#221a1c',
@@ -123,8 +164,25 @@ add({
   build(B) { B.add(box(3.2, 0.2, 2.0), { pos: [0, 1.4, 0], color: 'wood' }); for (const z of [-1, 1]) B.add(box(3.2, 0.8, 0.14), { pos: [0, 1.9, z], color: 'woodDark' }); B.add(box(0.14, 0.8, 2), { pos: [1.6, 1.9, 0], color: 'woodDark' }); for (const z of [-1.15, 1.15]) { B.add(torus(0.8, 0.12, 6, 14), { pos: [-0.4, 0.85, z], color: 'woodDark' }); for (let k = 0; k < 4; k++) B.add(cyl(0.05, 0.05, 1.6, 4), { pos: [-0.4, 0.85, z], rot: [0, 0, k * Math.PI / 4], color: 'wood' }); } for (const z of [-0.5, 0.5]) B.add(cyl(0.07, 0.07, 2.6, 5), { pos: [-2.6, 1.2, z], rot: [0, 0, Math.PI / 2 - 0.2], color: 'woodDark' }); const s = new THREE.SphereGeometry(1, 10, 8, 0, Math.PI * 2, 0, Math.PI / 2); s.scale(1.5, 0.8, 0.9); B.add(s, { pos: [0.2, 1.5, 0], color: 'canvas' }); },
 });
 add({
-  name: 'Well', palette: pal(['stone', 'stoneDark', 'wood', 'woodDark', 'canvasRed', 'rope']), heroSize: [520, 600], parts: { Bucket: { pivot: [0, 3.2, 0] } },
-  build(B) { for (let k = 0; k < 12; k++) { const a = (k / 12) * Math.PI * 2; B.add(box(0.9, 1.4, 0.5), { pos: [Math.cos(a) * 1.5, 0.7, Math.sin(a) * 1.5], rot: [0, -a + Math.PI / 2, 0], color: k % 2 ? 'stone' : 'stoneDark' }); } for (const x of [-1.5, 1.5]) B.add(box(0.25, 3.4, 0.25), { pos: [x, 2.3, 0], color: 'woodDark' }); const c = cyl(0.2, 0.2, 3.2, 8); c.rotateZ(Math.PI / 2); B.add(c, { pos: [0, 3.2, 0], color: 'wood' }); const roof = new THREE.ConeGeometry(2.6, 1.5, 4); B.add(roof, { pos: [0, 4.6, 0], rot: [0, Math.PI / 4, 0], color: 'canvasRed' }); into(B, 'Bucket').add(cyl(0.03, 0.03, 1.8, 4), { pos: [0, 2.3, 0], color: 'rope' }); into(B, 'Bucket').add(cyl(0.3, 0.25, 0.4, 8), { pos: [0, 1.3, 0], color: 'wood' }); },
+  // Stone well with a shingled roof, crank, bucket and ivy.
+  name: 'Well', palette: pal(['stone', 'stoneDark', 'wood', 'woodDark', 'bark', 'shingle', 'shingleDark', 'rope', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']), heroSize: [520, 600], parts: { Bucket: { pivot: [0, 3.2, 0] } },
+  build(B) {
+    B.add(new THREE.CylinderGeometry(1.5, 1.6, 1.35, 16, 1, true), { pos: [0, 0.67, 0], color: 'stoneDark' });
+    B.add(new THREE.CylinderGeometry(1.25, 1.25, 0.1, 16), { pos: [0, 0.6, 0], color: 'stoneDark' });
+    for (let row = 0; row < 3; row++) for (let k = 0; k < 11; k++) { const a = ((k + row * 0.5) / 11) * Math.PI * 2; const g = rock(0.42, 3 + k + row * 11, 0.62, 0); B.add(g, { pos: [Math.cos(a) * 1.55, 0.25 + row * 0.42, Math.sin(a) * 1.55], rot: [0, -a, 0], scale: [1.25, 1, 0.9], color: (k + row) % 3 ? 'stone' : 'stoneDark' }); }
+    B.add(torus(1.55, 0.2, 6, 22), { pos: [0, 1.38, 0], rot: [Math.PI / 2, 0, 0], color: 'stoneDark' });
+    for (const x of [-1.5, 1.5]) B.add(loft({ points: [[x, 1.2, 0], [x * 1.02, 2.8, 0], [x, 4.15, 0]], rx: () => 0.15, ry: () => 0.15, rings: 6, seg: 6 }), { color: 'bark' });
+    const c = cyl(0.17, 0.17, 3.2, 8); c.rotateZ(Math.PI / 2); B.add(c, { pos: [0, 3.2, 0], color: 'wood' });
+    B.add(box(0.12, 0.6, 0.12), { pos: [1.75, 2.95, 0], color: 'woodDark' }); B.add(box(0.12, 0.12, 0.5), { pos: [1.75, 2.65, 0.2], color: 'woodDark' });
+    // two-pitch roof made of shingle rows
+    for (const side of [-1, 1]) for (let r = 0; r < 4; r++) {
+      const z = side * (0.35 + r * 0.42), y = 4.85 - r * 0.3;
+      B.add(box(4.0, 0.12, 0.55), { pos: [0, y, z], rot: [side * 0.62, 0, 0], color: r % 2 ? 'shingleDark' : 'shingle' });
+    }
+    B.add(box(4.1, 0.2, 0.3), { pos: [0, 5.02, 0], color: 'woodDark' });
+    into(B, 'Bucket').add(cyl(0.03, 0.03, 1.8, 4), { pos: [0, 2.3, 0], color: 'rope' }); into(B, 'Bucket').add(cyl(0.3, 0.25, 0.4, 8), { pos: [0, 1.3, 0], color: 'wood' });
+    leafy(B, { blobs: [[-1.55, 2.2, 0.2, 0.42], [-1.4, 3.2, 0.1, 0.36], [-0.9, 4.4, 0.6, 0.38], [1.2, 0.8, 1.2, 0.5]], shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 120, size: [0.4, 0.24], seed: 67 });
+  },
 });
 add({
   name: 'BridgeSegment', palette: pal(['wood', 'woodDark', 'woodLight', 'rope']), heroSize: [640, 420],

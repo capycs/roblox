@@ -1,0 +1,13 @@
+{
+  "name": "ClayPotGroup",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1072,
+        "verts": 708
+      }
+    },
+    "parts": {}
+  }
+}

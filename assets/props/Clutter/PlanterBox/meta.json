@@ -1,0 +1,13 @@
+{
+  "name": "PlanterBox",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3152,
+        "verts": 6703
+      }
+    },
+    "parts": {}
+  }
+}

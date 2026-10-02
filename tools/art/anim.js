@@ -5,7 +5,7 @@ export const WIND = { dir: [1, 0, 0.35], strength: 1 };
 export const RULES = {
   spin: {
     PropL: { axis: [0, 0, 1], speed: 14 }, PropR: { axis: [0, 0, 1], speed: -14 }, PropBack: { axis: [0, 0, 1], speed: 9 },
-    Blades: { axis: [0, 0, 1], speed: 0.8 }, Ring: { axis: [0, 1, 0], speed: 1.2 },
+    Blades: { axis: [0, 0, 1], speed: 0.8 }, Ring: { axis: [0, 1, 0], speed: 1.2 }, Pinwheel: { axis: [0, 0, 1], speed: 5 },
   },
   // lean with the wind plus gusts; amp in radians, freq in Hz
   sway: { Canopy: { amp: 0.035, freq: 0.5 }, Sway: { amp: 0.07, freq: 1.0 }, Fronds: { amp: 0.07, freq: 0.5 } },

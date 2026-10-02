@@ -1,0 +1,13 @@
+{
+  "name": "CampTent",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 170,
+        "verts": 230
+      }
+    },
+    "parts": {}
+  }
+}

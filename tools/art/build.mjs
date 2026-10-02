@@ -51,6 +51,10 @@ for (const name of species) {
     if (flags.has('--no-sprites') && img.startsWith('sprite_')) continue;
     fs.writeFileSync(path.join(renderDir, img + '.png'), Buffer.from(url.split(',')[1], 'base64'));
   }
+  if (out.mutations) {
+    const mdir = path.join(outDir, 'mutations'); fs.mkdirSync(mdir, { recursive: true });
+    for (const [m, url] of Object.entries(out.mutations)) fs.writeFileSync(path.join(mdir, m + '.png'), Buffer.from(url.split(',')[1], 'base64'));
+  }
   fs.writeFileSync(path.join(renderDir, 'meta.json'), JSON.stringify({ name: out.name, element: out.element, stats: out.stats, sprites: out.sprites }, null, 2));
   const tris = Object.entries(out.stats.meshes).map(([m, s]) => `${m} ${s.tris}`).join(', ');
   console.log(`${out.name}: ${tris}; bones ${out.stats.bones}`);

@@ -1,5 +1,6 @@
 // Runs in headless Chromium (see build.mjs). Exports a species' GLB and renders previews.
 import * as THREE from 'three';
+import { MUTATIONS, mutatePalette, mutateGlow } from './mutations.js';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
@@ -22,6 +23,7 @@ async function exportGLB(spec, style) {
     ? new THREE.MeshStandardMaterial({ map: tex, roughness: 0.9, name: 'Body' })
     : new THREE.MeshStandardMaterial({ color: spec.glow[n], emissive: spec.glow[n], name: n });
   const { group, boneMap, stats } = buildCreature(spec, mat);
+  group.traverse((o) => o.geometry && o.geometry.deleteAttribute('outlineK'));
   const clips = bakeClips(style, boneMap);
   const glb = await new GLTFExporter().parseAsync(group, { binary: true, animations: clips });
   const bytes = new Uint8Array(glb);
@@ -53,7 +55,7 @@ function toonScene(spec) {
   const outline = new THREE.MeshBasicMaterial({ color: spec.outline || '#140b10', side: THREE.BackSide });
   const thick = (0.035 * radius / 4.76).toFixed(4);
   outline.onBeforeCompile = (sh) => {
-    sh.vertexShader = sh.vertexShader.replace('#include <skinning_vertex>', `#include <skinning_vertex>\n transformed += normalize(objectNormal) * ${thick};`);
+    sh.vertexShader = 'attribute float outlineK;\n' + sh.vertexShader.replace('#include <skinning_vertex>', `#include <skinning_vertex>\n transformed += normalize(objectNormal) * ${thick}; if (outlineK < 0.5) transformed = vec3(0.0);`);
   };
   for (const name of ['Body', 'Eyes']) {
     const src = model.meshes[name]; if (!src) continue;
@@ -179,6 +181,20 @@ export async function runAll(specName) {
   still('side', 600, 640, 22, [-1, 0.03, 0], 0.74);
   still('back', 600, 640, 22, [0, 0.05, 1], 0.74);
   still('threeq', 600, 640, 22, [12, 3, 14], 0.74);
+
+  // mutation colour variants: palette texture for the game + a thumbnail
+  out.mutations = {};
+  const body = S.model.meshes.Body, origMap = body.material.map;
+  const glowMats = Object.entries(S.model.meshes).filter(([n]) => n !== 'Body').map(([n, m]) => [n, m.material, m.material.color.clone()]);
+  for (const mut of Object.keys(MUTATIONS)) {
+    const pal = mutatePalette(spec.palette, mut), gl = mutateGlow(spec.glow, mut);
+    out.mutations[mut] = paletteCanvas(pal).toDataURL('image/png');
+    body.material.map = paletteTexture({ palette: pal }); body.material.needsUpdate = true;
+    for (const [n, m] of glowMats) m.color.set(gl[n]).multiplyScalar(n === 'Eyes' ? 1 : 1.1);
+    still('mut_' + mut, 480, 420, 26, V.hero || [-7.2, 2.35, -9.5], 0.7);
+  }
+  body.material.map = origMap; body.material.needsUpdate = true;
+  for (const [, m, c] of glowMats) m.color.copy(c);
 
   // sprite strips for each clip
   const FW = 400, FH = 320, FPS = 20;

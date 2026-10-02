@@ -1,0 +1,13 @@
+{
+  "name": "Beehive",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1692,
+        "verts": 1217
+      }
+    },
+    "parts": {}
+  }
+}

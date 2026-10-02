@@ -9,6 +9,7 @@ return {
 		PropBack = { axis = Vector3.new(0, 0, 1), speed = 9 },
 		Blades = { axis = Vector3.new(0, 0, 1), speed = 0.8 },
 		Ring = { axis = Vector3.new(0, 1, 0), speed = 1.2 },
+		Pinwheel = { axis = Vector3.new(0, 0, 1), speed = 5 },
 	},
 	Sway = {
 		Canopy = { amp = 0.035, freq = 0.5 },
@@ -86,11 +87,14 @@ return {
 			HoverGem = Vector3.new(0, -0.2, 0),
 		},
 		LanternPost = {
-			Lantern = Vector3.new(0, 0.8375, 0),
-			LanternLamp = Vector3.new(0, 0.75, 0),
+			Lantern = Vector3.new(0, 0.685, 0),
+			LanternLamp = Vector3.new(0, 1, 0),
 		},
 		Lilypad = {
 			Float = Vector3.new(-0.4456, -0.2203, -0.1952),
+		},
+		Pinwheel = {
+			Pinwheel = Vector3.new(0, 0, -0.019),
 		},
 		Reeds = {
 			Sway = Vector3.new(0.0535, -1.551, -0.0476),
@@ -114,6 +118,9 @@ return {
 		},
 		TreePineSnow = {
 			Sway = Vector3.new(-0.1288, -6.7708, -0.1225),
+		},
+		VineCurtain = {
+			Sway = Vector3.new(0.0261, 1.8779, 0.0203),
 		},
 		Well = {
 			Bucket = Vector3.new(0, 1.05, 0),

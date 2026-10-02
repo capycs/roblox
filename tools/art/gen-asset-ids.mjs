@@ -52,6 +52,18 @@ lines.push('AssetIds.Portraits = {');
 for (const c of fs.readdirSync(path.join(repo, 'assets/creatures')).filter((d) => fs.existsSync(path.join(repo, 'assets/creatures', d, 'previews/hero.png'))).sort()) lines.push(`\t${c} = "${keep('Portraits', c)}",`);
 lines.push('}');
 lines.push('');
+lines.push('--[Mutations] assets/creatures/<Name>/mutations/<Mutation>.png (Body texture swaps)');
+lines.push('AssetIds.Mutations = {');
+for (const c of fs.readdirSync(path.join(repo, 'assets/creatures')).filter((d) => fs.existsSync(path.join(repo, 'assets/creatures', d, 'mutations'))).sort()) {
+  lines.push(`\t${c} = {`);
+  for (const m of list(`assets/creatures/${c}/mutations`)) {
+    const mm = old.match(new RegExp(`${m} = "(rbxassetid://\\d+)", -- ${c}_${m}\\b`));
+    lines.push(`\t\t${m} = "${mm ? mm[1] : 'rbxassetid://0'}", -- ${c}_${m}`);
+  }
+  lines.push('\t},');
+}
+lines.push('}');
+lines.push('');
 lines.push('--[Sky] assets/sky/<Name>/<Face>.png');
 lines.push('AssetIds.Sky = {');
 for (const sky of fs.readdirSync(path.join(repo, 'assets/sky')).sort()) {

@@ -1,0 +1,13 @@
+{
+  "name": "Pumpkins",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1908,
+        "verts": 1226
+      }
+    },
+    "parts": {}
+  }
+}
