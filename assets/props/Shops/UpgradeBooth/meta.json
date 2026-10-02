@@ -1,0 +1,24 @@
+{
+  "name": "UpgradeBooth",
+  "category": "Shops",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 688,
+        "verts": 1221
+      },
+      "Glow": {
+        "tris": 64,
+        "verts": 104
+      },
+      "Potion": {
+        "tris": 64,
+        "verts": 104
+      },
+      "Lamp": {
+        "tris": 80,
+        "verts": 63
+      }
+    }
+  }
+}

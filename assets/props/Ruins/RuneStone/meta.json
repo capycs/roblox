@@ -1,0 +1,16 @@
+{
+  "name": "RuneStone",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 100,
+        "verts": 100
+      },
+      "Rune": {
+        "tris": 60,
+        "verts": 120
+      }
+    }
+  }
+}

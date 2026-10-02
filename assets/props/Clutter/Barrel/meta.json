@@ -1,0 +1,12 @@
+{
+  "name": "Barrel",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 612,
+        "verts": 479
+      }
+    }
+  }
+}

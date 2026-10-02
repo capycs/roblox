@@ -1,0 +1,16 @@
+{
+  "name": "EggStorm",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1932,
+        "verts": 1011
+      },
+      "Glow": {
+        "tris": 40,
+        "verts": 120
+      }
+    }
+  }
+}

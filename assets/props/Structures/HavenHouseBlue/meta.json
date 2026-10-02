@@ -1,0 +1,16 @@
+{
+  "name": "HavenHouseBlue",
+  "category": "Structures",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 556,
+        "verts": 688
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 96
+      }
+    }
+  }
+}

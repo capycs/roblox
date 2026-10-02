@@ -1,0 +1,12 @@
+{
+  "name": "CliffChunk",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 580,
+        "verts": 1517
+      }
+    }
+  }
+}

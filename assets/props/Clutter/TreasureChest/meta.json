@@ -1,0 +1,16 @@
+{
+  "name": "TreasureChest",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 308,
+        "verts": 516
+      },
+      "Glow": {
+        "tris": 80,
+        "verts": 66
+      }
+    }
+  }
+}

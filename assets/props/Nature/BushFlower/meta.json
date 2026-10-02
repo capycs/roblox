@@ -1,0 +1,12 @@
+{
+  "name": "BushFlower",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1500,
+        "verts": 1188
+      }
+    }
+  }
+}

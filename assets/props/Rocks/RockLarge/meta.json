@@ -1,0 +1,12 @@
+{
+  "name": "RockLarge",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 240,
+        "verts": 720
+      }
+    }
+  }
+}

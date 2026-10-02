@@ -1,0 +1,12 @@
+{
+  "name": "MushroomCluster",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1104,
+        "verts": 993
+      }
+    }
+  }
+}

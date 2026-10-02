@@ -1,0 +1,12 @@
+{
+  "name": "RockSnowy",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 316,
+        "verts": 464
+      }
+    }
+  }
+}

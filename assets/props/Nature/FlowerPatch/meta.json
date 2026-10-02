@@ -1,0 +1,12 @@
+{
+  "name": "FlowerPatch",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2422,
+        "verts": 2324
+      }
+    }
+  }
+}

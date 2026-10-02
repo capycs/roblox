@@ -1,0 +1,20 @@
+{
+  "name": "BasaltColumns",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 384,
+        "verts": 640
+      },
+      "Glow": {
+        "tris": 132,
+        "verts": 171
+      },
+      "GlowCore": {
+        "tris": 72,
+        "verts": 65
+      }
+    }
+  }
+}

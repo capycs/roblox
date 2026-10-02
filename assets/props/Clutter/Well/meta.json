@@ -1,0 +1,12 @@
+{
+  "name": "Well",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 256,
+        "verts": 487
+      }
+    }
+  }
+}

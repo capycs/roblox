@@ -23,7 +23,7 @@ return {
 	-- Only animate creatures within this distance of the camera.
 	AnimateDistance = 220,
 
-	-- One entry per creature. `style` mirrors the species file in tools/creatures/species
+	-- One entry per creature. `style` mirrors the species file in tools/art/species
 	-- (same keys as Poses/Quadruped.luau). `glow` maps mesh names to Neon colours.
 	-- If an imported model faces the wrong way, set yawOffset (degrees around Y).
 	Species = {

@@ -1,0 +1,12 @@
+{
+  "name": "RockMesa",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 416,
+        "verts": 1038
+      }
+    }
+  }
+}

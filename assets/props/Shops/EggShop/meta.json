@@ -1,0 +1,20 @@
+{
+  "name": "EggShop",
+  "category": "Shops",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 4584,
+        "verts": 3496
+      },
+      "Glow": {
+        "tris": 288,
+        "verts": 175
+      },
+      "Lamp": {
+        "tris": 160,
+        "verts": 126
+      }
+    }
+  }
+}

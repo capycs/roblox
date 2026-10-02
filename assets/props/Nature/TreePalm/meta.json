@@ -1,0 +1,12 @@
+{
+  "name": "TreePalm",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1208,
+        "verts": 1203
+      }
+    }
+  }
+}

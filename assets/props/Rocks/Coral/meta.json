@@ -1,0 +1,12 @@
+{
+  "name": "Coral",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 758,
+        "verts": 473
+      }
+    }
+  }
+}

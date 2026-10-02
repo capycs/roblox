@@ -1,0 +1,16 @@
+{
+  "name": "EggLegendary",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2148,
+        "verts": 1257
+      },
+      "Glow": {
+        "tris": 160,
+        "verts": 480
+      }
+    }
+  }
+}

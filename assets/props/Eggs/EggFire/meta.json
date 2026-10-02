@@ -1,0 +1,16 @@
+{
+  "name": "EggFire",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1746,
+        "verts": 1048
+      },
+      "Glow": {
+        "tris": 210,
+        "verts": 111
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "SkyDock",
+  "category": "Structures",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3670,
+        "verts": 6405
+      },
+      "Glow": {
+        "tris": 84,
+        "verts": 240
+      },
+      "Lamp": {
+        "tris": 840,
+        "verts": 594
+      }
+    }
+  }
+}

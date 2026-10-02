@@ -1,0 +1,20 @@
+{
+  "name": "Incubator",
+  "category": "Shops",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 876,
+        "verts": 730
+      },
+      "Glow": {
+        "tris": 400,
+        "verts": 261
+      },
+      "Glass": {
+        "tris": 460,
+        "verts": 273
+      }
+    }
+  }
+}

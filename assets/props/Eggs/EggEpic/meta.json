@@ -1,0 +1,16 @@
+{
+  "name": "EggEpic",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2252,
+        "verts": 1281
+      },
+      "Glow": {
+        "tris": 180,
+        "verts": 540
+      }
+    }
+  }
+}

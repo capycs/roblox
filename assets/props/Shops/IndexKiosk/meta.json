@@ -1,0 +1,20 @@
+{
+  "name": "IndexKiosk",
+  "category": "Shops",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 336,
+        "verts": 377
+      },
+      "Glow": {
+        "tris": 36,
+        "verts": 108
+      },
+      "Rune": {
+        "tris": 72,
+        "verts": 144
+      }
+    }
+  }
+}

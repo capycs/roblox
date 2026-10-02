@@ -1,0 +1,12 @@
+{
+  "name": "RuinPillarBroken",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 734,
+        "verts": 825
+      }
+    }
+  }
+}

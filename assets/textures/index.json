@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Grass",
+    "terrain": "Grass",
+    "studsPerTile": 10
+  },
+  {
+    "name": "GrassLush",
+    "terrain": "LeafyGrass",
+    "studsPerTile": 10
+  },
+  {
+    "name": "Dirt",
+    "terrain": "Ground",
+    "studsPerTile": 10
+  },
+  {
+    "name": "Mud",
+    "terrain": "Mud",
+    "studsPerTile": 12
+  },
+  {
+    "name": "Rock",
+    "terrain": "Rock",
+    "studsPerTile": 12
+  },
+  {
+    "name": "Cliff",
+    "terrain": "Slate",
+    "studsPerTile": 16
+  },
+  {
+    "name": "Sand",
+    "terrain": "Sand",
+    "studsPerTile": 10
+  },
+  {
+    "name": "Snow",
+    "terrain": "Snow",
+    "studsPerTile": 12
+  },
+  {
+    "name": "Ice",
+    "terrain": "Glacier",
+    "studsPerTile": 14
+  },
+  {
+    "name": "Basalt",
+    "terrain": "Basalt",
+    "studsPerTile": 12
+  },
+  {
+    "name": "CrackedLava",
+    "terrain": "CrackedLava",
+    "studsPerTile": 12
+  },
+  {
+    "name": "Cobblestone",
+    "terrain": "Cobblestone",
+    "studsPerTile": 8
+  },
+  {
+    "name": "WoodPlanks",
+    "terrain": "WoodPlanks",
+    "studsPerTile": 8
+  },
+  {
+    "name": "RuinTiles",
+    "terrain": "Pavement",
+    "studsPerTile": 10
+  }
+]

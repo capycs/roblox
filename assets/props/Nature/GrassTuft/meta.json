@@ -1,0 +1,12 @@
+{
+  "name": "GrassTuft",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 264,
+        "verts": 319
+      }
+    }
+  }
+}

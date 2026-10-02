@@ -1,0 +1,12 @@
+{
+  "name": "Signpost",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 122,
+        "verts": 193
+      }
+    }
+  }
+}

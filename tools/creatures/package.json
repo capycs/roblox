@@ -1,7 +1,0 @@
-{
-  "name": "creature-generator",
-  "private": true,
-  "type": "module",
-  "scripts": { "build": "node build.mjs" },
-  "dependencies": { "playwright-core": "^1.56.1", "three": "^0.180.0" }
-}

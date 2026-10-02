@@ -1,0 +1,12 @@
+{
+  "name": "Bush",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 924,
+        "verts": 648
+      }
+    }
+  }
+}

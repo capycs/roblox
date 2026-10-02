@@ -1,0 +1,12 @@
+{
+  "name": "Lilypad",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 520,
+        "verts": 536
+      }
+    }
+  }
+}

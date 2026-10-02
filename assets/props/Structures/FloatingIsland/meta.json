@@ -1,0 +1,16 @@
+{
+  "name": "FloatingIsland",
+  "category": "Structures",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 4250,
+        "verts": 5802
+      },
+      "Glow": {
+        "tris": 108,
+        "verts": 324
+      }
+    }
+  }
+}

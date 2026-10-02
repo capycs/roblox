@@ -1,0 +1,20 @@
+{
+  "name": "Campfire",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 560,
+        "verts": 568
+      },
+      "Flame": {
+        "tris": 495,
+        "verts": 256
+      },
+      "FlameCore": {
+        "tris": 495,
+        "verts": 256
+      }
+    }
+  }
+}

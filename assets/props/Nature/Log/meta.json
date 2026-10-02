@@ -1,0 +1,12 @@
+{
+  "name": "Log",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 252,
+        "verts": 329
+      }
+    }
+  }
+}

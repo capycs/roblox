@@ -1,0 +1,16 @@
+{
+  "name": "CreatureStatue",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1220,
+        "verts": 986
+      },
+      "Rune": {
+        "tris": 196,
+        "verts": 234
+      }
+    }
+  }
+}

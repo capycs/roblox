@@ -1,0 +1,24 @@
+{
+  "name": "ExtractionBeacon",
+  "category": "Structures",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 496,
+        "verts": 808
+      },
+      "Ring": {
+        "tris": 800,
+        "verts": 492
+      },
+      "Glow": {
+        "tris": 672,
+        "verts": 965
+      },
+      "GlowCore": {
+        "tris": 72,
+        "verts": 216
+      }
+    }
+  }
+}

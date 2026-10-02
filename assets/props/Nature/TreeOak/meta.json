@@ -1,0 +1,12 @@
+{
+  "name": "TreeOak",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1772,
+        "verts": 1230
+      }
+    }
+  }
+}

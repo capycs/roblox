@@ -1,0 +1,12 @@
+{
+  "name": "BridgeSegment",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 412,
+        "verts": 466
+      }
+    }
+  }
+}

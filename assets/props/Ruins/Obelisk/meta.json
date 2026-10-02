@@ -1,0 +1,16 @@
+{
+  "name": "Obelisk",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 52,
+        "verts": 81
+      },
+      "Rune": {
+        "tris": 48,
+        "verts": 96
+      }
+    }
+  }
+}

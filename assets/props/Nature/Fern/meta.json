@@ -1,0 +1,12 @@
+{
+  "name": "Fern",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 560,
+        "verts": 441
+      }
+    }
+  }
+}

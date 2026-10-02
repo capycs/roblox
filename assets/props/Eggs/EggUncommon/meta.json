@@ -1,0 +1,12 @@
+{
+  "name": "EggUncommon",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2316,
+        "verts": 1335
+      }
+    }
+  }
+}

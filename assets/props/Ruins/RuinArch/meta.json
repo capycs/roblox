@@ -1,0 +1,16 @@
+{
+  "name": "RuinArch",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 316,
+        "verts": 509
+      },
+      "Rune": {
+        "tris": 140,
+        "verts": 99
+      }
+    }
+  }
+}

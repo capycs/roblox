@@ -1,0 +1,12 @@
+{
+  "name": "BannerPole",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 248,
+        "verts": 274
+      }
+    }
+  }
+}

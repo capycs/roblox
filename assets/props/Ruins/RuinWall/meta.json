@@ -1,0 +1,16 @@
+{
+  "name": "RuinWall",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 356,
+        "verts": 629
+      },
+      "Rune": {
+        "tris": 36,
+        "verts": 72
+      }
+    }
+  }
+}

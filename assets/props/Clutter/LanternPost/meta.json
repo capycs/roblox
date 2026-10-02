@@ -1,0 +1,16 @@
+{
+  "name": "LanternPost",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 316,
+        "verts": 377
+      },
+      "Lamp": {
+        "tris": 140,
+        "verts": 99
+      }
+    }
+  }
+}

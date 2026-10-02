@@ -1,0 +1,36 @@
+{
+  "name": "Skyship",
+  "category": "Skyship",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19012,
+        "verts": 13412
+      },
+      "PropL": {
+        "tris": 360,
+        "verts": 342
+      },
+      "PropR": {
+        "tris": 360,
+        "verts": 342
+      },
+      "PropBack": {
+        "tris": 440,
+        "verts": 405
+      },
+      "Glow": {
+        "tris": 216,
+        "verts": 648
+      },
+      "Lamp": {
+        "tris": 2028,
+        "verts": 1458
+      }
+    }
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 1.6
+  }
+}

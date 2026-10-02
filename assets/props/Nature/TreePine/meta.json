@@ -1,0 +1,12 @@
+{
+  "name": "TreePine",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 176,
+        "verts": 248
+      }
+    }
+  }
+}

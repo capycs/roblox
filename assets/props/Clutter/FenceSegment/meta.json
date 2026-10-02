@@ -1,0 +1,12 @@
+{
+  "name": "FenceSegment",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 132,
+        "verts": 207
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "EggIce",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1746,
+        "verts": 1048
+      },
+      "Glow": {
+        "tris": 180,
+        "verts": 540
+      }
+    }
+  }
+}

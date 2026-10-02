@@ -1,0 +1,12 @@
+{
+  "name": "Crate",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 120,
+        "verts": 240
+      }
+    }
+  }
+}

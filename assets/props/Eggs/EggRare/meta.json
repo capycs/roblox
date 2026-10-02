@@ -1,0 +1,16 @@
+{
+  "name": "EggRare",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1932,
+        "verts": 1011
+      },
+      "Glow": {
+        "tris": 320,
+        "verts": 252
+      }
+    }
+  }
+}

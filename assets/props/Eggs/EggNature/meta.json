@@ -1,0 +1,16 @@
+{
+  "name": "EggNature",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1762,
+        "verts": 1039
+      },
+      "Glow": {
+        "tris": 320,
+        "verts": 270
+      }
+    }
+  }
+}

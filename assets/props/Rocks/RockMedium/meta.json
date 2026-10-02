@@ -1,0 +1,12 @@
+{
+  "name": "RockMedium",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 100,
+        "verts": 300
+      }
+    }
+  }
+}

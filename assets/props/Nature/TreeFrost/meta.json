@@ -1,0 +1,16 @@
+{
+  "name": "TreeFrost",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1054,
+        "verts": 570
+      },
+      "Glow": {
+        "tris": 252,
+        "verts": 756
+      }
+    }
+  }
+}

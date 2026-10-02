@@ -1,0 +1,16 @@
+{
+  "name": "RuinSteps",
+  "category": "Ruins",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 208,
+        "verts": 286
+      },
+      "Rune": {
+        "tris": 72,
+        "verts": 144
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "name": "BoulderMossy",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 468,
+        "verts": 595
+      }
+    }
+  }
+}

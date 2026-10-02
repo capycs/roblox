@@ -1,5 +1,5 @@
 --!strict
--- Shared quadruped animation. Mirrors tools/creatures/poses.js 1:1 (that file bakes
+-- Shared quadruped animation. Mirrors tools/art/poses.js 1:1 (that file bakes
 -- the same motion into each GLB and the preview renders). Keep both in sync.
 --
 -- Quadruped.make(style) -> poses module with Clips, SpringBones, TurnLean and

@@ -1,0 +1,24 @@
+{
+  "name": "HavenWindmill",
+  "category": "Structures",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 324,
+        "verts": 481
+      },
+      "Blades": {
+        "tris": 136,
+        "verts": 256
+      },
+      "Lamp": {
+        "tris": 24,
+        "verts": 48
+      }
+    }
+  },
+  "sprite": {
+    "frames": 16,
+    "duration": 2
+  }
+}

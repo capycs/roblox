@@ -1,0 +1,20 @@
+{
+  "name": "EggMythic",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 792,
+        "verts": 437
+      },
+      "Glow": {
+        "tris": 994,
+        "verts": 743
+      },
+      "GlowCore": {
+        "tris": 958,
+        "verts": 635
+      }
+    }
+  }
+}

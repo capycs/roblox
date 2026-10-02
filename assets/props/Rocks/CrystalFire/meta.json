@@ -1,0 +1,20 @@
+{
+  "name": "CrystalFire",
+  "category": "Rocks",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 100,
+        "verts": 300
+      },
+      "Glow": {
+        "tris": 144,
+        "verts": 432
+      },
+      "GlowCore": {
+        "tris": 36,
+        "verts": 108
+      }
+    }
+  }
+}

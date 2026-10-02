@@ -1,0 +1,12 @@
+{
+  "name": "Stump",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 328,
+        "verts": 394
+      }
+    }
+  }
+}

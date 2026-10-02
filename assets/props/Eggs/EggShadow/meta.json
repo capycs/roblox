@@ -1,0 +1,16 @@
+{
+  "name": "EggShadow",
+  "category": "Eggs",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1362,
+        "verts": 724
+      },
+      "Glow": {
+        "tris": 120,
+        "verts": 360
+      }
+    }
+  }
+}

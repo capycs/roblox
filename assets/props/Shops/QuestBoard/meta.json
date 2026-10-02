@@ -1,0 +1,12 @@
+{
+  "name": "QuestBoard",
+  "category": "Shops",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 484,
+        "verts": 779
+      }
+    }
+  }
+}

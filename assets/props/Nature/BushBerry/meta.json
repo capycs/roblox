@@ -1,0 +1,12 @@
+{
+  "name": "BushBerry",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1708,
+        "verts": 1320
+      }
+    }
+  }
+}

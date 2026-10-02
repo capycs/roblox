@@ -1,0 +1,12 @@
+{
+  "name": "Bones",
+  "category": "Clutter",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1048,
+        "verts": 778
+      }
+    }
+  }
+}

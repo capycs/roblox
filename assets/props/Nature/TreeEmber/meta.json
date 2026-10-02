@@ -1,0 +1,20 @@
+{
+  "name": "TreeEmber",
+  "category": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 932,
+        "verts": 580
+      },
+      "Glow": {
+        "tris": 1128,
+        "verts": 696
+      },
+      "GlowCore": {
+        "tris": 612,
+        "verts": 328
+      }
+    }
+  }
+}
