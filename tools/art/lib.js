@@ -8,7 +8,9 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 export const V = (a) => new THREE.Vector3(...a);
 export const SIDES = [['L', -1], ['R', 1]];
 export const env = (t) => Math.pow(Math.sin(Math.PI * Math.min(Math.max(t, 0.001), 0.999)), 0.42);
-export const limbR = (top, bot) => (t) => (bot + (top - bot) * (1 - ss(0.04, 0.55, t))) * Math.sqrt(Math.sin(Math.PI * Math.min(Math.max(t, 0.001), 0.999)));
+const bump = (t, c, w) => Math.exp(-(((t - c) / w) ** 2));
+// Limb radius along its length: full at the shoulder/thigh, a slight knee, a slim ankle.
+export const limbR = (top, bot) => (t) => (bot + (top - bot) * (1 - ss(0.0, 0.5, t))) * (1 + 0.07 * bump(t, 0.52, 0.1) - 0.1 * bump(t, 0.82, 0.09)) * Math.sqrt(Math.sin(Math.PI * Math.min(Math.max(t, 0.001), 0.999)));
 
 export function paletteCanvas(palette) {
   const c = document.createElement('canvas');
@@ -111,7 +113,7 @@ export function flame(r, h, { rings = 16, seg = 15, twist = 2.2, lean = 0.18 } =
 
 // ---------- builder ----------
 export class Builder {
-  constructor(boneIndex, cell, meshNames, textured = ['Body']) { this.bi = boneIndex; this.cell = cell; this.textured = new Set(textured); this.parts = Object.fromEntries(meshNames.map((n) => [n, []])); }
+  constructor(boneIndex, cell, meshNames, textured = ['Body'], warp = null) { this.bi = boneIndex; this.cell = cell; this.textured = new Set(textured); this.warp = warp; this.parts = Object.fromEntries(meshNames.map((n) => [n, []])); }
   add(geo, { pos = [0, 0, 0], rot = [0, 0, 0], quat, scale = [1, 1, 1], color = 'fur', mesh = 'Body', bone = 'Root', weights }) {
     if (!geo.index) geo.setIndex([...Array(geo.attributes.position.count).keys()]);
     const q = quat || new THREE.Quaternion().setFromEuler(new THREE.Euler(...rot, 'XYZ'));
@@ -137,6 +139,11 @@ export class Builder {
       });
     }
     out.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+    if (this.warp) {
+      const OP = out.attributes.position, q = new THREE.Vector3();
+      for (let i = 0; i < n; i++) { q.fromBufferAttribute(OP, i); this.warp(q); OP.setXYZ(i, q.x, q.y, q.z); }
+      out.computeVertexNormals();
+    }
     out.setAttribute('skinIndex', new THREE.BufferAttribute(si, 4));
     out.setAttribute('skinWeight', new THREE.BufferAttribute(sw, 4));
     if (!this.parts[mesh]) throw new Error('unknown mesh ' + mesh);
@@ -157,17 +164,19 @@ export function blend(stops, s) {
 // Builds the skeleton, runs the species' part builder and merges each mesh.
 export function buildCreature(spec, materialFor) {
   const world = Object.fromEntries(spec.bones.map(([n, , p]) => [n, p]));
+  // Bones follow the same warp as the mesh (e.g. shorter legs).
+  const bw = spec.warp ? Object.fromEntries(Object.entries(world).map(([n, p]) => { const v = V(p); spec.warp(v); return [n, v.toArray()]; })) : world;
   const bones = [], boneMap = {}, boneIndex = {};
   for (const [name, parent, p] of spec.bones) {
     const b = new THREE.Bone(); b.name = name;
-    const pp = parent ? world[parent] : [0, 0, 0];
-    b.position.set(p[0] - pp[0], p[1] - pp[1], p[2] - pp[2]);
+    const pw = bw[name], pp = parent ? bw[parent] : [0, 0, 0];
+    b.position.set(pw[0] - pp[0], pw[1] - pp[1], pw[2] - pp[2]);
     if (parent) boneMap[parent].add(b);
     boneIndex[name] = bones.length; bones.push(b); boneMap[name] = b;
   }
   const cell = Object.fromEntries(spec.palette.map(([k], i) => [k, (i + 0.5) / 16]));
   const meshNames = ['Body', ...Object.keys(spec.glow)];
-  const B = new Builder(boneIndex, cell, meshNames);
+  const B = new Builder(boneIndex, cell, meshNames, ['Body'], spec.warp || null);
   spec.build(B, world);
 
   const group = new THREE.Group(); group.name = spec.name;
@@ -231,7 +240,13 @@ export function addEye(B, x, e, o = {}) {
   B.add(ell(rx, ry, rz, 16, 12), { pos: e, rot: [0, th, o.tilt ? o.tilt * x : 0], mesh: 'Eyes', bone });
   const pr = o.pupil || [0.075, 0.19];
   B.add(ell(pr[0], pr[1], 0.06, 10, 8), { pos: [e[0] + f[0] * (rz - 0.015) - 0.025 * x, e[1] - 0.01, e[2] + f[2] * (rz - 0.015)], rot: [0, th, 0], color: o.pupilColor || 'pupil', bone });
-  B.add(ell(0.055, 0.055, 0.04, 8, 6), { pos: [e[0] + f[0] * rz + 0.07 * x * rx / 0.27, e[1] + 0.11 * ry / 0.31, e[2] + f[2] * rz], rot: [0, th, 0], color: o.white || 'white', bone });
+  B.add(ell(0.055, 0.055, 0.04, 8, 6), { pos: [e[0] + f[0] * rz + (o.lid ? 0.1 : 0.07) * x * rx / 0.27, e[1] + (o.lid ? 0.0 : 0.11) * ry / 0.31, e[2] + f[2] * rz], rot: [0, th, 0], color: o.white || 'white', bone });
+  if (o.lid) {
+    // upper lid: a cap of the eye shape in the body colour, closing the top of the eye a little
+    const lid = new THREE.SphereGeometry(1, 16, 8, 0, Math.PI * 2, 0, o.lidAngle ?? 0.95);
+    lid.scale(rx * 1.08, ry * 1.06, rz * 1.25);
+    B.add(lid, { pos: [e[0], e[1] + 0.005, e[2]], rot: [-(o.lidTilt ?? 0.32), th, (o.lidRoll ?? 0.22) * x], color: o.lid, bone });
+  }
   if (o.brow) {
     const br = o.brow;
     B.add(ell(br.len || 0.34, 0.09, 0.16, 12, 8), { pos: [e[0] + 0.02 * x, e[1] + ry + 0.02, e[2] + 0.1], rot: [0, th, (br.tilt ?? 0.38) * x], color: br.color, bone });
@@ -250,6 +265,16 @@ export function blade(len, wid, thick = 0.05, seg = 8) {
   }
   g.computeVertexNormals();
   return g;
+}
+
+// Cheap closed leaflet (8 tris): base at origin, tip along +x, flat in XY. Faceted on purpose.
+export function leaflet(len, wid, thick = 0.03) {
+  const v = [[0, 0, 0], [len, 0, 0], [len * 0.42, wid, 0], [len * 0.42, -wid, 0], [len * 0.42, 0, thick], [len * 0.42, 0, -thick]];
+  const f = [[0, 3, 4], [3, 1, 4], [1, 2, 4], [2, 0, 4], [0, 5, 3], [3, 5, 1], [1, 5, 2], [2, 5, 0]];
+  const pos = [];
+  for (const t of f) for (const i of t) pos.push(...v[i]);
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.computeVertexNormals(); return g;
 }
 
 // Wing arm points for one side (x sign) from the wing bones.
@@ -284,7 +309,7 @@ export function featherWing(B, W, x, o) {
       B.add(blade(len, wid, 0.045), { pos: p0.toArray(), quat: surfaceQuat(nrm.toArray(), dir.toArray()), color: layer ? o.covert : (i % 2 ? o.primary : o.primary2 || o.primary), weights: ww });
       if (!layer && o.tipMesh && i >= n - 6 && i % 2 === 0) {
         const tip = p0.clone().addScaledVector(dir, len * 0.86);
-        B.add(blade(len * 0.22, wid * 0.7, 0.05), { pos: tip.toArray(), quat: surfaceQuat(nrm.toArray(), dir.toArray()), mesh: o.tipMesh, weights: ww });
+        B.add(blade(len * 0.16, wid * 0.45, 0.05), { pos: tip.toArray(), quat: surfaceQuat(nrm.toArray(), dir.toArray()), mesh: o.tipMesh, weights: ww });
       }
     }
   }
@@ -452,3 +477,6 @@ export function flagCloth(B, w, h, names, origin, { color, mesh = 'Flag', notch 
   const weights = (p) => { const u = Math.min(0.9999, Math.max(0, (p.x - origin[0]) / w)) * (n - 1); const k = Math.floor(u), f = u - k; return k + 1 < n ? [[names[k], 1 - f], [names[k + 1], f]] : [[names[n - 1], 1]]; };
   for (const geo of [g, back]) B.add(geo, { pos: origin, color, mesh, weights });
 }
+
+// Leg-shortening warp for creatures: y above y1 drops by k; between y0 and y1 it eases.
+export const shortenLegs = (k, y0 = 0.45, y1 = 2.0) => (p) => { p.y -= k * ss(y0, y1, p.y); };

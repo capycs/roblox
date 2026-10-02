@@ -8,7 +8,7 @@ const palette = [
   ['iceDeep', '#7fa9cf'], ['tusk', '#f4eedf'], ['nose', '#1b2233'], ['mouth', '#7a2a3a'],
   ['pupil', '#0f1724'], ['white', '#ffffff'],
 ];
-const glow = { Eyes: '#7fe6ff', Glow: '#6fdcff', GlowCore: '#dffaff' };
+const glow = { Eyes: '#7fe6ff', Glow: '#4fc4ec', GlowCore: '#9fe6ff' };
 
 const bones = quadBones({
   hips: [2.35, 1.2], spine: [2.6, 0.15], chest: [2.8, -0.8], neck: [2.95, -1.45], head: [2.95, -1.95], jaw: [2.5, -2.35],
@@ -67,9 +67,10 @@ function build(B, W) {
   B.add(ell(0.82, 0.62, 0.52, 20, 14), { pos: [0, 2.95, -2.52], color: 'slate', bone: 'Head' });
   B.add(taperFront(ell(0.62, 0.42, 0.72, 20, 14), 0.25), { pos: [0, 2.72, -2.78], color: 'slateDeep', bone: 'Head' });
   B.add(ell(0.24, 0.17, 0.15, 12, 8), { pos: [0, 2.88, -3.45], color: 'nose', bone: 'Head' });
-  B.add(ell(0.98, 0.2, 0.36, 18, 10), { pos: [0, 3.4, -2.62], rot: [0.25, 0, 0], color: 'frostShade', bone: 'Head' });
+  // shaggy bangs over the eyes
+  for (let i = 0; i < 7; i++) { const a = (i - 3) * 0.24; B.add(cone(0.2, 0.62 - Math.abs(i - 3) * 0.05, 7), { pos: [Math.sin(a) * 0.82, 3.52 - Math.abs(i - 3) * 0.03, -2.38 - Math.cos(a) * 0.12], quat: quatTo([Math.sin(a) * 0.4, -0.35, -1]), color: i % 2 ? 'frostShade' : 'frost', bone: 'Head' }); }
   for (const [s, x] of SIDES) {
-    addEye(B, x, [0.38 * x, 3.17, -2.94], { r: [0.2, 0.17, 0.12], pupil: [0.07, 0.09], th: -0.42 * x, brow: { color: 'slateDeep', len: 0.3, tilt: 0.5 } });
+    addEye(B, x, [0.38 * x, 3.17, -2.94], { r: [0.2, 0.17, 0.12], pupil: [0.07, 0.09], th: -0.42 * x, lid: 'slate' });
     // cheek fluff
     B.add(cone(0.34, 0.95, 8), { pos: [1.0 * x, 2.75, -1.95], quat: quatTo([x, -0.45, 0.35]), color: 'frost', bone: 'Head' });
     B.add(cone(0.26, 0.7, 8), { pos: [0.92 * x, 2.45, -1.9], quat: quatTo([x * 0.7, -0.8, 0.3]), color: 'frostShade', bone: 'Head' });

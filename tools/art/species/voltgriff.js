@@ -24,7 +24,7 @@ function build(B, W) {
   const torsoPts = [[0, 2.45, 1.95], [0, 2.45, 1.15], [0, 2.55, 0.2], [0, 2.7, -0.6], [0, 2.85, -1.2]];
   const tRx = (t) => (0.62 + 0.16 * t) * env(t), tRy = (t) => (0.62 + 0.2 * t) * env(t);
   const torsoW = (p) => blend([[-0.65, 'Chest'], [0.2, 'Spine'], [1.05, 'Hips']], p.z);
-  B.add(loft({ points: torsoPts, rx: tRx, ry: tRy, rings: 28, seg: 20 }), { color: 'navy', weights: torsoW });
+  B.add(loft({ points: torsoPts, rx: tRx, ry: tRy, rings: 24, seg: 18 }), { color: 'navy', weights: torsoW });
   B.add(ell(0.5, 0.36, 0.95), { pos: [0, 2.12, 0.35], color: 'plumeShade', weights: torsoW });
   // feathered eagle front: chest mass + overlapping breast feathers
   const chestW = (p) => blend([[2.6, 'Chest'], [3.3, 'Neck']], p.y);
@@ -38,7 +38,7 @@ function build(B, W) {
 
   // --- neck + feather ruff ---
   const neckW = (p) => blend([[2.95, 'Chest'], [3.35, 'Neck'], [3.85, 'Head']], p.y);
-  B.add(loft({ points: [[0, 2.85, -0.8], [0, 3.4, -1.15], [0, 4.05, -1.42]], rx: (t) => 0.55 * env(0.15 + 0.7 * t) + 0.03, ry: (t) => 0.53 * env(0.15 + 0.7 * t) + 0.03, rings: 16, seg: 18 }), { color: 'plume', weights: neckW });
+  B.add(loft({ points: [[0, 2.85, -0.8], [0, 3.4, -1.15], [0, 4.05, -1.42]], rx: (t) => 0.55 * env(0.15 + 0.7 * t) + 0.03, ry: (t) => 0.53 * env(0.15 + 0.7 * t) + 0.03, rings: 12, seg: 16 }), { color: 'plume', weights: neckW });
   for (let i = 0; i < 9; i++) {
     const a = -2.2 + (i / 8) * 4.4;
     const n = [Math.sin(a), Math.cos(a) * 0.8, 0.35];
@@ -47,23 +47,23 @@ function build(B, W) {
   }
 
   // --- head: white eagle head with a storm-blue cap ---
-  B.add(ell(0.86, 0.8, 0.86, 24, 18), { pos: [0, 4.0, -1.5], color: 'plume', bone: 'Head' });
+  B.add(ell(0.86, 0.8, 0.86, 20, 14), { pos: [0, 4.0, -1.5], color: 'plume', bone: 'Head' });
   B.add(ell(0.8, 0.42, 0.82, 20, 12), { pos: [0, 4.42, -1.42], rot: [0.2, 0, 0], color: 'navy', bone: 'Head' });
   for (const [s, x] of SIDES) {
-    addEye(B, x, [0.38 * x, 4.04, -2.2], { r: [0.25, 0.28, 0.14], pupil: [0.09, 0.12], brow: { color: 'navyDeep', len: 0.36, tilt: 0.45 } });
+    addEye(B, x, [0.38 * x, 4.04, -2.2], { r: [0.25, 0.28, 0.14], pupil: [0.09, 0.12], lid: 'navy', lidAngle: 0.85, brow: { color: 'navyDeep', len: 0.32, tilt: 0.45 } });
     // cheek feathers
     B.add(blade(0.6, 0.2, 0.05), { pos: [0.72 * x, 3.75, -1.6], quat: surfaceQuat([x, 0, 0.2], [x * 0.4, -0.5, 1]), color: 'plumeShade', bone: 'Head' });
     // ear tufts with sparking tips
     const base = V(W[`Ear${s}`]), d = V([0.45 * x, 0.75, 0.6]).normalize();
     B.add(blade(0.95, 0.24, 0.06), { pos: base.toArray(), quat: surfaceQuat([x, 0.2, -0.3], d.toArray()), color: 'navy', bone: `Ear${s}` });
     B.add(blade(0.7, 0.18, 0.06), { pos: base.clone().add(V([0.05 * x, -0.12, 0.05])).toArray(), quat: surfaceQuat([x, 0.2, -0.3], V([0.6 * x, 0.45, 0.8]).normalize().toArray()), color: 'feather', bone: `Ear${s}` });
-    B.add(blade(0.26, 0.14, 0.07), { pos: base.clone().addScaledVector(d, 0.78).toArray(), quat: surfaceQuat([x, 0.2, -0.3], d.toArray()), mesh: 'Glow', bone: `Ear${s}` });
+    B.add(blade(0.2, 0.075, 0.065), { pos: base.clone().addScaledVector(d, 0.82).toArray(), quat: surfaceQuat([x, 0.2, -0.3], d.toArray()), mesh: 'Glow', bone: `Ear${s}` });
   }
   // crest feathers
   [[0, 0.75, 1.25], [-0.22, 0.55, 0.95], [0.22, 0.55, 0.95]].forEach(([x, up, len]) => {
     const p = [x, 4.82, -1.45], d = V([x * 0.8, up, 1]).normalize();
     B.add(blade(len, 0.2, 0.06), { pos: p, quat: surfaceQuat([0, 1, -0.3], d.toArray()), color: 'navyDeep', bone: 'Head' });
-    B.add(blade(len * 0.3, 0.13, 0.07), { pos: V(p).addScaledVector(d, len * 0.72).toArray(), quat: surfaceQuat([0, 1, -0.3], d.toArray()), mesh: 'Glow', bone: 'Head' });
+    B.add(blade(len * 0.22, 0.075, 0.065), { pos: V(p).addScaledVector(d, len * 0.76).toArray(), quat: surfaceQuat([0, 1, -0.3], d.toArray()), mesh: 'Glow', bone: 'Head' });
   });
   // hooked beak
   B.add(ell(0.4, 0.15, 0.24), { pos: [0, 3.98, -2.14], color: 'goldDeep', bone: 'Head' });
@@ -76,9 +76,11 @@ function build(B, W) {
   for (const [s, x] of SIDES) {
     // eagle front leg: feathered thigh, golden scaled shin, talons
     addLimb(B, 'Front', s, [[0.55 * x, 2.7, -0.62], [0.58 * x, 2.0, -0.72], [0.58 * x, 1.35, -0.8], [0.58 * x, 1.0, -0.82]], 0.46, 0.3, 'plume', [0.3, 0.6, 1.1, 1.5]);
-    for (let i = 0; i < 4; i++) {
-      const a = (i - 1.5) * 0.5;
-      B.add(blade(0.45, 0.17, 0.05), { pos: [0.58 * x + Math.sin(a) * 0.28, 1.2, -0.8 - Math.cos(a) * 0.28], quat: surfaceQuat([Math.sin(a), 0, -Math.cos(a)], [0, -1, 0]), color: 'plumeShade', bone: `Front${s}Lower` });
+    for (const [y, rr, n, len, col, bone] of [[1.85, 0.38, 5, 0.6, 'plume', 'Upper'], [1.3, 0.3, 4, 0.5, 'plumeShade', 'Lower']]) {
+      for (let i = 0; i < n; i++) {
+        const a = (i - (n - 1) / 2) * 0.5 + (y > 1.5 ? 0.25 : 0);
+        B.add(blade(len, 0.17, 0.05), { pos: [0.58 * x + Math.sin(a) * rr, y, -0.78 - Math.cos(a) * rr], quat: surfaceQuat([Math.sin(a), 0, -Math.cos(a)], [Math.sin(a) * 0.15, -1, -0.12]), color: (i % 2 && col === 'plume') ? 'plumeShade' : col, bone: `Front${s}${bone}` });
+      }
     }
     addLimb(B, 'Front', s, [[0.58 * x, 1.3, -0.82], [0.58 * x, 0.8, -0.85], [0.58 * x, 0.25, -0.87]], 0.17, 0.13, 'gold', [0.3, 0.5, 1.0, 1.5], 1);
     for (const a of [-0.45, 0, 0.45, Math.PI]) {
@@ -97,7 +99,7 @@ function build(B, W) {
   // --- tail: lion tail ending in a feather tuft and a lightning bolt ---
   const tailPts = [[0, 2.5, 1.8], [0, 2.36, 2.55], [0, 2.5, 3.3], [0, 2.92, 3.95], [0, 3.42, 4.4]];
   const tailStops = [[0, 'Tail1'], [0.33, 'Tail2'], [0.66, 'Tail3'], [0.95, 'Tail4']];
-  const tg = loft({ points: tailPts, rx: (t) => 0.17 - 0.06 * t, ry: (t) => 0.17 - 0.06 * t, rings: 30, seg: 12 });
+  const tg = loft({ points: tailPts, rx: (t) => 0.17 - 0.06 * t, ry: (t) => 0.17 - 0.06 * t, rings: 22, seg: 10 });
   const tT = tg.userData.t;
   B.add(tg, { color: 'navy', weights: (p, i) => tT[i] < 0.06 ? blend([[0, 'Hips'], [0.06, 'Tail1']], tT[i]) : blend(tailStops, tT[i]) });
   const tip = V(W.TailTip), tc = tg.userData.curve, tan = tc.getTangent(1);

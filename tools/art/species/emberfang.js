@@ -1,6 +1,6 @@
 // Emberfang (Fire): young fire wolf. Dark ember-flecked fur, glowing eyes, flaming tail.
 import * as THREE from 'three';
-import { V, env, limbR, ss, ell, cone, taperFront, surfaceQuat, quatTo, loft, flame, blend } from '../lib.js';
+import { V, env, limbR, ss, ell, cone, taperFront, surfaceQuat, quatTo, loft, flame, blend, addEye, shortenLegs } from '../lib.js';
 
 const palette = [
   ['fur', '#3d2f42'],
@@ -80,14 +80,7 @@ function build(B, W) {
     // cheek tufts
     B.add(cone(0.26, 0.75, 8), { pos: [0.96 * x, 3.35, -1.45], quat: quatTo([x, -0.3, 0.55]), color: 'fur', bone: 'Head' });
     B.add(cone(0.2, 0.55, 8), { pos: [0.85 * x, 3.08, -1.38], quat: quatTo([x * 0.8, -0.8, 0.45]), color: 'furLight', bone: 'Head' });
-    // eye: glowing ellipsoid, slit pupil, highlight
-    const th = -0.36 * x, f = [-Math.sin(th), 0, -Math.cos(th)];
-    const e = [0.4 * x, 3.74, -2.33];
-    B.add(ell(0.27, 0.31, 0.14, 16, 12), { pos: e, rot: [0, th, 0], mesh: 'Eyes', bone: 'Head' });
-    B.add(ell(0.075, 0.19, 0.06, 10, 8), { pos: [e[0] + f[0] * 0.125 - 0.025 * x, e[1] - 0.01, e[2] + f[2] * 0.125], rot: [0, th, 0], color: 'pupil', bone: 'Head' });
-    B.add(ell(0.055, 0.055, 0.04, 8, 6), { pos: [e[0] + f[0] * 0.14 + 0.07 * x, e[1] + 0.11, e[2] + f[2] * 0.14], rot: [0, th, 0], color: 'white', bone: 'Head' });
-    // determined brow
-    B.add(ell(0.34, 0.09, 0.16, 12, 8), { pos: [0.42 * x, 4.05, -2.22], rot: [0, th, 0.38 * x], color: 'furDeep', bone: 'Head' });
+    addEye(B, x, [0.4 * x, 3.74, -2.33], { pupil: [0.075, 0.19], lid: 'fur', brow: { color: 'furDeep', len: 0.34, tilt: 0.38 } });
     // ears
     const ed = [0.38 * x, 1, 0.14], en = V(ed).normalize(), base = V(W[x < 0 ? 'EarL' : 'EarR']);
     const ear = x < 0 ? 'EarL' : 'EarR';
@@ -136,6 +129,13 @@ function build(B, W) {
       B.add(ell(0.125, 0.12, 0.125, 10, 8), { pos: [0.67 * x + dx, 0.15, 0.64], color: 'furDeep', bone: `Back${s}Paw` });
       B.add(cone(0.045, 0.16, 6), { pos: [0.67 * x + dx, 0.11, 0.5], quat: quatTo([0, -0.5, -1]), color: 'bone', bone: `Back${s}Paw` });
     }
+  }
+
+  // --- fur tufts: elbows, haunches, chest sides ---
+  for (const [s2, x] of [['L', -1], ['R', 1]]) {
+    for (const [dy, len] of [[0, 0.5], [-0.18, 0.4]]) B.add(cone(0.16, len, 7), { pos: [0.64 * x, 1.42 + dy, -0.55], quat: quatTo([x * 0.25, -0.5, 1]), color: 'fur', bone: `Front${s2}Lower` });
+    for (const [dy, dz, len] of [[0.1, 0, 0.6], [-0.15, 0.1, 0.5], [0.35, -0.1, 0.45]]) B.add(cone(0.2, len, 7), { pos: [0.95 * x, 1.85 + dy, 1.45 + dz], quat: quatTo([x * 0.6, -0.3, 1]), color: dy > 0.2 ? 'furLight' : 'fur', bone: `Back${s2}Upper` });
+    for (const dz of [-0.9, -0.5]) B.add(cone(0.18, 0.45, 7), { pos: [0.74 * x, 2.2, dz], quat: quatTo([x, -0.4, 0.4]), color: 'fur', weights: (p) => blend([[-0.7, 'Chest'], [0.15, 'Spine']], p.z) });
   }
 
   // --- tail ---
@@ -199,6 +199,6 @@ function build(B, W) {
 }
 
 export default {
-  name: 'Emberfang', element: 'Fire', palette, glow, bones, build,
+  name: 'Emberfang', element: 'Fire', palette, glow, bones, build, warp: shortenLegs(0.28, 0.45, 2.1),
   bg: '#241a22', light: { bone: 'TailFlame', color: '#ff7a2a' }, outline: '#140b10',
 };

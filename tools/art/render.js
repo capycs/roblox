@@ -95,12 +95,12 @@ const MIX = {
   vertexShader: 'varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
   fragmentShader: 'uniform sampler2D baseTexture; uniform sampler2D bloomTexture; varying vec2 vUv; void main() { gl_FragColor = texture2D(baseTexture, vUv) + texture2D(bloomTexture, vUv); }',
 };
-export function shoot(renderer, scene, camera) {
+export function shoot(renderer, scene, camera, strength = 0.7) {
   const size = renderer.getSize(new THREE.Vector2());
   const bloom = new EffectComposer(renderer);
   bloom.renderToScreen = false;
   bloom.addPass(new RenderPass(scene, camera));
-  bloom.addPass(new UnrealBloomPass(size, 0.7, 0.45, 0.0));
+  bloom.addPass(new UnrealBloomPass(size, strength, 0.45, 0.0));
   const final = new EffectComposer(renderer);
   final.addPass(new RenderPass(scene, camera));
   const mix = new ShaderPass(new THREE.ShaderMaterial(MIX), 'baseTexture');
@@ -120,6 +120,31 @@ export function shoot(renderer, scene, camera) {
   scene.background = bg;
   final.render();
   bloom.dispose(); final.dispose();
+}
+
+// Camera along dir, re-centred and pulled back until every corner of box (or every pt) sits inside margin (NDC).
+// pts: optional world-space sample of the model's vertices (tighter than the box corners).
+export function fitBox(box, fov, w, h, dir, margin = 0.84, pts = null) {
+  const c = new THREE.PerspectiveCamera(fov, w / h, 0.1, 800);
+  const d = new THREE.Vector3(...dir).normalize(), target = box.getCenter(new THREE.Vector3());
+  const corners = pts || [];
+  if (!pts) for (let i = 0; i < 8; i++) corners.push(new THREE.Vector3(i & 1 ? box.max.x : box.min.x, i & 2 ? box.max.y : box.min.y, i & 4 ? box.max.z : box.min.z));
+  let dist = box.getSize(new THREE.Vector3()).length() * 2;
+  const ext = () => {
+    c.position.copy(target).addScaledVector(d, dist); c.lookAt(target); c.updateMatrixWorld(); c.updateProjectionMatrix();
+    let x0 = 9, x1 = -9, y0 = 9, y1 = -9;
+    for (const p of corners) { const q = p.clone().project(c); x0 = Math.min(x0, q.x); x1 = Math.max(x1, q.x); y0 = Math.min(y0, q.y); y1 = Math.max(y1, q.y); }
+    return { x0, x1, y0, y1 };
+  };
+  for (let it = 0; it < 6; it++) {
+    let e = ext();
+    const right = new THREE.Vector3().setFromMatrixColumn(c.matrixWorld, 0), up = new THREE.Vector3().setFromMatrixColumn(c.matrixWorld, 1);
+    const th = Math.tan(THREE.MathUtils.degToRad(fov) / 2) * dist;
+    target.addScaledVector(right, ((e.x0 + e.x1) / 2) * th * (w / h)).addScaledVector(up, ((e.y0 + e.y1) / 2) * th);
+    e = ext();
+    dist *= Math.max(e.x1 - e.x0, e.y1 - e.y0) / (2 * margin);
+  }
+  ext(); return c;
 }
 
 // Camera looking along dir at the model, distance fitted to its bounding sphere.

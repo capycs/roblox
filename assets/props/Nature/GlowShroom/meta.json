@@ -4,12 +4,16 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 96,
-        "verts": 156
+        "tris": 1032,
+        "verts": 609
       },
       "Glow": {
-        "tris": 468,
-        "verts": 312
+        "tris": 84,
+        "verts": 90
+      },
+      "GlowCore": {
+        "tris": 648,
+        "verts": 630
       }
     },
     "parts": {}

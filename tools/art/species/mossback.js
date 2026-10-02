@@ -1,10 +1,10 @@
 // Mossback (Nature): stout boar. Bark-brown hide, mossy stone plates down its back,
 // leafy ears and mane, upturned tusks and glowing spore flowers.
 import * as THREE from 'three';
-import { V, SIDES, env, ell, cone, surfaceQuat, quatTo, loft, blend, quadBones, addLimb, addEye, blade, rock } from '../lib.js';
+import { V, SIDES, env, ell, cone, surfaceQuat, quatTo, loft, blend, quadBones, addLimb, addEye, blade, rock, shortenLegs } from '../lib.js';
 
 const palette = [
-  ['bark', '#6b4a33'], ['barkDeep', '#45301f'], ['barkLight', '#8c6648'], ['snout', '#c98f78'],
+  ['bark', '#6b4a33'], ['barkDeep', '#45301f'], ['barkLight', '#8c6648'], ['snout', '#5e3f2e'],
   ['moss', '#5f9a3c'], ['mossDeep', '#3b6a2a'], ['leaf', '#7ab83c'], ['stone', '#8b8e8c'],
   ['stoneDeep', '#5f6466'], ['hoof', '#2e231c'], ['tusk', '#efe6cf'], ['nose', '#3a2420'],
   ['pupil', '#14100c'], ['white', '#ffffff'], ['mouth', '#7a2a2a'],
@@ -66,16 +66,24 @@ function build(B, W) {
   // --- neck + leafy mane ---
   const neckW = (p) => blend([[0.9, 'Chest'], [1.3, 'Neck'], [1.65, 'Head']], -p.z);
   B.add(loft({ points: [[0, 2.15, -0.9], [0, 2.25, -1.3], [0, 2.25, -1.7]], rx: () => 0.72, ry: () => 0.68, rings: 10, seg: 18 }), { color: 'bark', weights: neckW });
-  for (let i = 0; i < 6; i++) {
-    const z = -1.0 - i * 0.2, d = V([((i % 2) * 2 - 1) * 0.35, 1, 0.6]).normalize();
-    B.add(blade(0.7 - i * 0.04, 0.22, 0.05), { pos: [0, 2.85 - i * 0.02, z], quat: surfaceQuat([1, 0, 0], d.toArray()), color: i % 2 ? 'leaf' : 'moss', weights: neckW });
+  for (let i = 0; i < 9; i++) {
+    const z = -0.75 - i * 0.13;
+    for (const dx of [-0.13, 0, 0.13]) {
+      const d = V([dx * 2.2, 1, 0.55 + 0.1 * Math.sin(i * 2.3 + dx * 9)]).normalize();
+      B.add(cone(0.09, 0.55 - Math.abs(dx) * 1.2 + 0.08 * Math.sin(i * 1.7), 6), { pos: [dx, 2.8 - Math.abs(dx) * 0.4, z], quat: quatTo(d.toArray()), color: (i + (dx > 0 ? 1 : 0)) % 3 ? 'barkDeep' : 'hoof', weights: neckW });
+    }
+  }
+  for (let i = 0; i < 3; i++) {
+    const z = -0.95 - i * 0.35, d = V([((i % 2) * 2 - 1) * 0.5, 1, 0.7]).normalize();
+    B.add(blade(0.6, 0.2, 0.05), { pos: [0, 2.9, z], quat: surfaceQuat([1, 0, 0], d.toArray()), color: i % 2 ? 'leaf' : 'moss', weights: neckW });
   }
 
   // --- head ---
   B.add(ell(0.86, 0.75, 0.9, 24, 18), { pos: [0, 2.25, -1.85], color: 'bark', bone: 'Head' });
-  const snout = new THREE.CylinderGeometry(0.33, 0.42, 0.5, 18, 2); snout.rotateX(Math.PI / 2);
-  B.add(snout, { pos: [0, 2.0, -2.68], color: 'barkLight', bone: 'Head' });
-  B.add(ell(0.33, 0.28, 0.07, 18, 8), { pos: [0, 2.0, -2.94], color: 'snout', bone: 'Head' });
+  B.add(ell(0.42, 0.36, 0.7, 20, 14), { pos: [0, 2.5, -2.2], quat: new THREE.Quaternion().setFromEuler(new THREE.Euler(0.45, 0, 0)), color: 'bark', bone: 'Head' });
+  const snout = new THREE.CylinderGeometry(0.31, 0.42, 0.42, 18, 2); snout.rotateX(Math.PI / 2);
+  B.add(snout, { pos: [0, 2.02, -2.62], color: 'barkDeep', bone: 'Head' });
+  B.add(ell(0.27, 0.22, 0.06, 18, 8), { pos: [0, 2.02, -2.84], color: 'snout', bone: 'Head' });
   // mossy cap with a sprout
   B.add(ell(0.62, 0.24, 0.62, 16, 10), { pos: [0, 2.9, -1.7], color: 'moss', bone: 'Head' });
   for (const a of [0.6, 2.6]) B.add(blade(0.5, 0.2, 0.04), { pos: [0, 3.05, -1.7], quat: surfaceQuat([Math.sin(a), 0, -Math.cos(a)], [Math.cos(a) * 0.6, 1, Math.sin(a) * 0.6]), color: 'leaf', bone: 'Head' });
@@ -84,15 +92,15 @@ function build(B, W) {
   B.add(ell(0.5, 0.16, 0.5), { pos: [0, 1.68, -2.35], color: 'barkLight', bone: 'Jaw' });
   B.add(ell(0.4, 0.06, 0.4, 12, 6), { pos: [0, 1.8, -2.35], color: 'mouth', bone: 'Jaw' });
   for (const [s, x] of SIDES) {
-    B.add(ell(0.08, 0.12, 0.05, 8, 6), { pos: [0.15 * x, 2.0, -3.06], color: 'nose', bone: 'Head' });
-    addEye(B, x, [0.4 * x, 2.45, -2.56], { r: [0.17, 0.18, 0.1], pupil: [0.06, 0.07], th: -0.4 * x, brow: { color: 'mossDeep', len: 0.3, tilt: 0.55 } });
+    B.add(ell(0.06, 0.09, 0.05, 8, 6), { pos: [0.11 * x, 2.02, -2.89], color: 'nose', bone: 'Head' });
+    addEye(B, x, [0.5 * x, 2.62, -2.36], { r: [0.19, 0.2, 0.11], pupil: [0.06, 0.07], th: -0.55 * x, lid: 'barkDeep', lidAngle: 0.85, brow: { color: 'mossDeep', len: 0.26, tilt: 0.5 } });
     // upturned tusks
-    const tp = [[0.38 * x, 1.92, -2.62], [0.56 * x, 1.9, -2.86], [0.64 * x, 2.22, -2.98], [0.6 * x, 2.45, -2.92]];
-    B.add(loft({ points: tp, rx: (t) => 0.11 * (1 - 0.8 * t) + 0.02, ry: (t) => 0.11 * (1 - 0.8 * t) + 0.02, rings: 12, seg: 10 }), { color: 'tusk', bone: 'Head' });
+    const tp = [[0.34 * x, 1.9, -2.5], [0.58 * x, 1.86, -2.8], [0.74 * x, 2.18, -2.98], [0.76 * x, 2.5, -2.96], [0.7 * x, 2.7, -2.88]];
+    B.add(loft({ points: tp, rx: (t) => 0.15 * (1 - 0.85 * t) + 0.015, ry: (t) => 0.15 * (1 - 0.85 * t) + 0.015, rings: 16, seg: 10 }), { color: 'tusk', bone: 'Head' });
     // leaf ears
     const e = V(W[`Ear${s}`]), ed = V([0.75 * x, 0.6, 0.35]).normalize();
-    B.add(blade(0.85, 0.32, 0.06), { pos: e.toArray(), quat: surfaceQuat([0.3 * x, 0.3, -1], ed.toArray()), color: 'leaf', bone: `Ear${s}` });
-    B.add(blade(0.7, 0.04, 0.075), { pos: e.toArray(), quat: surfaceQuat([0.3 * x, 0.3, -1], ed.toArray()), color: 'mossDeep', bone: `Ear${s}` });
+    B.add(blade(1.1, 0.4, 0.06), { pos: e.toArray(), quat: surfaceQuat([0.3 * x, 0.3, -1], ed.toArray()), color: 'leaf', bone: `Ear${s}` });
+    B.add(blade(0.92, 0.04, 0.075), { pos: e.toArray(), quat: surfaceQuat([0.3 * x, 0.3, -1], ed.toArray()), color: 'mossDeep', bone: `Ear${s}` });
     // bristly cheeks and a shaggy shoulder
     for (const z of [-0.55, -0.25, 0.05]) B.add(cone(0.2, 0.55, 7), { pos: [0.82 * x, 2.3 - z * 0.2, z], quat: quatTo([x, -0.5, 0.35]), color: 'barkDeep', weights: torsoW });
     B.add(cone(0.24, 0.6, 7), { pos: [0.78 * x, 2.0, -1.75], quat: quatTo([x, -0.4, 0.5]), color: 'barkDeep', bone: 'Head' });
@@ -126,5 +134,6 @@ export default {
     walk: [0.38, 0.5, 0.36, 0.45], run: [0.7, 0.75, 0.7, 0.7],
     bob: 0.9, roll: 0.035, tail: 0.4, headLow: -0.08,
   },
+  warp: shortenLegs(0.32, 0.45, 1.8),
   bg: '#141b12', light: { bone: 'Spine', color: '#b2ff63' }, outline: '#0a1006',
 };

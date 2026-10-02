@@ -7,23 +7,25 @@ const list = [];
 const add = (spec) => list.push({ category: 'Atmosphere', heroSize: [640, 480], fit: 0.85, ...spec });
 const seeded = (seed) => { let s = seed * 9301 + 49297; return () => ((s = (s * 9301 + 49297) % 233280) / 233280); };
 
-// flat-bottomed cartoon cloud from overlapping blobs
+// flat-bottomed cartoon cloud: a domed mass of puffs, biggest in the middle, all sharing one base
 function cloud(B, w, seed) {
-  const r = seeded(seed);
-  const n = Math.round(w / 2.2);
+  const r = seeded(seed), n = Math.round(w / 2.6) + 3;
   for (let i = 0; i < n; i++) {
-    const x = (i / (n - 1) - 0.5) * w, rr = (w / n) * (1.1 + r() * 0.6) * (1 - Math.abs(i / (n - 1) - 0.5) * 0.6);
-    const g = new THREE.SphereGeometry(rr, 12, 9); const P = g.attributes.position;
-    for (let k = 0; k < P.count; k++) if (P.getY(k) < -rr * 0.25) P.setY(k, -rr * 0.25 - (P.getY(k) + rr * 0.25) * 0.15);
+    const u = i === 0 ? 0 : (r() * 2 - 1) * (0.35 + 0.65 * (i / n)), x = u * w * 0.45, edge = 1 - Math.abs(u);
+    const rr = w * (0.09 + 0.12 * edge) * (0.8 + r() * 0.4), z = (r() - 0.5) * w * 0.2 * (0.4 + edge);
+    const y = rr * 0.3 + edge * w * 0.05 + (i % 3 === 0 ? rr * 0.25 : 0);
+    const g = new THREE.SphereGeometry(rr, 12, 8); const P = g.attributes.position, cut = -y;
+    for (let k = 0; k < P.count; k++) if (P.getY(k) < cut) P.setY(k, cut - (P.getY(k) - cut) * -0.04);
     g.computeVertexNormals();
-    B.add(g, { pos: [x, rr * 0.25, (r() - 0.5) * w * 0.25], color: i % 3 === 1 ? 'cloudShade' : 'cloud' });
-    if (r() > 0.4) B.add(ell(rr * 0.7, rr * 0.65, rr * 0.7, 10, 8), { pos: [x + (r() - 0.5) * rr, rr * 0.95, (r() - 0.5) * rr], color: 'cloud' });
+    B.add(g, { pos: [x, y, z], color: i % 4 === 3 ? 'cloudShade' : 'cloud' });
   }
+  B.add(ell(w * 0.3, w * 0.03, w * 0.1, 16, 4), { pos: [0, w * 0.012, 0], color: 'cloudShade' });
 }
 const CLOUD = [['cloud', '#ffffff'], ['cloudShade', '#dfe9f6']];
-add({ name: 'CloudSmall', palette: CLOUD, bg: '#5b9be6', build(B) { cloud(B, 10, 1); } });
-add({ name: 'CloudMedium', palette: CLOUD, bg: '#5b9be6', build(B) { cloud(B, 22, 2); } });
-add({ name: 'CloudLarge', palette: CLOUD, bg: '#5b9be6', heroSize: [800, 420], build(B) { cloud(B, 40, 3); cloud({ add: (g, o) => B.add(g, { ...o, pos: [o.pos[0] + 6, o.pos[1] + 3, o.pos[2] - 6] }) }, 24, 4); } });
+const CV = { view: [-0.35, 0.3, -1], margin: 0.94 };
+add({ name: 'CloudSmall', ...CV, palette: CLOUD, bg: '#5b9be6', build(B) { cloud(B, 10, 1); } });
+add({ name: 'CloudMedium', ...CV, palette: CLOUD, bg: '#5b9be6', build(B) { cloud(B, 22, 2); } });
+add({ name: 'CloudLarge', ...CV, palette: CLOUD, bg: '#5b9be6', heroSize: [800, 420], build(B) { cloud(B, 40, 3); cloud({ add: (g, o) => B.add(g, { ...o, pos: [o.pos[0] + 8, o.pos[1] + 2.5, o.pos[2] + 5] }) }, 22, 4); } });
 add({
   name: 'FloatingRock', palette: [['stone', '#9b9a94'], ['stoneDark', '#6d6c68'], ['grass', '#5fae45'], ['grassDark', '#3f8a35']], glow: { HoverGlow: '#7ff3ff' }, bg: '#5b9be6',
   parts: { HoverRock: { pivot: [0, 0, 0] }, HoverGlow: { pivot: [0, 0, 0] } },
@@ -45,9 +47,13 @@ add({
     B.add(ell(0.09, 0.09, 0.09, 8, 6), { pos: [0, 0.02, -0.38], color: 'body' });
     for (const [s, x] of [['L', -1], ['R', 1]]) {
       const W = into(B, `Wing${s}`);
-      W.add(blade(0.55, 0.32, 0.015), { pos: [0, 0, -0.05], quat: surfaceQuat([0, 1, 0], [x, 0, -0.55]), color: 'wing' });
-      W.add(blade(0.42, 0.24, 0.015), { pos: [0, 0, 0.05], quat: surfaceQuat([0, 1, 0], [x, 0, 0.6]), color: 'wingDeep' });
-      W.add(ell(0.07, 0.01, 0.07, 6, 4), { pos: [x * 0.32, 0.012, -0.22], color: 'spot' });
+      // rounded fore + hind wings with an edge band and spots
+      W.add(ell(0.3, 0.012, 0.22, 14, 4), { pos: [x * 0.27, 0, -0.17], rot: [0, x * 0.5, 0], color: 'wingDeep' });
+      W.add(ell(0.25, 0.016, 0.17, 14, 4), { pos: [x * 0.25, 0.004, -0.15], rot: [0, x * 0.5, 0], color: 'wing' });
+      W.add(ell(0.21, 0.012, 0.17, 12, 4), { pos: [x * 0.2, -0.005, 0.12], rot: [0, -x * 0.55, 0], color: 'wingDeep' });
+      W.add(ell(0.16, 0.016, 0.12, 12, 4), { pos: [x * 0.19, 0.0, 0.11], rot: [0, -x * 0.55, 0], color: 'wing' });
+      W.add(ell(0.06, 0.02, 0.06, 6, 4), { pos: [x * 0.36, 0.01, -0.22], color: 'spot' });
+      W.add(ell(0.04, 0.02, 0.04, 6, 4), { pos: [x * 0.24, 0.01, 0.16], color: 'spot' });
       B.add(cyl(0.008, 0.008, 0.3, 4), { pos: [x * 0.06, 0.13, -0.5], quat: quatTo([x * 0.4, 1, -0.6]), color: 'body' });
     }
   },

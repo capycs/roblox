@@ -7,6 +7,7 @@ const C = {
   wood: '#a8703f', woodDark: '#744828', woodLight: '#c99258', stone: '#9b9a94', stoneDark: '#6d6c68', stoneLight: '#bdbbb3',
   grass: '#5fae45', grassDark: '#3f8a35', dirt: '#8a5f3f', rope: '#b89466', gold: '#f2b33d', metalDark: '#353b44',
   roofBlue: '#3d6fc4', roofRed: '#d9483b', wallCream: '#e8cfa6', wallShade: '#d9c4a0',
+  roofBlueDark: '#2c5299', roofRedDark: '#a8352c', glassFrame: '#5a3a22',
 };
 const pal = (keys) => keys.map((k) => [k, C[k]]);
 const list = [];
@@ -90,18 +91,37 @@ function house(B, roof, w = 6, d = 6, h = 5) {
   const walls = new THREE.BoxGeometry(w, h, d, 2, 2, 2); B.add(walls, { pos: [0, 0.8 + h / 2, 0], color: 'wallCream' });
   for (const [x, z] of [[1, 1], [1, -1], [-1, 1], [-1, -1]]) B.add(box(0.5, h, 0.5), { pos: [x * w / 2, 0.8 + h / 2, z * d / 2], color: 'woodDark' });
   B.add(box(w + 0.3, 0.4, d + 0.3), { pos: [0, 0.8 + h, 0], color: 'woodDark' });
-  const r = new THREE.ConeGeometry(Math.max(w, d) * 0.85, h * 1.2, 4, 1); B.add(r, { pos: [0, 0.8 + h + h * 0.6, 0], rot: [0, Math.PI / 4, 0], color: roof });
-  B.add(box(1, 2.5, 1), { pos: [w * 0.25, 0.8 + h * 1.9, d * 0.15], color: 'stone' });
+  // stepped shingle roof: overlapping frustums in two tones, eaves overhang the walls
+  const R0 = Math.max(w, d) * 0.88, H = h * 1.25, tiers = 4, base = 0.8 + h + 0.2;
+  for (let i = 0; i < tiers; i++) {
+    const f0 = i / tiers, f1 = (i + 1.15) / tiers, rb = R0 * (1 - f0), rt = Math.max(R0 * (1 - f1), 0.01), hh = H * (f1 - f0);
+    const g = new THREE.CylinderGeometry(rt, rb, hh, 4, 1); g.rotateY(Math.PI / 4);
+    B.add(g, { pos: [0, base + H * f0 + hh / 2 - 0.15 * i, 0], color: i % 2 ? roof + 'Dark' : roof });
+    B.add(new THREE.CylinderGeometry(rb * 1.005, rb * 1.005, 0.12, 4, 1).rotateY(Math.PI / 4), { pos: [0, base + H * f0 - 0.15 * i, 0], color: roof + 'Dark' });
+  }
+  B.add(cone(0.18, 0.6, 6), { pos: [0, base + H + 0.05 - 0.15 * (tiers - 1), 0], color: 'gold' });
+  // chimney with a cap
+  B.add(box(1, 2.8, 1), { pos: [w * 0.25, 0.8 + h * 1.85, d * 0.15], color: 'stone' });
+  B.add(box(1.3, 0.3, 1.3), { pos: [w * 0.25, 0.8 + h * 1.85 + 1.5, d * 0.15], color: 'stoneDark' });
+  // timber frame: mid beam + diagonal braces on the front
+  B.add(box(w + 0.1, 0.3, d + 0.1), { pos: [0, 0.8 + h * 0.48, 0], color: 'woodDark' });
+  for (const sx of [-1, 1]) B.add(box(0.25, h * 0.62, 0.2), { pos: [sx * w * 0.38, 0.8 + h * 0.24, -d / 2 - 0.06], rot: [0, 0, sx * 0.5], color: 'woodDark' });
   // round door + windows
   const door = new THREE.CylinderGeometry(0.9, 0.9, 0.2, 14, 1, false, 0, Math.PI); door.rotateX(Math.PI / 2); door.rotateZ(Math.PI / 2 * 0);
   B.add(box(1.8, 1.8, 0.2), { pos: [0, 1.7, -d / 2 - 0.05], color: 'wood' });
   B.add(door, { pos: [0, 2.6, -d / 2 - 0.05], rot: [0, 0, Math.PI / 2 * 0], color: 'wood' });
   B.add(ell(0.1, 0.1, 0.1, 6, 4), { pos: [0.55, 1.8, -d / 2 - 0.2], color: 'gold' });
-  for (const x of [-w * 0.3, w * 0.3]) { B.add(box(1.2, 1.2, 0.15), { pos: [x, 3.8, -d / 2 - 0.05], mesh: 'Lamp' }); B.add(box(1.5, 0.2, 0.3), { pos: [x, 3.1, -d / 2 - 0.12], color: 'woodDark' }); for (let k = 0; k < 3; k++) B.add(ell(0.2, 0.2, 0.2, 6, 5), { pos: [x - 0.45 + k * 0.45, 3.3, -d / 2 - 0.2], color: k % 2 ? 'roofRed' : 'grass' }); }
-  for (const z of [-d * 0.2, d * 0.2]) B.add(box(0.15, 1.2, 1.2), { pos: [w / 2 + 0.05, 3.8, z], mesh: 'Lamp' });
+  B.add(box(2.1, 0.25, 0.3), { pos: [0, 3.55, -d / 2 - 0.12], color: 'woodDark' });
+  for (const sx of [-1, 1]) B.add(box(0.22, 2.7, 0.3), { pos: [sx * 1.0, 2.2, -d / 2 - 0.12], color: 'woodDark' });
+  for (const x of [-w * 0.3, w * 0.3]) {
+    B.add(box(1.2, 1.2, 0.15), { pos: [x, 3.8, -d / 2 - 0.05], mesh: 'Lamp' });
+    B.add(box(1.45, 0.14, 0.24), { pos: [x, 4.45, -d / 2 - 0.1], color: 'glassFrame' }); B.add(box(0.1, 1.2, 0.2), { pos: [x, 3.8, -d / 2 - 0.13], color: 'glassFrame' }); B.add(box(1.2, 0.1, 0.2), { pos: [x, 3.8, -d / 2 - 0.13], color: 'glassFrame' });
+    for (const sx of [-1, 1]) B.add(box(0.45, 1.35, 0.1), { pos: [x + sx * 0.88, 3.8, -d / 2 - 0.1], rot: [0, sx * 0.35, 0], color: roof }); B.add(box(1.5, 0.2, 0.3), { pos: [x, 3.1, -d / 2 - 0.12], color: 'woodDark' }); for (let k = 0; k < 3; k++) B.add(ell(0.2, 0.2, 0.2, 6, 5), { pos: [x - 0.45 + k * 0.45, 3.3, -d / 2 - 0.2], color: k % 2 ? 'roofRed' : 'grass' });
+  }
+  for (const z of [-d * 0.2, d * 0.2]) { B.add(box(0.15, 1.2, 1.2), { pos: [w / 2 + 0.05, 3.8, z], mesh: 'Lamp' }); B.add(box(0.2, 0.1, 1.2), { pos: [w / 2 + 0.1, 3.8, z], color: 'glassFrame' }); B.add(box(0.2, 1.2, 0.1), { pos: [w / 2 + 0.1, 3.8, z], color: 'glassFrame' }); B.add(box(0.3, 0.16, 1.45), { pos: [w / 2 + 0.12, 3.12, z], color: 'woodDark' }); }
 }
-add({ name: 'HavenHouseBlue', palette: pal(['wallCream', 'wallShade', 'woodDark', 'wood', 'stone', 'stoneDark', 'roofBlue', 'roofRed', 'grass', 'gold']), glow: { Lamp: '#ffd36b' }, build(B) { house(B, 'roofBlue'); } });
-add({ name: 'HavenHouseRed', palette: pal(['wallCream', 'wallShade', 'woodDark', 'wood', 'stone', 'stoneDark', 'roofBlue', 'roofRed', 'grass', 'gold']), glow: { Lamp: '#ffd36b' }, build(B) { house(B, 'roofRed', 7, 5, 6); } });
+add({ name: 'HavenHouseBlue', palette: pal(['wallCream', 'wallShade', 'woodDark', 'wood', 'stone', 'stoneDark', 'roofBlue', 'roofBlueDark', 'roofRed', 'grass', 'gold', 'glassFrame']), glow: { Lamp: '#ffd36b' }, build(B) { house(B, 'roofBlue'); } });
+add({ name: 'HavenHouseRed', palette: pal(['wallCream', 'wallShade', 'woodDark', 'wood', 'stone', 'stoneDark', 'roofRed', 'roofRedDark', 'grass', 'gold', 'glassFrame']), glow: { Lamp: '#ffd36b' }, build(B) { house(B, 'roofRed', 7, 5, 6); } });
 add({
   name: 'HavenWindmill', palette: pal(['stone', 'stoneDark', 'stoneLight', 'wood', 'woodDark', 'roofRed', 'wallCream', 'gold']), glow: { Lamp: '#ffd36b' }, heroSize: [620, 820],
   parts: { Blades: { pivot: [0, 13, -3.2] } },

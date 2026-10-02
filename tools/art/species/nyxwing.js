@@ -1,7 +1,7 @@
 // Nyxwing (Shadow): young drake. Violet-black scales, swept horns, membrane wings,
 // glowing shadow cracks and a spade tail wrapped in violet flame.
 import * as THREE from 'three';
-import { V, SIDES, env, ell, cone, taperFront, surfaceQuat, quatTo, loft, flame, blend, quadBones, addLimb, addEye, membraneWing, bolt } from '../lib.js';
+import { V, SIDES, env, ell, cone, taperFront, surfaceQuat, quatTo, loft, flame, blend, quadBones, addLimb, addEye, membraneWing, bolt, shortenLegs } from '../lib.js';
 
 const palette = [
   ['scale', '#2c2342'], ['scaleDeep', '#1b1529'], ['scaleLight', '#4a3d6b'], ['belly', '#8070ad'],
@@ -62,7 +62,10 @@ function build(B, W) {
   B.add(taperFront(ell(0.35, 0.14, 0.7), 0.4), { pos: [0, 3.75, -2.5], color: 'scaleLight', bone: 'Jaw' });
   B.add(taperFront(ell(0.29, 0.06, 0.62, 14, 8), 0.4), { pos: [0, 3.86, -2.5], color: 'mouth', bone: 'Jaw' });
   for (const [s, x] of SIDES) {
-    addEye(B, x, [0.38 * x, 4.32, -2.46], { r: [0.21, 0.17, 0.12], pupil: [0.045, 0.15], th: -0.5 * x, brow: { color: 'scaleDeep', len: 0.32, tilt: 0.5 } });
+    addEye(B, x, [0.38 * x, 4.32, -2.46], { r: [0.21, 0.17, 0.12], pupil: [0.045, 0.15], th: -0.5 * x, lid: 'scale', brow: { color: 'scaleDeep', len: 0.32, tilt: 0.5 } });
+    // snout ridge horns + jaw spikes
+    B.add(cone(0.06, 0.22, 6), { pos: [0.16 * x, 4.3, -2.85], quat: quatTo([0.2 * x, 1, 0.4]), color: 'horn', bone: 'Head' });
+    for (let i = 0; i < 3; i++) B.add(cone(0.07, 0.26, 6), { pos: [0.3 * x, 3.72, -2.0 - i * 0.22], quat: quatTo([x, -0.6, 0.3]), color: 'scaleDeep', bone: 'Jaw' });
     B.add(ell(0.06, 0.05, 0.05, 8, 6), { pos: [0.13 * x, 4.14, -3.1], mesh: 'Glow', bone: 'Head' });
     for (const z of [-2.35, -2.65, -2.92]) B.add(cone(0.05, 0.18, 6), { pos: [0.24 * x * (1 + (z + 2.35) * 0.35), 3.78, z], rot: [Math.PI, 0, 0], color: 'white', bone: 'Head' });
     // swept-back horns
@@ -107,7 +110,7 @@ function build(B, W) {
 }
 
 export default {
-  name: 'Nyxwing', element: 'Shadow', palette, glow, bones, build,
+  name: 'Nyxwing', element: 'Shadow', palette, glow, bones, build, warp: shortenLegs(0.3, 0.45, 2.1),
   style: { tip: 'TailTip', wings: true, neck: 1.0, tail: 1.3, sway: 1.2 },
   bg: '#17121f', light: { bone: 'TailTip', color: '#b06bff' }, outline: '#0a0612',
   views: { hero: [-9.6, 3.0, -6.8], roar: [-9, 1.2, -5.5], sprite: [-10.5, 2.2, -6.5] },

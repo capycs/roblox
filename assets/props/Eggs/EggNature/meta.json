@@ -4,8 +4,8 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 1762,
-        "verts": 1039
+        "tris": 2872,
+        "verts": 1767
       },
       "Glow": {
         "tris": 320,

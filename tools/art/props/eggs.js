@@ -65,7 +65,7 @@ add({
 });
 const EL = [
   ['Fire', '#e8603a', '#a8381c', '#ffb45a'], ['Storm', '#3f6ad6', '#2a4596', '#7ff0ff'], ['Ice', '#cfe8f7', '#8cb6d6', '#9fe8ff'],
-  ['Shadow', '#3a2d55', '#221a33', '#b46bff'], ['Water', '#2fa4cf', '#1d6f93', '#6ff4ff'], ['Nature', '#6fbf4a', '#3f8a35', '#c8ff6a'],
+  ['Shadow', '#54427a', '#2c2244', '#c77bff'], ['Water', '#2fa4cf', '#1d6f93', '#6ff4ff'], ['Nature', '#6fbf4a', '#3f8a35', '#c8ff6a'],
 ];
 for (const [el, c, d, g] of EL) {
   add({
@@ -76,9 +76,9 @@ for (const [el, c, d, g] of EL) {
       if (el === 'Fire') { spots(B, 6, 'deep', null, 0.12, 21); B.add(flame(0.32, 0.8, { rings: 10, seg: 10 }), { pos: front.p.clone().add(V([0, -0.35, -0.02])).toArray(), scale: [1, 1, 0.3], mesh: 'Glow' }); }
       if (el === 'Storm') { B.add(bolt(0.9, 0.36, 0.06), { pos: front.p.clone().add(V([0, -0.4, 0])).toArray(), quat: surfaceQuat(front.n.toArray(), [1, 0, 0]), mesh: 'Glow' }); band(B, 2.0, 'deep', null, 0.06, 0.15, 8); }
       if (el === 'Ice') { for (let k = 0; k < 5; k++) { const { p, n } = onShell(2.55, k * 1.2566, -0.02); B.add(crystal(0.12, 0.45), { pos: p.toArray(), quat: quatTo(n.clone().add(V([0, 0.8, 0])).toArray()), mesh: 'Glow' }); } spots(B, 6, 'deep', null, 0.1, 23); }
-      if (el === 'Shadow') { for (const [th, ph] of [[1.3, 0.4], [1.9, 2.4], [1.5, 4.4]]) { const { p, n } = onShell(th, ph, 0); B.add(bolt(0.55, 0.2, 0.05), { pos: p.toArray(), quat: surfaceQuat(n.toArray(), [Math.cos(ph + 1.57), 0, Math.sin(ph + 1.57)]), mesh: 'Glow' }); } }
+      if (el === 'Shadow') { band(B, 1.62, null, 'Glow', 0.035, 0.2, 9); band(B, 2.35, 'deep', null, 0.06, 0.1, 7); spots(B, 6, 'deep', null, 0.13, 31); for (const [th, ph] of [[1.15, 0.4], [2.0, 2.4], [1.2, 4.4]]) { const { p, n } = onShell(th, ph, 0); B.add(bolt(0.55, 0.2, 0.05), { pos: p.toArray(), quat: surfaceQuat(n.toArray(), [Math.cos(ph + 1.57), 0, Math.sin(ph + 1.57)]), mesh: 'Glow' }); } }
       if (el === 'Water') { band(B, 1.25, null, 'Glow', 0.05, 0.12, 5); band(B, 1.75, 'deep', null, 0.07, 0.12, 5); }
-      if (el === 'Nature') { for (let k = 0; k < 5; k++) { const { p, n } = onShell(2.6, k * 1.2566, 0); B.add(blade(0.45, 0.17, 0.04), { pos: p.toArray(), quat: surfaceQuat(n.toArray(), V([Math.cos(k * 1.2566), 1.2, Math.sin(k * 1.2566)]).normalize().toArray()), color: 'deep' }); } spots(B, 5, null, 'Glow', 0.07, 29); }
+      if (el === 'Nature') { band(B, 1.5, 'deep', null, 0.06, 0.3, 3); for (let k = 0; k < 9; k++) { const ph = k * 0.698, { p, n } = onShell(1.5 + 0.3 * Math.sin(ph * 3), ph, 0.02); B.add(blade(0.32, 0.15, 0.04, 6), { pos: p.toArray(), quat: surfaceQuat(n.toArray(), V([Math.cos(ph + 1.57), (k % 2) * 1.2 - 0.6, Math.sin(ph + 1.57)]).normalize().toArray()), color: 'deep' }); } for (let k = 0; k < 5; k++) { const { p, n } = onShell(2.6, k * 1.2566, 0); B.add(blade(0.55, 0.2, 0.04), { pos: p.toArray(), quat: surfaceQuat(n.toArray(), V([Math.cos(k * 1.2566), 1.2, Math.sin(k * 1.2566)]).normalize().toArray()), color: 'deep' }); } spots(B, 5, null, 'Glow', 0.07, 29); }
       void q;
     },
   });

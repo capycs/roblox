@@ -4,8 +4,8 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 72,
-        "verts": 60
+        "tris": 500,
+        "verts": 385
       },
       "Sway": {
         "tris": 216,

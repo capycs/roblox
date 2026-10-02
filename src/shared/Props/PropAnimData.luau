@@ -38,17 +38,17 @@ return {
 			WingR = Vector3.new(-0.8428, 0, 0.0036),
 		},
 		Bush = {
-			Sway = Vector3.new(-0.0047, -1.1588, 0),
+			Sway = Vector3.new(-0.0047, -1.2553, 0),
 		},
 		BushBerry = {
-			Sway = Vector3.new(-0.0047, -1.1588, 0),
+			Sway = Vector3.new(-0.0047, -1.2553, 0),
 		},
 		BushFlower = {
-			Sway = Vector3.new(-0.0047, -1.1588, 0),
+			Sway = Vector3.new(-0.0047, -1.2553, 0),
 		},
 		Butterfly = {
-			WingL = Vector3.new(0.2375, -0.0035, 0.0481),
-			WingR = Vector3.new(-0.2375, -0.0035, 0.0481),
+			WingL = Vector3.new(0.27, -0.0065, 0.0551),
+			WingR = Vector3.new(-0.27, -0.0065, 0.0551),
 		},
 		EggShop = {
 			HoverSign = Vector3.new(0, -0.68, 0),
@@ -59,7 +59,7 @@ return {
 			HoverCore = Vector3.new(0, -0.825, 0),
 		},
 		Fern = {
-			Sway = Vector3.new(-0.0791, -0.5025, -0.0006),
+			Sway = Vector3.new(0, -0.5084, 0),
 		},
 		FloatingRock = {
 			HoverRock = Vector3.new(-0.1329, 2.4796, 0.0099),
@@ -93,7 +93,7 @@ return {
 			Float = Vector3.new(-0.4456, -0.2203, -0.1952),
 		},
 		Reeds = {
-			Sway = Vector3.new(0.0153, -1.5757, -0.245),
+			Sway = Vector3.new(0.0535, -1.551, -0.0476),
 		},
 		Skyship = {
 			PropL = Vector3.new(-0.6, 0, 0.4),
@@ -107,7 +107,7 @@ return {
 			Canopy = Vector3.new(-0.0008, -2, -0.0492),
 		},
 		TreePalm = {
-			Fronds = Vector3.new(-0.2233, 0.4511, 0),
+			Fronds = Vector3.new(0.3308, -0.1936, -0.2067),
 		},
 		TreePine = {
 			Sway = Vector3.new(0, -6.461, -0.1025),

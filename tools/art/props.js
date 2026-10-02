@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { buildProp } from './lib.js';
-import { makeRenderer, shoot, fitCam, paletteTexture } from './render.js';
+import { makeRenderer, shoot, fitBox, paletteTexture } from './render.js';
 import { kindOf, animate3, animateFlag3 } from './anim.js';
 
 function glbToBase64(buf) {
@@ -63,7 +63,14 @@ function toonScene(spec) {
     shadow.scale.set(size.x * 1.3, size.z * 1.3, 1); shadow.position.set(center.x, box.min.y + 0.01, center.z);
     scene.add(shadow);
   }
-  return { scene, model, center, radius, size };
+  const pts = [];
+  model.group.updateMatrixWorld(true);
+  model.group.traverse((o) => {
+    if (!o.isMesh || !o.geometry.attributes.position || o.parent?.isMesh) return;
+    const P = o.geometry.attributes.position, step = Math.max(1, Math.floor(P.count / 1500));
+    for (let i = 0; i < P.count; i += step) pts.push(new THREE.Vector3().fromBufferAttribute(P, i).applyMatrix4(o.matrixWorld));
+  });
+  return { scene, model, center, radius, size, box, pts };
 }
 
 export async function runProps(file) {
@@ -77,7 +84,8 @@ export async function runProps(file) {
     const S = toonScene(spec);
     const [w, h] = spec.heroSize || [900, 720];
     const r = makeRenderer(w, h);
-    const cam = fitCam(S, spec.fov || 30, w, h, spec.view || [-1, 0.55, -1.15], spec.fit || 0.78, spec.lift ?? 1);
+    const view = spec.view || [-1, 0.55, -1.15], bloom = spec.bloom ?? 0.45;
+    const cam = fitBox(S.box, spec.fov || 30, w, h, view, spec.margin || 0.84, S.pts);
     const animated = spec.animate || spec.bones || Object.keys(S.model.meshes).some((n) => kindOf(n));
     const step = (u) => {
       const t = u * (spec.loopSeconds || 2);
@@ -86,17 +94,17 @@ export async function runProps(file) {
       if (spec.animate) spec.animate(S.model.meshes, S.model.group, u);
     };
     if (animated) step(0.15);
-    shoot(r, S.scene, cam);
+    shoot(r, S.scene, cam, bloom);
     out.images.hero = r.domElement.toDataURL('image/png');
     r.dispose(); r.forceContextLoss();
     if (animated) {
       const FW = 400, FH = 320, n = spec.frames || 24;
       const rr = makeRenderer(FW, FH);
-      const c2 = fitCam(S, spec.fov || 30, FW, FH, spec.view || [-1, 0.55, -1.15], (spec.fit || 0.78) * 1.08, spec.lift ?? 1);
+      const c2 = fitBox(S.box, spec.fov || 30, FW, FH, view, (spec.margin || 0.84) * 0.92, S.pts);
       const sheet = document.createElement('canvas'); sheet.width = FW * n; sheet.height = FH;
       for (let i = 0; i < n; i++) {
         step(i / n);
-        shoot(rr, S.scene, c2);
+        shoot(rr, S.scene, c2, bloom);
         sheet.getContext('2d').drawImage(rr.domElement, i * FW, 0);
       }
       out.images.sprite = sheet.toDataURL('image/png');

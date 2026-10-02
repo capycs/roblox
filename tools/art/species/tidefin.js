@@ -1,14 +1,14 @@
 // Tidefin (Water): sleek otter-axolotl. Teal coat with a cream muzzle, glowing gill
 // fronds, fin ears, a sail fin down its back and a broad fluke tail.
 import * as THREE from 'three';
-import { V, SIDES, env, ell, cone, surfaceQuat, quatTo, loft, blend, quadBones, addLimb, addEye, blade } from '../lib.js';
+import { V, SIDES, env, ell, cone, surfaceQuat, quatTo, loft, blend, quadBones, addLimb, addEye, blade, shortenLegs } from '../lib.js';
 
 const palette = [
   ['teal', '#2a86b0'], ['tealDeep', '#1a5980'], ['tealLight', '#56b6d8'], ['belly', '#f5e6c6'],
   ['fin', '#7dd6e6'], ['finDeep', '#3aa3c6'], ['nose', '#13223a'], ['mouth', '#7a2a3e'],
   ['pupil', '#0b1626'], ['white', '#ffffff'],
 ];
-const glow = { Eyes: '#5ff4ff', Glow: '#38e2ff', GlowCore: '#dcffff' };
+const glow = { Eyes: '#5ff4ff', Glow: '#2cc8ee', GlowCore: '#8ff0ff' };
 
 const bones = quadBones({
   hips: [1.8, 1.15], spine: [1.88, 0.2], chest: [1.98, -0.7], neck: [2.35, -1.25], head: [2.85, -1.6], jaw: [2.5, -2.05],
@@ -45,7 +45,7 @@ function build(B, W) {
   // glowing wave stripes on the flanks
   for (const [, x] of SIDES) for (const [t, th, len] of [[0.18, 0.5, 0.55], [0.3, 0.35, 0.7], [0.44, 0.5, 0.55], [0.58, 0.35, 0.65], [0.72, 0.5, 0.45]]) {
     const c = tCurve.getPoint(t), n = [Math.cos(th) * x, Math.sin(th), 0];
-    B.add(blade(len, 0.09, 0.04), { pos: [Math.cos(th) * tRx(t) * 0.99 * x, c.y + Math.sin(th) * tRy(t) * 0.99, c.z + len * 0.4], quat: surfaceQuat(n, [0, 0.35, -1]), mesh: 'Glow', weights: torsoW });
+    B.add(blade(len, 0.045, 0.03), { pos: [Math.cos(th) * tRx(t) * 0.995 * x, c.y + Math.sin(th) * tRy(t) * 0.995, c.z + len * 0.4], quat: surfaceQuat(n, [0, 0.35, -1]), mesh: 'Glow', weights: torsoW });
   }
   // sail fin down the back
   B.add(fin(wave(-0.35, 1.9, 0.75)), { pos: [0, 2.38, 0], color: 'fin', weights: torsoW });
@@ -60,11 +60,10 @@ function build(B, W) {
   B.add(ell(0.16, 0.11, 0.1, 10, 8), { pos: [0, 2.8, -2.64], color: 'nose', bone: 'Head' });
   B.add(ell(0.38, 0.13, 0.4), { pos: [0, 2.38, -2.15], color: 'belly', bone: 'Jaw' });
   B.add(ell(0.3, 0.05, 0.32, 12, 6), { pos: [0, 2.48, -2.15], color: 'mouth', bone: 'Jaw' });
-  B.add(ell(0.5, 0.18, 0.4), { pos: [0, 3.26, -2.05], rot: [0.3, 0, 0], color: 'tealDeep', bone: 'Head' });
   // forehead water gem
-  B.add(ell(0.13, 0.19, 0.08, 12, 10), { pos: [0, 3.36, -2.3], rot: [-0.45, 0, 0], mesh: 'GlowCore', bone: 'Head' });
+  B.add(ell(0.09, 0.13, 0.06, 12, 10), { pos: [0, 3.4, -2.27], rot: [-0.45, 0, 0], mesh: 'Glow', bone: 'Head' });
   for (const [s, x] of SIDES) {
-    addEye(B, x, [0.34 * x, 2.98, -2.27], { r: [0.24, 0.27, 0.13], pupil: [0.1, 0.13], brow: { color: 'tealDeep', len: 0.3, tilt: 0.32 } });
+    addEye(B, x, [0.34 * x, 2.98, -2.27], { r: [0.24, 0.27, 0.13], pupil: [0.1, 0.13], lid: 'teal', lidAngle: 0.8, lidRoll: 0.15, brow: { color: 'tealDeep', len: 0.26, tilt: 0.3 } });
     // axolotl gill fronds: three per side, each with glowing filaments
     [[0.25, 0.75], [0, 0.85], [-0.25, 0.7]].forEach(([dy, len], k) => {
       const base = V([0.66 * x, 2.95 + dy, -1.35]), d = V([x, 0.45 + dy * 1.4, 0.55]).normalize();
@@ -111,12 +110,12 @@ function build(B, W) {
     B.add(blade(1.15, 0.42, 0.06, 10), { pos: tip.clone().add(V([0, -0.05, -0.2])).toArray(), quat: surfaceQuat([0, 1, 0], d.toArray()), color: 'fin', bone: 'TailTip' });
     B.add(blade(0.85, 0.12, 0.07, 10), { pos: tip.clone().add(V([0.15 * x, -0.03, 0.15])).toArray(), quat: surfaceQuat([0, 1, 0], V([0.9 * x, 0, 1]).normalize().toArray()), mesh: 'Glow', bone: 'TailTip' });
   }
-  B.add(ell(0.22, 0.22, 0.22, 14, 10), { pos: [tip.x, tip.y + 0.55, tip.z + 0.05], mesh: 'GlowCore', bone: 'TailTip' });
+  B.add(ell(0.15, 0.15, 0.15, 14, 10), { pos: [tip.x, tip.y + 0.5, tip.z + 0.05], mesh: 'GlowCore', bone: 'TailTip' });
   B.add(ell(0.1, 0.1, 0.1, 10, 8), { pos: [tip.x + 0.25, tip.y + 0.95, tip.z - 0.1], mesh: 'Glow', bone: 'TailTip' });
 }
 
 export default {
-  name: 'Tidefin', element: 'Water', palette, glow, bones, build,
+  name: 'Tidefin', element: 'Water', palette, glow, bones, build, warp: shortenLegs(0.4, 0.4, 1.7),
   style: {
     tip: 'TailTip', dur: { Walk: 0.85, Run: 0.55 },
     walk: [0.5, 0.6, 0.45, 0.5], run: [0.8, 0.8, 0.8, 0.8], gallop: [0, 0.06, 0.5, 0.56],

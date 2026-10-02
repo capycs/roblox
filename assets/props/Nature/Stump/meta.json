@@ -4,8 +4,8 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 328,
-        "verts": 394
+        "tris": 1406,
+        "verts": 1416
       }
     },
     "parts": {}

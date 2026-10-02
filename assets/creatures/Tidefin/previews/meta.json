@@ -4,20 +4,20 @@
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 11920,
-        "verts": 7762
+        "tris": 12148,
+        "verts": 7903
       },
       "Eyes": {
         "tris": 704,
         "verts": 442
       },
       "Glow": {
-        "tris": 4200,
-        "verts": 3326
+        "tris": 4416,
+        "verts": 3469
       },
       "GlowCore": {
-        "tris": 468,
-        "verts": 308
+        "tris": 252,
+        "verts": 165
       }
     },
     "bones": 26,
