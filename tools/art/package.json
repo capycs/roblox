@@ -2,6 +2,6 @@
   "name": "art-generator",
   "private": true,
   "type": "module",
-  "scripts": { "build": "node build.mjs", "props": "node build-props.mjs", "textures": "node build-textures.mjs" },
+  "scripts": { "build": "node build.mjs", "props": "node build-props.mjs", "textures": "node build-textures.mjs", "fx": "node build-fx.mjs", "icons": "node build-icons.mjs", "asset-ids": "node gen-asset-ids.mjs" },
   "dependencies": { "playwright-core": "^1.56.1", "three": "^0.180.0" }
 }

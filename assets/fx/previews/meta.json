@@ -1,0 +1,58 @@
+{
+  "HatchBurst": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "RarityBeam": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "Pickup": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "FireHit": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "StormHit": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "IceHit": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "ShadowHit": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "WaterHit": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "NatureHit": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "ExtractPortal": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "KnockedDown": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BiomeEmbers": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BiomeSnow": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BiomeFireflies": {
+    "frames": 24,
+    "duration": 1.4
+  }
+}
