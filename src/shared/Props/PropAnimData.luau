@@ -38,13 +38,13 @@ return {
 			WingR = Vector3.new(-0.8428, 0, 0.0036),
 		},
 		Bush = {
-			Sway = Vector3.new(-0.0047, -1.2553, 0),
+			Sway = Vector3.new(-0.0911, -1.1182, 0.0554),
 		},
 		BushBerry = {
-			Sway = Vector3.new(-0.0047, -1.2553, 0),
+			Sway = Vector3.new(0.0244, -1.1189, 0.0319),
 		},
 		BushFlower = {
-			Sway = Vector3.new(-0.0047, -1.2553, 0),
+			Sway = Vector3.new(0.0092, -1.1581, 0.0294),
 		},
 		Butterfly = {
 			WingL = Vector3.new(0.27, -0.0065, 0.0551),
@@ -101,19 +101,19 @@ return {
 			PropBack = Vector3.new(0, 0, 0.4),
 		},
 		TreeBlossom = {
-			Canopy = Vector3.new(-0.0007, -2, -0.0443),
+			Canopy = Vector3.new(-0.3931, -3.5901, -0.2926),
 		},
 		TreeOak = {
-			Canopy = Vector3.new(-0.0008, -2, -0.0492),
+			Canopy = Vector3.new(0.3162, -3.3632, 0.1606),
 		},
 		TreePalm = {
 			Fronds = Vector3.new(0.3308, -0.1936, -0.2067),
 		},
 		TreePine = {
-			Sway = Vector3.new(0, -6.461, -0.1025),
+			Sway = Vector3.new(0.0621, -6.7708, 0.0123),
 		},
 		TreePineSnow = {
-			Sway = Vector3.new(0, -6.5335, -0.1025),
+			Sway = Vector3.new(-0.1288, -6.7708, -0.1225),
 		},
 		Well = {
 			Bucket = Vector3.new(0, 1.05, 0),

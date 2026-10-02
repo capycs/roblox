@@ -46,7 +46,7 @@ function toonScene(spec) {
     const isGlass = !!(spec.glass && spec.glass[n]);
     if (isGlass) { m.userData.noBloomOccluder = true; m.renderOrder = 2; continue; }
     if (m.isSkinnedMesh) continue;
-    if (!m.userData.glow || spec.outlineGlow) m.add(new THREE.Mesh(m.geometry, outline));
+    // Outlines are drawn as a silhouette after rendering (like Roblox Highlight), not per mesh.
   }
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(spec.bg || '#1d1a22');
@@ -73,6 +73,30 @@ function toonScene(spec) {
   return { scene, model, center, radius, size, box, pts };
 }
 
+// Outline-only silhouette around the whole model, the same thing Roblox's Highlight draws.
+const MASK = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+function shootOutlined(r, scene, cam, bloom, color, px) {
+  shoot(r, scene, cam, bloom);
+  const w = r.domElement.width, h = r.domElement.height;
+  const A = document.createElement('canvas'); A.width = w; A.height = h; A.getContext('2d').drawImage(r.domElement, 0, 0);
+  const saved = new Map(), hidden = [];
+  scene.traverse((o) => {
+    if (o.userData.noBloomOccluder && !(o.isMesh && o.material && o.material.transparent && o.renderOrder === 2)) { if (o.visible) { hidden.push(o); o.visible = false; } }
+    else if (o.isMesh) { saved.set(o, o.material); o.material = MASK; }
+  });
+  const bg = scene.background; scene.background = null; r.setClearColor(0x000000, 0); r.clear();
+  r.render(scene, cam);
+  for (const [o, m] of saved) o.material = m; for (const o of hidden) o.visible = true; scene.background = bg;
+  const M = document.createElement('canvas'); M.width = w; M.height = h; M.getContext('2d').drawImage(r.domElement, 0, 0);
+  const O = document.createElement('canvas'); O.width = w; O.height = h; const og = O.getContext('2d');
+  for (let k = 0; k < 16; k++) { const a = (k / 16) * Math.PI * 2; og.drawImage(M, Math.cos(a) * px, Math.sin(a) * px); }
+  og.drawImage(M, 0, 0);
+  og.globalCompositeOperation = 'source-in'; og.fillStyle = color; og.fillRect(0, 0, w, h);
+  og.globalCompositeOperation = 'destination-out'; og.drawImage(M, 0, 0);
+  A.getContext('2d').drawImage(O, 0, 0);
+  return A;
+}
+
 export async function runProps(file) {
   const mod = await import(`./props/${file}.js`);
   const specs = Array.isArray(mod.default) ? mod.default : [mod.default];
@@ -94,8 +118,8 @@ export async function runProps(file) {
       if (spec.animate) spec.animate(S.model.meshes, S.model.group, u);
     };
     if (animated) step(0.15);
-    shoot(r, S.scene, cam, bloom);
-    out.images.hero = r.domElement.toDataURL('image/png');
+    const olc = spec.outline || '#120c10';
+    out.images.hero = shootOutlined(r, S.scene, cam, bloom, olc, Math.max(2, Math.round(w / 220))).toDataURL('image/png');
     r.dispose(); r.forceContextLoss();
     if (animated) {
       const FW = 400, FH = 320, n = spec.frames || 24;
@@ -104,8 +128,7 @@ export async function runProps(file) {
       const sheet = document.createElement('canvas'); sheet.width = FW * n; sheet.height = FH;
       for (let i = 0; i < n; i++) {
         step(i / n);
-        shoot(rr, S.scene, c2, bloom);
-        sheet.getContext('2d').drawImage(rr.domElement, i * FW, 0);
+        sheet.getContext('2d').drawImage(shootOutlined(rr, S.scene, c2, bloom, olc, 2), i * FW, 0);
       }
       out.images.sprite = sheet.toDataURL('image/png');
       out.sprite = { frames: n, duration: spec.loopSeconds || 2 };

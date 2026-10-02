@@ -2,10 +2,13 @@
 // chunky canopies so maps can use lots of them. Units: studs, base at y = 0.
 import * as THREE from 'three';
 import { V, ell, cone, quatTo, loft, blade, leaflet, crystal, cyl, surfaceQuat, flame, into } from '../lib.js';
+import { canopy as leafy, conifer } from '../foliage.js';
 
 const P = {
   trunk: '#7a5132', trunkDark: '#553620', bark: '#9a6a42', leaf: '#4f9a3d', leafDark: '#357a2f', leafLight: '#7cc44c',
   blossom: '#ff9ec7', blossomDeep: '#e46aa0', pine: '#2f6b45', pineDark: '#1f4f34', snow: '#eef5fb', snowShade: '#c5d6e6',
+  leafDeep: '#28552b', leafTip: '#98cf58', blossomDark: '#c24f86', blossomPale: '#ffd1e4', blossomTip: '#fff0f6',
+  pineDeep: '#173b2a', pineMid: '#2b6343', pineLight: '#3f8455', pineTip: '#5ea56b',
   palmTrunk: '#b58a57', palmLeaf: '#5aae46', coconut: '#6b4423', berry: '#d9354a',
 };
 const P2 = {
@@ -49,31 +52,40 @@ const OAK = [[0, 1.6, 0, 3.2], [2.3, 0.6, 0.6, 2.3], [-2.2, 0.8, -0.4, 2.4], [0.
 const nature = [];
 const add = (spec) => nature.push({ category: 'Nature', heroSize: [640, 640], ...spec });
 
+// Zelda-style broadleaf: chunky curved trunk, branches reaching into 4-5 puffy clumps, each
+// clump covered in leaf cards with spherized normals (see foliage.js).
+function branchyTrunk(B, h, r, bend, clumps, color, rootColor) {
+  const top = trunk(B, h, r, color, bend, 5, rootColor);
+  for (const [x, y, z] of clumps.slice(1)) {
+    const s = [top[0] * 0.7, h * 0.72, top[2] * 0.7];
+    B.add(loft({ points: [s, [s[0] + (x - s[0]) * 0.45, s[1] + (y - s[1]) * 0.3, s[2] + (z - s[2]) * 0.45], [x * 0.8, y - 0.6, z * 0.8]], rx: (t) => r * 0.42 * (1 - 0.55 * t), ry: (t) => r * 0.42 * (1 - 0.55 * t), rings: 8, seg: 7 }), { color });
+  }
+  return top;
+}
+const OAK_CLUMPS = [[0.3, 10.2, 0.2, 3.0], [3.5, 8.3, 0.8, 2.3], [-3.3, 8.6, -0.5, 2.4], [0.3, 8.1, 3.4, 2.1], [-0.4, 8.4, -3.3, 2.1], [-1.2, 12.3, 1.0, 1.7], [1.6, 11.9, -1.2, 1.5]];
 add({
-  name: 'TreeOak', palette: pal(P, ['trunk', 'trunkDark', 'leaf', 'leafDark', 'leafLight']),
+  name: 'TreeOak', palette: pal(P, ['trunk', 'trunkDark', 'leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip']),
   parts: { Canopy: { pivot: [0.4, 6.5, 0.2] } },
-  build(B) { const t = trunk(B, 6.5, 0.75, 'trunk', 0.5, 4, 'trunkDark'); canopy(into(B, 'Canopy'), t, OAK, ['leaf', 'leafDark', 'leafLight', 'leaf', 'leafDark', 'leafLight', 'leaf']); },
-});
-add({
-  name: 'TreeBlossom', palette: pal(P, ['trunk', 'trunkDark', 'blossom', 'blossomDeep', 'snow']), parts: { Canopy: { pivot: [-0.48, 6, -0.24] } },
   build(B) {
-    const t = trunk(B, 6, 0.65, 'trunk', -0.6, 4, 'trunkDark');
-    canopy(into(B, 'Canopy'), t, OAK.map(([x, y, z, r]) => [x * 0.9, y, z * 0.9, r * 0.9]), ['blossom', 'blossomDeep', 'blossom', 'snow', 'blossomDeep', 'blossom', 'blossomDeep']);
+    branchyTrunk(B, 7, 0.8, 0.5, OAK_CLUMPS, 'trunk', 'trunkDark');
+    leafy(into(B, 'Canopy'), { blobs: OAK_CLUMPS, shades: ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'], count: 680, size: [1.15, 0.6], seed: 11 });
   },
 });
-function pine(B, h, tiers, snowy) {
-  B.add(cyl(0.35, 0.6, h * 0.4, 8), { pos: [0, h * 0.2, 0], color: 'trunkDark' });
-  for (let i = 0; i < tiers; i++) {
-    const f = i / tiers, r = 3.4 * (1 - f * 0.72), y = h * 0.25 + f * h * 0.62, hh = h * 0.36 * (1 - f * 0.3);
-    const g = new THREE.ConeGeometry(r, hh, 9, 2); const Pp = g.attributes.position;
-    for (let k = 0; k < Pp.count; k++) if (Pp.getY(k) < -hh * 0.45) { const a = Math.atan2(Pp.getZ(k), Pp.getX(k)); Pp.setY(k, Pp.getY(k) - 0.35 * Math.abs(Math.sin(a * 4.5))); }
-    g.computeVertexNormals();
-    B.add(g, { pos: [0, y + hh / 2, 0], rot: [0, i * 0.5, 0], color: i % 2 ? 'pineDark' : 'pine' });
-    if (snowy) B.add(cone(r * 0.78, hh * 0.62, 9), { pos: [0, y + hh * 0.42 + hh * 0.31, 0], rot: [0, i * 0.5 + 0.2, 0], color: i % 2 ? 'snowShade' : 'snow' });
-  }
-}
-add({ name: 'TreePine', palette: pal(P, ['trunkDark', 'pine', 'pineDark']), parts: { Sway: { pivot: [0, 0, 0] } }, build(B) { pine(into(B, 'Sway'), 13, 4, false); } });
-add({ name: 'TreePineSnow', palette: pal(P, ['trunkDark', 'pine', 'pineDark', 'snow', 'snowShade']), parts: { Sway: { pivot: [0, 0, 0] } }, build(B) { pine(into(B, 'Sway'), 13, 4, true); } });
+const BLOSSOM_CLUMPS = OAK_CLUMPS.map(([x, y, z, r]) => [-x * 0.9, y - 0.4, z * 0.9, r * 0.92]);
+add({
+  name: 'TreeBlossom', palette: pal(P, ['trunk', 'trunkDark', 'blossomDark', 'blossomDeep', 'blossom', 'blossomPale', 'blossomTip']), parts: { Canopy: { pivot: [-0.48, 6, -0.24] } },
+  build(B) {
+    branchyTrunk(B, 6.6, 0.7, -0.6, BLOSSOM_CLUMPS, 'trunk', 'trunkDark');
+    leafy(into(B, 'Canopy'), { blobs: BLOSSOM_CLUMPS, shades: ['blossomDark', 'blossomDeep', 'blossom', 'blossomPale', 'blossomTip'], count: 620, size: [0.85, 0.55], seed: 21, droop: 0.4 });
+    // fallen petals around the roots
+    const r = seeded(9);
+    for (let k = 0; k < 18; k++) { const a = r() * 6.28, d = 1.4 + r() * 3.2; B.add(ell(0.16, 0.02, 0.11, 6, 3), { pos: [Math.cos(a) * d, 0.03, Math.sin(a) * d], rot: [0, a, 0], color: k % 3 ? 'blossom' : 'blossomPale' }); }
+  },
+});
+add({ name: 'TreePine', palette: pal(P, ['trunkDark', 'pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'pineTip']), parts: { Sway: { pivot: [0, 0, 0] } },
+  build(B) { conifer(into(B, 'Sway'), { height: 13, tiers: 5, radius: 3.6, shades: ['pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'pineTip'], trunkColor: 'trunkDark', seed: 5 }); } });
+add({ name: 'TreePineSnow', palette: pal(P, ['trunkDark', 'pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight', 'snow', 'snowShade']), parts: { Sway: { pivot: [0, 0, 0] } },
+  build(B) { conifer(into(B, 'Sway'), { height: 13, tiers: 5, radius: 3.6, shades: ['pineDeep', 'pineDark', 'pine', 'pineMid', 'pineLight'], snow: ['snow', 'snowShade'], trunkColor: 'trunkDark', seed: 7 }); } });
 add({
   name: 'TreePalm', palette: pal(P, ['palmTrunk', 'trunk', 'palmLeaf', 'leafDark', 'coconut']), parts: { Fronds: { pivot: [3.2, 8.5, 0.4] } },
   build(B) {
@@ -123,29 +135,35 @@ add({
     B.add(ell(1.2, 0.35, 1.2, 10, 6), { pos: [0, 0.1, 0], color: 'petalW' });
   },
 });
-function bush(B, colors, extra) {
-  [[0, 1.0, 0, 1.3], [1.1, 0.8, 0.3, 1.0], [-1.0, 0.85, -0.2, 1.05], [0.2, 0.75, 1.0, 0.9], [-0.2, 0.8, -1.0, 0.9], [0.1, 1.7, 0.1, 0.85]]
-    .forEach(([x, y, z, r], i) => B.add(ell(r, r * 0.85, r, 11, 8), { pos: [x, y, z], color: colors[i % colors.length] }));
-  B.add(ell(1.7, 0.45, 1.6, 12, 6), { pos: [0, 0.35, 0], color: 'leafDark' });
-  const rnd = seeded(23);
-  for (let i = 0; i < 22; i++) {
-    const a = (i / 22) * 6.28 + rnd() * 0.3, e = 0.15 + rnd() * 0.9, R = 1.55 + rnd() * 0.25;
-    const n = V([Math.cos(a) * Math.cos(e), Math.sin(e), Math.sin(a) * Math.cos(e)]);
-    const p = V([0, 0.85, 0]).addScaledVector(n, R * 0.92).add(V([0, -0.1, 0]));
-    const tg = V([0, 1, 0]).addScaledVector(n, -n.y).normalize(); const d = tg.multiplyScalar(0.5).addScaledVector(n, 1).add(V([(rnd() - 0.5) * 0.6, 0, (rnd() - 0.5) * 0.6])).normalize();
-    B.add(leaflet(0.42 + rnd() * 0.15, 0.24, 0.07), { pos: p.toArray(), quat: surfaceQuat(V([0, 1, 0]).cross(d).cross(d).negate().toArray(), d.toArray()), color: colors[i % colors.length] });
-  }
-  if (extra) extra();
+// Bushes use the same leafy clumps as the trees, low and wide.
+const BUSH = [[0, 1.05, 0, 1.25], [1.15, 0.85, 0.35, 0.95], [-1.05, 0.9, -0.25, 1.0], [0.25, 0.8, 1.05, 0.85], [-0.2, 0.85, -1.05, 0.85], [0.1, 1.75, 0.1, 0.8]];
+const BUSH_SHADES = ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'];
+function bush(B, seed, extra) {
+  leafy(B, { blobs: BUSH, shades: BUSH_SHADES, count: 260, size: [0.62, 0.36], seed, centre: [0, 0.4, 0], extra });
 }
 const SWAY = { Sway: { pivot: [0, 0, 0] } };
-add({ name: 'Bush', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), parts: SWAY, build(B) { bush(into(B, 'Sway'), ['leaf', 'leafDark', 'leafLight']); } });
+const BUSH_PAL = ['leafDeep', 'leafDark', 'leaf', 'leafLight', 'leafTip'];
+add({ name: 'Bush', palette: pal(P, BUSH_PAL), parts: SWAY, build(B) { bush(into(B, 'Sway'), 31); } });
 add({
-  name: 'BushBerry', palette: pal(P, ['leaf', 'leafDark', 'leafLight', 'berry']), parts: SWAY,
-  build(B) { B = into(B, 'Sway'); bush(B, ['leafDark', 'leaf'], () => { const r = seeded(3); for (let i = 0; i < 14; i++) { const a = r() * 6.28, e = r() * 1.2; B.add(ell(0.16, 0.16, 0.16, 7, 5), { pos: [Math.cos(a) * 1.35 * Math.cos(e * 0.6), 0.8 + Math.sin(e) * 1.2, Math.sin(a) * 1.35 * Math.cos(e * 0.6)], color: 'berry' }); } }); },
+  name: 'BushBerry', palette: pal(P, [...BUSH_PAL, 'berry', 'snow']), parts: SWAY,
+  build(B) {
+    B = into(B, 'Sway');
+    bush(B, 37, ({ surface }) => { for (let i = 0; i < 22; i++) { const { p } = surface(); B.add(ell(0.17, 0.17, 0.17, 7, 5), { pos: p.toArray(), color: 'berry' }); B.add(ell(0.04, 0.04, 0.04, 4, 3), { pos: p.clone().add(V([-0.05, 0.08, -0.08])).toArray(), color: 'snow' }); } });
+  },
 });
 add({
-  name: 'BushFlower', palette: pal({ ...P, ...P2 }, ['leaf', 'leafDark', 'blossom', 'petalY', 'petalW']), parts: SWAY,
-  build(B) { B = into(B, 'Sway'); bush(B, ['leaf', 'leafDark'], () => { const r = seeded(7); for (let i = 0; i < 12; i++) { const a = r() * 6.28, e = 0.3 + r() * 1.0; const p = [Math.cos(a) * 1.3 * Math.cos(e * 0.7), 0.8 + Math.sin(e) * 1.1, Math.sin(a) * 1.3 * Math.cos(e * 0.7)]; B.add(ell(0.22, 0.08, 0.22, 8, 4), { pos: p, quat: quatTo([p[0], p[1] - 0.6, p[2]]), color: ['blossom', 'petalY', 'petalW'][i % 3] }); } }); },
+  name: 'BushFlower', palette: pal({ ...P, ...P2 }, [...BUSH_PAL, 'blossom', 'petalY', 'petalW']), parts: SWAY,
+  build(B) {
+    B = into(B, 'Sway');
+    bush(B, 41, ({ surface }) => {
+      for (let i = 0; i < 16; i++) {
+        const { p, n } = surface(), col = ['blossom', 'petalW', 'blossom'][i % 3];
+        const side = V([0, 1, 0]).cross(n).normalize(), fwd = n.clone().cross(side).normalize();
+        for (let k = 0; k < 5; k++) { const a = (k / 5) * Math.PI * 2, d = side.clone().multiplyScalar(Math.cos(a)).addScaledVector(fwd, Math.sin(a)); B.add(ell(0.2, 0.04, 0.13, 6, 3), { pos: p.clone().addScaledVector(d, 0.18).toArray(), quat: surfaceQuat(n.toArray(), d.toArray()), color: col }); }
+        B.add(ell(0.09, 0.06, 0.09, 6, 4), { pos: p.clone().addScaledVector(n, 0.04).toArray(), color: 'petalY' });
+      }
+    });
+  },
 });
 add({
   name: 'GrassTuft', palette: pal(P, ['leaf', 'leafDark', 'leafLight']), heroSize: [480, 480], parts: SWAY,
