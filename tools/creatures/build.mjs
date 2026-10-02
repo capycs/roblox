@@ -1,5 +1,5 @@
-// Generates Emberfang.glb + preview renders.
-//   cd tools/emberfang && npm i && npm run build [-- --renders <dir>]
+// Generates <Name>.glb + preview renders for each creature.
+//   cd tools/creatures && npm i && npm run build [-- emberfang voltgriff ...] [--renders <dir>] [--no-sprites]
 import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -8,9 +8,12 @@ import { chromium } from 'playwright-core';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
-const outDir = path.join(repo, 'assets/creatures/Emberfang');
-const rIdx = process.argv.indexOf('--renders');
-const renderDir = rIdx > 0 ? path.resolve(process.argv[rIdx + 1]) : path.join(outDir, 'previews');
+const args = process.argv.slice(2);
+const rIdx = args.indexOf('--renders');
+const renderRoot = rIdx >= 0 ? path.resolve(args[rIdx + 1]) : null;
+const flags = new Set(args.filter((a) => a.startsWith('--')));
+const names = args.filter((a, i) => !a.startsWith('--') && !(rIdx >= 0 && i === rIdx + 1));
+const species = names.length ? names : fs.readdirSync(path.join(here, 'species')).map((f) => f.replace(/\.js$/, ''));
 
 const types = { '.js': 'text/javascript', '.mjs': 'text/javascript', '.html': 'text/html' };
 const page = `<!doctype html><html><body>
@@ -36,14 +39,20 @@ tab.on('console', (m) => console.log('[page]', m.text()));
 tab.on('pageerror', (e) => console.error('[page error]', e.message));
 await tab.goto(`http://localhost:${port}/`);
 await tab.waitForFunction(() => window.ready === true);
-const out = await tab.evaluate(() => window.runAll());
-await browser.close(); server.close();
 
-fs.mkdirSync(outDir, { recursive: true });
-fs.mkdirSync(renderDir, { recursive: true });
-fs.writeFileSync(path.join(outDir, 'Emberfang.glb'), Buffer.from(out.glb, 'base64'));
-for (const [name, url] of Object.entries(out.images)) {
-  fs.writeFileSync(path.join(renderDir, name + '.png'), Buffer.from(url.split(',')[1], 'base64'));
+for (const name of species) {
+  const out = await tab.evaluate((n) => window.runAll(n), name);
+  const outDir = path.join(repo, 'assets/creatures', out.name);
+  fs.mkdirSync(outDir, { recursive: true });
+  const renderDir = renderRoot ? path.join(renderRoot, out.name) : path.join(outDir, 'previews');
+  fs.mkdirSync(renderDir, { recursive: true });
+  fs.writeFileSync(path.join(outDir, out.name + '.glb'), Buffer.from(out.glb, 'base64'));
+  for (const [img, url] of Object.entries(out.images)) {
+    if (flags.has('--no-sprites') && img.startsWith('sprite_')) continue;
+    fs.writeFileSync(path.join(renderDir, img + '.png'), Buffer.from(url.split(',')[1], 'base64'));
+  }
+  fs.writeFileSync(path.join(renderDir, 'meta.json'), JSON.stringify({ name: out.name, element: out.element, stats: out.stats, sprites: out.sprites }, null, 2));
+  const tris = Object.entries(out.stats.meshes).map(([m, s]) => `${m} ${s.tris}`).join(', ');
+  console.log(`${out.name}: ${tris}; bones ${out.stats.bones}`);
 }
-fs.writeFileSync(path.join(renderDir, 'meta.json'), JSON.stringify({ stats: out.stats, sprites: out.sprites }, null, 2));
-console.log(JSON.stringify(out.stats, null, 2));
+await browser.close(); server.close();

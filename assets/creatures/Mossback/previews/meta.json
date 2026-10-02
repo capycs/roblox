@@ -1,42 +1,42 @@
 {
-  "name": "Emberfang",
-  "element": "Fire",
+  "name": "Mossback",
+  "element": "Nature",
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 14796,
-        "verts": 9962
+        "tris": 12876,
+        "verts": 8779
       },
       "Eyes": {
         "tris": 704,
         "verts": 442
       },
-      "Flame": {
-        "tris": 4479,
-        "verts": 2845
+      "Glow": {
+        "tris": 1600,
+        "verts": 1260
       },
-      "FlameCore": {
-        "tris": 495,
-        "verts": 256
+      "GlowCore": {
+        "tris": 500,
+        "verts": 427
       }
     },
     "bones": 26,
     "clips": [
       {
         "name": "Idle",
-        "duration": 2.4
+        "duration": 2.6
       },
       {
         "name": "Walk",
-        "duration": 1
+        "duration": 0.8
       },
       {
         "name": "Run",
-        "duration": 0.6
+        "duration": 0.5
       },
       {
         "name": "Attack",
-        "duration": 1.1
+        "duration": 1.15
       },
       {
         "name": "Roar",
@@ -46,28 +46,28 @@
   },
   "sprites": {
     "Idle": {
-      "frames": 48,
+      "frames": 52,
       "fw": 400,
       "fh": 320,
-      "duration": 2.4
+      "duration": 2.6
     },
     "Walk": {
-      "frames": 20,
+      "frames": 16,
       "fw": 400,
       "fh": 320,
-      "duration": 1
+      "duration": 0.8
     },
     "Run": {
-      "frames": 12,
+      "frames": 10,
       "fw": 400,
       "fh": 320,
-      "duration": 0.6
+      "duration": 0.5
     },
     "Attack": {
-      "frames": 22,
+      "frames": 23,
       "fw": 400,
       "fh": 320,
-      "duration": 1.1
+      "duration": 1.15
     },
     "Roar": {
       "frames": 44,

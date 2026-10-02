@@ -1,79 +1,79 @@
 {
-  "name": "Emberfang",
-  "element": "Fire",
+  "name": "Frostusk",
+  "element": "Ice",
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 14796,
-        "verts": 9962
+        "tris": 15884,
+        "verts": 11555
       },
       "Eyes": {
         "tris": 704,
         "verts": 442
       },
-      "Flame": {
-        "tris": 4479,
-        "verts": 2845
+      "Glow": {
+        "tris": 536,
+        "verts": 900
       },
-      "FlameCore": {
-        "tris": 495,
-        "verts": 256
+      "GlowCore": {
+        "tris": 216,
+        "verts": 648
       }
     },
     "bones": 26,
     "clips": [
       {
         "name": "Idle",
-        "duration": 2.4
+        "duration": 3
       },
       {
         "name": "Walk",
-        "duration": 1
+        "duration": 1.25
       },
       {
         "name": "Run",
-        "duration": 0.6
+        "duration": 0.75
       },
       {
         "name": "Attack",
-        "duration": 1.1
+        "duration": 1.25
       },
       {
         "name": "Roar",
-        "duration": 2.2
+        "duration": 2.4
       }
     ]
   },
   "sprites": {
     "Idle": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "Walk": {
+      "frames": 25,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.25
+    },
+    "Run": {
+      "frames": 15,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.75
+    },
+    "Attack": {
+      "frames": 25,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.25
+    },
+    "Roar": {
       "frames": 48,
       "fw": 400,
       "fh": 320,
       "duration": 2.4
-    },
-    "Walk": {
-      "frames": 20,
-      "fw": 400,
-      "fh": 320,
-      "duration": 1
-    },
-    "Run": {
-      "frames": 12,
-      "fw": 400,
-      "fh": 320,
-      "duration": 0.6
-    },
-    "Attack": {
-      "frames": 22,
-      "fw": 400,
-      "fh": 320,
-      "duration": 1.1
-    },
-    "Roar": {
-      "frames": 44,
-      "fw": 400,
-      "fh": 320,
-      "duration": 2.2
     }
   }
 }

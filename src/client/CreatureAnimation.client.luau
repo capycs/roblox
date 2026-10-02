@@ -9,6 +9,18 @@ local Creatures = ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Creatur
 local Config = require(Creatures.CreatureConfig)
 local Animator = require(Creatures.CreatureAnimator)
 local CreatureSetup = require(Creatures.CreatureSetup)
+local Quadruped = require(Creatures.Poses.Quadruped)
+
+-- One poses module per species, built from its style in CreatureConfig.
+local posesBySpecies: { [string]: any } = {}
+local function posesFor(species: string, def: any): any
+	local p = posesBySpecies[species]
+	if not p then
+		p = Quadruped.make(def.style)
+		posesBySpecies[species] = p
+	end
+	return p
+end
 
 local active: { [Model]: { animator: Animator.Animator, conn: RBXScriptConnection } } = {}
 
@@ -21,8 +33,7 @@ local function attach(inst: Instance)
 	if not def then
 		return
 	end
-	local poses = require(Creatures.Poses:WaitForChild(def.poses)) :: any
-	local animator = Animator.new(inst, poses)
+	local animator = Animator.new(inst, posesFor(species, def))
 	local conn = inst:GetAttributeChangedSignal("ActionSeq"):Connect(function()
 		local action = inst:GetAttribute("Action")
 		if typeof(action) == "string" then

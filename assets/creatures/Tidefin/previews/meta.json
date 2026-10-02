@@ -1,23 +1,23 @@
 {
-  "name": "Emberfang",
-  "element": "Fire",
+  "name": "Tidefin",
+  "element": "Water",
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 14796,
-        "verts": 9962
+        "tris": 11920,
+        "verts": 7762
       },
       "Eyes": {
         "tris": 704,
         "verts": 442
       },
-      "Flame": {
-        "tris": 4479,
-        "verts": 2845
+      "Glow": {
+        "tris": 4200,
+        "verts": 3326
       },
-      "FlameCore": {
-        "tris": 495,
-        "verts": 256
+      "GlowCore": {
+        "tris": 468,
+        "verts": 308
       }
     },
     "bones": 26,
@@ -28,11 +28,11 @@
       },
       {
         "name": "Walk",
-        "duration": 1
+        "duration": 0.85
       },
       {
         "name": "Run",
-        "duration": 0.6
+        "duration": 0.55
       },
       {
         "name": "Attack",
@@ -52,16 +52,16 @@
       "duration": 2.4
     },
     "Walk": {
-      "frames": 20,
+      "frames": 17,
       "fw": 400,
       "fh": 320,
-      "duration": 1
+      "duration": 0.85
     },
     "Run": {
-      "frames": 12,
+      "frames": 11,
       "fw": 400,
       "fh": 320,
-      "duration": 0.6
+      "duration": 0.55
     },
     "Attack": {
       "frames": 22,

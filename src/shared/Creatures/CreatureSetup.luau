@@ -1,5 +1,5 @@
 --!strict
--- Prepares an imported creature model (server side): glow materials, flame light,
+-- Prepares an imported creature model (server side): glow materials, glow light,
 -- tag + species attribute so clients animate it, and an action trigger.
 
 local CollectionService = game:GetService("CollectionService")
@@ -31,12 +31,12 @@ function CreatureSetup.prepare(model: Model, species: string): Model
 		model.PrimaryPart = model:FindFirstChild("Body", true) :: BasePart? or model:FindFirstChildWhichIsA("BasePart", true)
 	end
 
-	local fl = def.flameLight
-	if fl and not model:FindFirstChild("FlameLight", true) then
+	local fl = def.light
+	if fl and not model:FindFirstChild("GlowLight", true) then
 		local bone = model:FindFirstChild(fl.bone, true)
 		if bone then
 			local light = Instance.new("PointLight")
-			light.Name = "FlameLight"
+			light.Name = "GlowLight"
 			light.Color = fl.color
 			light.Brightness = fl.brightness
 			light.Range = fl.range

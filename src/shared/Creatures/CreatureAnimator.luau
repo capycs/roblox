@@ -48,7 +48,7 @@ function Animator.new(model: Model, poses: any): Animator
 			bones[d.Name] = d
 		end
 	end
-	local light = model:FindFirstChild("FlameLight", true)
+	local light = model:FindFirstChild("GlowLight", true)
 	local self = setmetatable({
 		model = model,
 		poses = poses,
@@ -179,7 +179,7 @@ function Animator.step(self: Animator, dt: number)
 		bone.Transform = cf
 	end
 
-	-- Flame light flicker.
+	-- Glow light flicker.
 	local light = self.light
 	if light then
 		local t = self.time

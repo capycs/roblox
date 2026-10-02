@@ -1,26 +1,26 @@
 {
-  "name": "Emberfang",
-  "element": "Fire",
+  "name": "Voltgriff",
+  "element": "Storm",
   "stats": {
     "meshes": {
       "Body": {
-        "tris": 14796,
-        "verts": 9962
+        "tris": 19732,
+        "verts": 13006
       },
       "Eyes": {
         "tris": 704,
         "verts": 442
       },
-      "Flame": {
-        "tris": 4479,
-        "verts": 2845
+      "Glow": {
+        "tris": 1160,
+        "verts": 1533
       },
-      "FlameCore": {
-        "tris": 495,
-        "verts": 256
+      "GlowCore": {
+        "tris": 40,
+        "verts": 120
       }
     },
-    "bones": 26,
+    "bones": 32,
     "clips": [
       {
         "name": "Idle",

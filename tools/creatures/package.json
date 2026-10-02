@@ -1,5 +1,5 @@
 {
-  "name": "emberfang-generator",
+  "name": "creature-generator",
   "private": true,
   "type": "module",
   "scripts": { "build": "node build.mjs" },
