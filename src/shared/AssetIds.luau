@@ -190,6 +190,16 @@ AssetIds.Textures = {
 	},
 }
 
+--[Portraits] assets/creatures/<Name>/previews/hero.png (Index cards, hatch reveal)
+AssetIds.Portraits = {
+	Emberfang = "rbxassetid://0",
+	Frostusk = "rbxassetid://0",
+	Mossback = "rbxassetid://0",
+	Nyxwing = "rbxassetid://0",
+	Tidefin = "rbxassetid://0",
+	Voltgriff = "rbxassetid://0",
+}
+
 --[Sky] assets/sky/<Name>/<Face>.png
 AssetIds.Sky = {
 	Day = {

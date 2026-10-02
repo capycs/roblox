@@ -47,6 +47,11 @@ for (const t of textures) {
 }
 lines.push('}');
 lines.push('');
+lines.push('--[Portraits] assets/creatures/<Name>/previews/hero.png (Index cards, hatch reveal)');
+lines.push('AssetIds.Portraits = {');
+for (const c of fs.readdirSync(path.join(repo, 'assets/creatures')).filter((d) => fs.existsSync(path.join(repo, 'assets/creatures', d, 'previews/hero.png'))).sort()) lines.push(`\t${c} = "${keep('Portraits', c)}",`);
+lines.push('}');
+lines.push('');
 lines.push('--[Sky] assets/sky/<Name>/<Face>.png');
 lines.push('AssetIds.Sky = {');
 for (const sky of fs.readdirSync(path.join(repo, 'assets/sky')).sort()) {
