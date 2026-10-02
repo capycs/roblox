@@ -19,7 +19,7 @@ for _, n in Config.ShipTemplatePath do
 end
 local dock = workspace:FindFirstChild(Config.DockMarker, true)
 if not template or not template:IsA("Model") or not dock or not dock:IsA("BasePart") then
-	warn(`[Skyship] Needs the Skyship model at {table.concat(Config.ShipTemplatePath, "/")} and a Part named {Config.DockMarker} in Workspace. See assets/props/README.md.`)
+	warn(`[Skyship] Needs the Skyship model at {table.concat(Config.ShipTemplatePath, "/")} and a Part named {Config.DockMarker} in Workspace. See SETUP.md.`)
 	return
 end
 

@@ -13,6 +13,28 @@ return {
 	-- Wind for swaying props, wind particles and Roblox's own GlobalWind (studs/sec).
 	Wind = { direction = Vector3.new(1, 0, 0.35), speed = 18 },
 
+	-- Cartoon outlines (Outlines.client). Roblox only draws ~31 Highlights at once, so the
+	-- nearest tagged models get one (creatures and players first).
+	Outlines = {
+		Color = Color3.fromRGB(26, 16, 34),
+		Thickness = 0, -- OutlineTransparency (0 = solid)
+		MaxHighlights = 28,
+		MaxDistance = 220, -- studs from the camera
+		Tags = { "Creature", "Outline" }, -- Creature: CreatureSetup, Outline: PropSetup
+		Players = true, -- outline player characters too
+		PriorityBoost = { Creature = 0.5, Player = 0.4 }, -- distance multiplier (lower = picked first)
+	},
+
+	-- Anime wind swirls (WindSwirls.client). Tag island Parts/Models with IslandTag so the
+	-- swirls appear over them; per-zone frequency/colour is the `swirls` field below.
+	WindSwirls = {
+		IslandTag = "SkyIsland",
+		MaxActive = 5, -- simultaneous gusts (each is 1-3 Trails)
+		MaxDistance = 260, -- only islands this close to the camera
+		HeightAbove = NumberRange.new(3, 16), -- studs above the island's top
+		CameraRadius = NumberRange.new(25, 80), -- fallback when no island is near
+	},
+
 	Presets = {
 		Haven = {
 			sky = "Day",
@@ -22,6 +44,7 @@ return {
 			bloom = { Intensity = 0.6, Size = 28, Threshold = 1.4 },
 			sunRays = { Intensity = 0.08, Spread = 0.7 },
 			ambient = { "Wind", "WindLeaves", "Motes", "CloudLayer" },
+			swirls = { every = NumberRange.new(0.8, 2.2), color = C(255, 255, 255), strength = 1 },
 		},
 		Verdant = {
 			sky = "Day",
@@ -31,6 +54,7 @@ return {
 			bloom = { Intensity = 0.7, Size = 30, Threshold = 1.3 },
 			sunRays = { Intensity = 0.12, Spread = 0.8 },
 			ambient = { "Wind", "WindLeaves", "Pollen", "BiomeFireflies" },
+			swirls = { every = NumberRange.new(1.2, 3), color = C(240, 255, 235), strength = 0.9 },
 		},
 		Ember = {
 			sky = "Dusk",
@@ -40,6 +64,7 @@ return {
 			bloom = { Intensity = 0.9, Size = 32, Threshold = 1.1 },
 			sunRays = { Intensity = 0.1, Spread = 0.6 },
 			ambient = { "BiomeEmbers", "Wind" },
+			swirls = { every = NumberRange.new(2.5, 5), color = C(255, 214, 170), strength = 1.1 },
 		},
 		Frost = {
 			sky = "Day",
@@ -49,6 +74,7 @@ return {
 			bloom = { Intensity = 0.7, Size = 30, Threshold = 1.3 },
 			sunRays = { Intensity = 0.06, Spread = 0.5 },
 			ambient = { "BiomeSnow", "Wind", "FogSheet" },
+			swirls = { every = NumberRange.new(0.7, 1.8), color = C(225, 242, 255), strength = 1.2 },
 		},
 		Storm = {
 			sky = "Dusk",
@@ -58,6 +84,7 @@ return {
 			bloom = { Intensity = 1, Size = 34, Threshold = 1.1 },
 			sunRays = { Intensity = 0.02, Spread = 0.3 },
 			ambient = { "Rain", "BiomeSparks", "Wind" },
+			swirls = { every = NumberRange.new(0.4, 1.1), color = C(215, 230, 255), strength = 1.5 },
 		},
 		Tide = {
 			sky = "Day",
@@ -67,6 +94,7 @@ return {
 			bloom = { Intensity = 0.7, Size = 28, Threshold = 1.3 },
 			sunRays = { Intensity = 0.1, Spread = 0.7 },
 			ambient = { "BiomeBubbles", "Wind", "Motes" },
+			swirls = { every = NumberRange.new(1.2, 2.8), color = C(225, 255, 255), strength = 1 },
 		},
 		Shadow = {
 			sky = "Dusk",
@@ -76,6 +104,7 @@ return {
 			bloom = { Intensity = 1.1, Size = 36, Threshold = 1 },
 			sunRays = { Intensity = 0.04, Spread = 0.4 },
 			ambient = { "BiomeWisps", "Motes", "FogSheet" },
+			swirls = { every = NumberRange.new(2, 4.5), color = C(214, 170, 255), strength = 0.8 },
 		},
 	},
 }

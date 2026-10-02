@@ -97,6 +97,7 @@ local function apply(name: string, instant: boolean)
 		return
 	end
 	current = name
+	Lighting:SetAttribute("AtmospherePreset", name) -- read by WindSwirls.client
 	local info = TweenInfo.new(if instant then 0 else Config.BlendSeconds, Enum.EasingStyle.Sine)
 	TweenService:Create(Lighting, info, p.lighting):Play()
 	TweenService:Create(atmosphere, info, p.atmosphere):Play()

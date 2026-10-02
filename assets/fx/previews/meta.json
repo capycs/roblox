@@ -43,13 +43,21 @@
     "frames": 24,
     "duration": 1.4
   },
+  "Dust": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "Dash": {
+    "frames": 24,
+    "duration": 1.4
+  },
   "BiomeEmbers": {
     "frames": 24,
     "duration": 1.4
   },
   "BiomeSnow": {
     "frames": 24,
-    "duration": 1.4
+    "duration": 3
   },
   "Wind": {
     "frames": 24,
@@ -70,5 +78,13 @@
   "BiomeFireflies": {
     "frames": 24,
     "duration": 1.4
+  },
+  "CrystalGlint": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "WindSwirl": {
+    "frames": 36,
+    "duration": 3
   }
 }

@@ -11,6 +11,7 @@ local AnimData = require(script.Parent.PropAnimData)
 local PropSetup = {}
 
 PropSetup.AnimTag = "PropAnim"
+PropSetup.OutlineTag = "Outline" -- Outlines.client draws the cartoon outline on these
 
 local GLOW = { Glow = true, GlowCore = true, Lamp = true, Flame = true, FlameCore = true, Rune = true, Potion = true, Eyes = true, LanternLamp = true, HoverCore = true, HoverGem = true, HoverSignGlow = true, HoverGlow = true }
 local GLASS = { Glass = true }
@@ -20,6 +21,9 @@ PropSetup.NoCollide = {
 	GrassTuft = true, GrassTuftSnow = true, FlowerPatch = true, Fern = true, Reeds = true, Lilypad = true,
 	MushroomCluster = true, GlowShroom = true, Bush = true, BushBerry = true, BushFlower = true,
 }
+
+-- Too small/thin to look good with an outline (and they'd use up the Highlight budget).
+PropSetup.NoOutline = { GrassTuft = true, GrassTuftSnow = true, FlowerPatch = true, Fern = true, Reeds = true, Lilypad = true, Butterfly = true }
 
 local function isAnimated(d: Instance): boolean
 	if d:IsA("Bone") then
@@ -62,6 +66,9 @@ function PropSetup.prepare(model: Model, propName: string?): Model
 				d.CanCollide = false
 			end
 		end
+	end
+	if not PropSetup.NoOutline[name] then
+		CollectionService:AddTag(model, PropSetup.OutlineTag)
 	end
 	if animated then
 		-- The animator positions parts relative to the model pivot, so the pivot must not
