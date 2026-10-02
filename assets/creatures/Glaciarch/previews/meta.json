@@ -1,0 +1,79 @@
+{
+  "name": "Glaciarch",
+  "element": "Ice",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 17176,
+        "verts": 11982
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 1596,
+        "verts": 4392
+      },
+      "GlowCore": {
+        "tris": 504,
+        "verts": 1512
+      }
+    },
+    "bones": 34,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3
+      },
+      {
+        "name": "Walk",
+        "duration": 1.15
+      },
+      {
+        "name": "Run",
+        "duration": 0.7
+      },
+      {
+        "name": "Attack",
+        "duration": 1.2
+      },
+      {
+        "name": "Roar",
+        "duration": 2.6
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "Walk": {
+      "frames": 23,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.15
+    },
+    "Run": {
+      "frames": 14,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.7
+    },
+    "Attack": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Roar": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    }
+  }
+}

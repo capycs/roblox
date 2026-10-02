@@ -182,5 +182,66 @@ return {
 			light = { bone = "Head", color = Color3.fromRGB(178, 255, 99), brightness = 1.3, range = 10 },
 			yawOffset = 0,
 		},
+		-- Legendaries + the mythic. `spinners` are bones that spin/bob on their own clock
+		-- (halos, orbiting orbs, hover crowns, rune discs); `pulse` makes glow meshes breathe.
+		Solarion = {
+			element = "Fire",
+			style = { tip = "TailTip", dur = { Idle = 3.0, Walk = 1.15, Run = 0.68, Attack = 1.2, Roar = 2.6 }, walk = { 0.42, 0.6, 0.4, 0.5 }, bob = 1.0, roll = 0.03, tail = 1.1, headLow = -0.05 },
+			glow = { Eyes = Color3.fromRGB(255, 243, 160), Glow = Color3.fromRGB(255, 138, 26), GlowCore = Color3.fromRGB(255, 240, 176) },
+			light = { bone = "Head", color = Color3.fromRGB(255, 154, 58), brightness = 2.4, range = 18 },
+			spinners = {
+				{ bone = "Halo", axis = Vector3.new(0, 0, 1), speed = 0.7 },
+				{ bone = "SunOrbit", axis = Vector3.new(0, 1, 0), speed = 1.3, bob = 0.15, bobFreq = 0.5 },
+			},
+			pulse = { Glow = 0.3, GlowCore = 0.2 },
+			yawOffset = 0,
+		},
+		Glaciarch = {
+			element = "Ice",
+			style = { tip = "TailTip", wings = true, wingRest = 0.25, dur = { Idle = 3.0, Walk = 1.15, Run = 0.7, Attack = 1.2, Roar = 2.6 }, walk = { 0.42, 0.6, 0.4, 0.5 }, bob = 1.0, tail = 1.3, neck = 0.6 },
+			glow = { Eyes = Color3.fromRGB(191, 248, 255), Glow = Color3.fromRGB(111, 216, 255), GlowCore = Color3.fromRGB(232, 253, 255) },
+			light = { bone = "Head", color = Color3.fromRGB(143, 232, 255), brightness = 2, range = 18 },
+			spinners = {
+				{ bone = "FrostOrbit", axis = Vector3.new(0, 1, 0), speed = -0.9, bob = 0.2, bobFreq = 0.4 },
+				{ bone = "CrownHover", axis = Vector3.new(0, 1, 0), speed = 1.6, bob = 0.12, bobFreq = 0.6 },
+			},
+			pulse = { Glow = 0.3 },
+			yawOffset = 0,
+		},
+		Sylvanthorn = {
+			element = "Nature",
+			style = { tip = "TailTip", attack = "charge", dur = { Idle = 3.2, Walk = 1.1, Run = 0.65, Attack = 1.25, Roar = 2.6 }, walk = { 0.5, 0.75, 0.45, 0.6 }, run = { 0.9, 1.0, 0.85, 0.85 }, bob = 0.9, tail = 0.6, neck = 0.4, headLow = -0.08 },
+			glow = { Eyes = Color3.fromRGB(216, 255, 138), Glow = Color3.fromRGB(156, 255, 90), GlowCore = Color3.fromRGB(255, 247, 176) },
+			light = { bone = "Head", color = Color3.fromRGB(178, 255, 99), brightness = 1.8, range = 18 },
+			spinners = {
+				{ bone = "WispOrbit", axis = Vector3.new(0, 1, 0), speed = 0.8, bob = 0.2, bobFreq = 0.35 },
+				{ bone = "RuneRing", axis = Vector3.new(0, 1, 0), speed = -0.5, bob = 0.1, bobFreq = 0.5 },
+			},
+			pulse = { Glow = 0.35, GlowCore = 0.25 },
+			yawOffset = 0,
+		},
+		Aetherion = {
+			element = "Prism",
+			style = { tip = "TailTip", wings = true, wingRest = 0.45, dur = { Idle = 3.2, Walk = 1.2, Run = 0.72, Attack = 1.3, Roar = 2.8 }, walk = { 0.42, 0.6, 0.4, 0.5 }, bob = 1.0, roll = 0.02, tail = 1.2, neck = 0.4 },
+			glow = {
+				Eyes = Color3.fromRGB(255, 251, 224), Glow = Color3.fromRGB(255, 211, 107), GlowCore = Color3.fromRGB(255, 255, 255), Prism = Color3.fromRGB(196, 154, 255),
+				OrbFire = Color3.fromRGB(255, 106, 26), OrbStorm = Color3.fromRGB(63, 220, 255), OrbIce = Color3.fromRGB(191, 244, 255),
+				OrbShadow = Color3.fromRGB(165, 77, 255), OrbWater = Color3.fromRGB(42, 140, 255), OrbNature = Color3.fromRGB(168, 255, 79),
+			},
+			light = { bone = "Chest", color = Color3.fromRGB(224, 200, 255), brightness = 3, range = 22 },
+			spinners = {
+				{ bone = "Halo1", axis = Vector3.new(0, 0, 1), speed = 0.6 },
+				{ bone = "Halo2", axis = Vector3.new(0.3, 0.5, 1), speed = -1.1 },
+				{ bone = "Halo3", axis = Vector3.new(-0.4, 0.3, 1), speed = 1.7 },
+				{ bone = "Crown", axis = Vector3.new(0, 1, 0), speed = 1.2, bob = 0.15, bobFreq = 0.5 },
+				{ bone = "ElementOrbit", axis = Vector3.new(0, 1, 0), speed = 0.9, bob = 0.25, bobFreq = 0.3 },
+				{ bone = "RuneFrontL", axis = Vector3.new(0, 1, 0), speed = 1.5 },
+				{ bone = "RuneFrontR", axis = Vector3.new(0, 1, 0), speed = -1.5 },
+				{ bone = "RuneBackL", axis = Vector3.new(0, 1, 0), speed = 1.5 },
+				{ bone = "RuneBackR", axis = Vector3.new(0, 1, 0), speed = -1.5 },
+			},
+			pulse = { Glow = 0.3, Prism = 0.35, GlowCore = 0.15 },
+			yawOffset = 0,
+		},
 	},
 }

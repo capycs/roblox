@@ -106,6 +106,100 @@ const RING = (s, life = 0.4) => ({ tex: 'Shockwave', n: 1, life, size: [s * 0.1,
 const SMOKE = (n, s) => ({ tex: 'SmokeFlipbook', n, life: 0.75, size: [s * 0.7, s * 1.3], speed: [40, 90], drag: 4, alpha: [1, 0.7], spread: 1, flip: true, k: 0, normal: true });
 const TWINKLE = (n, sp, s) => ({ tex: 'SparkleFlipbook', n, life: 0.7, size: [s, s * 0.6], speed: [sp * 0.5, sp], drag: 3, alpha: [1, 0.9], spread: 1, flip: true, k: 1 });
 const HIT = (bg, tint, shapes) => ({ bg, tint, emit: [FLASH(170), IMPACT(150), RING(270), { ...SMOKE(3, 40), alpha: [0.6, 0.2], at: 0.06 }, ...shapes] });
+const FLOOR = (tex, s, life = 0.5, spin = 0, k = 1) => ({ tex, n: 1, life, size: [s * 0.15, s], alpha: [0.9, 0], k, flat: true, spin, y: 230 });
+const OUT = (o) => ({ ...o, ring: true, y: 230 });
+const RISE = (tex, n, s, life, k = 0) => ({ tex, n, life, sizeK: [[0, 0], [0.2, s], [1, 0]], speed: [30, 80], spread: 0.5, up: true, gravity: -20, drag: 1, jitter: 110, jy: 25, alpha: [1, 0], k, y: 235, fadeIn: true });
+function ABILITY_PREVIEWS() {
+  const NAT = ['#c4ff7a', '#5fae45'], WAT = ['#dcffff', '#38e2ff'], STO = ['#ffffff', '#3fdcff'], FIR = ['#ffd36b', '#ff5e14'], ICE = ['#ffffff', '#8fe8ff'], SHA = ['#f3cdff', '#a54dff'];
+  return {
+    ThornBurst: { bg: '#141b12', tint: NAT, dur: 1.4, emit: [FLASH(110), FLOOR('Shockwave', 300, 0.45),
+      OUT({ tex: 'Spark', n: 18, life: 0.45, size: [70, 20], speed: [330, 440], drag: 3, alpha: [1, 0], align: true, k: 1 }),
+      OUT({ tex: 'Leaf', n: 10, life: 1.0, sizeK: POPK(34), speed: [160, 240], drag: 3, gravity: 120, alpha: [1, 0.2], spin: 4, raw: true, flutter: true }),
+      { tex: 'Petal', n: 12, life: 1.2, sizeK: POPK(22), speed: [90, 180], drag: 3, gravity: 90, alpha: [1, 0.2], spin: 4, raw: true, flutter: true, at: 0.1, y: 220 }, TWINKLE(8, 140, 26)] },
+    TidalShell: { bg: '#0e1c25', tint: WAT, emit: [FLASH(110), FLOOR('Splash', 300, 0.6), FLOOR('Shockwave', 320, 0.5),
+      OUT({ tex: 'Droplet', n: 26, life: 0.8, size: [30, 14], speed: [260, 380], gravity: 500, alpha: [1, 0.2], align: true }),
+      { tex: 'Bubble', n: 12, life: 1.1, sizeK: POPK(26), speed: [50, 120], drag: 2, gravity: -90, alpha: [1, 0.2], k: 1, y: 210 },
+      { tex: 'Swirl', n: 1, life: 0.5, size: [50, 150], spin: 12, alpha: [1, 0], k: 1, flat: true, y: 230 }] },
+    StaticDash: { bg: '#161c2c', tint: STO, dur: 0.8, frames: 16, emit: [FLASH(100), IMPACT(100),
+      { tex: 'SpeedLine', n: 12, life: 0.35, size: [130, 50], speed: [500, 760], alpha: [1, 0], spread: 0.2, dir: Math.PI, align: true },
+      { tex: 'Bolt', n: 6, life: 0.22, sizeK: POPK(70), speed: [40, 80], alpha: [1, 0], spread: 1, flicker: true },
+      { tex: 'Spark', n: 24, life: 0.3, size: [44, 6], speed: [260, 440], drag: 5, alpha: [1, 0], spread: 1, align: true, k: 1 }] },
+    SporeBloom: { bg: '#1a1420', tint: ['#ffbef0', '#aaff8c'], dur: 2.4, frames: 30, emit: [FLOOR('RuneCircle', 300, 1.6, 0.7), FLOOR('Ring', 320, 0.8),
+      RISE('SoftGlow', 26, 34, 2.2, 0), RISE('Mote', 30, 14, 2, 1),
+      { tex: 'Petal', n: 14, life: 1.3, sizeK: POPK(24), speed: [120, 200], drag: 2, gravity: 100, alpha: [1, 0.2], spread: 0.6, up: true, spin: 4, raw: true, flutter: true, y: 220 }, TWINKLE(14, 110, 28)] },
+    RiptideSpiral: { bg: '#0e1c25', tint: WAT, dur: 1.8, emit: [
+      { tex: 'Swirl', n: 1, life: 1.2, size: [300, 60], spin: 9, alpha: [0.95, 0.4], k: 1, flat: true, y: 220 },
+      { tex: 'Swirl', n: 1, life: 1.2, size: [200, 30], spin: -12, alpha: [0.95, 0.4], k: 0, flat: true, y: 220, at: 0.1 },
+      { tex: 'Bubble', n: 20, life: 1.2, sizeK: POPK(22), vel: [0, -90], jitter: 120, jy: 30, alpha: [1, 0.2], spawnY: 230 },
+      { tex: 'Splash', n: 1, life: 0.5, size: [90, 260], alpha: [1, 0], at: 1.1, y: 200 },
+      { tex: 'Droplet', n: 24, life: 0.8, size: [30, 14], speed: [240, 360], gravity: 700, alpha: [1, 0.2], spread: 0.7, up: true, align: true, at: 1.1, y: 220 }] },
+    MagmaCharge: { bg: '#241a1c', tint: ['#ffbe50', '#ff4614'], dur: 1.6, emit: [FLASH(160), IMPACT(140), FLOOR('CrackBurst', 200, 0.8),
+      { tex: 'FlameFlipbook', n: 16, life: 0.7, sizeK: POPK(80), speed: [240, 380], gravity: 300, drag: 1, alpha: [1, 0.3], spread: 0.4, up: true, flip: true, y: 240 },
+      { tex: 'Ember', n: 30, life: 1.1, size: [16, 4], speed: [280, 440], gravity: 500, alpha: [1, 0], spread: 0.5, up: true, k: 1, y: 240 },
+      { tex: 'Dust', n: 10, life: 0.9, size: [26, 18], speed: [240, 340], gravity: 700, alpha: [1, 0.5], spread: 0.45, up: true, spin: 3, col: '#462823', y: 240 }, SMOKE(7, 90)] },
+    AuroraVeil: { bg: '#121a2a', tint: ['#aaffe6', '#9678ff'], dur: 1.8, emit: [
+      { tex: 'SoftGlow', n: 1, life: 1.4, size: [240, 300], alpha: [0.5, 0], k: 0 }, FLOOR('Ring', 300, 1.2, 0, 1),
+      { tex: 'LightShaft', n: 10, life: 1.4, size: [50, 70], vel: [0, -40], jitter: 110, jy: 30, upright: true, alpha: [0.8, 0], spawnY: 160, fadeIn: true },
+      { tex: 'Snowflake', n: 14, life: 1.6, sizeK: POPK(26), speed: [30, 70], drag: 1, alpha: [1, 0.2], spread: 1, spin: 2, col: '#ffffff' }, TWINKLE(18, 90, 30)] },
+    FlamePounce: { bg: '#241a1c', tint: FIR, emit: [FLASH(140), IMPACT(130), FLOOR('Shockwave', 290, 0.45),
+      OUT({ tex: 'FlameFlipbook', n: 20, life: 0.8, sizeK: POPK(64), speed: [180, 260], drag: 3, gravity: -120, alpha: [1, 0.3], flip: true }),
+      { tex: 'Ember', n: 24, life: 0.9, size: [16, 4], speed: [160, 320], drag: 2.5, gravity: -90, alpha: [1, 0], spread: 1, k: 1 }, SMOKE(5, 70)] },
+    GlacierStomp: { bg: '#141d27', tint: ICE, emit: [FLASH(140), IMPACT(140), FLOOR('CrackBurst', 300, 0.9), FLOOR('Shockwave', 330, 0.5),
+      OUT({ tex: 'Spark', n: 22, life: 0.5, size: [80, 16], speed: [330, 480], drag: 4, alpha: [1, 0], align: true, k: 1 }),
+      { tex: 'Snowflake', n: 14, life: 0.9, sizeK: POPK(40), speed: [120, 200], drag: 3, alpha: [1, 0.2], spread: 1, spin: 3 }, SMOKE(6, 80)] },
+    ShadeStep: { bg: '#17121f', tint: SHA, emit: [
+      { tex: 'Swirl', n: 1, life: 0.45, size: [260, 30], spin: -10, alpha: [1, 0], k: 1, flat: true, y: 220 },
+      { tex: 'Wisp', n: 16, life: 0.9, size: [50, 110], speed: [60, 140], drag: 3, alpha: [0.9, 0], spread: 1, spin: 2 },
+      { tex: 'SmokeFlipbook', n: 6, life: 0.7, size: [80, 120], speed: [30, 70], drag: 3, alpha: [1, 0.5], spread: 1, flip: true, normal: true, col: '#28143c' },
+      { tex: 'Ember', n: 12, life: 0.8, size: [14, 4], speed: [100, 220], drag: 2, alpha: [1, 0], spread: 1, k: 1 }] },
+    ThunderDive: { bg: '#161c2c', tint: STO, emit: [
+      { tex: 'Bolt', n: 3, life: 0.32, sizeK: POPK(320), speed: [0, 0], alpha: [1, 0], spread: 0.1, flicker: true, y: 120 },
+      FLASH(260), IMPACT(220), FLOOR('Shockwave', 330, 0.6), FLOOR('CrackBurst', 220, 0.8, 0, 0),
+      { tex: 'Spark', n: 36, life: 0.45, size: [60, 8], speed: [320, 560], drag: 5, alpha: [1, 0], spread: 1, align: true, k: 1, y: 230 }, SMOKE(8, 100)] },
+    UmbralVeil: { bg: '#17121f', tint: SHA, dur: 1.8, emit: [
+      { tex: 'Wisp', n: 24, life: 1.4, size: [60, 150], speed: [40, 110], drag: 2, alpha: [0.9, 0], spread: 1, spin: 2, col: '#6e3cb4', fadeIn: true },
+      { tex: 'Swirl', n: 1, life: 1, size: [80, 240], spin: -5, alpha: [1, 0], k: 1, fadeIn: true },
+      { tex: 'SmokeFlipbook', n: 10, life: 1.1, size: [100, 160], speed: [30, 70], drag: 2, alpha: [0.9, 0.4], spread: 1, flip: true, normal: true, col: '#1e0f2d' }, TWINKLE(16, 130, 28)] },
+    SolarFlare: { bg: '#241e14', tint: ['#fffad2', '#ffa028'], dur: 1.6, emit: [FLASH(300),
+      { tex: 'Rays', n: 1, life: 1.2, sizeK: [[0, 50], [0.25, 290], [1, 320]], spin: 0.7, alpha: [0.95, 0] }, IMPACT(220), FLOOR('Shockwave', 340, 0.7), FLOOR('RuneCircle', 260, 1, 1.5, 1),
+      { tex: 'FlameFlipbook', n: 22, life: 0.8, sizeK: POPK(90), speed: [160, 300], drag: 2.5, gravity: -140, alpha: [1, 0.3], spread: 1, flip: true, k: 1 },
+      { tex: 'Ember', n: 40, life: 1.1, size: [18, 4], speed: [220, 400], drag: 2, gravity: -60, alpha: [1, 0], spread: 1 }, TWINKLE(20, 240, 36)] },
+    AbsoluteZero: { bg: '#101a26', tint: ['#ffffff', '#78d2ff'], dur: 1.8, emit: [FLASH(260), FLOOR('CrackBurst', 330, 1.2), FLOOR('RuneCircle', 340, 1.4, -0.7), FLOOR('Shockwave', 350, 0.8),
+      { tex: 'Snowflake', n: 40, life: 1.5, sizeK: POPK(46), speed: [160, 340], drag: 2, alpha: [1, 0.2], spread: 1, spin: 3 },
+      OUT({ tex: 'Spark', n: 30, life: 0.55, size: [90, 16], speed: [330, 500], drag: 4, alpha: [1, 0], align: true, k: 1 }),
+      { tex: 'SmokeFlipbook', n: 14, life: 1.2, size: [90, 180], speed: [100, 180], drag: 2, alpha: [0.8, 0.3], spread: 1, flip: true, normal: true }, TWINKLE(30, 200, 36)] },
+    AncientGrove: { bg: '#141b12', tint: ['#dcff96', '#50c85a'], dur: 2.2, frames: 28, emit: [FLASH(180), FLOOR('RuneCircle', 330, 1.6, 0.5, 0), FLOOR('Ring', 340, 1),
+      { tex: 'LightShaft', n: 12, life: 1.6, size: [44, 70], vel: [0, -30], jitter: 140, jy: 30, upright: true, alpha: [0.8, 0], spawnY: 150, fadeIn: true },
+      { tex: 'Leaf', n: 30, life: 1.6, sizeK: POPK(36), speed: [200, 340], drag: 1.5, gravity: 200, alpha: [1, 0.2], spread: 0.45, up: true, spin: 4, raw: true, flutter: true, y: 240 },
+      { tex: 'Petal', n: 20, life: 1.6, size: [22, 22], speed: [140, 240], drag: 2, gravity: 120, alpha: [1, 0.2], spread: 0.6, up: true, spin: 4, raw: true, flutter: true, y: 240 },
+      RISE('SoftGlow', 20, 30, 2, 0), TWINKLE(20, 160, 30)] },
+    PrismJudgement: { bg: '#1a1426', tint: ['#ffffff', '#ff8ce6'], dur: 2, frames: 30, emit: [FLASH(340),
+      { tex: 'Rays', n: 1, life: 1.6, sizeK: [[0, 60], [0.25, 300], [1, 320]], spin: 0.9, alpha: [0.95, 0], rainbow: true }, IMPACT(260),
+      { tex: 'RuneCircle', n: 1, life: 1.8, size: [100, 330], spin: 1, alpha: [1, 0], rainbow: true, flat: true, y: 230 },
+      { tex: 'Shockwave', n: 1, life: 0.8, size: [40, 340], alpha: [1, 0], rainbow: true, at: 0.15 },
+      { tex: 'FlameFlipbook', n: 10, life: 0.8, sizeK: POPK(80), speed: [220, 360], drag: 2.5, alpha: [1, 0.3], spread: 1, flip: true, col: '#ff7828' },
+      { tex: 'Snowflake', n: 10, life: 1, sizeK: POPK(44), speed: [220, 360], drag: 2.5, alpha: [1, 0.2], spread: 1, spin: 3, col: '#96e6ff' },
+      { tex: 'Bolt', n: 6, life: 0.28, sizeK: POPK(90), speed: [100, 200], alpha: [1, 0], spread: 1, flicker: true, col: '#5adcff' },
+      { tex: 'Wisp', n: 10, life: 1, size: [50, 110], speed: [100, 200], drag: 3, alpha: [0.9, 0], spread: 1, spin: 2, col: '#b04dff' },
+      { tex: 'Droplet', n: 14, life: 0.9, size: [30, 14], speed: [260, 380], gravity: 500, alpha: [1, 0.2], spread: 0.7, up: true, align: true, col: '#38e2ff' },
+      { tex: 'Leaf', n: 12, life: 1.1, sizeK: POPK(36), speed: [200, 320], drag: 3, alpha: [1, 0.2], spread: 1, spin: 4, raw: true, flutter: true },
+      { tex: 'Star', n: 30, life: 1.5, sizeK: POPK(40), speed: [220, 420], drag: 1, gravity: 120, alpha: [1, 0.2], spread: 1, spin: 3, rainbow: true, at: 0.25 },
+      { tex: 'SparkleFlipbook', n: 50, life: 1.1, size: [50, 26], speed: [220, 460], drag: 3, alpha: [1, 0.9], spread: 1, flip: true, rainbow: true, at: 0.25 }] },
+  };
+}
+function AURA_PREVIEWS() {
+  const box = { jitter: 90, jy: 55, spawnY: 170, vel: [0, 0] };
+  const aura = (bg, tint, emit) => ({ bg, tint, loop: true, dur: 2, frames: 24, emit: [{ tex: 'Body', body: true }, ...emit] });
+  return {
+    MutShiny: aura('#1d2230', ['#c8faff', '#ffffff'], [{ tex: 'SparkleFlipbook', rate: 5, life: 0.8, size: [34, 24], ...box, alpha: [1, 1], flip: true }, { tex: 'Sparkle4', rate: 2, life: 0.5, sizeK: POPK(40), ...box, alpha: [1, 0.5], spin: 1.5, k: 1 }]),
+    MutGolden: aura('#2a2214', ['#ffe68c', '#ffbe28'], [{ tex: 'SparkleFlipbook', rate: 8, life: 0.8, size: [32, 24], ...box, alpha: [1, 1], flip: true }, { tex: 'Mote', rate: 6, life: 2, sizeK: [[0, 0], [0.2, 12], [1, 0]], ...box, vel: [0, -40], alpha: [1, 0.3], k: 1 }]),
+    MutCrystal: aura('#16202c', ['#bff4ff', '#ffffff'], [{ tex: 'SparkleFlipbook', rate: 5, life: 0.9, size: [38, 28], ...box, alpha: [1, 1], flip: true }, { tex: 'Sparkle8', rate: 2, life: 0.6, sizeK: POPK(46), ...box, alpha: [1, 0.5], spin: 1, k: 1 }]),
+    MutVoid: aura('#1a1622', ['#320f50', '#b04dff'], [{ tex: 'Wisp', rate: 6, life: 2, size: [50, 100], ...box, vel: [0, -40], alpha: [0.9, 0], spin: 1, normal: true, fadeIn: true }, { tex: 'Ember', rate: 8, life: 1.3, size: [12, 2], ...box, vel: [0, -60], alpha: [1, 0], k: 1 }]),
+    MutRainbow: aura('#1d1a26', ['#ffffff', '#ffffff'], [{ tex: 'SparkleFlipbook', rate: 8, life: 0.9, size: [34, 24], ...box, alpha: [1, 1], flip: true, rainbow: true }, { tex: 'Star', rate: 1.5, life: 1.2, sizeK: POPK(26), ...box, vel: [0, -50], alpha: [1, 0.3], spin: 2, rainbow: true }, { tex: 'Mote', rate: 5, life: 2, sizeK: [[0, 0], [0.2, 12], [1, 0]], ...box, vel: [0, -40], alpha: [1, 0.3], rainbow: true }]),
+    MutGiant: aura('#2a2018', ['#ffc878', '#ff9646'], [{ tex: 'Mote', rate: 3, life: 1.8, sizeK: [[0, 0], [0.2, 14], [1, 0]], ...box, vel: [0, -30], alpha: [1, 0.3] }, { tex: 'Ring', rate: 0.6, life: 1.6, size: [60, 330], alpha: [0.5, 0], k: 1, flat: true, spawnY: 250, vel: [0, 0] }]),
+    MutCharged: aura('#1d1d24', ['#fffac8', '#ffe650'], [{ tex: 'Spark', rate: 18, life: 0.25, size: [50, 10], ...box, vel: undefined, speed: [100, 160], spread: 1, drag: 4, alpha: [1, 0], align: true }, { tex: 'Bolt', rate: 1.5, life: 0.18, sizeK: POPK(60), ...box, alpha: [1, 0], flicker: true, k: 1 }]),
+  };
+}
 const PRESETS = {
   HatchBurst: { bg: '#1d1a22', tint: ['#fff3b0', '#ffd23f'], emit: [
     FLASH(300), { tex: 'Rays', n: 1, life: 1.3, sizeK: [[0, 50], [0.25, 280], [1, 320]], spin: 0.6, alpha: [0.95, 0] }, RING(330, 0.6), IMPACT(200),
@@ -168,6 +262,10 @@ const PRESETS = {
     { tex: 'SparkleFlipbook', rate: 5, life: 0.9, size: [40, 30], vel: [0, 0], jitter: 110, alpha: [1, 1], flip: true } ] },
   // 3D anime wind swirls (WindSwirls.luau): trail paths drawn side-on over a sky island.
   WindSwirl: { bg: '#5b9be6', tint: ['#ffffff', '#ffffff'], loop: true, dur: 3, frames: 36, swirl: true, emit: [] },
+  // ---- creature abilities (CreatureInfo) — flat: lies on the ground (drawn squashed), ring: outward fan on the ground ----
+  ...ABILITY_PREVIEWS(),
+  // ---- mutation auras (looping on the Body) ----
+  ...AURA_PREVIEWS(),
 };
 
 // Same maths as WindSwirls.offset in src/shared/Fx/WindSwirls.luau.
@@ -227,10 +325,11 @@ export async function previewEffects(textures) {
         const a = e.up ? -Math.PI / 2 + (r() - 0.5) * Math.PI * (e.spread ?? 1) : r() * Math.PI * 2;
         const sp = e.speed ? e.speed[0] + r() * (e.speed[1] - e.speed[0]) : 0;
         const dir = e.dir !== undefined ? e.dir + (r() - 0.5) * Math.PI * (e.spread ?? 1) : a;
-        parts.push({ e, t0, vxd: Math.cos(dir) * sp, vyd: Math.sin(dir) * sp, x: e.xstart !== undefined ? e.xstart + r() * 40 : FW / 2 + (e.jitter ? (r() - 0.5) * e.jitter * 2 : 0), y: e.xstart !== undefined ? (e.spawnY ?? FH / 2) + (r() - 0.5) * (e.jitter || 0) * 2 : e.spawnY ?? e.y ?? FH / 2, vx: e.vel ? e.vel[0] : (e.dir !== undefined ? Math.cos(dir) * sp : Math.cos(a) * sp), vy: e.vel ? e.vel[1] : (e.dir !== undefined ? Math.sin(dir) * sp : Math.sin(a) * sp), rot: r() * 6.28, k, ph: r() * 6.28, col: P.tint[k % 2] });
+        const P0 = parts.length; parts.push({ e, t0, vxd: Math.cos(dir) * sp, vyd: Math.sin(dir) * sp, x: e.xstart !== undefined ? e.xstart + r() * 40 : FW / 2 + (e.jitter ? (r() - 0.5) * e.jitter * 2 : 0), y: e.xstart !== undefined ? (e.spawnY ?? FH / 2) + (r() - 0.5) * (e.jitter || 0) * 2 : e.spawnY ?? e.y ?? FH / 2, vx: e.vel ? e.vel[0] : (e.dir !== undefined ? Math.cos(dir) * sp : Math.cos(a) * sp), vy: (e.vel ? e.vel[1] : (e.dir !== undefined ? Math.sin(dir) * sp : Math.sin(a) * sp)) * (e.ring ? 0.35 : 1), rot: r() * 6.28, k, ph: r() * 6.28, col: P.tint[k % 2] });
+        if (e.jy) parts[P0].y += (r() - 0.5) * e.jy * 2;
       };
       if (e.rate) { for (let t = -e.life; t < DUR; t += 1 / e.rate) spawn(t, Math.floor(r() * 2)); }
-      else if (e.orbit || e.beam) { spawn(0, 0); }
+      else if (e.orbit || e.beam || e.body) { spawn(0, 0); }
       else for (let k = 0; k < e.n; k++) spawn(e.at || 0, k);
     }
     const gusts = [];
@@ -253,6 +352,7 @@ export async function previewEffects(textures) {
       for (const p of parts) {
         const e = p.e;
         if (e.beam) { const im = tinted(e.tex, P.tint[0]); sg.globalAlpha = e.alpha[0]; sg.drawImage(im, ox + FW / 2 - e.size[0] / 2, 0, e.size[0], FH); continue; }
+        if (e.body) { sg.globalCompositeOperation = 'source-over'; sg.globalAlpha = 1; sg.fillStyle = 'rgba(255,255,255,0.10)'; sg.beginPath(); sg.ellipse(ox + FW / 2, 180, 95, 62, 0, 0, Math.PI * 2); sg.fill(); sg.beginPath(); sg.ellipse(ox + FW / 2 - 70, 140, 42, 38, 0, 0, Math.PI * 2); sg.fill(); sg.globalCompositeOperation = 'lighter'; continue; }
         if (e.orbit) { for (let k = 0; k < e.orbit; k++) { const a = T * e.speed * 2 + (k / e.orbit) * Math.PI * 2; const im = tinted(e.tex, P.tint[k % 2]); sg.globalAlpha = 1; sg.drawImage(im, ox + FW / 2 + Math.cos(a) * e.radius - 20, FH / 2 + Math.sin(a) * e.radius * 0.35 - 20, 40, 40); } continue; }
         let age = T - p.t0; if (P.loop && !e.rate) age = T; if (e.rate) { age = ((T - p.t0) % DUR + DUR) % DUR; }
         if (age < 0 || age > e.life) continue;
@@ -266,7 +366,7 @@ export async function previewEffects(textures) {
         // drag: v(t) = v0 * exp(-k t)  ->  x = v0 (1 - e^-kt) / k
         const dk = e.drag || 0, dist = dk ? (1 - Math.exp(-dk * age)) / dk : age;
         const x = p.x + p.vx * dist + (e.wave ? Math.sin(age * 2 + p.ph) * e.wave : 0), y = p.y + p.vy * dist + 0.5 * (e.gravity || 0) * age * age;
-        const col = e.k !== undefined ? P.tint[e.k] : p.col;
+        const col = e.rainbow ? `hsl(${Math.round(((u * 0.8 + p.ph / 6.28) % 1) * 12) * 30},100%,65%)` : e.col || (e.k !== undefined ? P.tint[e.k] : p.col);
         let im = e.raw ? imgs[e.tex] : tinted(e.tex, col);
         let sx = 0, sy = 0, sw = im.width, sh = im.height;
         if (e.flip) { const fr = e.rate ? Math.floor((age * 18 + p.ph * 3) % 16) : Math.min(15, Math.floor(u * 16)); sw = im.width / 4; sh = im.height / 4; sx = (fr % 4) * sw; sy = Math.floor(fr / 4) * sh; }
@@ -274,7 +374,8 @@ export async function previewEffects(textures) {
         sg.globalCompositeOperation = e.raw || e.normal ? 'source-over' : 'lighter';
         sg.save(); sg.translate(ox + x, y);
         const dv = dk ? Math.exp(-dk * age) : 1;
-        const ang = e.align ? Math.atan2(p.vy * dv + (e.gravity || 0) * age, p.vx * dv) + (e.tex === 'Droplet' ? Math.PI / 2 : 0) + (e.alignOff || 0) : p.rot + (e.spin || 0) * age;
+        const ang = e.align ? Math.atan2(p.vy * dv + (e.gravity || 0) * age, p.vx * dv) + (e.tex === 'Droplet' ? Math.PI / 2 : 0) + (e.alignOff || 0) : e.upright ? 0 : p.rot + (e.spin || 0) * age;
+        if (e.flat) sg.scale(1, 0.35);
         sg.rotate(ang);
         const fl = e.flutter ? Math.abs(Math.cos(age * 7 + p.ph)) * 0.8 + 0.2 : 1;
         sg.scale(1, fl);

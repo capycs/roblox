@@ -56,6 +56,8 @@ type EmitterDef = {
 	windDrag: boolean?, -- drift with Workspace.GlobalWind (needs drag > 0)
 	z: number?, -- ZOffset, draws in front (+) or behind (-) other emitters
 	flipOnce: boolean?, -- flipbook plays once over the particle's life (smoke, twinkle)
+	color: Color3?, -- fixed colour for this emitter (overrides the preset colours)
+	rainbow: boolean?, -- colour cycles through the rainbow over the particle's life
 }
 
 local function seq(...: number): NumberSequence
@@ -253,6 +255,187 @@ for element, shapes in HITS do
 	table.insert(emitters, puff)
 	PRESETS[element .. "Hit"] = { colors = ELEMENT_COLORS[element], emitters = emitters }
 end
+-- ---- creature abilities (CreatureInfo.ability.effect) ----
+-- Effects.burst(info.ability.effect, creatureRoot.CFrame). Sizes assume a ~5 stud creature;
+-- the burst host sits at the creature's feet/centre. Flat rings lie on the ground (PERP + no speed).
+local RING_OUT = Vector2.new(180, 0) -- outward fan, same convention as KnockedDown
+local function floor(tex: string, size: number, life: number?, spin: number?, colorIndex: number?): EmitterDef
+	return { tex = tex, count = 1, life = NumberRange.new(life or 0.5), size = grow(size * 0.15, size), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(spin or 0), transparency = seq(0, 0.1, 0.6, 0.3, 1, 1), light = 1, colorIndex = colorIndex or 2 }
+end
+local function rise(tex: string, count: number, size: number, life: number, colorIndex: number?): EmitterDef
+	return { tex = tex, count = count, life = NumberRange.new(life * 0.7, life), size = seq(0, 0, 0.2, size, 1, 0), speed = NumberRange.new(2, 6), spread = Vector2.new(60, 60), accel = Vector3.new(0, 3, 0), drag = 1, transparency = INOUT, light = 1, colorIndex = colorIndex or 1, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(8, 0.2, 8) }
+end
+local SUN = { Color3.fromRGB(255, 250, 210), Color3.fromRGB(255, 160, 40) }
+local AURORA = { Color3.fromRGB(170, 255, 230), Color3.fromRGB(150, 120, 255) }
+local SPORE = { Color3.fromRGB(255, 190, 240), Color3.fromRGB(170, 255, 140) }
+local LAVA = { Color3.fromRGB(255, 190, 80), Color3.fromRGB(255, 70, 20) }
+
+local ABILITIES: { [string]: { colors: { Color3 }?, light: { range: number, brightness: number }?, emitters: { EmitterDef } } } = {
+	-- Common
+	ThornBurst = { colors = ELEMENT_COLORS.Nature, emitters = {
+		flash(6), floor("Shockwave", 18, 0.45),
+		{ tex = "Spark", count = 18, life = NumberRange.new(0.35, 0.5), size = grow(2.2, 0.6), speed = NumberRange.new(30, 42), spread = RING_OUT, drag = 3, face = PARA, light = 0.6, colorIndex = 2 },
+		{ tex = "Leaf", count = 10, life = NumberRange.new(0.8, 1.1), size = popSize(1.1), speed = NumberRange.new(14, 22), spread = RING_OUT, drag = 3, accel = Vector3.new(0, -8, 0), rotSpeed = NumberRange.new(-300, 300), raw = true },
+		{ tex = "Petal", count = 12, life = NumberRange.new(0.9, 1.3), size = popSize(0.7), speed = NumberRange.new(8, 16), spread = Vector2.new(180, 60), drag = 3, accel = Vector3.new(0, -5, 0), rotSpeed = NumberRange.new(-300, 300), raw = true, delay = 0.1 },
+		twinkles(8, 10, 1),
+	} },
+	TidalShell = { colors = ELEMENT_COLORS.Water, emitters = {
+		flash(6), floor("Splash", 20, 0.6), floor("Shockwave", 22, 0.5),
+		{ tex = "Droplet", count = 26, life = NumberRange.new(0.6, 0.9), size = grow(0.9, 0.4), speed = NumberRange.new(24, 36), spread = RING_OUT, accel = Vector3.new(0, -60, 0), face = PARA, light = 0.3 },
+		{ tex = "Bubble", count = 12, life = NumberRange.new(0.8, 1.2), size = popSize(0.8), speed = NumberRange.new(4, 10), drag = 2, accel = Vector3.new(0, 6, 0), light = 0.3, colorIndex = 2 },
+		{ tex = "Swirl", count = 1, life = NumberRange.new(0.5), size = grow(3, 9), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(720), transparency = POP, light = 1, colorIndex = 2 },
+	} },
+	-- Uncommon
+	StaticDash = { colors = ELEMENT_COLORS.Storm, emitters = {
+		flash(5), impact(5, 2),
+		{ tex = "SpeedLine", count = 12, life = NumberRange.new(0.25, 0.4), size = grow(3, 1), speed = NumberRange.new(36, 56), spread = Vector2.new(20, 20), face = PARA, transparency = FADE, light = 0.6, emitDir = Enum.NormalId.Back },
+		{ tex = "Bolt", count = 6, life = NumberRange.new(0.15, 0.25), size = popSize(2.2), speed = NumberRange.new(3, 6), rot = NumberRange.new(-60, 60), transparency = seq(0, 0, 0.5, 0, 0.6, 0.8, 0.7, 0, 1, 1), light = 1 },
+		{ tex = "Spark", count = 24, life = NumberRange.new(0.2, 0.35), size = grow(1.4, 0.2), speed = NumberRange.new(24, 40), drag = 5, face = PARA, light = 1, colorIndex = 2 },
+	} },
+	SporeBloom = { colors = SPORE, emitters = {
+		floor("RuneCircle", 22, 1.6, 40), floor("Ring", 24, 0.8),
+		rise("SoftGlow", 26, 1.2, 3.5, 1), rise("Mote", 30, 0.5, 3, 2),
+		{ tex = "Petal", count = 14, life = NumberRange.new(1, 1.4), size = popSize(0.8), speed = NumberRange.new(10, 16), spread = Vector2.new(50, 50), accel = Vector3.new(0, -6, 0), drag = 2, rotSpeed = NumberRange.new(-260, 260), raw = true },
+		twinkles(14, 8, 1.1),
+	} },
+	-- Rare
+	RiptideSpiral = { colors = ELEMENT_COLORS.Water, emitters = {
+		{ tex = "Swirl", count = 1, life = NumberRange.new(1.2), size = seq(0, 18, 1, 4), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(540), transparency = INOUT, light = 1, colorIndex = 2 },
+		{ tex = "Swirl", count = 1, life = NumberRange.new(1.2), size = seq(0, 12, 1, 2), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(-720), transparency = INOUT, light = 1, colorIndex = 1, delay = 0.1 },
+		{ tex = "Bubble", count = 20, life = NumberRange.new(1, 1.4), size = popSize(0.7), speed = NumberRange.new(2, 6), accel = Vector3.new(0, 8, 0), drag = 1, light = 0.3, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(12, 0.2, 12) },
+		{ tex = "Splash", count = 1, life = NumberRange.new(0.5), size = grow(4, 12), transparency = POP, light = 0.5, delay = 1.1 },
+		{ tex = "Droplet", count = 24, life = NumberRange.new(0.6, 0.9), size = grow(0.9, 0.4), speed = NumberRange.new(20, 32), spread = Vector2.new(60, 60), accel = Vector3.new(0, -70, 0), face = PARA, light = 0.3, delay = 1.1 },
+	} },
+	MagmaCharge = { colors = LAVA, light = { range = 18, brightness = 4 }, emitters = {
+		flash(9), impact(8, 1), floor("CrackBurst", 12, 0.8),
+		{ tex = "FlameFlipbook", count = 16, life = NumberRange.new(0.5, 0.8), size = popSize(2.6), speed = NumberRange.new(20, 34), spread = Vector2.new(35, 35), accel = Vector3.new(0, -30, 0), drag = 1, flipbook = FLIP, light = 1 },
+		{ tex = "Ember", count = 30, life = NumberRange.new(0.8, 1.3), size = grow(0.5, 0.1), speed = NumberRange.new(24, 40), spread = Vector2.new(45, 45), accel = Vector3.new(0, -40, 0), light = 1, colorIndex = 2 },
+		{ tex = "Dust", count = 10, life = NumberRange.new(0.7, 1), size = grow(0.8, 0.5), speed = NumberRange.new(20, 30), spread = Vector2.new(40, 40), accel = Vector3.new(0, -60, 0), rotSpeed = NumberRange.new(-200, 200), color = Color3.fromRGB(70, 40, 35) },
+		smoke(7, 2.6, 2),
+	} },
+	AuroraVeil = { colors = AURORA, emitters = {
+		{ tex = "SoftGlow", count = 1, life = NumberRange.new(1.4), size = grow(14, 18), transparency = seq(0, 1, 0.2, 0.55, 0.7, 0.6, 1, 1), light = 1, colorIndex = 1 },
+		floor("Ring", 20, 1.2, 0, 2),
+		{ tex = "LightShaft", count = 10, life = NumberRange.new(1.2, 1.6), size = grow(2.5, 3.5), rot = NumberRange.new(0), squash = NumberSequence.new(-1.5), -- tall, upright shafts
+			speed = NumberRange.new(2, 4), spread = Vector2.new(30, 30), transparency = INOUT, light = 1, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(10, 0.2, 10) },
+		{ tex = "Snowflake", count = 14, life = NumberRange.new(1.2, 1.8), size = popSize(0.8), speed = NumberRange.new(2, 5), drag = 1, rotSpeed = NumberRange.new(-120, 120), light = 0.6, color = Color3.fromRGB(255, 255, 255) },
+		twinkles(18, 6, 1.2),
+	} },
+	-- Epic
+	FlamePounce = { colors = ELEMENT_COLORS.Fire, light = { range = 16, brightness = 4 }, emitters = {
+		flash(8), impact(7, 1), floor("Shockwave", 18, 0.45),
+		{ tex = "FlameFlipbook", count = 20, life = NumberRange.new(0.6, 0.9), size = popSize(2.2), speed = NumberRange.new(16, 24), spread = RING_OUT, drag = 3, accel = Vector3.new(0, 12, 0), flipbook = FLIP, light = 1 },
+		{ tex = "Ember", count = 24, life = NumberRange.new(0.6, 1.1), size = grow(0.5, 0.1), speed = NumberRange.new(14, 30), drag = 2.5, accel = Vector3.new(0, 8, 0), light = 1, colorIndex = 2 },
+		smoke(5, 2, 1),
+	} },
+	GlacierStomp = { colors = ELEMENT_COLORS.Ice, emitters = {
+		flash(8), impact(8, 2), floor("CrackBurst", 18, 0.9), floor("Shockwave", 24, 0.5),
+		{ tex = "Spark", count = 22, life = NumberRange.new(0.35, 0.5), size = grow(2.6, 0.5), speed = NumberRange.new(30, 46), spread = RING_OUT, drag = 4, face = PARA, light = 1, colorIndex = 2 },
+		{ tex = "Snowflake", count = 14, life = NumberRange.new(0.7, 1), size = popSize(1.2), speed = NumberRange.new(10, 18), drag = 3, rotSpeed = NumberRange.new(-220, 220), light = 0.6 },
+		smoke(6, 2.4, 1),
+	} },
+	ShadeStep = { colors = ELEMENT_COLORS.Shadow, emitters = {
+		{ tex = "Swirl", count = 1, life = NumberRange.new(0.45), size = seq(0, 8, 1, 1), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(-600), transparency = POP, light = 1, colorIndex = 2 },
+		{ tex = "Wisp", count = 16, life = NumberRange.new(0.6, 1), size = grow(1.5, 3.5), speed = NumberRange.new(4, 10), drag = 3, rotSpeed = NumberRange.new(-180, 180), transparency = FADE, light = 0.8 },
+		{ tex = "SmokeFlipbook", count = 6, life = NumberRange.new(0.5, 0.8), size = grow(2, 3.5), speed = NumberRange.new(2, 5), drag = 3, transparency = seq(0, 0.1, 1, 0.5), flipbook = FLIP, flipOnce = true, color = Color3.fromRGB(40, 20, 60), z = -1 },
+		{ tex = "Ember", count = 12, life = NumberRange.new(0.6, 0.9), size = grow(0.45, 0.1), speed = NumberRange.new(8, 18), drag = 2, light = 1, colorIndex = 2 },
+	} },
+	-- Legendary
+	ThunderDive = { colors = ELEMENT_COLORS.Storm, light = { range = 30, brightness = 8 }, emitters = {
+		{ tex = "Bolt", count = 3, life = NumberRange.new(0.25, 0.35), size = popSize(14), speed = NumberRange.new(0), rot = NumberRange.new(-15, 15), transparency = seq(0, 0, 0.4, 0, 0.5, 0.8, 0.6, 0, 1, 1), light = 1, z = 3 },
+		flash(14), impact(12, 2), floor("Shockwave", 26, 0.6), floor("CrackBurst", 14, 0.8, 0, 1),
+		{ tex = "Spark", count = 36, life = NumberRange.new(0.3, 0.5), size = grow(2, 0.3), speed = NumberRange.new(30, 55), drag = 5, face = PARA, light = 1, colorIndex = 2 },
+		smoke(8, 3, 1),
+	} },
+	UmbralVeil = { colors = ELEMENT_COLORS.Shadow, emitters = {
+		{ tex = "Wisp", count = 24, life = NumberRange.new(1, 1.6), size = grow(2, 5), speed = NumberRange.new(3, 8), drag = 2, rotSpeed = NumberRange.new(-200, 200), transparency = INOUT, light = 0.5, color = Color3.fromRGB(70, 30, 110) },
+		{ tex = "Swirl", count = 1, life = NumberRange.new(1), size = grow(4, 12), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(-300), transparency = INOUT, light = 1, colorIndex = 2 },
+		{ tex = "SmokeFlipbook", count = 10, life = NumberRange.new(0.8, 1.2), size = grow(3, 5), speed = NumberRange.new(2, 5), drag = 2, transparency = seq(0, 0.2, 1, 0.6), flipbook = FLIP, flipOnce = true, color = Color3.fromRGB(30, 15, 45), z = -1 },
+		twinkles(16, 10, 1.1),
+	} },
+	SolarFlare = { colors = SUN, light = { range = 34, brightness = 7 }, emitters = {
+		flash(16),
+		{ tex = "Rays", count = 1, life = NumberRange.new(1.2), size = seq(0, 3, 0.25, 22, 1, 26), rotSpeed = NumberRange.new(40), transparency = seq(0, 0, 0.6, 0.3, 1, 1), light = 1, z = -2 },
+		impact(12, 1), floor("Shockwave", 30, 0.7), floor("RuneCircle", 18, 1, 90, 2),
+		{ tex = "FlameFlipbook", count = 22, life = NumberRange.new(0.6, 0.9), size = popSize(3), speed = NumberRange.new(16, 30), drag = 2.5, accel = Vector3.new(0, 14, 0), flipbook = FLIP, light = 1, colorIndex = 2 },
+		{ tex = "Ember", count = 40, life = NumberRange.new(0.8, 1.3), size = grow(0.6, 0.1), speed = NumberRange.new(20, 40), drag = 2, accel = Vector3.new(0, 6, 0), light = 1 },
+		twinkles(20, 24, 1.6),
+	} },
+	AbsoluteZero = { colors = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(120, 210, 255) }, light = { range = 30, brightness = 5 }, emitters = {
+		flash(14), floor("CrackBurst", 30, 1.2), floor("RuneCircle", 34, 1.4, -40), floor("Shockwave", 36, 0.8),
+		{ tex = "Snowflake", count = 40, life = NumberRange.new(1.2, 1.8), size = popSize(1.6), speed = NumberRange.new(16, 34), drag = 2, rotSpeed = NumberRange.new(-260, 260), light = 0.6 },
+		{ tex = "Spark", count = 30, life = NumberRange.new(0.4, 0.6), size = grow(3, 0.5), speed = NumberRange.new(30, 50), spread = RING_OUT, drag = 4, face = PARA, light = 1, colorIndex = 2 },
+		{ tex = "SmokeFlipbook", count = 14, life = NumberRange.new(1, 1.4), size = grow(3, 6), speed = NumberRange.new(10, 18), drag = 2, rotSpeed = NumberRange.new(-60, 60), transparency = seq(0, 0.2, 1, 0.7), flipbook = FLIP, flipOnce = true, z = -1 },
+		twinkles(30, 20, 1.6),
+	} },
+	AncientGrove = { colors = { Color3.fromRGB(220, 255, 150), Color3.fromRGB(80, 200, 90) }, light = { range = 24, brightness = 3 }, emitters = {
+		flash(10), floor("RuneCircle", 32, 1.6, 30, 1), floor("Ring", 34, 1),
+		{ tex = "LightShaft", count = 12, life = NumberRange.new(1.2, 1.8), size = grow(2.5, 4), rot = NumberRange.new(0), squash = NumberSequence.new(-1.5), -- tall, upright shafts
+			speed = NumberRange.new(2, 4), spread = Vector2.new(20, 20), transparency = INOUT, light = 1, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(26, 0.2, 26) },
+		{ tex = "Leaf", count = 30, life = NumberRange.new(1.2, 1.8), size = popSize(1.2), speed = NumberRange.new(16, 28), spread = Vector2.new(40, 40), accel = Vector3.new(0, -10, 0), drag = 1.5, rotSpeed = NumberRange.new(-300, 300), squash = seq(0, 0, 0.3, 0.6, 0.6, -0.4, 1, 0.4), raw = true },
+		{ tex = "Petal", count = 20, life = NumberRange.new(1.2, 1.8), size = grow(0.6, 0.6), speed = NumberRange.new(10, 20), spread = Vector2.new(60, 60), accel = Vector3.new(0, -6, 0), drag = 2, rotSpeed = NumberRange.new(-300, 300), raw = true },
+		rise("SoftGlow", 20, 1, 3, 1),
+		twinkles(20, 12, 1.3),
+	} },
+	-- Mythic: every element at once, then a rainbow nova.
+	PrismJudgement = { colors = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 140, 230) }, light = { range = 50, brightness = 10 }, emitters = {
+		flash(24),
+		{ tex = "Rays", count = 1, life = NumberRange.new(1.6), size = seq(0, 4, 0.25, 32, 1, 38), rotSpeed = NumberRange.new(50), transparency = seq(0, 0, 0.6, 0.3, 1, 1), light = 1, rainbow = true, z = -2 },
+		impact(18, 1),
+		{ tex = "RuneCircle", count = 1, life = NumberRange.new(1.8), size = grow(8, 44), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(60), transparency = seq(0, 0, 0.7, 0.3, 1, 1), light = 1, rainbow = true },
+		{ tex = "Shockwave", count = 1, life = NumberRange.new(0.8), size = grow(4, 46), transparency = POP, light = 1, rainbow = true, delay = 0.15 },
+		{ tex = "FlameFlipbook", count = 10, life = NumberRange.new(0.6, 0.9), size = popSize(3), speed = NumberRange.new(20, 34), drag = 2.5, flipbook = FLIP, light = 1, color = Color3.fromRGB(255, 120, 40) },
+		{ tex = "Snowflake", count = 10, life = NumberRange.new(0.8, 1.1), size = popSize(1.8), speed = NumberRange.new(20, 34), drag = 2.5, rotSpeed = NumberRange.new(-220, 220), light = 0.8, color = Color3.fromRGB(150, 230, 255) },
+		{ tex = "Bolt", count = 6, life = NumberRange.new(0.2, 0.3), size = popSize(4), speed = NumberRange.new(10, 20), rot = NumberRange.new(-40, 40), light = 1, color = Color3.fromRGB(90, 220, 255) },
+		{ tex = "Wisp", count = 10, life = NumberRange.new(0.8, 1.2), size = grow(2, 4.5), speed = NumberRange.new(10, 20), drag = 3, rotSpeed = NumberRange.new(-180, 180), transparency = FADE, light = 0.8, color = Color3.fromRGB(176, 77, 255) },
+		{ tex = "Droplet", count = 14, life = NumberRange.new(0.7, 1), size = grow(1, 0.5), speed = NumberRange.new(24, 36), spread = Vector2.new(60, 60), accel = Vector3.new(0, -60, 0), face = PARA, light = 0.4, color = Color3.fromRGB(56, 226, 255) },
+		{ tex = "Leaf", count = 12, life = NumberRange.new(0.9, 1.3), size = popSize(1.3), speed = NumberRange.new(18, 30), drag = 3, rotSpeed = NumberRange.new(-300, 300), raw = true },
+		{ tex = "Star", count = 30, life = NumberRange.new(1.2, 1.8), size = popSize(1.6), speed = NumberRange.new(20, 40), drag = 1, accel = Vector3.new(0, -14, 0), rotSpeed = NumberRange.new(-200, 200), light = 0.8, rainbow = true, delay = 0.25 },
+		{ tex = "SparkleFlipbook", count = 50, life = NumberRange.new(0.8, 1.3), size = grow(2, 1), speed = NumberRange.new(20, 44), drag = 3, flipbook = FLIP, flipOnce = true, light = 1, rainbow = true, delay = 0.25 },
+		{ tex = "SmokeFlipbook", count = 10, life = NumberRange.new(0.8, 1.1), size = grow(3, 6), speed = NumberRange.new(8, 16), drag = 4, transparency = seq(0, 0.2, 1, 0.6), flipbook = FLIP, flipOnce = true, rainbow = true, z = -1, delay = 0.25 },
+	} },
+}
+for name, preset in ABILITIES do
+	PRESETS[name] = preset
+end
+
+-- ---- mutation auras (Mutations.Defs[*].aura), looping on the creature's Body ----
+-- Effects.attach(def.aura, body). Box emitters fill the Body's bounding box.
+local BODY = Enum.ParticleEmitterShape.Box
+local AURAS: { [string]: { colors: { Color3 }, loop: boolean, emitters: { EmitterDef } } } = {
+	MutShiny = { loop = true, colors = { Color3.fromRGB(200, 250, 255), Color3.fromRGB(255, 255, 255) }, emitters = {
+		{ tex = "SparkleFlipbook", rate = 4, life = NumberRange.new(0.6, 0.9), size = grow(1, 0.7), speed = NumberRange.new(0), flipbook = FLIP, flipOnce = true, light = 1, shape = BODY },
+		{ tex = "Sparkle4", rate = 1.5, life = NumberRange.new(0.5), size = popSize(1.2), speed = NumberRange.new(0), rotSpeed = NumberRange.new(90), light = 1, colorIndex = 2, shape = BODY },
+	} },
+	MutGolden = { loop = true, colors = { Color3.fromRGB(255, 230, 140), Color3.fromRGB(255, 190, 40) }, emitters = {
+		{ tex = "SparkleFlipbook", rate = 8, life = NumberRange.new(0.6, 1), size = grow(1, 0.8), speed = NumberRange.new(0.3, 1), flipbook = FLIP, flipOnce = true, light = 1, shape = BODY },
+		{ tex = "Mote", rate = 6, life = NumberRange.new(1.5, 2.2), size = seq(0, 0, 0.2, 0.35, 1, 0), speed = NumberRange.new(0.5, 1), accel = Vector3.new(0, 1.5, 0), light = 1, colorIndex = 2, shape = BODY },
+	} },
+	MutCrystal = { loop = true, colors = { Color3.fromRGB(191, 244, 255), Color3.fromRGB(255, 255, 255) }, emitters = {
+		{ tex = "SparkleFlipbook", rate = 5, life = NumberRange.new(0.7, 1), size = grow(1.2, 0.9), speed = NumberRange.new(0), flipbook = FLIP, flipOnce = true, light = 1, shape = BODY },
+		{ tex = "Sparkle8", rate = 2, life = NumberRange.new(0.6), size = popSize(1.4), speed = NumberRange.new(0), rotSpeed = NumberRange.new(-60, 60), light = 1, colorIndex = 2, shape = BODY },
+	} },
+	MutVoid = { loop = true, colors = { Color3.fromRGB(50, 15, 80), Color3.fromRGB(176, 77, 255) }, emitters = {
+		{ tex = "Wisp", rate = 6, life = NumberRange.new(1.5, 2.5), size = grow(1.5, 3), speed = NumberRange.new(0.5, 1.5), accel = Vector3.new(0, 1.5, 0), rotSpeed = NumberRange.new(-60, 60), transparency = INOUT, light = 0, shape = BODY, z = -1 },
+		{ tex = "Ember", rate = 8, life = NumberRange.new(1, 1.6), size = grow(0.35, 0.05), speed = NumberRange.new(1, 2), accel = Vector3.new(0, 2, 0), light = 1, colorIndex = 2, shape = BODY },
+	} },
+	MutRainbow = { loop = true, colors = { Color3.new(1, 1, 1), Color3.new(1, 1, 1) }, emitters = {
+		{ tex = "SparkleFlipbook", rate = 8, life = NumberRange.new(0.7, 1.1), size = grow(1.1, 0.8), speed = NumberRange.new(0.3, 1), flipbook = FLIP, flipOnce = true, light = 1, rainbow = true, shape = BODY },
+		{ tex = "Star", rate = 1.5, life = NumberRange.new(1, 1.4), size = popSize(0.8), speed = NumberRange.new(1, 2), accel = Vector3.new(0, 2, 0), rotSpeed = NumberRange.new(-120, 120), light = 0.8, rainbow = true, shape = BODY },
+		{ tex = "Mote", rate = 5, life = NumberRange.new(1.5, 2.2), size = seq(0, 0, 0.2, 0.35, 1, 0), speed = NumberRange.new(0.5, 1), accel = Vector3.new(0, 1.5, 0), light = 1, rainbow = true, shape = BODY },
+	} },
+	MutGiant = { loop = true, colors = { Color3.fromRGB(255, 200, 120), Color3.fromRGB(255, 150, 70) }, emitters = {
+		{ tex = "Mote", rate = 3, life = NumberRange.new(1.5, 2), size = seq(0, 0, 0.2, 0.4, 1, 0), speed = NumberRange.new(0.5, 1), accel = Vector3.new(0, 1, 0), light = 1, shape = BODY },
+		{ tex = "Ring", rate = 0.4, life = NumberRange.new(1.6), size = grow(2, 12), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, transparency = seq(0, 0.5, 1, 1), light = 1, colorIndex = 2, emitDir = Enum.NormalId.Bottom },
+	} },
+	MutCharged = { loop = true, colors = { Color3.fromRGB(255, 250, 200), Color3.fromRGB(255, 230, 80) }, emitters = {
+		{ tex = "Spark", rate = 16, life = NumberRange.new(0.15, 0.25), size = grow(1.3, 0.2), speed = NumberRange.new(8, 14), drag = 4, face = PARA, light = 1, shape = BODY },
+		{ tex = "Bolt", rate = 1.5, life = NumberRange.new(0.15, 0.2), size = popSize(1.6), speed = NumberRange.new(0), rot = NumberRange.new(-50, 50), transparency = seq(0, 0, 0.5, 0, 0.6, 0.8, 0.7, 0, 1, 1), light = 1, colorIndex = 2, shape = BODY },
+	} },
+}
+for name, preset in AURAS do
+	PRESETS[name] = preset
+end
 Effects.Presets = PRESETS
 
 local warned: { [string]: boolean } = {}
@@ -264,6 +447,15 @@ local function texture(name: string): string?
 	end
 	return id
 end
+
+local RAINBOW = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 110, 110)),
+	ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 200, 90)),
+	ColorSequenceKeypoint.new(0.4, Color3.fromRGB(140, 255, 120)),
+	ColorSequenceKeypoint.new(0.6, Color3.fromRGB(100, 220, 255)),
+	ColorSequenceKeypoint.new(0.8, Color3.fromRGB(170, 120, 255)),
+	ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 120, 220)),
+})
 
 local function makeEmitter(def: EmitterDef, colors: { Color3 }, color: Color3?): ParticleEmitter?
 	local id = texture(def.tex)
@@ -306,8 +498,10 @@ local function makeEmitter(def: EmitterDef, colors: { Color3 }, color: Color3?):
 		e.Shape = def.shape
 		e.ShapeStyle = Enum.ParticleEmitterShapeStyle.Volume
 	end
-	if not def.raw then
-		local c = color or colors[def.colorIndex or 1] or Color3.new(1, 1, 1)
+	if def.rainbow then
+		e.Color = RAINBOW
+	elseif not def.raw then
+		local c = def.color or color or colors[def.colorIndex or 1] or Color3.new(1, 1, 1)
 		e.Color = ColorSequence.new(c)
 	end
 	return e

@@ -1,0 +1,107 @@
+{
+  "name": "Aetherion",
+  "element": "Prism",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19816,
+        "verts": 13715
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 5744,
+        "verts": 3917
+      },
+      "GlowCore": {
+        "tris": 2856,
+        "verts": 3160
+      },
+      "Prism": {
+        "tris": 6396,
+        "verts": 5946
+      },
+      "OrbFire": {
+        "tris": 168,
+        "verts": 117
+      },
+      "OrbStorm": {
+        "tris": 168,
+        "verts": 117
+      },
+      "OrbIce": {
+        "tris": 168,
+        "verts": 117
+      },
+      "OrbShadow": {
+        "tris": 168,
+        "verts": 117
+      },
+      "OrbWater": {
+        "tris": 168,
+        "verts": 117
+      },
+      "OrbNature": {
+        "tris": 168,
+        "verts": 117
+      }
+    },
+    "bones": 41,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3.2
+      },
+      {
+        "name": "Walk",
+        "duration": 1.2
+      },
+      {
+        "name": "Run",
+        "duration": 0.72
+      },
+      {
+        "name": "Attack",
+        "duration": 1.3
+      },
+      {
+        "name": "Roar",
+        "duration": 2.8
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 64,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3.2
+    },
+    "Walk": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Run": {
+      "frames": 14,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.72
+    },
+    "Attack": {
+      "frames": 26,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.3
+    },
+    "Roar": {
+      "frames": 56,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.8
+    }
+  }
+}

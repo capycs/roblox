@@ -1,0 +1,79 @@
+{
+  "name": "Bramblepup",
+  "element": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 13628,
+        "verts": 17112
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 144,
+        "verts": 140
+      },
+      "GlowCore": {
+        "tris": 80,
+        "verts": 63
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      },
+      {
+        "name": "Walk",
+        "duration": 0.7
+      },
+      {
+        "name": "Run",
+        "duration": 0.45
+      },
+      {
+        "name": "Attack",
+        "duration": 0.9
+      },
+      {
+        "name": "Roar",
+        "duration": 2
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 40,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2
+    },
+    "Walk": {
+      "frames": 14,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.7
+    },
+    "Run": {
+      "frames": 9,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.45
+    },
+    "Attack": {
+      "frames": 18,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.9
+    },
+    "Roar": {
+      "frames": 40,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2
+    }
+  }
+}

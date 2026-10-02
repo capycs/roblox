@@ -1,0 +1,79 @@
+{
+  "name": "Sylvanthorn",
+  "element": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19844,
+        "verts": 32564
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 2068,
+        "verts": 1605
+      },
+      "GlowCore": {
+        "tris": 1680,
+        "verts": 1278
+      }
+    },
+    "bones": 28,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3.2
+      },
+      {
+        "name": "Walk",
+        "duration": 1.1
+      },
+      {
+        "name": "Run",
+        "duration": 0.65
+      },
+      {
+        "name": "Attack",
+        "duration": 1.25
+      },
+      {
+        "name": "Roar",
+        "duration": 2.6
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 64,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3.2
+    },
+    "Walk": {
+      "frames": 22,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.1
+    },
+    "Run": {
+      "frames": 13,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.65
+    },
+    "Attack": {
+      "frames": 25,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.25
+    },
+    "Roar": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    }
+  }
+}

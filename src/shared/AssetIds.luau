@@ -27,6 +27,7 @@ AssetIds.Icons = {
 	ElementFire = "rbxassetid://0",
 	ElementIce = "rbxassetid://0",
 	ElementNature = "rbxassetid://0",
+	ElementPrism = "rbxassetid://0",
 	ElementShadow = "rbxassetid://0",
 	ElementStorm = "rbxassetid://0",
 	ElementWater = "rbxassetid://0",
@@ -198,22 +199,137 @@ AssetIds.Textures = {
 
 --[Portraits] assets/creatures/<Name>/previews/hero.png (Index cards, hatch reveal)
 AssetIds.Portraits = {
+	Aetherion = "rbxassetid://0",
+	Blazehorn = "rbxassetid://0",
+	Bramblepup = "rbxassetid://0",
 	Emberfang = "rbxassetid://0",
+	Frostfawn = "rbxassetid://0",
 	Frostusk = "rbxassetid://0",
+	Glaciarch = "rbxassetid://0",
 	Mossback = "rbxassetid://0",
 	Nyxwing = "rbxassetid://0",
+	Shellsnap = "rbxassetid://0",
+	Solarion = "rbxassetid://0",
+	Sparkit = "rbxassetid://0",
+	Sylvanthorn = "rbxassetid://0",
 	Tidefin = "rbxassetid://0",
+	Umbrapaw = "rbxassetid://0",
 	Voltgriff = "rbxassetid://0",
 }
 
 --[Mutations] assets/creatures/<Name>/mutations/<Mutation>.png (Body texture swaps)
 AssetIds.Mutations = {
+	Aetherion = {
+		Crystal = "rbxassetid://0", -- Aetherion_Crystal
+		Golden = "rbxassetid://0", -- Aetherion_Golden
+		Rainbow = "rbxassetid://0", -- Aetherion_Rainbow
+		Shiny = "rbxassetid://0", -- Aetherion_Shiny
+		Void = "rbxassetid://0", -- Aetherion_Void
+	},
+	Blazehorn = {
+		Crystal = "rbxassetid://0", -- Blazehorn_Crystal
+		Golden = "rbxassetid://0", -- Blazehorn_Golden
+		Rainbow = "rbxassetid://0", -- Blazehorn_Rainbow
+		Shiny = "rbxassetid://0", -- Blazehorn_Shiny
+		Void = "rbxassetid://0", -- Blazehorn_Void
+	},
+	Bramblepup = {
+		Crystal = "rbxassetid://0", -- Bramblepup_Crystal
+		Golden = "rbxassetid://0", -- Bramblepup_Golden
+		Rainbow = "rbxassetid://0", -- Bramblepup_Rainbow
+		Shiny = "rbxassetid://0", -- Bramblepup_Shiny
+		Void = "rbxassetid://0", -- Bramblepup_Void
+	},
+	Emberfang = {
+		Crystal = "rbxassetid://0", -- Emberfang_Crystal
+		Golden = "rbxassetid://0", -- Emberfang_Golden
+		Rainbow = "rbxassetid://0", -- Emberfang_Rainbow
+		Shiny = "rbxassetid://0", -- Emberfang_Shiny
+		Void = "rbxassetid://0", -- Emberfang_Void
+	},
+	Frostfawn = {
+		Crystal = "rbxassetid://0", -- Frostfawn_Crystal
+		Golden = "rbxassetid://0", -- Frostfawn_Golden
+		Rainbow = "rbxassetid://0", -- Frostfawn_Rainbow
+		Shiny = "rbxassetid://0", -- Frostfawn_Shiny
+		Void = "rbxassetid://0", -- Frostfawn_Void
+	},
+	Frostusk = {
+		Crystal = "rbxassetid://0", -- Frostusk_Crystal
+		Golden = "rbxassetid://0", -- Frostusk_Golden
+		Rainbow = "rbxassetid://0", -- Frostusk_Rainbow
+		Shiny = "rbxassetid://0", -- Frostusk_Shiny
+		Void = "rbxassetid://0", -- Frostusk_Void
+	},
+	Glaciarch = {
+		Crystal = "rbxassetid://0", -- Glaciarch_Crystal
+		Golden = "rbxassetid://0", -- Glaciarch_Golden
+		Rainbow = "rbxassetid://0", -- Glaciarch_Rainbow
+		Shiny = "rbxassetid://0", -- Glaciarch_Shiny
+		Void = "rbxassetid://0", -- Glaciarch_Void
+	},
+	Mossback = {
+		Crystal = "rbxassetid://0", -- Mossback_Crystal
+		Golden = "rbxassetid://0", -- Mossback_Golden
+		Rainbow = "rbxassetid://0", -- Mossback_Rainbow
+		Shiny = "rbxassetid://0", -- Mossback_Shiny
+		Void = "rbxassetid://0", -- Mossback_Void
+	},
+	Nyxwing = {
+		Crystal = "rbxassetid://0", -- Nyxwing_Crystal
+		Golden = "rbxassetid://0", -- Nyxwing_Golden
+		Rainbow = "rbxassetid://0", -- Nyxwing_Rainbow
+		Shiny = "rbxassetid://0", -- Nyxwing_Shiny
+		Void = "rbxassetid://0", -- Nyxwing_Void
+	},
+	Shellsnap = {
+		Crystal = "rbxassetid://0", -- Shellsnap_Crystal
+		Golden = "rbxassetid://0", -- Shellsnap_Golden
+		Rainbow = "rbxassetid://0", -- Shellsnap_Rainbow
+		Shiny = "rbxassetid://0", -- Shellsnap_Shiny
+		Void = "rbxassetid://0", -- Shellsnap_Void
+	},
+	Solarion = {
+		Crystal = "rbxassetid://0", -- Solarion_Crystal
+		Golden = "rbxassetid://0", -- Solarion_Golden
+		Rainbow = "rbxassetid://0", -- Solarion_Rainbow
+		Shiny = "rbxassetid://0", -- Solarion_Shiny
+		Void = "rbxassetid://0", -- Solarion_Void
+	},
 	Sparkit = {
 		Crystal = "rbxassetid://0", -- Sparkit_Crystal
 		Golden = "rbxassetid://0", -- Sparkit_Golden
 		Rainbow = "rbxassetid://0", -- Sparkit_Rainbow
 		Shiny = "rbxassetid://0", -- Sparkit_Shiny
 		Void = "rbxassetid://0", -- Sparkit_Void
+	},
+	Sylvanthorn = {
+		Crystal = "rbxassetid://0", -- Sylvanthorn_Crystal
+		Golden = "rbxassetid://0", -- Sylvanthorn_Golden
+		Rainbow = "rbxassetid://0", -- Sylvanthorn_Rainbow
+		Shiny = "rbxassetid://0", -- Sylvanthorn_Shiny
+		Void = "rbxassetid://0", -- Sylvanthorn_Void
+	},
+	Tidefin = {
+		Crystal = "rbxassetid://0", -- Tidefin_Crystal
+		Golden = "rbxassetid://0", -- Tidefin_Golden
+		Rainbow = "rbxassetid://0", -- Tidefin_Rainbow
+		Shiny = "rbxassetid://0", -- Tidefin_Shiny
+		Void = "rbxassetid://0", -- Tidefin_Void
+	},
+	Umbrapaw = {
+		Crystal = "rbxassetid://0", -- Umbrapaw_Crystal
+		Golden = "rbxassetid://0", -- Umbrapaw_Golden
+		Rainbow = "rbxassetid://0", -- Umbrapaw_Rainbow
+		Shiny = "rbxassetid://0", -- Umbrapaw_Shiny
+		Void = "rbxassetid://0", -- Umbrapaw_Void
+	},
+	Voltgriff = {
+		Crystal = "rbxassetid://0", -- Voltgriff_Crystal
+		Golden = "rbxassetid://0", -- Voltgriff_Golden
+		Rainbow = "rbxassetid://0", -- Voltgriff_Rainbow
+		Shiny = "rbxassetid://0", -- Voltgriff_Shiny
+		Void = "rbxassetid://0", -- Voltgriff_Void
 	},
 }
 

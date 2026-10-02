@@ -1,0 +1,79 @@
+{
+  "name": "Sparkit",
+  "element": "Storm",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 12416,
+        "verts": 8788
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 420,
+        "verts": 930
+      },
+      "GlowCore": {
+        "tris": 40,
+        "verts": 120
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 1.8
+      },
+      {
+        "name": "Walk",
+        "duration": 0.6
+      },
+      {
+        "name": "Run",
+        "duration": 0.38
+      },
+      {
+        "name": "Attack",
+        "duration": 0.8
+      },
+      {
+        "name": "Roar",
+        "duration": 1.8
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 36,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.8
+    },
+    "Walk": {
+      "frames": 12,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.6
+    },
+    "Run": {
+      "frames": 8,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.38
+    },
+    "Attack": {
+      "frames": 16,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.8
+    },
+    "Roar": {
+      "frames": 36,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.8
+    }
+  }
+}

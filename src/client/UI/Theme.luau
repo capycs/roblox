@@ -27,6 +27,7 @@ local Theme = {
 	Element = {
 		Fire = C(255, 122, 46), Storm = C(63, 180, 255), Ice = C(127, 216, 245),
 		Shadow = C(154, 90, 230), Water = C(42, 160, 216), Nature = C(98, 192, 67),
+		Prism = C(255, 90, 168),
 	},
 
 	Display = Font.new("rbxasset://fonts/families/FredokaOne.json"),

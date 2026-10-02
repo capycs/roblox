@@ -202,7 +202,10 @@ function Animator.step(self: Animator, dt: number)
 	end
 	for i, g in self.glowParts do
 		local k = 1 - g.amount * (0.5 + 0.5 * math.sin(self.time * 2.4 + i * 0.9))
-		g.part.Color = Color3.new(g.base.R * k, g.base.G * k, g.base.B * k)
+		-- MutationVisuals stores a mutated glow colour in GlowBase
+		local mut = g.part:GetAttribute("GlowBase")
+		local base = if typeof(mut) == "Color3" then mut else g.base
+		g.part.Color = Color3.new(base.R * k, base.G * k, base.B * k)
 	end
 
 	-- Glow light flicker.

@@ -7,9 +7,11 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Kit = require(script.Parent.Parent.Kit)
 local Theme = require(script.Parent.Parent.Theme)
 local State = require(script.Parent.Parent.State)
-local AssetIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("AssetIds"))
+local Shared = ReplicatedStorage:WaitForChild("Shared")
+local AssetIds = require(Shared:WaitForChild("AssetIds"))
+local CreatureInfo = require(Shared:WaitForChild("Creatures"):WaitForChild("CreatureInfo"))
 
-local ORDER = { "Emberfang", "Voltgriff", "Frostusk", "Nyxwing", "Tidefin", "Mossback" }
+local ORDER = CreatureInfo.Order -- by rarity, then name
 
 return function(gui: ScreenGui, ctx: any)
 	local new = Kit.new
@@ -33,13 +35,15 @@ return function(gui: ScreenGui, ctx: any)
 		local index = State.get("index")
 		local found = 0
 		for i, species in ORDER do
-			local e = index[species] or { found = false, element = "Fire" }
+			local info = CreatureInfo.Species[species]
+			local e = index[species] or { found = false }
+			local element = e.element or info.element
 			if e.found then found += 1 end
 			local isGold = showGold and e.gold
 			local c = Kit.panel({ name = species, size = UDim2.fromOffset(270, 210), order = i, color = if isGold then Theme.shade(Theme.Gold, 0.5) else Theme.CreamDeep })
 			c.Parent = grid
 			local body = c:FindFirstChild("Body") :: Frame
-			local frame = new("Frame", { BackgroundColor3 = Theme.Element[e.element], Size = UDim2.new(1, -16, 0, 140), Position = UDim2.fromOffset(8, 8), ClipsDescendants = true, Parent = body }, { Kit.corner(UDim.new(0, 14)), Kit.stroke(3) })
+			local frame = new("Frame", { BackgroundColor3 = Theme.Element[element], Size = UDim2.new(1, -16, 0, 140), Position = UDim2.fromOffset(8, 8), ClipsDescendants = true, Parent = body }, { Kit.corner(UDim.new(0, 14)), Kit.stroke(3) })
 			local portrait = AssetIds.get(AssetIds.Portraits[species])
 			if portrait then
 				new("ImageLabel", { BackgroundTransparency = 1, Image = portrait, Size = UDim2.fromScale(1, 1.3), Position = UDim2.fromScale(0, -0.12), ScaleType = Enum.ScaleType.Crop, ImageColor3 = if e.found then Color3.new(1, 1, 1) else Color3.new(0, 0, 0), ImageTransparency = if e.found then 0 else 0.25, Parent = frame })
@@ -50,7 +54,7 @@ return function(gui: ScreenGui, ctx: any)
 			if isGold then
 				Kit.icon("VIP", 44, { pos = UDim2.new(1, -50, 0, 6) }).Parent = frame
 			end
-			Kit.icon("Element" .. e.element, 46, { pos = UDim2.fromOffset(10, 150) }).Parent = body
+			Kit.icon("Element" .. element, 46, { pos = UDim2.fromOffset(10, 150) }).Parent = body
 			local t = Kit.text(if e.found then species else "???", { size = 24, align = Enum.TextXAlignment.Left, box = UDim2.new(1, -80, 0, 30) })
 			t.Position = UDim2.fromOffset(64, 158)
 			t.Parent = body

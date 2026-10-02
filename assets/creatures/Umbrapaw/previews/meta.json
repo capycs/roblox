@@ -1,0 +1,79 @@
+{
+  "name": "Umbrapaw",
+  "element": "Shadow",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 11084,
+        "verts": 7265
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 2459,
+        "verts": 1553
+      },
+      "GlowCore": {
+        "tris": 1119,
+        "verts": 824
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.6
+      },
+      {
+        "name": "Walk",
+        "duration": 0.95
+      },
+      {
+        "name": "Run",
+        "duration": 0.55
+      },
+      {
+        "name": "Attack",
+        "duration": 0.95
+      },
+      {
+        "name": "Roar",
+        "duration": 2.2
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    },
+    "Walk": {
+      "frames": 19,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.95
+    },
+    "Run": {
+      "frames": 11,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.55
+    },
+    "Attack": {
+      "frames": 19,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.95
+    },
+    "Roar": {
+      "frames": 44,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.2
+    }
+  }
+}

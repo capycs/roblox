@@ -1,0 +1,75 @@
+{
+  "name": "Shellsnap",
+  "element": "Water",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 9040,
+        "verts": 6134
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 488,
+        "verts": 743
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3
+      },
+      {
+        "name": "Walk",
+        "duration": 1.2
+      },
+      {
+        "name": "Run",
+        "duration": 0.75
+      },
+      {
+        "name": "Attack",
+        "duration": 1.2
+      },
+      {
+        "name": "Roar",
+        "duration": 2.4
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "Walk": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Run": {
+      "frames": 15,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.75
+    },
+    "Attack": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Roar": {
+      "frames": 48,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.4
+    }
+  }
+}

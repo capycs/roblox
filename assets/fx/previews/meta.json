@@ -86,5 +86,97 @@
   "WindSwirl": {
     "frames": 36,
     "duration": 3
+  },
+  "ThornBurst": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "TidalShell": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "StaticDash": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "SporeBloom": {
+    "frames": 30,
+    "duration": 2.4
+  },
+  "RiptideSpiral": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "MagmaCharge": {
+    "frames": 24,
+    "duration": 1.6
+  },
+  "AuroraVeil": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "FlamePounce": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "GlacierStomp": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "ShadeStep": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "ThunderDive": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "UmbralVeil": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "SolarFlare": {
+    "frames": 24,
+    "duration": 1.6
+  },
+  "AbsoluteZero": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "AncientGrove": {
+    "frames": 28,
+    "duration": 2.2
+  },
+  "PrismJudgement": {
+    "frames": 30,
+    "duration": 2
+  },
+  "MutShiny": {
+    "frames": 24,
+    "duration": 2
+  },
+  "MutGolden": {
+    "frames": 24,
+    "duration": 2
+  },
+  "MutCrystal": {
+    "frames": 24,
+    "duration": 2
+  },
+  "MutVoid": {
+    "frames": 24,
+    "duration": 2
+  },
+  "MutRainbow": {
+    "frames": 24,
+    "duration": 2
+  },
+  "MutGiant": {
+    "frames": 24,
+    "duration": 2
+  },
+  "MutCharged": {
+    "frames": 24,
+    "duration": 2
   }
 }

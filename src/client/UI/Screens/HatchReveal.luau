@@ -34,7 +34,7 @@ return function(gui: ScreenGui, ctx: any)
 	local spin: RBXScriptConnection? = nil
 	local busy = false
 
-	local function play(info: { species: string, rarity: string, element: string, gold: boolean?, isNew: boolean? })
+	local function play(info: { species: string, rarity: string, element: string, gold: boolean?, isNew: boolean?, mutations: { string }? })
 		if busy then return end
 		busy = true
 		for _, c in stage:GetChildren() do c:Destroy() end
@@ -85,7 +85,11 @@ return function(gui: ScreenGui, ctx: any)
 			g.Parent = stage
 		end
 		ribbon.BackgroundColor3 = color
-		rarityText.Text = string.upper(info.rarity) .. (if info.gold then "  ·  GOLD" else "")
+		local tags = {}
+		for _, mut in info.mutations or (if info.gold then { "Golden" } else {}) do
+			table.insert(tags, string.upper(mut))
+		end
+		rarityText.Text = string.upper(info.rarity) .. (if #tags > 0 then "  ·  " .. table.concat(tags, " · ") else "")
 		nameText.Text = info.species
 		ribbon.Visible = true
 		Kit.pop(ribbon, true)

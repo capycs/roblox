@@ -1,0 +1,79 @@
+{
+  "name": "Solarion",
+  "element": "Fire",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 18742,
+        "verts": 13535
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 4831,
+        "verts": 3131
+      },
+      "GlowCore": {
+        "tris": 991,
+        "verts": 795
+      }
+    },
+    "bones": 28,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3
+      },
+      {
+        "name": "Walk",
+        "duration": 1.15
+      },
+      {
+        "name": "Run",
+        "duration": 0.68
+      },
+      {
+        "name": "Attack",
+        "duration": 1.2
+      },
+      {
+        "name": "Roar",
+        "duration": 2.6
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "Walk": {
+      "frames": 23,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.15
+    },
+    "Run": {
+      "frames": 14,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.68
+    },
+    "Attack": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Roar": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    }
+  }
+}

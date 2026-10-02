@@ -87,7 +87,7 @@ function build(B, W) {
     B.add(cone(0.08, 0.38, 8), { pos: [0.25 * x, 4.38, -3.68], rot: [Math.PI, 0, 0], color: 'claw', bone: 'Head' });
     addEye(B, x, [0.44 * x, 5.22, -3.3], { r: [0.2, 0.17, 0.1], pupil: [0.06, 0.13], th: -0.4 * x, lid: 'pearlShade', lidAngle: 1.15, lidTilt: 0.55, brow: { color: 'gold', len: 0.42, tilt: 0.7 } });
     // two pairs of swept horns: gold outer, prism inner
-    B.add(loft({ points: [[0.5 * x, 5.75, -2.6], [0.95 * x, 6.15, -2.2], [1.3 * x, 6.35, -1.55], [1.45 * x, 6.25, -0.9]], rx: (t) => 0.22 * (1 - 0.85 * t) + 0.02, ry: (t) => 0.22 * (1 - 0.85 * t) + 0.02, rings: 14, seg: 8 }), { color: 'gold', bone: 'Head' });
+    B.add(loft({ points: [[0.5 * x, 5.75, -2.6], [0.95 * x, 6.15, -2.2], [1.3 * x, 6.35, -1.55], [1.45 * x, 6.25, -0.9]], rx: (t) => 0.22 * (1 - 0.85 * t) + 0.02, ry: (t) => 0.22 * (1 - 0.85 * t) + 0.02, rings: 10, seg: 8 }), { color: 'gold', bone: 'Head' });
     B.add(crystal(0.1, 0.9), { pos: [0.35 * x, 5.85, -2.75], quat: quatTo([0.5 * x, 1, 0.5]), mesh: 'Prism', bone: 'Head' });
     for (const dy of [0, -0.25]) B.add(flame(0.2, 0.75, { rings: 8, seg: 8 }), { pos: [0.9 * x, 4.95 + dy, -2.55], quat: quatTo([x, -0.2, 0.35]), mesh: 'GlowCore', bone: 'Head' });
   }
@@ -127,7 +127,7 @@ function build(B, W) {
     B.add(new THREE.TorusGeometry(0.46, 0.03, 4, 16), { pos: c.toArray(), rot: [a, k, 0], mesh: 'Glow', bone: 'ElementOrbit' });
   });
   // --- tail: gold rings, feather fan, prism blade ---
-  const tl = tail(B, { pts: [[0, 3.4, 2.5], [0, 3.2, 3.7], [0, 3.5, 4.8], [0, 4.3, 5.6], [0, 5.3, 5.9]], r: (t) => 0.32 - 0.16 * t, color: 'pearl', rings: 30, seg: 12 });
+  const tl = tail(B, { pts: [[0, 3.4, 2.5], [0, 3.2, 3.7], [0, 3.5, 4.8], [0, 4.3, 5.6], [0, 5.3, 5.9]], r: (t) => 0.32 - 0.16 * t, color: 'pearl', rings: 24, seg: 12 });
   for (let k = 0; k < 4; k++) { const t = 0.25 + k * 0.17, c = tl.curve.getPoint(t); B.add(new THREE.TorusGeometry(0.3 - k * 0.04, 0.05, 5, 12), { pos: c.toArray(), quat: quatTo(tl.curve.getTangent(t).toArray()).multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(Math.PI / 2, 0, 0))), color: 'gold', weights: () => tl.w(t) }); }
   const tip = V(W.TailTip), tan = tl.curve.getTangent(1);
   for (let k = 0; k < 7; k++) { const a = (k / 6 - 0.5) * 2.2, d = tan.clone().add(V([Math.sin(a) * 0.9, Math.cos(a) * 0.5, 0])).normalize(); B.add(blade(1.2, 0.3, 0.05), { pos: tip.toArray(), quat: surfaceQuat([0, -Math.sin(a), 1], d.toArray()), color: k % 2 ? 'feather' : 'featherTip', bone: 'TailTip' }); }

@@ -7,7 +7,28 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Kit = require(script.Parent.Parent.Kit)
 local Theme = require(script.Parent.Parent.Theme)
 local State = require(script.Parent.Parent.State)
-local Catalog = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Shop"):WaitForChild("ShopCatalog"))
+local Shared = ReplicatedStorage:WaitForChild("Shared")
+local Catalog = require(Shared:WaitForChild("Shop"):WaitForChild("ShopCatalog"))
+local CreatureInfo = require(Shared:WaitForChild("Creatures"):WaitForChild("CreatureInfo"))
+local Mutations = require(Shared:WaitForChild("Creatures"):WaitForChild("Mutations"))
+
+-- Demo hatch until the server hatch is wired in: a random creature of the egg's rarity
+-- (or any creature if none match) with a mutation roll. The real roll belongs on the server.
+local rng = Random.new()
+local function demoHatch(rarity: string): { [string]: any }
+	local pool = {}
+	for _, name in CreatureInfo.Order do
+		if CreatureInfo.Species[name].rarity == rarity then
+			table.insert(pool, name)
+		end
+	end
+	if #pool == 0 then
+		pool = CreatureInfo.Order
+	end
+	local species = pool[rng:NextInteger(1, #pool)]
+	local muts = Mutations.roll(rng, 10) -- demo luck so mutations show up in playtests
+	return { species = species, rarity = CreatureInfo.Species[species].rarity, element = CreatureInfo.Species[species].element, gold = table.find(muts, "Golden") ~= nil, mutations = muts }
+end
 
 local function clock(s: number): string
 	s = math.max(0, math.floor(s))
@@ -82,7 +103,7 @@ return function(gui: ScreenGui, ctx: any)
 					if slot.ends - os.time() <= 0 then
 						State.actions.hatch(i)
 						m.close()
-						ctx.hatch({ species = "Frostusk", rarity = slot.rarity, element = "Ice", gold = false })
+						ctx.hatch(demoHatch(slot.rarity))
 					elseif not State.actions.instantHatch(i) then
 						slot.ends = os.time() -- demo: finish locally
 						update()
