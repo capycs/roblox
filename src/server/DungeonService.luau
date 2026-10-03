@@ -10,7 +10,9 @@
 --   done    timer ran out or everyone left/died; the copy is destroyed.
 --
 --   DungeonService.start("Pyrothrax", { player1, player2 }, returnCFrame)
---   DungeonService.EggExtracted.Event:Connect(function(player, eggName, info) ... end)  -- give the egg here
+--   DungeonService.EggExtracted.Event:Connect(function(player, eggName, info) ... end)
+--       give the egg here and save info.egg with it; hatch it later with BossEggs.hatch(info.egg, rng)
+--       (leans toward the boss's element and the boss's mutations)
 --   DungeonService.RunEnded.Event:Connect(function(runName, result, players, bossRewards) ... end)
 --
 -- The lobby side (queue pads + countdown) is DungeonPortal.server.
@@ -27,10 +29,11 @@ local AtmosphereConfig = require(Shared.Atmosphere.AtmosphereConfig)
 local PropSetup = require(Shared.Props.PropSetup)
 local FxService = require(Shared.Fx.FxService)
 local Mutations = require(Shared.Creatures.Mutations)
+local BossEggs = require(Shared.Eggs.BossEggs)
 local BossService = require(script.Parent.BossService)
 
 local DungeonService = {}
-DungeonService.EggExtracted = Instance.new("BindableEvent") -- (player, eggName, { run, boss, bossMutations })
+DungeonService.EggExtracted = Instance.new("BindableEvent") -- (player, eggName, { run, boss, bossMutations, egg = BossEggs data })
 DungeonService.RunEnded = Instance.new("BindableEvent") -- (runName, "cleared" | "failed" | "timeout", players, bossRewards?)
 
 local remote = ReplicatedStorage:FindFirstChild("DungeonEvent") :: RemoteEvent?
@@ -360,7 +363,10 @@ local function extract(run: Run, pl: Player)
 		egg.carrier = nil
 		egg.model:Destroy()
 		run.saved += 1
-		DungeonService.EggExtracted:Fire(pl, run.def.egg, { run = run.name, boss = run.def.boss, bossMutations = run.bossMuts })
+		DungeonService.EggExtracted:Fire(pl, run.def.egg, {
+			run = run.name, boss = run.def.boss, bossMutations = run.bossMuts,
+			egg = BossEggs.data(run.def.egg, run.bossMuts),
+		})
 	end
 	run.carry[pl] = {}
 	FxService.play("ExtractPortal", run.exitPos)
@@ -421,7 +427,7 @@ local function collapseTick(run: Run)
 	local a = rng:NextNumber() * math.pi * 2
 	local pos = Vector3.new(root.Position.X, run.floorY, root.Position.Z) + Vector3.new(math.cos(a), 0, math.sin(a)) * rng:NextNumber(0, 3)
 	BossService.circle(run.players, run.players, pos, c.radius, c.warn, c.damage, {
-		effect = "BossMeteorImpact", meteor = true, shake = 0.3, knockback = 25,
+		effect = c.effect, meteor = c.projectile, shake = 0.3, knockback = 25,
 		cancelled = function() return run.state ~= "escape" end,
 	})
 end

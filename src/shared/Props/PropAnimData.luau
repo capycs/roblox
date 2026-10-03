@@ -55,6 +55,7 @@ return {
 		EggRainbow = "wobble",
 		EggSpooky = "wobble",
 		EggStorm = "wobble",
+		EggThalassor = "wobble",
 		EggVoid = "wobble",
 		EggVolcano = "wobble",
 		Gem3D = "spinbob",
@@ -280,6 +281,14 @@ return {
 			Rustle = Vector3.new(0.0682, -1.9643, -0.2919),
 		},
 		TeleportPortal = {
+			PortalRing = Vector3.new(0, 0, 0),
+		},
+		TideGate = {
+			PortalRing = Vector3.new(0, 0, 0),
+		},
+		TideLair = {
+			Floor = Vector3.new(0, 1.2, 0),
+			Walls = Vector3.new(-0.2735, -9.3495, -0.784),
 			PortalRing = Vector3.new(0, 0, 0),
 		},
 		Topiary = {

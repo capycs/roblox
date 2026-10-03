@@ -6,7 +6,6 @@
 local State = {}
 
 local values: { [string]: any } = {
-	mode = "Haven", -- "Haven" | "Expedition"
 	coins = 12450,
 	gems = 85,
 	companion = { species = "Emberfang", element = "Fire", level = 7, hp = 0.8 },
@@ -43,11 +42,6 @@ local values: { [string]: any } = {
 		{ empty = true },
 		{ locked = true, unlockGems = 150 },
 	},
-	carried = { "Common", "Rare", "Uncommon" }, -- eggs carried on an expedition
-	maxCarry = 5,
-	runEndsAt = os.time() + 8 * 60,
-	extract = { progress = 0, distance = 84, direction = Vector3.new(1, 0, 0) },
-	knockedDown = false,
 	owned = {}, -- pass ids owned
 }
 

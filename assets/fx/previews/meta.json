@@ -203,6 +203,26 @@
     "frames": 30,
     "duration": 2
   },
+  "BossWaterBeam": {
+    "frames": 24,
+    "duration": 1.2
+  },
+  "BossTideSwipe": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BossGeyser": {
+    "frames": 24,
+    "duration": 1.6
+  },
+  "BossSplashImpact": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BossTideEnrage": {
+    "frames": 30,
+    "duration": 2
+  },
   "PrismJudgement": {
     "frames": 30,
     "duration": 2

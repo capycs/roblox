@@ -15,7 +15,7 @@ Each creature folder contains:
 | Epic | Emberfang (Fire), Frostusk (Ice), Umbrapaw (Shadow), Geodillo (Shadow), Koiren (Water) |
 | Legendary | Voltgriff (Storm), Nyxwing (Shadow), Solarion (Fire), Glaciarch (Ice), Sylvanthorn (Nature), Lumenjaw (Water) |
 | Mythic | Aetherion (Prism), Astralith (Cosmic) |
-| Boss | Pyrothrax (Fire), not hatchable; see `docs/BOSSES.md` |
+| Boss | Pyrothrax (Fire), Thalassor (Water); not hatchable; see `docs/BOSSES.md` |
 
 Every mesh is under Roblox's 20k-per-mesh limit; the triangle counts are in `docs/CREATURES.md`.
 
@@ -25,7 +25,7 @@ Every mesh is under Roblox's 20k-per-mesh limit; the triangle counts are in `doc
 - **Bones:** every creature uses the same 26 base bone names. Each species has a style in `CreatureConfig`, and `style.body` picks the animation set:
   - `quad` (default): `Poses/Quadruped.luau`.
   - `biped`: `Poses/Biped.luau`. `Front*` bones are arms (or unused for birds) and `Back*` bones are legs. Covers Boltaroo, Lunowl and Astralith, which hovers.
-  - `boss`: `Poses/Boss.luau`, the quadruped clips plus the boss attacks (FireBreath, TailSwipe, Stomp, Eruption, Enrage, Hurt, Death). Covers Pyrothrax.
+  - `boss`: `Poses/Boss.luau`, the quadruped clips plus the boss attacks (FireBreath, TailSwipe, Stomp, Eruption, Enrage, Hurt, Death). Covers Pyrothrax and Thalassor (no wings; the wing parts of the poses do nothing).
   - `fish`: `Poses/Fish.luau`. `Front*` bones are pectoral fins, `Back*` pelvic fins, `Ear*` whiskers. Covers Koiren.
 - **Spinner bones:** winged creatures add wing bones. Legendaries and the mythic add extra spinner bones (halos, orbiting orbs, hovering crowns, rune rings, Lumenjaw's lure, Astralith's galaxy, monolith halo and planets), driven by `spinners` in `CreatureConfig`.
 - **Animations:** Idle, Walk, Run, Attack and Roar, plus springs on the head, ears, tail and wings, and a lean into turns. The same clips are baked into each GLB, spinners included.

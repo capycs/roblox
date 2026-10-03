@@ -1,6 +1,6 @@
 --!strict
--- Builds the whole UI: HUD, shop, Index, incubators, hatch reveal, expedition HUD and
--- skyship status. Scales the layout (authored at 1280x720) to any screen, phones included.
+-- Builds the whole UI: HUD, shop, Index, incubators and hatch reveal. (Boss runs have their own
+-- HUD in Dungeon.client.) Scales the layout (authored at 1280x720) to any screen, phones included.
 
 local Players = game:GetService("Players")
 
@@ -46,8 +46,6 @@ function ctx.hatch(info: any)
 end
 
 require(Screens:WaitForChild("HUD"))(gui, ctx)
-require(Screens:WaitForChild("Expedition"))(gui, ctx)
-require(Screens:WaitForChild("SkyshipStatus"))(gui, ctx)
 screens.Shop = require(Screens:WaitForChild("Shop"))(gui, ctx)
 screens.Index = require(Screens:WaitForChild("IndexScreen"))(gui, ctx)
 screens.Incubators = require(Screens:WaitForChild("Incubators"))(gui, ctx)

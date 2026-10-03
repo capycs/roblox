@@ -51,9 +51,9 @@ return function(gui: ScreenGui, ctx: any)
 	-- Eggs
 	local eggs = page("Eggs")
 	for i, egg in Catalog.Eggs do
-		local body = card(eggs, i, Theme.Rarity[egg.rarity], egg.id, egg.name, if egg.expeditionOnly then "Found only on expeditions" else `Hatches in {math.floor(egg.hatchSeconds / 60)} min`, egg.rarity == "Legendary" or egg.rarity == "Mythic")
-		if egg.expeditionOnly then
-			local lock = Kit.button({ color = Theme.shade(Theme.Ink, 0.4), size = UDim2.new(1, -24, 0, 50), icon = "Lock", text = "Expedition", textSize = 20, depth = 4 })
+		local body = card(eggs, i, Theme.Rarity[egg.rarity], egg.id, egg.name, if egg.bossRunOnly then "Found only in boss runs" else `Hatches in {math.floor(egg.hatchSeconds / 60)} min`, egg.rarity == "Legendary" or egg.rarity == "Mythic")
+		if egg.bossRunOnly then
+			local lock = Kit.button({ color = Theme.shade(Theme.Ink, 0.4), size = UDim2.new(1, -24, 0, 50), icon = "Lock", text = "Boss Run", textSize = 20, depth = 4 })
 			lock.Position = UDim2.new(0, 12, 1, -58)
 			lock.Parent = body
 		else

@@ -15,7 +15,7 @@ PropSetup.OutlineTag = "Outline" -- Outlines.client draws the cartoon outline on
 
 local GLOW = { Glow = true, GlowCore = true, Lamp = true, Flame = true, FlameCore = true, Rune = true, Potion = true, Eyes = true, LanternLamp = true, HoverCore = true, HoverGem = true, HoverSignGlow = true, HoverGlow = true,
 	-- v2 props
-	HoverOrb = true, HoverCrown = true, HoverGift = true, HoverRing = true, HoverGlint = true, HoverBook = true, HoverRune = true, PortalRing = true, Magma = true,
+	HoverOrb = true, HoverCrown = true, HoverGift = true, HoverRing = true, HoverGlint = true, HoverBook = true, HoverRune = true, PortalRing = true, Magma = true, Tide = true, Water = true,
 	PotionR = true, PotionG = true, PotionB = true, PotionY = true }
 local GLASS = { Glass = true }
 

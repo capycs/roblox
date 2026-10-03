@@ -1,0 +1,53 @@
+{
+  "name": "TideGate",
+  "category": "Dungeon",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3524,
+        "verts": 3192
+      },
+      "Tide": {
+        "tris": 480,
+        "verts": 437
+      },
+      "GlowCore": {
+        "tris": 648,
+        "verts": 575
+      },
+      "Water": {
+        "tris": 112,
+        "verts": 172
+      },
+      "PortalRing": {
+        "tris": 1356,
+        "verts": 763
+      }
+    },
+    "parts": {
+      "PortalRing": {
+        "pivot": [
+          0,
+          6,
+          1.2
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          -2.9802322387695312e-8
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -509,6 +509,58 @@ local ABILITIES: { [string]: { colors: { Color3 }?, light: { range: number, brig
 		{ tex = "Ember", rate = 22, life = NumberRange.new(1.5, 2.5), size = grow(0.5, 0.05), speed = NumberRange.new(5, 10), spread = Vector2.new(25, 25), accel = Vector3.new(0, 3, 0), light = 1, colorIndex = 2, emitDir = Enum.NormalId.Top },
 		{ tex = "FlameFlipbook", rate = 6, life = NumberRange.new(0.5, 0.8), size = grow(2, 0.5), speed = NumberRange.new(2, 4), spread = Vector2.new(10, 10), flipbook = FLIP, light = 1, emitDir = Enum.NormalId.Top },
 	} },
+	-- Thalassor (water boss)
+	BossWaterBeam = { loop = true, colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(60, 200, 255) }, emitters = {
+		{ tex = "SoftGlow", rate = 70, life = NumberRange.new(0.5, 0.7), size = seq(0, 1.5, 0.3, 4, 1, 6), speed = NumberRange.new(40, 50), spread = Vector2.new(5, 5), transparency = seq(0, 0.1, 0.7, 0.4, 1, 1), light = 1, emitDir = Enum.NormalId.Front, z = 1 },
+		{ tex = "Swirl", rate = 16, life = NumberRange.new(0.5, 0.7), size = grow(2, 5), speed = NumberRange.new(36, 44), spread = Vector2.new(4, 4), rotSpeed = NumberRange.new(400, 600), transparency = seq(0, 0.3, 1, 1), light = 1, colorIndex = 2, emitDir = Enum.NormalId.Front },
+		{ tex = "Droplet", rate = 70, life = NumberRange.new(0.7, 1), size = grow(0.8, 0.3), speed = NumberRange.new(30, 46), spread = Vector2.new(14, 14), accel = Vector3.new(0, -40, 0), face = PARA, light = 0.4, emitDir = Enum.NormalId.Front },
+		{ tex = "Bubble", rate = 30, life = NumberRange.new(0.8, 1.2), size = popSize(0.8), speed = NumberRange.new(20, 34), spread = Vector2.new(18, 18), drag = 1.5, accel = Vector3.new(0, 6, 0), light = 0.3, colorIndex = 2, emitDir = Enum.NormalId.Front },
+	} },
+	BossTideSwipe = { colors = { Color3.fromRGB(220, 255, 255), Color3.fromRGB(50, 190, 255) }, emitters = {
+		flash(8), floor("Splash", 30, 0.7), floor("Ring", 36, 0.7, 0, 2),
+		{ tex = "Swirl", count = 1, life = NumberRange.new(0.8), size = grow(6, 20), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(600), transparency = INOUT, light = 1, colorIndex = 2 },
+		{ tex = "Droplet", count = 34, life = NumberRange.new(0.7, 1), size = grow(1.1, 0.4), speed = NumberRange.new(26, 40), spread = RING_OUT, accel = Vector3.new(0, -60, 0), face = PARA, light = 0.4 },
+		{ tex = "Bubble", count = 20, life = NumberRange.new(1, 1.5), size = popSize(1), speed = NumberRange.new(6, 14), drag = 1.5, accel = Vector3.new(0, 8, 0), light = 0.3, colorIndex = 2 },
+	} },
+	BossGeyser = { colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(60, 200, 255) }, light = { range = 28, brightness = 5 }, emitters = {
+		flash(12), floor("Splash", 22, 0.8), floor("Ring", 20, 0.8, 0, 2),
+		{ tex = "SoftGlow", count = 1, life = NumberRange.new(0.8), size = seq(0, 3, 0.3, 8, 1, 10), transparency = seq(0, 0, 0.5, 0.3, 1, 1), light = 1 },
+		{ tex = "Droplet", count = 50, life = NumberRange.new(1, 1.4), size = grow(1.4, 0.5), speed = NumberRange.new(40, 60), spread = Vector2.new(14, 14), accel = Vector3.new(0, -70, 0), face = PARA, light = 0.4, emitDir = Enum.NormalId.Top },
+		{ tex = "Swirl", count = 3, life = NumberRange.new(0.8, 1), size = grow(4, 10), speed = NumberRange.new(20, 30), spread = Vector2.new(5, 5), rotSpeed = NumberRange.new(400, 700), transparency = INOUT, light = 1, colorIndex = 2, emitDir = Enum.NormalId.Top },
+		{ tex = "Bubble", count = 24, life = NumberRange.new(1.2, 1.8), size = popSize(1.1), speed = NumberRange.new(8, 18), drag = 1.2, accel = Vector3.new(0, 10, 0), light = 0.3, colorIndex = 2 },
+	} },
+	-- falling water orb (client moves a host part down from the sky, this trails behind it)
+	BossOrbTrail = { loop = true, colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(60, 200, 255) }, emitters = {
+		{ tex = "SoftGlow", rate = 50, life = NumberRange.new(0.3, 0.5), size = grow(3.5, 1), speed = NumberRange.new(1, 3), light = 1 },
+		{ tex = "Bubble", rate = 30, life = NumberRange.new(0.6, 1), size = popSize(0.8), speed = NumberRange.new(2, 6), light = 0.3, colorIndex = 2 },
+		{ tex = "Droplet", rate = 30, life = NumberRange.new(0.4, 0.7), size = grow(0.7, 0.3), speed = NumberRange.new(3, 8), face = PARA, light = 0.4 },
+	} },
+	BossSplashImpact = { colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(60, 200, 255) }, light = { range = 22, brightness = 5 }, emitters = {
+		flash(10), floor("Splash", 18, 0.7), floor("Ring", 16, 0.6, 0, 2),
+		{ tex = "Droplet", count = 30, life = NumberRange.new(0.7, 1), size = grow(1.1, 0.4), speed = NumberRange.new(20, 34), spread = Vector2.new(60, 60), accel = Vector3.new(0, -60, 0), face = PARA, light = 0.4 },
+		{ tex = "Bubble", count = 16, life = NumberRange.new(1, 1.4), size = popSize(0.9), speed = NumberRange.new(4, 10), drag = 1.5, accel = Vector3.new(0, 6, 0), light = 0.3, colorIndex = 2 },
+	} },
+	BossTideEnrage = { colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(40, 170, 255) }, light = { range = 60, brightness = 10 }, emitters = {
+		flash(30),
+		{ tex = "Rays", count = 1, life = NumberRange.new(1.6), size = seq(0, 6, 0.25, 40, 1, 46), rotSpeed = NumberRange.new(30), transparency = seq(0, 0, 0.6, 0.3, 1, 1), light = 1, z = -2 },
+		floor("Ring", 60, 0.9, 0, 2), floor("RuneCircle", 40, 1.8, 50, 2),
+		{ tex = "Swirl", count = 2, life = NumberRange.new(1.6), size = grow(10, 40), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(360), transparency = INOUT, light = 1, colorIndex = 2 },
+		{ tex = "Droplet", count = 80, life = NumberRange.new(1.2, 1.8), size = grow(1.4, 0.5), speed = NumberRange.new(30, 60), spread = Vector2.new(40, 40), accel = Vector3.new(0, -50, 0), face = PARA, light = 0.4, emitDir = Enum.NormalId.Top },
+		{ tex = "Bubble", count = 60, life = NumberRange.new(1.5, 2.2), size = popSize(1.2), speed = NumberRange.new(10, 30), drag = 1.2, accel = Vector3.new(0, 10, 0), light = 0.3, colorIndex = 2 },
+	} },
+	BossTideDeath = { colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(60, 200, 255) }, light = { range = 50, brightness = 8 }, emitters = {
+		flash(26), floor("Splash", 50, 1.0), floor("Ring", 46, 1.0, 0, 2),
+		{ tex = "Bubble", count = 120, life = NumberRange.new(2, 3), size = popSize(1.4), speed = NumberRange.new(6, 20), drag = 1, accel = Vector3.new(0, 10, 0), light = 0.3, colorIndex = 2 },
+		{ tex = "Droplet", count = 60, life = NumberRange.new(1.2, 1.6), size = grow(1.2, 0.4), speed = NumberRange.new(20, 40), spread = Vector2.new(60, 60), accel = Vector3.new(0, -60, 0), face = PARA, light = 0.4 },
+		{ tex = "Coin", count = 30, life = NumberRange.new(1.2, 1.6), size = popSize(1.6), speed = NumberRange.new(20, 36), spread = Vector2.new(50, 50), accel = Vector3.new(0, -50, 0), rotSpeed = NumberRange.new(-300, 300), raw = true, delay = 0.4 },
+		twinkles(40, 30, 2),
+	} },
+	-- looping on the TideOrbit bone above the spout: mist, bubbles and spray (x1.8 in phase 2)
+	BossTideAura = { loop = true, colors = { Color3.fromRGB(220, 255, 255), Color3.fromRGB(60, 200, 255) }, emitters = {
+		{ tex = "CloudSoft", rate = 4, life = NumberRange.new(3, 4), size = grow(3, 8), speed = NumberRange.new(2, 4), spread = Vector2.new(20, 20), accel = Vector3.new(0, 1, 0), drag = 0.3, windDrag = true, transparency = seq(0, 0.6, 1, 1), color = Color3.fromRGB(200, 240, 255), emitDir = Enum.NormalId.Top, z = -1 },
+		{ tex = "Bubble", rate = 16, life = NumberRange.new(2, 3), size = popSize(0.8), speed = NumberRange.new(3, 7), spread = Vector2.new(30, 30), accel = Vector3.new(0, 3, 0), light = 0.3, colorIndex = 2, emitDir = Enum.NormalId.Top },
+		{ tex = "Droplet", rate = 20, life = NumberRange.new(0.8, 1.2), size = grow(0.8, 0.3), speed = NumberRange.new(10, 16), spread = Vector2.new(30, 30), accel = Vector3.new(0, -30, 0), face = PARA, light = 0.4, emitDir = Enum.NormalId.Top },
+	} },
 	-- Mythic: every element at once, then a rainbow nova.
 	PrismJudgement = { colors = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 140, 230) }, light = { range = 50, brightness = 10 }, emitters = {
 		flash(24),

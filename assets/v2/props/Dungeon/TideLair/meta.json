@@ -1,0 +1,85 @@
+{
+  "name": "TideLair",
+  "category": "Dungeon",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 11832,
+        "verts": 11462
+      },
+      "Floor": {
+        "tris": 256,
+        "verts": 388
+      },
+      "Walls": {
+        "tris": 18264,
+        "verts": 24912
+      },
+      "Tide": {
+        "tris": 5596,
+        "verts": 3075
+      },
+      "GlowCore": {
+        "tris": 3824,
+        "verts": 3061
+      },
+      "Water": {
+        "tris": 560,
+        "verts": 632
+      },
+      "PortalRing": {
+        "tris": 1576,
+        "verts": 885
+      }
+    },
+    "parts": {
+      "Floor": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          1.2000000238418576,
+          0
+        ]
+      },
+      "Walls": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.2735271453857422,
+          -9.349544048309326,
+          -0.7840156555175781
+        ]
+      },
+      "PortalRing": {
+        "pivot": [
+          0,
+          6.5,
+          -51.2
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          7.748603820800781e-7
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

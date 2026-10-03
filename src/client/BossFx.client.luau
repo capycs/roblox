@@ -1,6 +1,7 @@
 --!strict
--- Client half of boss fights: red warning circles, attack effects, the fire breath stream from the
--- jaw, falling meteors, camera shake, the volcano aura (stronger in phase 2) and a boss HP bar
+-- Client half of boss fights: red warning circles, attack effects, the breath stream from the
+-- jaw, falling projectiles (meteors, water orbs), camera shake, the boss aura (stronger in phase 2)
+-- and a boss HP bar
 -- at the top of the screen while you're near a boss. Driven by BossService over "BossEvent"
 -- and the Boss/HP/MaxHP/Phase/DisplayName attributes on the model.
 
@@ -36,25 +37,25 @@ local function shake(pos: Vector3, amount: number)
 	shakeAmount = math.max(shakeAmount, amount * math.clamp(1 - d / 90, 0, 1))
 end
 
--- ---------- meteors ----------
-local function meteor(pos: Vector3, land: number)
+-- ---------- falling projectiles (the impact effect comes from the server when the circle lands) ----------
+local function meteor(pos: Vector3, land: number, color: Color3?, trailName: string?, size: number?)
 	local fall = math.min(0.9, land)
 	task.delay(math.max(0, land - fall), function()
 		local start = pos + Vector3.new(math.random(-12, 12), 60, math.random(-12, 12))
 		local rock = Instance.new("Part")
 		rock.Shape = Enum.PartType.Ball
-		rock.Size = Vector3.new(3, 3, 3)
+		local d = size or 3
+		rock.Size = Vector3.new(d, d, d)
 		rock.Material = Enum.Material.Neon
-		rock.Color = Color3.fromRGB(255, 120, 40)
+		rock.Color = color or Color3.fromRGB(255, 120, 40)
 		rock.Anchored, rock.CanCollide, rock.CanQuery, rock.CanTouch = true, false, false, false
 		rock.Position = start
 		rock.Parent = workspace
-		local trail = Effects.attach("BossMeteorTrail", rock)
+		local trail = Effects.attach(trailName or "BossMeteorTrail", rock)
 		TweenService:Create(rock, TweenInfo.new(fall, Enum.EasingStyle.Quad, Enum.EasingDirection.In), { Position = pos }):Play()
 		task.delay(fall, function()
 			trail:Stop()
 			rock:Destroy()
-			Effects.burst("BossMeteorImpact", pos)
 		end)
 	end)
 end
@@ -74,24 +75,26 @@ event.OnClientEvent:Connect(function(msg: any)
 			Effects.attach(msg.effect, jaw, { duration = msg.dur })
 		end
 	elseif k == "meteor" then
-		meteor(msg.pos, msg.land)
+		meteor(msg.pos, msg.land, msg.color, msg.trail, msg.size)
 	elseif k == "enrage" then
 		local model = msg.model :: Model?
 		if model then
-			Effects.burst("BossEnrage", model:GetPivot().Position)
+			local def = BossConfig.Bosses[model:GetAttribute("Boss") :: string]
+			Effects.burst(if def then def.fx.enrage else "BossEnrage", model:GetPivot().Position)
 		end
 	elseif k == "death" then
 		local model = msg.model :: Model?
 		if model then
+			local def = BossConfig.Bosses[model:GetAttribute("Boss") :: string]
 			task.delay(1.6, function()
-				Effects.burst("BossDeath", model:GetPivot().Position)
+				Effects.burst(if def then def.fx.death else "BossDeath", model:GetPivot().Position)
 				shake(model:GetPivot().Position, 1)
 			end)
 		end
 	end
 end)
 
--- ---------- volcano aura on each boss (rate x1.8 in phase 2) ----------
+-- ---------- aura on each boss (volcano smoke, tide mist...; rate x1.8 in phase 2) ----------
 local auras: { [Model]: Effects.Handle } = {}
 local function setAura(model: Model)
 	if auras[model] then
@@ -101,7 +104,7 @@ local function setAura(model: Model)
 	if not def then
 		return
 	end
-	local host = model:FindFirstChild("MagmaOrbit", true) or model.PrimaryPart
+	local host = model:FindFirstChild(def.auraBone, true) or model.PrimaryPart
 	if host and (host:IsA("Attachment") or host:IsA("BasePart")) then
 		auras[model] = Effects.attach(def.aura, host :: any, { scale = if (model:GetAttribute("Phase") or 1) >= 2 then 1.8 else 1 })
 	end

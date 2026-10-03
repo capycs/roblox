@@ -20,7 +20,7 @@ RULES
   assets/props and assets/v2/props (TreeOak, Bush, Bench, Well, ...), ALWAYS use the v2 one.
 - Don't edit generated files except to paste asset IDs: src/shared/AssetIds.luau (fill IDs
   only) and src/shared/Props/PropAnimData.luau (never). Gameplay numbers live in config
-  modules (CreatureConfig, AtmosphereConfig, SkyshipConfig, ShopCatalog).
+  modules (CreatureConfig, AtmosphereConfig, BossConfig, DungeonConfig, ShopCatalog).
 - No stock Roblox effects: no Sparkles, Fire, Smoke, Explosion, ForceField, or default
   particle textures. Use src/shared/Fx/Effects.luau presets only.
 - Server-authoritative gameplay; visuals (particles, outlines, wind, prop animation) are
@@ -41,12 +41,13 @@ STEP 1 - Import the 3D models (Import 3D, scale unit Stud, rotation 0, keep skin
   CreatureAnimator spins; they must survive the import.
 - v2 props: assets/v2/props/<Category>/<Name>/<Name>.glb -> ServerStorage/Props/<Category>/<Name>
   (categories Nature, Clutter, Eggs, Icons, Systems, Shops, Dungeon; full list in the reference below).
-  Exception: the boss lair assets/v2/props/Dungeon/PyroLair goes to ServerStorage/Dungeons/PyroLair
-  (DungeonService clones it per run); PyroGate goes in the lobby map.
+  Exception: the boss lairs (assets/v2/props/Dungeon/PyroLair, TideLair) go to ServerStorage/Dungeons
+  (DungeonService clones them per run); PyroGate and TideGate go in Haven.
   Every v2 GLB has a baked "Idle" clip, and PropAnimation.client animates the same parts
   in code (PropAnimData). Use the code path (it's distance-culled); don't also play the
   baked clip on the same model.
-- Skyship: assets/props/Skyship/Skyship/Skyship.glb -> ServerStorage/Props/Skyship
+- Skyship: optional decoration only now (SkyshipConfig.Enabled = false; boss runs replaced the
+  Wilds). assets/props/Skyship/Skyship/Skyship.glb -> ServerStorage/Props/Skyship if you want it.
 - Ambient critters: Butterfly, Bird (assets/props/Atmosphere/...) ->
   ReplicatedStorage/Props/Ambient
 - Every other prop: assets/props/<Category>/<Name>/<Name>.glb -> keep one master copy in
@@ -91,7 +92,7 @@ STEP 4 - Terrain and buildings textures
   materials. Props already carry their own palette texture; don't retexture them.
 
 STEP 5 - Markers and tags
-- Workspace/SkyshipDock (Part) where the skyship docks; Workspace/WildsDrop (Part).
+- No SkyshipDock / WildsDrop markers any more (the skyship ferry is off).
 - Workspace/Zones/<Preset>: invisible, non-colliding Parts named Haven, Verdant, Ember,
   Frost, Storm, Tide, Shadow covering each area (lighting, sky, ambience, wind swirls).
 - Tag every floating/sky island model "SkyIsland" (CollectionService). Anime wind swirls
@@ -144,29 +145,31 @@ STEP 7b - Creature data, abilities and mutations (server)
   server (damage = power x creature stat x Mutations.stat(muts, "ability")), then
   FxService.play the effect preset for everyone nearby.
 
-STEP 7b2 - Boss run: Pyrothrax's Lair (docs/BOSSES.md)
+STEP 7b2 - Boss runs: Pyrothrax (Fire) and Thalassor (Water) (docs/BOSSES.md)
+- The game is Haven (hub) + boss-run dungeons. If the place still has the old open maps
+  (the Wilds, skyship, expeditions), follow docs/GAME_REWORK.md to remove them first.
 - Bosses only appear in boss runs. The boss stands still in the middle of its lair guarding its
-  eggs and throws attacks; every attack is red circles on the floor that fill up before the hit.
-  Kill it, grab the eggs from the nest behind it, carry them out through the exit portal before
-  the cave collapses.
-- Import assets/creatures/Pyrothrax/Pyrothrax.glb into ServerStorage/Creatures/Pyrothrax like the
-  creatures (33 bones incl. MagmaOrbit; keep the rig). CreatureDemo skips it (it's a boss).
-- Import assets/v2/props/Dungeon/PyroLair/PyroLair.glb into ServerStorage/Dungeons/PyroLair (keep the
-  mesh names; "Floor" must stay its own MeshPart). Import assets/v2/props/Eggs/EggPyrothrax into
-  ServerStorage/Props/Eggs/EggPyrothrax. Run PropSetup.prepareAll on ServerStorage once more.
-- Put PyroGate (assets/v2/props/Dungeon/PyroGate) in the lobby and tag it "BossRunPortal". Players who
-  stand on its pad queue; after a 10s countdown the group (max 4) is sent into its own copy of the
-  lair built at y = 3000 (DungeonConfig.InstanceOrigin). Check the copy lines up: boss on the dark
-  disc in the middle, eggs on the nest, players arriving inside the gate. If the importer rotated
-  the lair, fix the template's rotation or add marker Parts (BossSpawn, PlayerSpawn, Exit,
-  EggSpot1..3) inside it.
-- Hook DungeonService.EggExtracted (player, eggName, info) to give the player the egg, and
-  BossService.Defeated / DungeonService.RunEnded for coins/gems. Damage the boss from
-  combat/abilities with BossService.damage(model, amount, player).
-- Circles, attack effects, meteors, camera shake, the volcano aura, the boss HP bar and the run HUD
-  are client-side already (BossFx.client, Dungeon.client). Check every attack (Bite, FireBreath,
-  TailSwipe, Stomp, Eruption in phase 2), Enrage at 50% HP, Death holding its pose, eggs unlocking,
-  carrying (eggs stack on your head, you slow down, getting hit drops them), the exit, the timer.
+  eggs; every attack is red circles on the floor that fill up before the hit. Kill it, grab the
+  eggs from the nest behind it, carry them out through the exit portal before the lair collapses.
+- Import assets/creatures/Pyrothrax and assets/creatures/Thalassor (.glb) into
+  ServerStorage/Creatures like the creatures (keep the rigs incl. MagmaOrbit / TideOrbit).
+  CreatureDemo skips them (they're bosses).
+- Lairs: assets/v2/props/Dungeon/PyroLair and TideLair -> ServerStorage/Dungeons/<name> (keep the
+  mesh names; "Floor" must stay its own MeshPart). Eggs: assets/v2/props/Eggs/EggPyrothrax and
+  EggThalassor -> ServerStorage/Props/Eggs/<name>. Run PropSetup.prepareAll on ServerStorage.
+- Gates: put PyroGate and TideGate in Haven (keep those names) and tag both "BossRunPortal".
+  Players who stand on a pad queue; after a 10s countdown the group (max 4) goes into its own
+  copy of the lair built at y = 3000. Check the copy lines up: boss on the dark disc in the
+  middle, eggs on the nest, players arriving inside the gate. If the importer rotated a lair, fix
+  the template's rotation or add marker Parts (BossSpawn, PlayerSpawn, Exit, EggSpot1..3).
+- Hook DungeonService.EggExtracted (player, eggName, info): give the egg and save info.egg; hatch
+  it with BossEggs.hatch(info.egg, rng) (leans toward the boss's element and mutations). Coins and
+  gems from BossService.Defeated / DungeonService.RunEnded. Boss damage from combat/abilities:
+  BossService.damage(model, amount, player).
+- Circles, attack effects, falling projectiles, camera shake, auras, the boss HP bar and the run
+  HUD are client-side already (BossFx.client, Dungeon.client). Check every attack of both bosses,
+  Enrage at 50% HP, Death holding its pose, eggs unlocking, carrying (eggs stack on your head, you
+  slow down, getting hit drops them), the exit and the timer.
 
 STEP 7c - Gameplay-system props (assets/v2/props/Systems), suggested wiring
 - ZoneGate: zone unlock gate (sign glows). TeleportPortal: zone teleport (ring spins).
@@ -213,7 +216,8 @@ STEP 8 - Check it
 | `assets/ui/icons/*.png` | 55 UI icons |
 | `assets/sky/{Day,Dusk}/` | skybox faces |
 | `src/` | all Luau (Rojo) |
-| `docs/BOSSES.md` | the Pyrothrax boss: attacks, timings, phases, mutations, API |
+| `docs/BOSSES.md` | boss runs: Pyrothrax and Thalassor, red-circle attacks, phases, mutations, boss egg odds, API |
+| `docs/GAME_REWORK.md` | prompt for removing the old maps and moving the place to Haven + boss runs |
 | `tools/art/` | the generators (three.js, run headless). `npm run build/props/textures/fx/icons/sky`, then `npm run prop-anim` and `npm run asset-ids` |
 
 ### Props by category
@@ -236,10 +240,10 @@ STEP 8 - Check it
 |---|---|---|
 | Nature | 7 | Bush, BushBerry, BushFlower, TreeBlossom, TreeOak, TreePine, TreePineSnow (Zelda-style leafy canopies; replace the originals) |
 | Clutter | 28 | Beehive, Bench, CampTent, ClayPot, ClayPotGroup, FenceSegment, FlowerBed, FlowerPot, GardenArch, HayBale, Haystack, HedgeCorner, HedgeStraight, LanternPost, LeafPile, PicnicSet, Pinwheel, PlanterBox, ProduceCrate, Pumpkins, Scarecrow, SteppingStones, StoneLantern, Topiary, VineCurtain, Well, Wheelbarrow, Woodpile |
-| Eggs | 15 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggPyrothrax (boss egg), EggRainbow, EggSpooky, EggStorm, EggVoid, EggVolcano |
+| Eggs | 16 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggPyrothrax (boss egg), EggRainbow, EggSpooky, EggStorm, EggThalassor (boss egg), EggVoid, EggVolcano |
 | Icons | 24 | Bolt3D, ChestRarity, Clover3D, Coin3D, CoinStack, Crown3D, Gem3D, GemPile, GiftBox3D, Heart3D, Hourglass3D, Key3D, Lock3D, Magnet3D, Paw3D, PotionCoins, PotionLuck, PotionPower, PotionSpeed, Scroll3D, Shield3D, Star3D, Ticket3D, Trophy3D |
 | Shops | 7 | EggShop, GemShop, Incubator, IncubatorStation, IndexKiosk, QuestBoard, UpgradeBooth (rebuilt: stone-and-plank bases, billowing scalloped awnings, swinging signs, lanterns, waving bunting, potted plants, v2 eggs on display; replace the originals) |
-| Dungeon | 2 | PyroGate (lobby entrance + queue pad), PyroLair (boss arena, goes in ServerStorage/Dungeons) |
+| Dungeon | 4 | PyroGate, TideGate (Haven entrances + queue pads), PyroLair, TideLair (boss arenas, go in ServerStorage/Dungeons) |
 | Systems | 17 | BreakableChest, BreakableCoins, BreakableGems, DailyChest, EggCapsule, EnchantAltar, Hoverboard, LeaderboardStand, PetPedestal, PotionShelf, RebirthShrine, SpawnPad, SpinWheel, TeleportPortal, TradingBooth, VIPRope, ZoneGate |
 
 ### Ground textures -> terrain material
@@ -260,7 +264,7 @@ Grass→Grass, GrassLush→LeafyGrass, Dirt→Ground, Mud→Mud, Rock→Rock, Cl
 | `Fx.client` | plays server-requested effects |
 | `BossFx.client` | boss red circles, attack effects, meteors, camera shake, volcano aura, boss HP bar |
 | `Dungeon.client` | boss-run HUD: objective, escape timer, carried eggs, banners |
-| `UIController.client` + `UI/` | HUD, shop, Index, incubators, hatch reveal, expedition HUD (demo data in `UI/State.luau`) |
+| `UIController.client` + `UI/` | HUD, shop, Index, incubators, hatch reveal (demo data in `UI/State.luau`) |
 
 ### Wind swirls
 

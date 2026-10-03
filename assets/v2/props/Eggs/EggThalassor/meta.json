@@ -1,0 +1,36 @@
+{
+  "name": "EggThalassor",
+  "category": "Eggs",
+  "whole": "wobble",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3818,
+        "verts": 4173
+      },
+      "Glow": {
+        "tris": 2058,
+        "verts": 3169
+      },
+      "GlowCore": {
+        "tris": 168,
+        "verts": 117
+      },
+      "HoverGlow": {
+        "tris": 420,
+        "verts": 297
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.857
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2.857
+  }
+}

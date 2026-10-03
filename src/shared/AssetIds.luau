@@ -223,6 +223,7 @@ AssetIds.Portraits = {
 	Solarion = "rbxassetid://0",
 	Sparkit = "rbxassetid://0",
 	Sylvanthorn = "rbxassetid://0",
+	Thalassor = "rbxassetid://0",
 	Tidefin = "rbxassetid://0",
 	Umbrapaw = "rbxassetid://0",
 	Voltgriff = "rbxassetid://0",
@@ -390,6 +391,13 @@ AssetIds.Mutations = {
 		Rainbow = "rbxassetid://0", -- Sylvanthorn_Rainbow
 		Shiny = "rbxassetid://0", -- Sylvanthorn_Shiny
 		Void = "rbxassetid://0", -- Sylvanthorn_Void
+	},
+	Thalassor = {
+		Crystal = "rbxassetid://0", -- Thalassor_Crystal
+		Golden = "rbxassetid://0", -- Thalassor_Golden
+		Rainbow = "rbxassetid://0", -- Thalassor_Rainbow
+		Shiny = "rbxassetid://0", -- Thalassor_Shiny
+		Void = "rbxassetid://0", -- Thalassor_Void
 	},
 	Tidefin = {
 		Crystal = "rbxassetid://0", -- Tidefin_Crystal

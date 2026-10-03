@@ -36,20 +36,39 @@ Mutations.Defs = {
 -- Rarest colour first, so a lucky roll keeps the best one.
 local COLOR_ORDER = { "Rainbow", "Void", "Crystal", "Golden", "Shiny" }
 
--- Roll mutations for a hatch. luck multiplies every chance (2 = twice as likely).
-function Mutations.roll(rng: Random, luck: number?): { string }
+-- Roll mutations for a hatch. luck multiplies every chance (2 = twice as likely); boost
+-- multiplies single mutations on top (boss eggs: { Golden = 8 } if the boss was Golden).
+function Mutations.roll(rng: Random, luck: number?, boost: { [string]: number }?): { string }
 	local l = luck or 1
+	local b = boost or {}
 	local out = {}
 	for _, name in COLOR_ORDER do
-		if rng:NextNumber() < l / Mutations.Defs[name].chance then
+		if rng:NextNumber() < l * (b[name] or 1) / Mutations.Defs[name].chance then
 			table.insert(out, name)
 			break
 		end
 	end
 	for _, name in { "Giant", "Supercharged" } do
-		if rng:NextNumber() < l / Mutations.Defs[name].chance then
+		if rng:NextNumber() < l * (b[name] or 1) / Mutations.Defs[name].chance then
 			table.insert(out, name)
 		end
+	end
+	return out
+end
+
+-- The real chance of each mutation for Mutations.roll(rng, luck, boost) (for odds UI).
+function Mutations.chances(luck: number?, boost: { [string]: number }?): { [string]: number }
+	local l = luck or 1
+	local b = boost or {}
+	local out = {}
+	local none = 1 -- chance no rarer colour mutation was rolled first
+	for _, name in COLOR_ORDER do
+		local p = math.min(1, l * (b[name] or 1) / Mutations.Defs[name].chance)
+		out[name] = none * p
+		none *= 1 - p
+	end
+	for _, name in { "Giant", "Supercharged" } do
+		out[name] = math.min(1, l * (b[name] or 1) / Mutations.Defs[name].chance)
 	end
 	return out
 end

@@ -342,5 +342,19 @@ return {
 			pulse = { Magma = 0.35, GlowCore = 0.2 },
 			yawOffset = 0,
 		},
+		Thalassor = {
+			element = "Water",
+			boss = true,
+			style = {
+				body = "boss", tip = "TailTip", attack = "bite",
+				dur = { Idle = 3.2, Walk = 1.6, Run = 1.0, Attack = 1.3, Roar = 2.8, FireBreath = 3.0, TailSwipe = 1.8, Stomp = 2.2, Eruption = 3.2, Enrage = 3.0, Hurt = 0.6, Death = 3.0 },
+				walk = { 0.32, 0.45, 0.3, 0.38 }, run = { 0.5, 0.6, 0.5, 0.55 }, bob = 0.8, roll = 0.06, sway = 0.7, tail = 0.9, neck = 0.45, headLow = -0.05,
+			},
+			glow = { Eyes = Color3.fromRGB(174, 248, 255), Tide = Color3.fromRGB(63, 230, 255), GlowCore = Color3.fromRGB(234, 254, 255), Water = Color3.fromRGB(95, 208, 255) },
+			light = { bone = "Spine", color = Color3.fromRGB(95, 230, 255), brightness = 3, range = 26 },
+			spinners = { { bone = "TideOrbit", axis = Vector3.new(0, 1, 0), speed = 0.7, bob = 0.3, bobFreq = 0.35 } },
+			pulse = { Tide = 0.35, GlowCore = 0.2, Water = 0.15 },
+			yawOffset = 0,
+		},
 	},
 }

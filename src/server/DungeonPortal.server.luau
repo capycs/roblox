@@ -1,6 +1,7 @@
 --!strict
--- Lobby side of boss runs. Tag the PyroGate model (or any Part) "BossRunPortal"; optional
--- attribute Run = "Pyrothrax" (the DungeonConfig.Runs key, Pyrothrax by default). Players who
+-- Lobby side of boss runs. Tag each gate model (PyroGate, TideGate) or any Part "BossRunPortal".
+-- The run comes from the Run attribute if set (a DungeonConfig.Runs key), else from the gate's
+-- name (Queue.GateRuns: PyroGate -> Pyrothrax, TideGate -> Thalassor). Players who
 -- stand within Queue.PadRadius of it join; a countdown starts with the first one and the
 -- whole group (up to the run's maxPlayers) is sent in together when it hits zero.
 -- Players come back next to the portal: a child Part/Attachment named "Return" sets the spot,
@@ -73,7 +74,7 @@ while true do
 		if not inst:IsA("Model") and not inst:IsA("BasePart") then
 			continue
 		end
-		local runName = (inst:GetAttribute("Run") :: string?) or "Pyrothrax"
+		local runName = (inst:GetAttribute("Run") :: string?) or Q.GateRuns[inst.Name] or "Pyrothrax"
 		local def = DungeonConfig.Runs[runName]
 		if not def then
 			continue

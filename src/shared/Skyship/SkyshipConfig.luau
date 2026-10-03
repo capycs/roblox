@@ -1,7 +1,11 @@
 --!strict
 -- Tunable numbers for the Haven <-> Wilds skyship.
+-- The Wilds were replaced by boss runs (DungeonService), so the skyship is off. Set Enabled = true
+-- to bring the ferry back; the Skyship model can still sit in Haven as decoration either way.
 
 return {
+	Enabled = false,
+
 	BoardingSeconds = 60, -- time docked at Haven with the ramp open
 	FlightSeconds = 8, -- departure flight before passengers arrive in the Wilds
 	ReturnSeconds = 6, -- ship flying back in to the dock

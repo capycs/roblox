@@ -139,14 +139,15 @@ end
 
 --[=[
 	One red circle: shows to `to`, lands after `delay` seconds, damages players in `who`.
-	opts: effect (Effects preset at landing), meteor (a burning rock falls onto it),
+	opts: effect (Effects preset at landing), meteor (a BossConfig Projectile that falls onto it),
 	shake, knockback, boss (passed to PlayerHit), cancelled (() -> boolean)
 ]=]
 function BossService.circle(to: { Player }, who: { Player }, pos: Vector3, radius: number, delay: number, damage: number, opts: { [string]: any }?)
 	local o = opts or {}
 	send(to, { k = "tele", pos = pos, radius = radius, dur = delay })
 	if o.meteor then
-		send(to, { k = "meteor", pos = pos, land = delay })
+		local pr = o.meteor :: BossConfig.Projectile
+		send(to, { k = "meteor", pos = pos, land = delay, color = pr.color, trail = pr.trail, size = pr.size, impact = o.effect })
 	end
 	task.delay(delay, function()
 		if o.cancelled and o.cancelled() then
@@ -216,6 +217,22 @@ local function circlesFor(st: State, atk: BossConfig.Attack, list: { Target }, t
 		for i = 1, field(st, atk, "count", 6) do
 			table.insert(out, { pos = randomSpot(st), after = (i - 1) * stagger })
 		end
+	elseif atk.pattern == "ring" then
+		-- rings round the boss, starting in front and sweeping round; each ring is offset half a
+		-- step from the last so there's always a gap
+		local n = field(st, atk, "count", 12)
+		local yaw = math.atan2(-look.X, -look.Z)
+		for r = 1, field(st, atk, "rings", 1) do
+			local dist = ((atk.distance or 18) + (r - 1) * (atk.ringGap or 12)) * scale
+			if dist > st.radius + 2 then
+				break
+			end
+			for i = 1, n do
+				local a = yaw + ((i - 1) + (r - 1) * 0.5) / n * math.pi * 2
+				local p = pos + Vector3.new(-math.sin(a), 0, -math.cos(a)) * dist
+				table.insert(out, { pos = onFloor(st, p), after = (i - 1) * stagger + (r - 1) * 0.25 })
+			end
+		end
 	end
 	return out
 end
@@ -238,7 +255,7 @@ local function runAttack(st: State, name: string, atk: BossConfig.Attack, target
 	local last = 0
 	for _, c in circles do
 		BossService.circle(to, who, c.pos, atk.radius * st.model:GetScale() / st.def.scale, first + c.after, dmg, {
-			effect = atk.effect, meteor = atk.meteor, shake = atk.shake, knockback = atk.knockback, boss = st.model,
+			effect = atk.effect, meteor = if atk.meteor then st.def.fx.projectile else nil, shake = atk.shake, knockback = atk.knockback, boss = st.model,
 			cancelled = function() return st.dead end,
 		})
 		last = math.max(last, c.after)

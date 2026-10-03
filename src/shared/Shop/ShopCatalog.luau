@@ -10,7 +10,7 @@ return {
 		{ id = "EggRare", name = "Rare Egg", rarity = "Rare", price = 3000, hatchSeconds = 600 },
 		{ id = "EggEpic", name = "Epic Egg", rarity = "Epic", price = 12000, hatchSeconds = 1800 },
 		{ id = "EggLegendary", name = "Legendary Egg", rarity = "Legendary", price = 50000, hatchSeconds = 3600 },
-		{ id = "EggMythic", name = "Mythic Egg", rarity = "Mythic", price = 0, hatchSeconds = 7200, expeditionOnly = true },
+		{ id = "EggMythic", name = "Mythic Egg", rarity = "Mythic", price = 0, hatchSeconds = 7200, bossRunOnly = true },
 	},
 	GemPacks = {
 		{ id = "GemsSmall", name = "Pouch of Gems", gems = 100, robux = 49, productId = 0, icon = "Gem" },

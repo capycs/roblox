@@ -1,6 +1,6 @@
 --!strict
 -- Haven HUD: currencies (top-left), menu buttons (left), offers (right), companion card
--- (bottom-left). Hidden on expeditions.
+-- (bottom-left). Hidden during boss runs (Dungeon.client shows the run HUD instead).
 
 local Kit = require(script.Parent.Parent.Kit)
 local Theme = require(script.Parent.Parent.Theme)
@@ -57,8 +57,11 @@ return function(gui: ScreenGui, ctx: any)
 		setHp(c.hp or 1, "Companion")
 	end)
 
-	State.on("mode", function(m)
-		root.Visible = m ~= "Expedition"
-	end)
+	local player = game:GetService("Players").LocalPlayer
+	local function inRun()
+		root.Visible = player:GetAttribute("DungeonRun") == nil
+	end
+	player:GetAttributeChangedSignal("DungeonRun"):Connect(inRun)
+	inRun()
 	return root
 end

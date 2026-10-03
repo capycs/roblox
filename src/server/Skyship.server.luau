@@ -13,6 +13,10 @@ local Shared = ReplicatedStorage:WaitForChild("Shared")
 local Config = require(Shared:WaitForChild("Skyship"):WaitForChild("SkyshipConfig"))
 local PropSetup = require(Shared:WaitForChild("Props"):WaitForChild("PropSetup"))
 
+if not Config.Enabled then
+	return -- boss runs replaced the Wilds; see SkyshipConfig.Enabled
+end
+
 local template: Instance? = game
 for _, n in Config.ShipTemplatePath do
 	template = template and (template :: Instance):FindFirstChild(n)
