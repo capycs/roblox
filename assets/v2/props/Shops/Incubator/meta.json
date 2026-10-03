@@ -1,0 +1,69 @@
+{
+  "name": "Incubator",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2176,
+        "verts": 2128
+      },
+      "HoverEgg": {
+        "tris": 3712,
+        "verts": 6654
+      },
+      "Glow": {
+        "tris": 320,
+        "verts": 198
+      },
+      "GlowCore": {
+        "tris": 140,
+        "verts": 99
+      },
+      "HoverGlow": {
+        "tris": 640,
+        "verts": 540
+      },
+      "Glass": {
+        "tris": 506,
+        "verts": 299
+      }
+    },
+    "parts": {
+      "HoverEgg": {
+        "pivot": [
+          0,
+          2.2,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.012501537799835205,
+          0.22043809294700623,
+          0.005508363246917725
+        ]
+      },
+      "HoverGlow": {
+        "pivot": [
+          0,
+          2.2,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.006770193576812744,
+          -0.007999002933502197,
+          0.04983571171760559
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

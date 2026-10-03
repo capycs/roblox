@@ -1,0 +1,81 @@
+{
+  "name": "IndexKiosk",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 4120,
+        "verts": 6338
+      },
+      "HoverRing": {
+        "tris": 224,
+        "verts": 145
+      },
+      "Rustle": {
+        "tris": 1800,
+        "verts": 4816
+      },
+      "HoverGem": {
+        "tris": 72,
+        "verts": 216
+      },
+      "Rune": {
+        "tris": 96,
+        "verts": 192
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 80
+      }
+    },
+    "parts": {
+      "HoverRing": {
+        "pivot": [
+          0,
+          7.2,
+          -0.2
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.07000023126602173,
+          0
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0.0034989118576049805,
+          -0.5780866555869579,
+          1.8816480040550232
+        ]
+      },
+      "HoverGem": {
+        "pivot": [
+          0,
+          7.2,
+          -0.2
+        ],
+        "pivotFromCenter": [
+          0,
+          0.2050001323223114,
+          1.4901161193847656e-8
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

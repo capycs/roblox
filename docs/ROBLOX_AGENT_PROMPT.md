@@ -37,7 +37,7 @@ STEP 1 - Import the 3D models (Import 3D, scale unit Stud, rotation 0, keep skin
   CrownHover, WispOrbit, RuneRing, Halo1-3, Crown, ElementOrbit, Rune*, Lure, AbyssOrbit) that
   CreatureAnimator spins; they must survive the import.
 - v2 props: assets/v2/props/<Category>/<Name>/<Name>.glb -> ServerStorage/Props/<Category>/<Name>
-  (categories Nature, Clutter, Eggs, Icons, Systems; full list in the reference below).
+  (categories Nature, Clutter, Eggs, Icons, Systems, Shops; full list in the reference below).
   Every v2 GLB has a baked "Idle" clip, and PropAnimation.client animates the same parts
   in code (PropAnimData). Use the code path (it's distance-culled); don't also play the
   baked clip on the same model.
@@ -176,7 +176,7 @@ STEP 8 - Check it
 |---|---|
 | `assets/creatures/<Name>/<Name>.glb` | 21 rigged creatures (skinned, 26-41 bones, baked clips incl. spinners). `previews/` has renders, `mutations/` the mutation textures. See `docs/CREATURES.md`. |
 | `assets/props/<Category>/<Name>/<Name>.glb` | 96 original props + `meta.json` (meshes, tris, animated parts, pivots) + `hero.png` |
-| `assets/v2/props/<Category>/<Name>/<Name>.glb` | 90 new props, each with a baked `Idle` clip. v2 wins on name clashes. |
+| `assets/v2/props/<Category>/<Name>/<Name>.glb` | 97 new props, each with a baked `Idle` clip. v2 wins on name clashes. |
 | `assets/v2/icons/*.png` | 24 transparent renders of the 3D icon models |
 | `assets/textures/<Name>/` | 14 tiling ground materials (color, normal, roughness), `index.json` maps them to terrain materials |
 | `assets/fx/textures/*.png` | 41 particle textures (white so they tint; flipbooks are 4x4 grids) |
@@ -208,6 +208,7 @@ STEP 8 - Check it
 | Clutter | 28 | Beehive, Bench, CampTent, ClayPot, ClayPotGroup, FenceSegment, FlowerBed, FlowerPot, GardenArch, HayBale, Haystack, HedgeCorner, HedgeStraight, LanternPost, LeafPile, PicnicSet, Pinwheel, PlanterBox, ProduceCrate, Pumpkins, Scarecrow, SteppingStones, StoneLantern, Topiary, VineCurtain, Well, Wheelbarrow, Woodpile |
 | Eggs | 14 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggRainbow, EggSpooky, EggStorm, EggVoid, EggVolcano |
 | Icons | 24 | Bolt3D, ChestRarity, Clover3D, Coin3D, CoinStack, Crown3D, Gem3D, GemPile, GiftBox3D, Heart3D, Hourglass3D, Key3D, Lock3D, Magnet3D, Paw3D, PotionCoins, PotionLuck, PotionPower, PotionSpeed, Scroll3D, Shield3D, Star3D, Ticket3D, Trophy3D |
+| Shops | 7 | EggShop, GemShop, Incubator, IncubatorStation, IndexKiosk, QuestBoard, UpgradeBooth (rebuilt: stone-and-plank bases, billowing scalloped awnings, swinging signs, lanterns, waving bunting, potted plants, v2 eggs on display; replace the originals) |
 | Systems | 17 | BreakableChest, BreakableCoins, BreakableGems, DailyChest, EggCapsule, EnchantAltar, Hoverboard, LeaderboardStand, PetPedestal, PotionShelf, RebirthShrine, SpawnPad, SpinWheel, TeleportPortal, TradingBooth, VIPRope, ZoneGate |
 
 ### Ground textures -> terrain material

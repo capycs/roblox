@@ -1,0 +1,99 @@
+{
+  "name": "IncubatorStation",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19712,
+        "verts": 25310
+      },
+      "Blades": {
+        "tris": 440,
+        "verts": 379
+      },
+      "Swing": {
+        "tris": 666,
+        "verts": 549
+      },
+      "Rustle": {
+        "tris": 1824,
+        "verts": 5180
+      },
+      "Flag": {
+        "tris": 208,
+        "verts": 250
+      },
+      "Glow": {
+        "tris": 2118,
+        "verts": 1481
+      },
+      "GlowCore": {
+        "tris": 420,
+        "verts": 297
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 80
+      },
+      "Glass": {
+        "tris": 1518,
+        "verts": 897
+      }
+    },
+    "parts": {
+      "Blades": {
+        "pivot": [
+          0,
+          4.3,
+          2.42
+        ],
+        "pivotFromCenter": [
+          -0.07161861658096313,
+          -0.5700001493096352,
+          0.12000004947185516
+        ]
+      },
+      "Swing": {
+        "pivot": [
+          0,
+          5,
+          -2.95
+        ],
+        "pivotFromCenter": [
+          0,
+          0.7099999189376831,
+          0.06849555671215057
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0.0014543533325195312,
+          -0.7911787778139114,
+          3.681392550468445
+        ]
+      }
+    },
+    "bones": [
+      "Flag1",
+      "Flag2",
+      "Flag3",
+      "Flag4"
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

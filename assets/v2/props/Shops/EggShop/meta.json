@@ -1,0 +1,111 @@
+{
+  "name": "EggShop",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19056,
+        "verts": 19764
+      },
+      "Swing": {
+        "tris": 724,
+        "verts": 555
+      },
+      "Rustle": {
+        "tris": 1968,
+        "verts": 5320
+      },
+      "HoverEgg": {
+        "tris": 1344,
+        "verts": 775
+      },
+      "Flag": {
+        "tris": 208,
+        "verts": 250
+      },
+      "Glow": {
+        "tris": 3062,
+        "verts": 2661
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 80
+      },
+      "HoverGlow": {
+        "tris": 384,
+        "verts": 231
+      },
+      "Glass": {
+        "tris": 1242,
+        "verts": 963
+      }
+    },
+    "parts": {
+      "Swing": {
+        "pivot": [
+          0,
+          5.2,
+          -2.95
+        ],
+        "pivotFromCenter": [
+          0,
+          0.7599999662488699,
+          0.06699995696544647
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0.015024185180664062,
+          -0.7739936858415604,
+          3.7157702445983887
+        ]
+      },
+      "HoverEgg": {
+        "pivot": [
+          0,
+          9.3,
+          0.4
+        ],
+        "pivotFromCenter": [
+          0,
+          0.12999990582466125,
+          -2.9802322387695312e-8
+        ]
+      },
+      "HoverGlow": {
+        "pivot": [
+          0,
+          9.3,
+          0.4
+        ],
+        "pivotFromCenter": [
+          0,
+          0.12999992817640305,
+          0
+        ]
+      }
+    },
+    "bones": [
+      "Flag1",
+      "Flag2",
+      "Flag3",
+      "Flag4"
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

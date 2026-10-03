@@ -1,0 +1,77 @@
+{
+  "name": "QuestBoard",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3236,
+        "verts": 6521
+      },
+      "Swing": {
+        "tris": 60,
+        "verts": 83
+      },
+      "Rustle": {
+        "tris": 864,
+        "verts": 2300
+      },
+      "HoverSignGlow": {
+        "tris": 24,
+        "verts": 48
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 80
+      }
+    },
+    "parts": {
+      "Swing": {
+        "pivot": [
+          1.6,
+          4.5,
+          -0.32
+        ],
+        "pivotFromCenter": [
+          0,
+          0.5294512510299683,
+          0.035980768501758575
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          3.3127609491348267,
+          -0.6709248870611191,
+          -1.1032889783382416
+        ]
+      },
+      "HoverSignGlow": {
+        "pivot": [
+          0,
+          7.6,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.1324998140335083,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

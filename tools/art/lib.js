@@ -12,12 +12,14 @@ const bump = (t, c, w) => Math.exp(-(((t - c) / w) ** 2));
 // Limb radius along its length: full at the shoulder/thigh, a slight knee, a slim ankle.
 export const limbR = (top, bot) => (t) => (bot + (top - bot) * (1 - ss(0.0, 0.5, t))) * (1 + 0.07 * bump(t, 0.52, 0.1) - 0.1 * bump(t, 0.82, 0.09)) * Math.sqrt(Math.sin(Math.PI * Math.min(Math.max(t, 0.001), 0.999)));
 
+export const paletteCells = (palette) => (palette.length > 16 ? 32 : 16);
 export function paletteCanvas(palette) {
   const c = document.createElement('canvas');
   c.width = 256; c.height = 16;
   const g = c.getContext('2d');
   g.fillStyle = '#ff00ff'; g.fillRect(0, 0, 256, 16);
-  palette.forEach(([, hex], i) => { g.fillStyle = hex; g.fillRect(i * 16, 0, 16, 16); });
+  const n = paletteCells(palette), w = 256 / n; // 16 cells, or 32 narrower ones for big prop palettes
+  palette.forEach(([, hex], i) => { g.fillStyle = hex; g.fillRect(i * w, 0, w, 16); });
   return c;
 }
 
@@ -410,7 +412,8 @@ export function buildProp(spec, materialFor) {
   const parts = spec.parts || {};
   const glowNames = new Set([...Object.keys(spec.glow || {}), ...Object.keys(spec.glass || {})]);
   const textured = ['Body', ...Object.keys(parts).filter((n) => !glowNames.has(n)), ...(spec.skinned || [])];
-  const cell = Object.fromEntries(spec.palette.map(([k], i) => [k, (i + 0.5) / 16]));
+  if (spec.palette.length > 32) throw new Error(spec.name + ': palette has more than 32 colours');
+  const N = paletteCells(spec.palette), cell = Object.fromEntries(spec.palette.map(([k], i) => [k, (i + 0.5) / N]));
   // optional bone chain for skinned parts (flags): spec.bones = [[name, parent|null, [x,y,z]], ...]
   const boneDefs = [['Root', null, [0, 0, 0]], ...(spec.bones || [])];
   const boneIndex = Object.fromEntries(boneDefs.map(([n], i) => [n, i]));

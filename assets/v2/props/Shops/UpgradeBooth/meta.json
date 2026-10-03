@@ -1,0 +1,107 @@
+{
+  "name": "UpgradeBooth",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 7864,
+        "verts": 13169
+      },
+      "Ring": {
+        "tris": 1248,
+        "verts": 1119
+      },
+      "Swing": {
+        "tris": 474,
+        "verts": 437
+      },
+      "Rustle": {
+        "tris": 1800,
+        "verts": 4816
+      },
+      "Flag": {
+        "tris": 6,
+        "verts": 15
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 80
+      },
+      "PotionR": {
+        "tris": 120,
+        "verts": 88
+      },
+      "PotionG": {
+        "tris": 180,
+        "verts": 132
+      },
+      "PotionB": {
+        "tris": 120,
+        "verts": 88
+      },
+      "PotionY": {
+        "tris": 120,
+        "verts": 88
+      },
+      "Glass": {
+        "tris": 900,
+        "verts": 594
+      }
+    },
+    "parts": {
+      "Ring": {
+        "pivot": [
+          0,
+          4.1,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          -0.28999997675418854,
+          0
+        ]
+      },
+      "Swing": {
+        "pivot": [
+          0,
+          4.6,
+          -3.2
+        ],
+        "pivotFromCenter": [
+          0,
+          0.7099999077618122,
+          0.033999964594841
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.009246349334716797,
+          -0.5758907618001103,
+          2.6027448177337646
+        ]
+      }
+    },
+    "bones": [
+      "Flag1",
+      "Flag2",
+      "Flag3",
+      "Flag4"
+    ],
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

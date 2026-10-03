@@ -1,0 +1,89 @@
+{
+  "name": "GemShop",
+  "category": "Shops",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 6844,
+        "verts": 11725
+      },
+      "Swing": {
+        "tris": 452,
+        "verts": 414
+      },
+      "Rustle": {
+        "tris": 1896,
+        "verts": 5104
+      },
+      "Glow": {
+        "tris": 396,
+        "verts": 1188
+      },
+      "GlowCore": {
+        "tris": 180,
+        "verts": 540
+      },
+      "Lamp": {
+        "tris": 48,
+        "verts": 80
+      },
+      "HoverGem": {
+        "tris": 24,
+        "verts": 72
+      },
+      "Glass": {
+        "tris": 192,
+        "verts": 130
+      }
+    },
+    "parts": {
+      "Swing": {
+        "pivot": [
+          0,
+          4.95,
+          -3.05
+        ],
+        "pivotFromCenter": [
+          0,
+          0.6599999442696571,
+          0.09999997168779373
+        ]
+      },
+      "Rustle": {
+        "pivot": [
+          0,
+          0.6,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.007941246032714844,
+          -0.7307705730199814,
+          3.5004687309265137
+        ]
+      },
+      "HoverGem": {
+        "pivot": [
+          0,
+          10.2,
+          0
+        ],
+        "pivotFromCenter": [
+          -0.012000024318695068,
+          -0.1699998676776886,
+          0
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

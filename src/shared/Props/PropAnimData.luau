@@ -131,8 +131,10 @@ return {
 			HoverEgg = Vector3.new(0, 0.42, 0),
 		},
 		EggShop = {
-			HoverSign = Vector3.new(0, -0.68, 0),
-			HoverSignGlow = Vector3.new(0, -0.7, 0),
+			Swing = Vector3.new(0, 0.76, 0.067),
+			Rustle = Vector3.new(0.015, -0.774, 3.7158),
+			HoverEgg = Vector3.new(0, 0.13, 0),
+			HoverGlow = Vector3.new(0, 0.13, 0),
 		},
 		EnchantAltar = {
 			HoverBook = Vector3.new(0, -0.228, 0),
@@ -164,8 +166,9 @@ return {
 			Rustle = Vector3.new(-0.0039, -2.9371, 0.0099),
 		},
 		GemShop = {
-			HoverRing = Vector3.new(0, 0, 0),
-			HoverGem = Vector3.new(0, -0.125, 0),
+			Swing = Vector3.new(0, 0.66, 0.1),
+			Rustle = Vector3.new(-0.0079, -0.7308, 3.5005),
+			HoverGem = Vector3.new(-0.012, -0.17, 0),
 		},
 		GrassTuft = {
 			Sway = Vector3.new(0.0756, -0.4822, -0.0333),
@@ -188,9 +191,19 @@ return {
 		HedgeStraight = {
 			Rustle = Vector3.new(-0.0001, -1.3316, -0.06),
 		},
+		Incubator = {
+			HoverEgg = Vector3.new(-0.0125, 0.2204, 0.0055),
+			HoverGlow = Vector3.new(-0.0068, -0.008, 0.0498),
+		},
+		IncubatorStation = {
+			Blades = Vector3.new(-0.0716, -0.57, 0.12),
+			Swing = Vector3.new(0, 0.71, 0.0685),
+			Rustle = Vector3.new(0.0015, -0.7912, 3.6814),
+		},
 		IndexKiosk = {
-			HoverRing = Vector3.new(0, 0, 0),
-			HoverGem = Vector3.new(0, -0.2, 0),
+			HoverRing = Vector3.new(0, -0.07, 0),
+			Rustle = Vector3.new(0.0035, -0.5781, 1.8816),
+			HoverGem = Vector3.new(0, 0.205, 0),
 		},
 		LanternPost = {
 			Lantern = Vector3.new(0, 0.685, 0),
@@ -226,6 +239,11 @@ return {
 		},
 		Pumpkins = {
 			Rustle = Vector3.new(0.0741, -0.08, -0.0311),
+		},
+		QuestBoard = {
+			Swing = Vector3.new(0, 0.5295, 0.036),
+			Rustle = Vector3.new(3.3128, -0.6709, -1.1033),
+			HoverSignGlow = Vector3.new(0, -0.1325, 0),
 		},
 		RebirthShrine = {
 			HoverOrb = Vector3.new(0, 0, 0),
@@ -273,6 +291,11 @@ return {
 		},
 		TreePineSnow = {
 			Sway = Vector3.new(-0.1288, -6.7708, -0.1225),
+		},
+		UpgradeBooth = {
+			Ring = Vector3.new(0, -0.29, 0),
+			Swing = Vector3.new(0, 0.71, 0.034),
+			Rustle = Vector3.new(-0.0092, -0.5759, 2.6027),
 		},
 		VIPRope = {
 			Swing = Vector3.new(0, 0.3006, 0),
