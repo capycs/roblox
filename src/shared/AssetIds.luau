@@ -205,10 +205,15 @@ AssetIds.Portraits = {
 	Emberfang = "rbxassetid://0",
 	Frostfawn = "rbxassetid://0",
 	Frostusk = "rbxassetid://0",
+	Geodillo = "rbxassetid://0",
 	Glaciarch = "rbxassetid://0",
+	Glimmoth = "rbxassetid://0",
+	Lumenjaw = "rbxassetid://0",
 	Mossback = "rbxassetid://0",
 	Nyxwing = "rbxassetid://0",
+	Pumpkit = "rbxassetid://0",
 	Shellsnap = "rbxassetid://0",
+	Shroomtoad = "rbxassetid://0",
 	Solarion = "rbxassetid://0",
 	Sparkit = "rbxassetid://0",
 	Sylvanthorn = "rbxassetid://0",
@@ -261,12 +266,33 @@ AssetIds.Mutations = {
 		Shiny = "rbxassetid://0", -- Frostusk_Shiny
 		Void = "rbxassetid://0", -- Frostusk_Void
 	},
+	Geodillo = {
+		Crystal = "rbxassetid://0", -- Geodillo_Crystal
+		Golden = "rbxassetid://0", -- Geodillo_Golden
+		Rainbow = "rbxassetid://0", -- Geodillo_Rainbow
+		Shiny = "rbxassetid://0", -- Geodillo_Shiny
+		Void = "rbxassetid://0", -- Geodillo_Void
+	},
 	Glaciarch = {
 		Crystal = "rbxassetid://0", -- Glaciarch_Crystal
 		Golden = "rbxassetid://0", -- Glaciarch_Golden
 		Rainbow = "rbxassetid://0", -- Glaciarch_Rainbow
 		Shiny = "rbxassetid://0", -- Glaciarch_Shiny
 		Void = "rbxassetid://0", -- Glaciarch_Void
+	},
+	Glimmoth = {
+		Crystal = "rbxassetid://0", -- Glimmoth_Crystal
+		Golden = "rbxassetid://0", -- Glimmoth_Golden
+		Rainbow = "rbxassetid://0", -- Glimmoth_Rainbow
+		Shiny = "rbxassetid://0", -- Glimmoth_Shiny
+		Void = "rbxassetid://0", -- Glimmoth_Void
+	},
+	Lumenjaw = {
+		Crystal = "rbxassetid://0", -- Lumenjaw_Crystal
+		Golden = "rbxassetid://0", -- Lumenjaw_Golden
+		Rainbow = "rbxassetid://0", -- Lumenjaw_Rainbow
+		Shiny = "rbxassetid://0", -- Lumenjaw_Shiny
+		Void = "rbxassetid://0", -- Lumenjaw_Void
 	},
 	Mossback = {
 		Crystal = "rbxassetid://0", -- Mossback_Crystal
@@ -282,12 +308,26 @@ AssetIds.Mutations = {
 		Shiny = "rbxassetid://0", -- Nyxwing_Shiny
 		Void = "rbxassetid://0", -- Nyxwing_Void
 	},
+	Pumpkit = {
+		Crystal = "rbxassetid://0", -- Pumpkit_Crystal
+		Golden = "rbxassetid://0", -- Pumpkit_Golden
+		Rainbow = "rbxassetid://0", -- Pumpkit_Rainbow
+		Shiny = "rbxassetid://0", -- Pumpkit_Shiny
+		Void = "rbxassetid://0", -- Pumpkit_Void
+	},
 	Shellsnap = {
 		Crystal = "rbxassetid://0", -- Shellsnap_Crystal
 		Golden = "rbxassetid://0", -- Shellsnap_Golden
 		Rainbow = "rbxassetid://0", -- Shellsnap_Rainbow
 		Shiny = "rbxassetid://0", -- Shellsnap_Shiny
 		Void = "rbxassetid://0", -- Shellsnap_Void
+	},
+	Shroomtoad = {
+		Crystal = "rbxassetid://0", -- Shroomtoad_Crystal
+		Golden = "rbxassetid://0", -- Shroomtoad_Golden
+		Rainbow = "rbxassetid://0", -- Shroomtoad_Rainbow
+		Shiny = "rbxassetid://0", -- Shroomtoad_Shiny
+		Void = "rbxassetid://0", -- Shroomtoad_Void
 	},
 	Solarion = {
 		Crystal = "rbxassetid://0", -- Solarion_Crystal

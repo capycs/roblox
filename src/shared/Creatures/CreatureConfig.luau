@@ -243,5 +243,48 @@ return {
 			pulse = { Glow = 0.3, Prism = 0.35, GlowCore = 0.15 },
 			yawOffset = 0,
 		},
+		-- five more: each with its own body plan
+		Shroomtoad = {
+			element = "Nature",
+			style = { tip = "TailTip", hop = 0.35, dur = { Idle = 2.8, Walk = 0.9, Run = 0.6, Attack = 1.0, Roar = 2.2 }, walk = { 0.35, 0.5, 0.55, 0.6 }, run = { 0.6, 0.7, 0.85, 0.9 }, gallop = { 0, 0, 0.5, 0.5 }, bob = 0.6, sway = 0.4, tail = 0.3 },
+			glow = { Eyes = Color3.fromRGB(255, 213, 106), Glow = Color3.fromRGB(184, 255, 106), GlowCore = Color3.fromRGB(244, 255, 200) },
+			light = { bone = "Spine", color = Color3.fromRGB(184, 255, 106), brightness = 1.2, range = 9 },
+			yawOffset = 0,
+		},
+		Pumpkit = {
+			element = "Fire",
+			style = { tip = "TailTip", dur = { Idle = 2.2, Walk = 0.8, Run = 0.48, Attack = 0.9, Roar = 2.0 }, bob = 1.2, sway = 1.1, tail = 1.2 },
+			glow = { Eyes = Color3.fromRGB(255, 224, 102), Glow = Color3.fromRGB(255, 154, 31), GlowCore = Color3.fromRGB(255, 242, 168) },
+			light = { bone = "Spine", color = Color3.fromRGB(255, 154, 58), brightness = 1.8, range = 11 },
+			pulse = { Glow = 0.25 },
+			yawOffset = 0,
+		},
+		Glimmoth = {
+			element = "Storm",
+			style = { tip = "TailTip", wings = true, wingRest = 0.18, dur = { Idle = 2.6, Walk = 0.9, Run = 0.5, Attack = 1.0, Roar = 2.2 }, bob = 1.1, tail = 1.0, sway = 1.0 },
+			glow = { Eyes = Color3.fromRGB(184, 244, 255), Glow = Color3.fromRGB(127, 232, 255), GlowCore = Color3.fromRGB(255, 247, 168) },
+			light = { bone = "Chest", color = Color3.fromRGB(127, 232, 255), brightness = 1.4, range = 10 },
+			pulse = { Glow = 0.3 },
+			yawOffset = 0,
+		},
+		Geodillo = {
+			element = "Shadow",
+			style = { tip = "TailTip", attack = "charge", dur = { Idle = 2.8, Walk = 1.0, Run = 0.55, Attack = 1.1, Roar = 2.4 }, walk = { 0.4, 0.55, 0.38, 0.45 }, bob = 0.8, roll = 0.04, sway = 0.7, tail = 0.7, headLow = -0.08 },
+			glow = { Eyes = Color3.fromRGB(226, 184, 255), Glow = Color3.fromRGB(181, 107, 255), GlowCore = Color3.fromRGB(240, 220, 255) },
+			light = { bone = "Spine", color = Color3.fromRGB(181, 107, 255), brightness = 1.4, range = 10 },
+			yawOffset = 0,
+		},
+		Lumenjaw = {
+			element = "Water",
+			style = { tip = "TailTip", dur = { Idle = 3.0, Walk = 1.2, Run = 0.7, Attack = 1.2, Roar = 2.6 }, walk = { 0.42, 0.6, 0.4, 0.5 }, bob = 1.0, roll = 0.04, sway = 1.2, tail = 1.4, headLow = -0.05 },
+			glow = { Eyes = Color3.fromRGB(159, 252, 255), Glow = Color3.fromRGB(56, 240, 255), GlowCore = Color3.fromRGB(230, 255, 255) },
+			light = { bone = "Lure", color = Color3.fromRGB(56, 240, 255), brightness = 2.4, range = 18 },
+			spinners = {
+				{ bone = "Lure", axis = Vector3.new(0, 1, 0), speed = 2.1, bob = 0.08, bobFreq = 0.66 },
+				{ bone = "AbyssOrbit", axis = Vector3.new(0, 1, 0), speed = 1.05, bob = 0.2, bobFreq = 0.33 },
+			},
+			pulse = { Glow = 0.35, GlowCore = 0.2 },
+			yawOffset = 0,
+		},
 	},
 }

@@ -1,0 +1,79 @@
+{
+  "name": "Pumpkit",
+  "element": "Fire",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 11984,
+        "verts": 7973
+      },
+      "Eyes": {
+        "tris": 24,
+        "verts": 44
+      },
+      "Glow": {
+        "tris": 991,
+        "verts": 902
+      },
+      "GlowCore": {
+        "tris": 507,
+        "verts": 278
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.2
+      },
+      {
+        "name": "Walk",
+        "duration": 0.8
+      },
+      {
+        "name": "Run",
+        "duration": 0.48
+      },
+      {
+        "name": "Attack",
+        "duration": 0.9
+      },
+      {
+        "name": "Roar",
+        "duration": 2
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 44,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.2
+    },
+    "Walk": {
+      "frames": 16,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.8
+    },
+    "Run": {
+      "frames": 10,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.48
+    },
+    "Attack": {
+      "frames": 18,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.9
+    },
+    "Roar": {
+      "frames": 40,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2
+    }
+  }
+}

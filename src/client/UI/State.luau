@@ -13,6 +13,11 @@ local values: { [string]: any } = {
 	index = { -- species -> { found, gold }; element comes from CreatureInfo, missing species = not found
 		Bramblepup = { found = true, gold = false },
 		Shellsnap = { found = true, gold = false },
+		Shroomtoad = { found = true, gold = false },
+		Pumpkit = { found = false },
+		Glimmoth = { found = false },
+		Geodillo = { found = false },
+		Lumenjaw = { found = false },
 		Sparkit = { found = true, gold = false },
 		Mossback = { found = false },
 		Tidefin = { found = true, gold = false },

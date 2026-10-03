@@ -31,6 +31,7 @@ export const DEFAULT_STYLE = {
   headLow: 0, // head pitch offset while moving (negative = lower)
   attack: 'bite', // 'bite' or 'charge' (head-down ram)
   wings: false,
+  hop: 0, // hopping gait (toads): front and back pairs move together and the body bounces
 };
 
 export function makeStyle(over = {}) {
@@ -71,8 +72,9 @@ export function pose(style, name, t) {
     if (S.wings) { wing(add, 'Upper', 0.06 * sin(p), 0.05); wing(add, 'Lower', 0.05 * sin(p - 0.6)); wing(add, 'Tip', 0.05 * sin(p - 1.2)); }
     flicker(1);
   } else if (name === 'Walk') {
-    legs(add, p, [0, 0.5, 0.5, 0], S.walk);
-    hips[1] = 0.035 * cos(2 * p) * S.bob;
+    legs(add, p, S.hop ? [0, 0, 0.5, 0.5] : [0, 0.5, 0.5, 0], S.walk);
+    hips[1] = 0.035 * cos(2 * p) * S.bob + S.hop * pos(sin(p));
+    if (S.hop) add('Hips', -0.12 * S.hop * cos(p));
     add('Spine', 0, 0.05 * sin(p) * S.sway); add('Chest', 0, -0.05 * sin(p) * S.sway, 0.03 * sin(p) + S.roll * sin(p));
     add('Neck', S.headLow * 0.5, S.neck * 0.1 * sin(p + 1));
     add('Head', 0.04 * sin(2 * p) + S.headLow * 0.5, -0.04 * sin(p), -S.roll * 0.7 * sin(p));
@@ -82,7 +84,7 @@ export function pose(style, name, t) {
     flicker(1);
   } else if (name === 'Run') {
     legs(add, p, S.gallop, S.run);
-    hips[1] = (0.12 * sin(p - 0.8) + 0.05) * S.bob;
+    hips[1] = (0.12 * sin(p - 0.8) + 0.05) * S.bob + S.hop * 1.4 * pos(sin(p));
     add('Hips', 0.08 * sin(p));
     add('Spine', 0.12 * sin(p), 0.04 * sin(p) * (S.sway - 1)); add('Chest', -0.1 * sin(p), 0, S.roll * 0.5 * sin(p));
     add('Neck', -0.15 + S.headLow * 0.5, S.neck * 0.06 * sin(p)); add('Head', -0.12 + 0.08 * sin(p + 1) + S.headLow * 0.5);

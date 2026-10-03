@@ -1,0 +1,79 @@
+{
+  "name": "Glimmoth",
+  "element": "Storm",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 18174,
+        "verts": 13873
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 944,
+        "verts": 1071
+      },
+      "GlowCore": {
+        "tris": 352,
+        "verts": 430
+      }
+    },
+    "bones": 32,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.6
+      },
+      {
+        "name": "Walk",
+        "duration": 0.9
+      },
+      {
+        "name": "Run",
+        "duration": 0.5
+      },
+      {
+        "name": "Attack",
+        "duration": 1
+      },
+      {
+        "name": "Roar",
+        "duration": 2.2
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    },
+    "Walk": {
+      "frames": 18,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.9
+    },
+    "Run": {
+      "frames": 10,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.5
+    },
+    "Attack": {
+      "frames": 20,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1
+    },
+    "Roar": {
+      "frames": 44,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.2
+    }
+  }
+}

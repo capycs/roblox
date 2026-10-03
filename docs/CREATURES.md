@@ -1,6 +1,6 @@
 # Eggnappers creatures
 
-16 creatures across 7 elements and 6 rarities. The design data (rarity, description, ability, passive) is in `src/shared/Creatures/CreatureInfo.luau`, which the game reads. This page is the readable version. Cooldowns and power are starting values to tune.
+21 creatures across 7 elements and 6 rarities. The design data (rarity, description, ability, passive) is in `src/shared/Creatures/CreatureInfo.luau`, which the game reads. This page is the readable version. Cooldowns and power are starting values to tune.
 
 Models: `assets/creatures/<Name>/<Name>.glb`. Animation setup: `src/shared/Creatures/CreatureConfig.luau`. Ability particles: the `effect` preset in `src/shared/Fx/Effects.luau`, with previews in `assets/fx/previews/<Effect>.png`.
 
@@ -18,6 +18,12 @@ A stout reef turtle with coral growing on its shell. Slow, stubborn and very har
 - **Tidal Shell** (`TidalShell`, 8s, 10 studs): pulls into its shell and spins, sending out a ring-shaped wave that knocks enemies back and soaks them (-20% speed for 3s).
 - Particles: flat splash ring, droplets fanning outward, a fast spinning swirl, bubbles.
 
+### Shroomtoad (Nature)
+A squat, warty toad carrying a giant spotted mushroom on its back. Hops everywhere and naps in the rain.
+- **Puffball Bounce** (`PuffballBounce`, 7s, 9 studs): hops high and belly-flops. Its cap shakes loose puffballs that burst into sleepy spore clouds (-30% enemy attack speed for 3s).
+- Moves with its own hopping gait (`hop` in its style): front and back legs move in pairs and the body bounces.
+- Particles: ground shockwave, puffball clouds rolling outward, floating glowing spores.
+
 ## Uncommon
 
 ### Sparkit (Storm)
@@ -29,6 +35,11 @@ A twitchy fox-squirrel with a lightning-bolt tail. Can't sit still for more than
 A sturdy boar wearing a garden of mossy stones and glowing spore flowers on its back.
 - **Spore Bloom** (`SporeBloom`, 12s, 12 studs): its back-flowers burst open and release glowing spores that heal you and nearby friendly creatures over 4s.
 - Particles: slowly turning rune circle on the ground, pink and green spores floating up, petals.
+
+### Pumpkit (Fire)
+A cat-shaped jack-o'-lantern with leaf ears and vine legs. A candle flame flickers inside its carved body.
+- **Lantern Pop** (`LanternPop`, 7s, 8 studs): its carved windows flare and it spits a glowing seed that bursts into a ring of candle flames, burning enemies and lighting the area for 5s.
+- Particles: impact flash, a ring of candle flames and warm glows, embers.
 
 ## Rare
 
@@ -47,6 +58,11 @@ A graceful snow deer with crystal antlers that chime in the wind.
 - **Aurora Veil** (`AuroraVeil`, 15s, 10 studs): raises a shimmering aurora that blocks the next hit for you and allies inside it, and slows enemies who walk in.
 - Particles: soft teal/violet glow, upright light shafts, drifting snowflakes, twinkles.
 
+### Glimmoth (Storm)
+A fluffy moth-fox with feathery antennae and four soft wings. Its glowing eye-spots crackle with static.
+- **Dazzle Dust** (`DazzleDust`, 10s, 11 studs): beats its wings and showers crackling eye-spot dust. Enemies caught in it are dazzled (40% of their attacks miss for 3s) and take small shocks.
+- Particles: a fountain of golden sparkles, eye-spot rings, sparks, drifting dust.
+
 ## Epic
 
 ### Emberfang (Fire)
@@ -63,6 +79,11 @@ A shaggy frost beast with tusks and a back full of ice crystals. Gentle until pr
 A shadow panther with a crescent moon on its brow. Moves without a sound.
 - **Shade Step** (`ShadeStep`, 7s): melts into a puddle of shadow and reappears behind its target, striking first for bonus damage.
 - Particles: a collapsing shadow vortex, wisps, dark smoke, violet embers. Play it where it vanishes and where it reappears.
+
+### Geodillo (Shadow)
+A stocky armadillo whose shell has cracked open into amethyst geodes. Digs tunnels and hoards shiny rocks.
+- **Geode Roll** (`GeodeRoll`, 9s, 7 studs): curls into an armoured ball and rolls forward, bowling enemies over. When it stops, its geodes burst and fire amethyst shards everywhere. Play the effect where it stops.
+- Particles: cracked ground, shockwave, amethyst shards and sparks fanning out, dust.
 
 ## Legendary
 
@@ -101,6 +122,13 @@ The ancient forest stag. A living tree grows from its head, spirit wisps circle 
 - Moving parts: `WispOrbit` (spirit wisps around the antler tree), `RuneRing` (floating rune ring); glow pulses.
 - Particles: rune circle, rising light shafts, leaves and petals bursting up, floating spores.
 
+### Lumenjaw (Water)
+A deep-sea angler-dragon. A glowing lure spins over its fanged underbite, its flanks glow with light spots and three jellyfish orbit it.
+- **Abyssal Lure** (`AbyssalLure`, 15s, 16 studs): its lure flares blinding cyan and pulls every enemy in range toward its jaws, then it lunges with a crushing bite that bursts into a wave of deep-sea water.
+- **Passive, Deep Glow:** lights up the area around you, and hidden eggs and chests nearby show on your screen.
+- Moving parts: `Lure` bulb spins and bobs on its stalk, `AbyssOrbit` carries 3 jellyfish around the body; glow pulses. Its `GlowLight` hangs on the lure.
+- Particles: a whirlpool and inward shockwave (the pull), bubbles, then a splash and droplet burst after 1s (the bite).
+
 ## Mythic
 
 ### Aetherion (Prism)
@@ -126,7 +154,7 @@ Rolled at hatch with `Mutations.roll(rng, luck)` on the server, then `Mutations.
 
 `luck` multiplies every chance (luck potions, game passes). Combine stats with `Mutations.stat(muts, "power")`.
 
-Colour mutations swap the Body texture. The textures are in `assets/creatures/<Name>/mutations/<Mutation>.png` (80 total, 5 per creature): upload them and paste the IDs into `AssetIds.Mutations`. Before then the glow recolour and auras still work, but the body stays its normal colour. Preview renders: `assets/creatures/<Name>/previews/mut_<Mutation>.png`.
+Colour mutations swap the Body texture. The textures are in `assets/creatures/<Name>/mutations/<Mutation>.png` (105 total, 5 per creature): upload them and paste the IDs into `AssetIds.Mutations`. Before then the glow recolour and auras still work, but the body stays its normal colour. Preview renders: `assets/creatures/<Name>/previews/mut_<Mutation>.png`.
 
 ## Triangle budget
 
@@ -150,3 +178,8 @@ Every mesh is under Roblox's 20k-per-MeshPart limit.
 | Glaciarch | 17,176 | 19,980 | 34 |
 | Sylvanthorn | 19,844 | 24,296 | 28 |
 | Aetherion | 19,816 | 36,524 | 41 |
+| Shroomtoad | 14,898 | 15,962 | 26 |
+| Pumpkit | 11,984 | 13,506 | 26 |
+| Glimmoth | 18,174 | 20,174 | 32 |
+| Geodillo | 19,664 | 21,092 | 26 |
+| Lumenjaw | 18,676 | 24,690 | 28 |

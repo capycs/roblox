@@ -1,0 +1,79 @@
+{
+  "name": "Lumenjaw",
+  "element": "Water",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 18676,
+        "verts": 13235
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 4678,
+        "verts": 3716
+      },
+      "GlowCore": {
+        "tris": 632,
+        "verts": 533
+      }
+    },
+    "bones": 28,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3
+      },
+      {
+        "name": "Walk",
+        "duration": 1.2
+      },
+      {
+        "name": "Run",
+        "duration": 0.7
+      },
+      {
+        "name": "Attack",
+        "duration": 1.2
+      },
+      {
+        "name": "Roar",
+        "duration": 2.6
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "Walk": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Run": {
+      "frames": 14,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.7
+    },
+    "Attack": {
+      "frames": 24,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.2
+    },
+    "Roar": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    }
+  }
+}

@@ -147,6 +147,26 @@
     "frames": 28,
     "duration": 2.2
   },
+  "PuffballBounce": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "LanternPop": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "DazzleDust": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "GeodeRoll": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "AbyssalLure": {
+    "frames": 30,
+    "duration": 2
+  },
   "PrismJudgement": {
     "frames": 30,
     "duration": 2

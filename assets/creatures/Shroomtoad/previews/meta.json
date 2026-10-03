@@ -1,0 +1,75 @@
+{
+  "name": "Shroomtoad",
+  "element": "Nature",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 14898,
+        "verts": 10558
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 360,
+        "verts": 350
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.8
+      },
+      {
+        "name": "Walk",
+        "duration": 0.9
+      },
+      {
+        "name": "Run",
+        "duration": 0.6
+      },
+      {
+        "name": "Attack",
+        "duration": 1
+      },
+      {
+        "name": "Roar",
+        "duration": 2.2
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 56,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.8
+    },
+    "Walk": {
+      "frames": 18,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.9
+    },
+    "Run": {
+      "frames": 12,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.6
+    },
+    "Attack": {
+      "frames": 20,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1
+    },
+    "Roar": {
+      "frames": 44,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.2
+    }
+  }
+}

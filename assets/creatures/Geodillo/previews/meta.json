@@ -1,0 +1,79 @@
+{
+  "name": "Geodillo",
+  "element": "Shadow",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19664,
+        "verts": 17926
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 468,
+        "verts": 1404
+      },
+      "GlowCore": {
+        "tris": 256,
+        "verts": 216
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.8
+      },
+      {
+        "name": "Walk",
+        "duration": 1
+      },
+      {
+        "name": "Run",
+        "duration": 0.55
+      },
+      {
+        "name": "Attack",
+        "duration": 1.1
+      },
+      {
+        "name": "Roar",
+        "duration": 2.4
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 56,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.8
+    },
+    "Walk": {
+      "frames": 20,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1
+    },
+    "Run": {
+      "frames": 11,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.55
+    },
+    "Attack": {
+      "frames": 22,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.1
+    },
+    "Roar": {
+      "frames": 48,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.4
+    }
+  }
+}

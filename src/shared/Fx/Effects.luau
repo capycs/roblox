@@ -377,6 +377,44 @@ local ABILITIES: { [string]: { colors: { Color3 }?, light: { range: number, brig
 		rise("SoftGlow", 20, 1, 3, 1),
 		twinkles(20, 12, 1.3),
 	} },
+	-- the second wave of creatures
+	PuffballBounce = { colors = { Color3.fromRGB(236, 255, 190), Color3.fromRGB(184, 255, 106) }, emitters = {
+		flash(6), floor("Shockwave", 18, 0.45), floor("Ring", 14, 0.6, 0, 1),
+		{ tex = "Puff", count = 10, life = NumberRange.new(0.8, 1.2), size = popSize(2.2), speed = NumberRange.new(10, 18), spread = RING_OUT, drag = 3, accel = Vector3.new(0, 2, 0), rotSpeed = NumberRange.new(-60, 60), transparency = seq(0, 0.1, 0.7, 0.3, 1, 1), light = 0.3, colorIndex = 1 },
+		{ tex = "SoftGlow", count = 16, life = NumberRange.new(1.4, 2), size = seq(0, 0, 0.2, 0.9, 1, 0), speed = NumberRange.new(2, 6), drag = 1, accel = Vector3.new(0, 1.5, 0), transparency = INOUT, light = 1, colorIndex = 2, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(10, 0.2, 10), delay = 0.1 },
+		{ tex = "Mote", count = 20, life = NumberRange.new(1.5, 2.2), size = seq(0, 0, 0.2, 0.35, 1, 0), speed = NumberRange.new(1, 3), accel = Vector3.new(0, 2, 0), transparency = INOUT, light = 1, colorIndex = 2, delay = 0.2 },
+		smoke(5, 2, 1),
+	} },
+	LanternPop = { colors = { Color3.fromRGB(255, 226, 120), Color3.fromRGB(255, 130, 30) }, light = { range = 18, brightness = 4 }, emitters = {
+		flash(8), impact(7, 1), floor("Shockwave", 16, 0.45),
+		{ tex = "FlameFlipbook", count = 12, life = NumberRange.new(0.8, 1.1), size = popSize(1.6), speed = NumberRange.new(12, 16), spread = RING_OUT, drag = 4, accel = Vector3.new(0, 6, 0), flipbook = FLIP, light = 1 },
+		{ tex = "SoftGlow", count = 8, life = NumberRange.new(1.2, 1.6), size = seq(0, 0, 0.15, 2.2, 1, 0), speed = NumberRange.new(12, 16), spread = RING_OUT, drag = 4, transparency = INOUT, light = 1, colorIndex = 1 },
+		{ tex = "Ember", count = 24, life = NumberRange.new(0.6, 1.1), size = grow(0.5, 0.1), speed = NumberRange.new(12, 26), drag = 2.5, accel = Vector3.new(0, 8, 0), light = 1, colorIndex = 2 },
+		smoke(4, 1.8, 2),
+	} },
+	DazzleDust = { colors = ELEMENT_COLORS.Storm, emitters = {
+		{ tex = "SparkleFlipbook", count = 40, life = NumberRange.new(0.9, 1.4), size = grow(1.4, 0.8), speed = NumberRange.new(14, 26), spread = Vector2.new(70, 70), drag = 2.5, accel = Vector3.new(0, -3, 0), flipbook = FLIP, flipOnce = true, light = 1, color = Color3.fromRGB(255, 247, 168) },
+		{ tex = "Ring", count = 6, life = NumberRange.new(0.6, 0.9), size = popSize(2), speed = NumberRange.new(10, 20), spread = Vector2.new(60, 60), drag = 3, transparency = FADE, light = 1, colorIndex = 2 },
+		{ tex = "Spark", count = 20, life = NumberRange.new(0.2, 0.35), size = grow(1.4, 0.2), speed = NumberRange.new(20, 34), drag = 5, face = PARA, light = 1, colorIndex = 2, delay = 0.15 },
+		{ tex = "Mote", count = 30, life = NumberRange.new(1.4, 2), size = seq(0, 0, 0.2, 0.3, 1, 0), speed = NumberRange.new(4, 10), drag = 1.5, transparency = INOUT, light = 1, color = Color3.fromRGB(200, 210, 255) },
+	} },
+	GeodeRoll = { colors = ELEMENT_COLORS.Shadow, emitters = {
+		flash(8), impact(7, 2), floor("CrackBurst", 12, 0.8), floor("Shockwave", 16, 0.45),
+		{ tex = "Gem", count = 18, life = NumberRange.new(0.7, 1), size = popSize(1.1), speed = NumberRange.new(24, 38), spread = RING_OUT, drag = 2, accel = Vector3.new(0, -30, 0), rotSpeed = NumberRange.new(-300, 300), raw = true },
+		{ tex = "Spark", count = 20, life = NumberRange.new(0.3, 0.45), size = grow(1.8, 0.3), speed = NumberRange.new(30, 46), spread = RING_OUT, drag = 4, face = PARA, light = 1, colorIndex = 2 },
+		{ tex = "Dust", count = 10, life = NumberRange.new(0.6, 0.9), size = grow(0.8, 0.4), speed = NumberRange.new(14, 22), spread = Vector2.new(60, 20), accel = Vector3.new(0, -40, 0), color = Color3.fromRGB(110, 90, 120) },
+		smoke(6, 2.2, 1),
+	} },
+	AbyssalLure = { colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(56, 240, 255) }, light = { range = 30, brightness = 6 }, emitters = {
+		flash(14),
+		{ tex = "Swirl", count = 1, life = NumberRange.new(1.1), size = seq(0, 30, 1, 3), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(-480), transparency = INOUT, light = 1, colorIndex = 2 },
+		{ tex = "Shockwave", count = 1, life = NumberRange.new(0.9), size = seq(0, 32, 1, 2), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, transparency = seq(0, 0.2, 1, 1), light = 1, colorIndex = 1 },
+		{ tex = "Bubble", count = 30, life = NumberRange.new(1, 1.4), size = popSize(0.9), speed = NumberRange.new(2, 6), accel = Vector3.new(0, 6, 0), light = 0.4, colorIndex = 2, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(30, 0.2, 30) },
+		impact(14, 2),
+		{ tex = "Splash", count = 1, life = NumberRange.new(0.6), size = grow(5, 16), transparency = POP, light = 0.5, delay = 1.0 },
+		{ tex = "Droplet", count = 36, life = NumberRange.new(0.7, 1), size = grow(1.1, 0.5), speed = NumberRange.new(26, 44), spread = Vector2.new(70, 70), accel = Vector3.new(0, -70, 0), face = PARA, light = 0.4, delay = 1.0 },
+		twinkles(24, 18, 1.4),
+	} },
 	-- Mythic: every element at once, then a rainbow nova.
 	PrismJudgement = { colors = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 140, 230) }, light = { range = 50, brightness = 10 }, emitters = {
 		flash(24),

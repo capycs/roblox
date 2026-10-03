@@ -31,6 +31,7 @@ export type Style = {
 	attack: string?,
 	wings: boolean?,
 	wingRest: number?, -- wings held part-open in every clip (radians)
+	hop: number?, -- hopping gait (toads): front and back pairs move together and the body bounces
 }
 
 local DEFAULT = {
@@ -47,6 +48,7 @@ local DEFAULT = {
 	headLow = 0,
 	attack = "bite", -- or "charge"
 	wings = false,
+	hop = 0,
 }
 
 local LOOPS = { Idle = true, Walk = true, Run = true, Attack = false, Roar = false }
@@ -149,8 +151,11 @@ function Quadruped.make(over: Style?)
 			end
 			flicker(1)
 		elseif name == "Walk" then
-			legs({ 0, 0.5, 0.5, 0 }, S.walk)
-			hy = 0.035 * cos(2 * p) * S.bob
+			legs(if S.hop > 0 then { 0, 0, 0.5, 0.5 } else { 0, 0.5, 0.5, 0 }, S.walk)
+			hy = 0.035 * cos(2 * p) * S.bob + S.hop * math.max(0, sin(p))
+			if S.hop > 0 then
+				add("Hips", -0.12 * S.hop * cos(p))
+			end
 			add("Spine", 0, 0.05 * sin(p) * S.sway)
 			add("Chest", 0, -0.05 * sin(p) * S.sway, 0.03 * sin(p) + S.roll * sin(p))
 			add("Neck", S.headLow * 0.5, S.neck * 0.1 * sin(p + 1))
@@ -165,7 +170,7 @@ function Quadruped.make(over: Style?)
 			flicker(1)
 		elseif name == "Run" then
 			legs(S.gallop, S.run)
-			hy = (0.12 * sin(p - 0.8) + 0.05) * S.bob
+			hy = (0.12 * sin(p - 0.8) + 0.05) * S.bob + S.hop * 1.4 * math.max(0, sin(p))
 			add("Hips", 0.08 * sin(p))
 			add("Spine", 0.12 * sin(p), 0.04 * sin(p) * (S.sway - 1))
 			add("Chest", -0.1 * sin(p), 0, S.roll * 0.5 * sin(p))

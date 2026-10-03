@@ -33,6 +33,12 @@ local Info: { [string]: Info } = {
 		ability = { name = "Tidal Shell", effect = "TidalShell", cooldown = 8, power = 0.9, radius = 10,
 			description = "Pulls into its shell and spins, sending out a ring-shaped wave that knocks enemies back and soaks them (-20% speed for 3 seconds)." },
 	},
+	Shroomtoad = {
+		element = "Nature", rarity = "Common",
+		description = "A squat, warty toad carrying a giant spotted mushroom on its back. Hops everywhere and naps in the rain.",
+		ability = { name = "Puffball Bounce", effect = "PuffballBounce", cooldown = 7, power = 0.8, radius = 9,
+			description = "Hops high and belly-flops. Its cap shakes loose puffballs that burst into sleepy spore clouds, making enemies drowsy (-30% attack speed for 3 seconds)." },
+	},
 	-- Uncommon
 	Sparkit = {
 		element = "Storm", rarity = "Uncommon",
@@ -45,6 +51,12 @@ local Info: { [string]: Info } = {
 		description = "A sturdy boar wearing a garden of mossy stones and glowing spore flowers on its back.",
 		ability = { name = "Spore Bloom", effect = "SporeBloom", cooldown = 12, power = 1.0, radius = 12,
 			description = "Its back-flowers burst open and release glowing spores that heal you and nearby friendly creatures over 4 seconds." },
+	},
+	Pumpkit = {
+		element = "Fire", rarity = "Uncommon",
+		description = "A cat-shaped jack-o'-lantern with leaf ears and vine legs. A candle flame flickers inside its carved body.",
+		ability = { name = "Lantern Pop", effect = "LanternPop", cooldown = 7, power = 1.0, radius = 8,
+			description = "Its carved windows flare and it spits a glowing pumpkin seed that bursts into a ring of candle flames, burning enemies and lighting up the area for 5 seconds." },
 	},
 	-- Rare
 	Tidefin = {
@@ -65,6 +77,12 @@ local Info: { [string]: Info } = {
 		ability = { name = "Aurora Veil", effect = "AuroraVeil", cooldown = 15, power = 1.0, radius = 10,
 			description = "Raises a shimmering aurora that blocks the next hit for you and allies inside it, and slows enemies who walk in." },
 	},
+	Glimmoth = {
+		element = "Storm", rarity = "Rare",
+		description = "A fluffy moth-fox with feathery antennae and four soft wings. Its glowing eye-spots crackle with static.",
+		ability = { name = "Dazzle Dust", effect = "DazzleDust", cooldown = 10, power = 1.1, radius = 11,
+			description = "Beats its wings and showers crackling eye-spot dust. Enemies caught in it are dazzled (40% of their attacks miss for 3 seconds) and take small shocks." },
+	},
 	-- Epic
 	Emberfang = {
 		element = "Fire", rarity = "Epic",
@@ -83,6 +101,12 @@ local Info: { [string]: Info } = {
 		description = "A shadow panther with a crescent moon on its brow. Moves without a sound.",
 		ability = { name = "Shade Step", effect = "ShadeStep", cooldown = 7, power = 1.5,
 			description = "Melts into a puddle of shadow and reappears behind its target, striking first for bonus damage." },
+	},
+	Geodillo = {
+		element = "Shadow", rarity = "Epic",
+		description = "A stocky armadillo whose shell has cracked open into amethyst geodes. Digs tunnels and hoards shiny rocks.",
+		ability = { name = "Geode Roll", effect = "GeodeRoll", cooldown = 9, power = 1.5, radius = 7,
+			description = "Curls into an armoured ball and rolls forward, bowling enemies over. When it stops, its geodes burst and fire amethyst shards in every direction." },
 	},
 	-- Legendary
 	Voltgriff = {
@@ -119,6 +143,13 @@ local Info: { [string]: Info } = {
 		ability = { name = "Ancient Grove", effect = "AncientGrove", cooldown = 16, power = 1.8, radius = 16,
 			description = "Stamps the ground and a ring of glowing saplings bursts up, rooting enemies in place and healing allies for 5 seconds." },
 		passive = "Overgrowth: you and your creatures slowly regenerate health in grassy areas.",
+	},
+	Lumenjaw = {
+		element = "Water", rarity = "Legendary",
+		description = "A deep-sea angler-dragon. A glowing lure spins over its fanged underbite, its flanks glow with light spots and three jellyfish orbit it.",
+		ability = { name = "Abyssal Lure", effect = "AbyssalLure", cooldown = 15, power = 2.1, radius = 16,
+			description = "Its lure flares blinding cyan and pulls every enemy in range toward its jaws, then it lunges with a crushing bite that bursts into a wave of deep-sea water." },
+		passive = "Deep Glow: lights up the area around you, and hidden eggs and chests nearby show on your screen.",
 	},
 	-- Mythic
 	Aetherion = {
