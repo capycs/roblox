@@ -20,6 +20,7 @@ local ELEMENT_COLORS = {
 	Shadow = { Color3.fromRGB(243, 205, 255), Color3.fromRGB(165, 77, 255) },
 	Water = { Color3.fromRGB(220, 255, 255), Color3.fromRGB(56, 226, 255) },
 	Nature = { Color3.fromRGB(196, 255, 122), Color3.fromRGB(95, 174, 69) },
+	Cosmic = { Color3.fromRGB(255, 236, 170), Color3.fromRGB(134, 120, 255) },
 }
 Effects.RarityColors = {
 	Common = Color3.fromRGB(201, 194, 180),
@@ -243,6 +244,11 @@ local HITS: { [string]: { EmitterDef } } = {
 		{ tex = "Petal", count = 8, life = NumberRange.new(0.8, 1.2), size = grow(0.6, 0.6), speed = NumberRange.new(10, 18), spread = Vector2.new(180, 180), drag = 3, accel = Vector3.new(0, -6, 0), rotSpeed = NumberRange.new(-300, 300), raw = true },
 		{ tex = "SparkleFlipbook", count = 8, life = NumberRange.new(0.5, 0.8), size = grow(0.9, 0.5), speed = NumberRange.new(6, 12), spread = Vector2.new(180, 180), drag = 3, flipbook = FLIP, flipOnce = true, light = 1 },
 	},
+	Cosmic = {
+		{ tex = "Star", count = 12, life = NumberRange.new(0.6, 0.9), size = popSize(1.2), speed = NumberRange.new(10, 20), drag = 3, rotSpeed = NumberRange.new(-260, 260), light = 0.8 },
+		{ tex = "SparkleFlipbook", count = 14, life = NumberRange.new(0.5, 0.8), size = grow(1, 0.6), speed = NumberRange.new(8, 16), drag = 3, flipbook = FLIP, flipOnce = true, light = 1, colorIndex = 2 },
+		{ tex = "Swirl", count = 1, life = NumberRange.new(0.5), size = grow(2, 7), rotSpeed = NumberRange.new(300), transparency = POP, light = 1, colorIndex = 2 },
+	},
 }
 for element, shapes in HITS do
 	local emitters: { EmitterDef } = { flash(7), impact(6, 1), ring(11) }
@@ -414,6 +420,39 @@ local ABILITIES: { [string]: { colors: { Color3 }?, light: { range: number, brig
 		{ tex = "Splash", count = 1, life = NumberRange.new(0.6), size = grow(5, 16), transparency = POP, light = 0.5, delay = 1.0 },
 		{ tex = "Droplet", count = 36, life = NumberRange.new(0.7, 1), size = grow(1.1, 0.5), speed = NumberRange.new(26, 44), spread = Vector2.new(70, 70), accel = Vector3.new(0, -70, 0), face = PARA, light = 0.4, delay = 1.0 },
 		twinkles(24, 18, 1.4),
+	} },
+	-- new body types
+	Haymaker = { colors = { Color3.fromRGB(255, 240, 150), Color3.fromRGB(255, 225, 74) }, light = { range = 16, brightness = 4 }, emitters = {
+		flash(8), impact(9, 1), floor("Shockwave", 14, 0.4),
+		{ tex = "Bolt", count = 5, life = NumberRange.new(0.18, 0.28), size = popSize(3), speed = NumberRange.new(6, 12), rot = NumberRange.new(-50, 50), transparency = seq(0, 0, 0.5, 0, 0.6, 0.8, 0.7, 0, 1, 1), light = 1 },
+		{ tex = "SpeedLine", count = 10, life = NumberRange.new(0.2, 0.3), size = grow(3, 1), speed = NumberRange.new(30, 46), spread = Vector2.new(20, 20), face = PARA, transparency = FADE, light = 0.6, emitDir = Enum.NormalId.Front },
+		{ tex = "Spark", count = 24, life = NumberRange.new(0.25, 0.4), size = grow(1.5, 0.2), speed = NumberRange.new(26, 42), drag = 5, face = PARA, light = 1, colorIndex = 2 },
+		{ tex = "Star", count = 6, life = NumberRange.new(0.6, 0.9), size = popSize(1), speed = NumberRange.new(10, 16), spread = Vector2.new(60, 60), accel = Vector3.new(0, -20, 0), rotSpeed = NumberRange.new(-300, 300), light = 0.6 },
+	} },
+	MoonScreech = { colors = { Color3.fromRGB(255, 246, 200), Color3.fromRGB(168, 140, 255) }, emitters = {
+		{ tex = "Ring", count = 4, life = NumberRange.new(0.7, 0.9), size = grow(2, 16), speed = NumberRange.new(0.01), spread = Vector2.zero, transparency = seq(0, 0.2, 1, 1), light = 1, colorIndex = 2 },
+		{ tex = "Ring", count = 3, life = NumberRange.new(0.8, 1.0), size = grow(1, 12), speed = NumberRange.new(0.01), spread = Vector2.zero, transparency = seq(0, 0.3, 1, 1), light = 1, colorIndex = 1, delay = 0.15 },
+		{ tex = "Wisp", count = 14, life = NumberRange.new(0.8, 1.2), size = grow(1.5, 3), speed = NumberRange.new(8, 16), drag = 2, rotSpeed = NumberRange.new(-120, 120), transparency = FADE, light = 0.6, color = Color3.fromRGB(110, 90, 200) },
+		{ tex = "SparkleFlipbook", count = 24, life = NumberRange.new(0.8, 1.2), size = grow(1.1, 0.6), speed = NumberRange.new(10, 20), drag = 2, flipbook = FLIP, flipOnce = true, light = 1 },
+		{ tex = "Leaf", count = 10, life = NumberRange.new(1, 1.4), size = popSize(0.9), speed = NumberRange.new(10, 16), drag = 3, accel = Vector3.new(0, -6, 0), rotSpeed = NumberRange.new(-300, 300), color = Color3.fromRGB(90, 80, 170) },
+	} },
+	PearlSurge = { colors = { Color3.fromRGB(230, 255, 255), Color3.fromRGB(111, 244, 255) }, light = { range = 20, brightness = 4 }, emitters = {
+		flash(10), floor("Splash", 20, 0.7), floor("Ring", 18, 0.8),
+		{ tex = "SoftGlow", count = 1, life = NumberRange.new(0.9), size = seq(0, 2, 0.3, 6, 1, 8), transparency = seq(0, 0, 0.5, 0.3, 1, 1), light = 1 },
+		{ tex = "Droplet", count = 32, life = NumberRange.new(0.7, 1), size = grow(1, 0.5), speed = NumberRange.new(20, 34), spread = Vector2.new(70, 70), accel = Vector3.new(0, -60, 0), face = PARA, light = 0.4 },
+		{ tex = "Bubble", count = 24, life = NumberRange.new(1, 1.6), size = popSize(0.9), speed = NumberRange.new(4, 10), drag = 1.5, accel = Vector3.new(0, 6, 0), light = 0.4, colorIndex = 2 },
+		{ tex = "Petal", count = 12, life = NumberRange.new(1.2, 1.6), size = popSize(0.7), speed = NumberRange.new(8, 14), drag = 2, accel = Vector3.new(0, -4, 0), rotSpeed = NumberRange.new(-300, 300), color = Color3.fromRGB(255, 140, 100) },
+		twinkles(20, 14, 1.2),
+	} },
+	Starfall = { colors = { Color3.fromRGB(255, 240, 176), Color3.fromRGB(134, 120, 255) }, light = { range = 50, brightness = 10 }, emitters = {
+		{ tex = "LightShaft", count = 8, life = NumberRange.new(0.5, 0.8), size = grow(3, 5), rot = NumberRange.new(0), squash = NumberSequence.new(-2), speed = NumberRange.new(0.01), spread = Vector2.zero, transparency = seq(0, 0, 0.7, 0.3, 1, 1), light = 1, shape = Enum.ParticleEmitterShape.Disc, shapeSize = Vector3.new(30, 0.2, 30) },
+		flash(22), impact(18, 1),
+		{ tex = "RuneCircle", count = 1, life = NumberRange.new(2), size = grow(10, 40), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(40), transparency = seq(0, 0, 0.7, 0.3, 1, 1), light = 1, colorIndex = 2 },
+		floor("CrackBurst", 30, 1.4, 0, 1), floor("Shockwave", 46, 0.9),
+		{ tex = "Star", count = 40, life = NumberRange.new(1.4, 2), size = popSize(1.8), speed = NumberRange.new(20, 44), spread = Vector2.new(70, 70), drag = 1, accel = Vector3.new(0, -16, 0), rotSpeed = NumberRange.new(-200, 200), light = 0.9 },
+		{ tex = "Swirl", count = 2, life = NumberRange.new(1.4), size = grow(6, 26), speed = NumberRange.new(0.01), spread = Vector2.zero, face = PERP, rotSpeed = NumberRange.new(-240), transparency = INOUT, light = 1, color = Color3.fromRGB(255, 122, 217) },
+		{ tex = "SparkleFlipbook", count = 60, life = NumberRange.new(1, 1.6), size = grow(2, 1), speed = NumberRange.new(16, 40), drag = 2.5, flipbook = FLIP, flipOnce = true, light = 1, colorIndex = 2 },
+		smoke(12, 4, 2),
 	} },
 	-- Mythic: every element at once, then a rainbow nova.
 	PrismJudgement = { colors = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 140, 230) }, light = { range = 50, brightness = 10 }, emitters = {

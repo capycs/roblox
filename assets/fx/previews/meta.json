@@ -167,6 +167,22 @@
     "frames": 30,
     "duration": 2
   },
+  "Haymaker": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "MoonScreech": {
+    "frames": 24,
+    "duration": 1.6
+  },
+  "PearlSurge": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "Starfall": {
+    "frames": 30,
+    "duration": 2.2
+  },
   "PrismJudgement": {
     "frames": 30,
     "duration": 2

@@ -286,5 +286,46 @@ return {
 			pulse = { Glow = 0.35, GlowCore = 0.2 },
 			yawOffset = 0,
 		},
+		-- new body types: style.body = "biped" (Front* bones are arms, Back* legs) or "fish"
+		Boltaroo = {
+			element = "Storm",
+			style = { body = "biped", hop = 0.45, attack = "punch", guard = true, tip = "TailTip", dur = { Idle = 2.0, Walk = 0.7, Run = 0.45, Attack = 0.8, Roar = 2.2 }, bob = 1.2, tail = 0.6, armSwing = 0.15, sway = 0.6 },
+			glow = { Eyes = Color3.fromRGB(191, 246, 255), Glow = Color3.fromRGB(255, 225, 74), GlowCore = Color3.fromRGB(255, 255, 255) },
+			light = { bone = "Chest", color = Color3.fromRGB(255, 225, 74), brightness = 1.2, range = 9 },
+			yawOffset = 0,
+		},
+		Lunowl = {
+			element = "Shadow",
+			style = { body = "biped", wings = true, attack = "peck", tip = "TailTip", dur = { Idle = 2.6, Walk = 0.8, Run = 0.5, Attack = 0.9, Roar = 2.4 }, walk = { 0.3, 0.4, 0.45, 0.5 }, run = { 0.5, 0.6, 0.7, 0.75 }, bob = 1.3, sway = 1.4, roll = 0.07, tail = 0.5, armSwing = 0 },
+			glow = { Eyes = Color3.fromRGB(255, 210, 74), Glow = Color3.fromRGB(168, 188, 255), GlowCore = Color3.fromRGB(255, 246, 200) },
+			light = { bone = "Head", color = Color3.fromRGB(255, 210, 74), brightness = 1.2, range = 9 },
+			pulse = { GlowCore = 0.3 },
+			yawOffset = 0,
+		},
+		Koiren = {
+			element = "Water",
+			style = { body = "fish", tip = "TailTip", dur = { Idle = 2.4, Walk = 1.2, Run = 0.7, Attack = 1.0, Roar = 2.4 }, tail = 1.0 },
+			glow = { Eyes = Color3.fromRGB(191, 248, 255), Glow = Color3.fromRGB(111, 244, 255), GlowCore = Color3.fromRGB(230, 255, 255) },
+			light = { bone = "Jaw", color = Color3.fromRGB(111, 244, 255), brightness = 1.4, range = 10 },
+			pulse = { Glow = 0.3, GlowCore = 0.25 },
+			yawOffset = 0,
+		},
+		Astralith = {
+			element = "Cosmic",
+			style = { body = "biped", hover = 0.22, attack = "slam", tip = "TailTip", dur = { Idle = 3.4, Walk = 1.6, Run = 1.0, Attack = 1.6, Roar = 3.0 }, bob = 0.5, tail = 0.6, sway = 0.4, armSwing = 0.3 },
+			glow = {
+				Eyes = Color3.fromRGB(255, 240, 176), Glow = Color3.fromRGB(134, 164, 255), GlowCore = Color3.fromRGB(255, 255, 255),
+				Nebula = Color3.fromRGB(255, 122, 217), Star = Color3.fromRGB(255, 211, 107),
+			},
+			light = { bone = "Chest", color = Color3.fromRGB(166, 180, 255), brightness = 3, range = 22 },
+			spinners = {
+				{ bone = "Galaxy", axis = Vector3.new(0, 0, 1), speed = 1.4 },
+				{ bone = "Monoliths", axis = Vector3.new(0, 0, 1), speed = -0.35 },
+				{ bone = "StarOrbit", axis = Vector3.new(0, 1, 0), speed = 0.8, bob = 0.2, bobFreq = 0.3 },
+				{ bone = "Crown", axis = Vector3.new(0, 1, 0), speed = 1.0, bob = 0.1, bobFreq = 0.5 },
+			},
+			pulse = { Glow = 0.3, Star = 0.25, Nebula = 0.35, GlowCore = 0.15 },
+			yawOffset = 0,
+		},
 	},
 }

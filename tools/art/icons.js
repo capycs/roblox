@@ -42,7 +42,7 @@ function twinkle(g, x, y, r, color = '#ffffff') { starP(x, y, 4, r, r * 0.22)(g)
 function rays(g, color, n = 12, a = 0.18) { g.save(); g.translate(128, 128); for (let k = 0; k < n; k++) { g.rotate((Math.PI * 2) / n); const gr = g.createLinearGradient(0, 0, 0, -128); gr.addColorStop(0, rgb(hx(color), a)); gr.addColorStop(1, rgb(hx(color), 0)); g.fillStyle = gr; g.beginPath(); g.moveTo(-10, 0); g.lineTo(0, -128); g.lineTo(10, 0); g.fill(); } g.restore(); }
 const premium = (g, color, sparkles = [[206, 52, 16], [52, 196, 11]]) => { aura(g, color); rays(g, color); return () => sparkles.forEach(([x, y, r]) => twinkle(g, x, y, r)); };
 
-const ELEMENT = { Fire: '#ff7a2e', Storm: '#3fb4ff', Ice: '#7fd8f5', Shadow: '#9a5ae6', Water: '#2aa0d8', Nature: '#62c043', Prism: '#ff5aa8' };
+const ELEMENT = { Fire: '#ff7a2e', Storm: '#3fb4ff', Ice: '#7fd8f5', Shadow: '#9a5ae6', Water: '#2aa0d8', Nature: '#62c043', Prism: '#ff5aa8', Cosmic: '#4a40b0' };
 const RARITY = { Common: '#c9c0b0', Uncommon: '#6fcf4a', Rare: '#4f8fe6', Epic: '#a65ae6', Legendary: '#f5b52e', Mythic: '#ff4f9a' };
 
 function elementGlyph(g, el) {
@@ -51,6 +51,11 @@ function elementGlyph(g, el) {
   if (el === 'Ice') { for (let k = 0; k < 3; k++) { const a = (k * Math.PI) / 3; L(g, (c) => { c.beginPath(); c.moveTo(128 - Math.cos(a) * 66, 128 - Math.sin(a) * 66); c.lineTo(128 + Math.cos(a) * 66, 128 + Math.sin(a) * 66); }, '#ffffff', 12); } P(g, circ(128, 128, 16), '#ffffff', { lw: 8, gloss: false }); }
   if (el === 'Shadow') P(g, (c) => { c.beginPath(); c.arc(128, 128, 62, 0.6, Math.PI * 2 - 0.6); c.arc(160, 128, 48, Math.PI * 2 - 1.15, 1.15, true); c.closePath(); }, '#eadcff', { lw: 10, gloss: false });
   if (el === 'Water') P(g, (c) => { c.beginPath(); c.moveTo(128, 56); c.bezierCurveTo(160, 100, 182, 126, 182, 146); c.arc(128, 146, 54, 0, Math.PI); c.bezierCurveTo(74, 126, 96, 100, 128, 56); c.closePath(); }, '#dcffff', { lw: 10, gloss: false });
+  if (el === 'Cosmic') { // ringed planet with a star
+    P(g, circ(118, 134, 46), '#ffd36b', { lw: 10, gloss: [104, 118, 16, 10] });
+    L(g, (c) => { c.beginPath(); c.ellipse(118, 136, 82, 24, -0.35, 0.15, Math.PI - 0.15, false); }, '#fff0c0', 8);
+    P(g, starP(186, 74, 4, 30, 8), '#ffffff', { lw: 6, gloss: false, noShadow: true });
+  }
   if (el === 'Prism') { // faceted gem with rainbow facets
     const fac = [['#ff6e6e', [[128, 52], [86, 104], [128, 112]]], ['#ffc85a', [[128, 52], [170, 104], [128, 112]]], ['#8cff78', [[86, 104], [128, 112], [128, 204]]], ['#64dcff', [[170, 104], [128, 112], [128, 204]]]];
     for (const [col, pts] of fac) P(g, poly(pts), col, { lw: 0.01, gloss: false, noShadow: true });

@@ -1,0 +1,79 @@
+{
+  "name": "Boltaroo",
+  "element": "Storm",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 10604,
+        "verts": 6940
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 320,
+        "verts": 904
+      },
+      "GlowCore": {
+        "tris": 40,
+        "verts": 120
+      }
+    },
+    "bones": 26,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      },
+      {
+        "name": "Walk",
+        "duration": 0.7
+      },
+      {
+        "name": "Run",
+        "duration": 0.45
+      },
+      {
+        "name": "Attack",
+        "duration": 0.8
+      },
+      {
+        "name": "Roar",
+        "duration": 2.2
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 40,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2
+    },
+    "Walk": {
+      "frames": 14,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.7
+    },
+    "Run": {
+      "frames": 9,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.45
+    },
+    "Attack": {
+      "frames": 16,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.8
+    },
+    "Roar": {
+      "frames": 44,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.2
+    }
+  }
+}

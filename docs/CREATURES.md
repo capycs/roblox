@@ -1,6 +1,6 @@
 # Eggnappers creatures
 
-21 creatures across 7 elements and 6 rarities. The design data (rarity, description, ability, passive) is in `src/shared/Creatures/CreatureInfo.luau`, which the game reads. This page is the readable version. Cooldowns and power are starting values to tune.
+25 creatures across 8 elements and 6 rarities, with four body types: four-legged, two-legged (boxer, bird) and hovering titan, and fish. The design data (rarity, description, ability, passive) is in `src/shared/Creatures/CreatureInfo.luau`, which the game reads. This page is the readable version. Cooldowns and power are starting values to tune.
 
 Models: `assets/creatures/<Name>/<Name>.glb`. Animation setup: `src/shared/Creatures/CreatureConfig.luau`. Ability particles: the `effect` preset in `src/shared/Fx/Effects.luau`, with previews in `assets/fx/previews/<Effect>.png`.
 
@@ -41,6 +41,12 @@ A cat-shaped jack-o'-lantern with leaf ears and vine legs. A candle flame flicke
 - **Lantern Pop** (`LanternPop`, 7s, 8 studs): its carved windows flare and it spits a glowing seed that bursts into a ring of candle flames, burning enemies and lighting the area for 5s.
 - Particles: impact flash, a ring of candle flames and warm glows, embers.
 
+### Boltaroo (Storm)
+An upright kangaroo boxer with crackling blue gloves and a battery in its pouch. Bounces on its toes and never backs down from a fight.
+- **Haymaker** (`Haymaker`, 7s, 6 studs): winds up and throws a lightning-charged punch that knocks the target back and zaps anything standing behind it.
+- Body type: **biped** (stands on two legs, arms in a boxing guard, hops when it moves). Its attack is a straight jab.
+- Particles: flash, comic impact, bolts, speed lines and sparks, a few stars.
+
 ## Rare
 
 ### Tidefin (Water)
@@ -63,6 +69,12 @@ A fluffy moth-fox with feathery antennae and four soft wings. Its glowing eye-sp
 - **Dazzle Dust** (`DazzleDust`, 10s, 11 studs): beats its wings and showers crackling eye-spot dust. Enemies caught in it are dazzled (40% of their attacks miss for 3s) and take small shocks.
 - Particles: a fountain of golden sparkles, eye-spot rings, sparks, drifting dust.
 
+### Lunowl (Shadow)
+A round midnight owl with huge amber eyes and a glowing crescent on its forehead. Only truly wakes up after dark.
+- **Moon Screech** (`MoonScreech`, 10s, 12 studs): lets out an eerie screech in rings of moonlight. Enemies hit are confused for 2s and wander the wrong way.
+- Body type: **biped bird** (two legs, wings instead of arms, waddles, flaps when it runs, pecks when it attacks).
+- Particles: expanding moonlight rings, dark wisps, sparkles, drifting indigo feathers.
+
 ## Epic
 
 ### Emberfang (Fire)
@@ -84,6 +96,12 @@ A shadow panther with a crescent moon on its brow. Moves without a sound.
 A stocky armadillo whose shell has cracked open into amethyst geodes. Digs tunnels and hoards shiny rocks.
 - **Geode Roll** (`GeodeRoll`, 9s, 7 studs): curls into an armoured ball and rolls forward, bowling enemies over. When it stops, its geodes burst and fire amethyst shards everywhere. Play the effect where it stops.
 - Particles: cracked ground, shockwave, amethyst shards and sparks fanning out, dust.
+
+### Koiren (Water)
+A koi that swims through the air as if it were water, trailing ribbon fins. It guards a glowing pearl under its chin.
+- **Pearl Surge** (`PearlSurge`, 11s, 12 studs): its pearl flares and bursts into a ring of water that knocks enemies away and heals nearby friendly creatures a little.
+- Body type: **fish** (floats about 1.8 studs up, the whole body undulates, fins flap, whiskers drift; it lunges to attack and leaps in an arc to roar).
+- Particles: pearl glow, flat splash ring, droplets, bubbles, koi-coloured petals.
 
 ## Legendary
 
@@ -138,6 +156,20 @@ The Prism Sovereign, a celestial lion-dragon of every element. Three halos spin 
 - Moving parts: `Halo1-3` spin on different axes, a hovering `Crown`, `ElementOrbit` with 6 element orbs (fire, storm, ice, shadow, water, nature), 4 rune discs under the paws; feathered and crystal wings held open; heavy glow pulse.
 - Particles: rainbow sun rays, a rainbow rune circle and nova, then one burst of every element (flames, snowflakes, bolts, wisps, droplets, leaves), then rainbow stars and sparkles.
 
+### Astralith (Cosmic)
+The Star Colossus. A floating titan of obsidian and gold with a galaxy turning in its chest, six rune monoliths circling behind it and three tiny planets orbiting its waist.
+- **Starfall** (`Starfall`, 25s, 24 studs): raises both fists to the sky and calls down a shower of falling stars, then slams the ground with a shockwave that stuns every enemy in range for 2s.
+- **Passive, Gravity Well:** enemies near it move 25% slower, and coins and eggs nearby are pulled toward you.
+- Body type: **hovering biped titan**. No legs: its lower body is a column of drifting rock shards that sway as it floats. Its fists float free of the forearms, with glowing orbs at the elbows. Its attack is a two-fisted overhead slam; its roar spreads its arms wide.
+- Moving parts:
+  - `Galaxy` spins inside the chest ring.
+  - `Monoliths`, a halo of six rune pillars, turns slowly behind it.
+  - `StarOrbit` carries three planets around its waist (a lava planet with a glowing ring, a ringed blue planet, a green planet).
+  - `Crown`, five crystal shards, hovers and turns above the helm.
+  - Glow pulses on the constellation lines, nebula ribbons and visor.
+- Its own element, **Cosmic** (deep blue and gold, `ElementCosmic` icon, `CosmicHit` effect).
+- Particles: falling light shafts, a giant flash, a rune circle, ground crack and shockwave, a shower of stars, pink nebula swirls, sparkles.
+
 ## Mutations
 
 Rolled at hatch with `Mutations.roll(rng, luck)` on the server, then `Mutations.applyServer(model, muts)`. The client (`MutationVisuals.client`) does the visuals. A creature gets at most one colour mutation, and can also be Giant and/or Supercharged.
@@ -154,7 +186,7 @@ Rolled at hatch with `Mutations.roll(rng, luck)` on the server, then `Mutations.
 
 `luck` multiplies every chance (luck potions, game passes). Combine stats with `Mutations.stat(muts, "power")`.
 
-Colour mutations swap the Body texture. The textures are in `assets/creatures/<Name>/mutations/<Mutation>.png` (105 total, 5 per creature): upload them and paste the IDs into `AssetIds.Mutations`. Before then the glow recolour and auras still work, but the body stays its normal colour. Preview renders: `assets/creatures/<Name>/previews/mut_<Mutation>.png`.
+Colour mutations swap the Body texture. The textures are in `assets/creatures/<Name>/mutations/<Mutation>.png` (125 total, 5 per creature): upload them and paste the IDs into `AssetIds.Mutations`. Before then the glow recolour and auras still work, but the body stays its normal colour. Preview renders: `assets/creatures/<Name>/previews/mut_<Mutation>.png`.
 
 ## Triangle budget
 
@@ -183,3 +215,7 @@ Every mesh is under Roblox's 20k-per-MeshPart limit.
 | Glimmoth | 18,174 | 20,174 | 32 |
 | Geodillo | 19,664 | 21,092 | 26 |
 | Lumenjaw | 18,676 | 24,690 | 28 |
+| Boltaroo | 10,604 | 11,668 | 26 |
+| Lunowl | 12,584 | 13,720 | 32 |
+| Koiren | 10,532 | 13,244 | 26 |
+| Astralith | 18,030 | 26,550 | 30 |

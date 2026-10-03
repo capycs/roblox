@@ -24,6 +24,7 @@ AssetIds.Icons = {
 	EggMythic = "rbxassetid://0",
 	EggRare = "rbxassetid://0",
 	EggUncommon = "rbxassetid://0",
+	ElementCosmic = "rbxassetid://0",
 	ElementFire = "rbxassetid://0",
 	ElementIce = "rbxassetid://0",
 	ElementNature = "rbxassetid://0",
@@ -200,7 +201,9 @@ AssetIds.Textures = {
 --[Portraits] assets/creatures/<Name>/previews/hero.png (Index cards, hatch reveal)
 AssetIds.Portraits = {
 	Aetherion = "rbxassetid://0",
+	Astralith = "rbxassetid://0",
 	Blazehorn = "rbxassetid://0",
+	Boltaroo = "rbxassetid://0",
 	Bramblepup = "rbxassetid://0",
 	Emberfang = "rbxassetid://0",
 	Frostfawn = "rbxassetid://0",
@@ -208,7 +211,9 @@ AssetIds.Portraits = {
 	Geodillo = "rbxassetid://0",
 	Glaciarch = "rbxassetid://0",
 	Glimmoth = "rbxassetid://0",
+	Koiren = "rbxassetid://0",
 	Lumenjaw = "rbxassetid://0",
+	Lunowl = "rbxassetid://0",
 	Mossback = "rbxassetid://0",
 	Nyxwing = "rbxassetid://0",
 	Pumpkit = "rbxassetid://0",
@@ -231,12 +236,26 @@ AssetIds.Mutations = {
 		Shiny = "rbxassetid://0", -- Aetherion_Shiny
 		Void = "rbxassetid://0", -- Aetherion_Void
 	},
+	Astralith = {
+		Crystal = "rbxassetid://0", -- Astralith_Crystal
+		Golden = "rbxassetid://0", -- Astralith_Golden
+		Rainbow = "rbxassetid://0", -- Astralith_Rainbow
+		Shiny = "rbxassetid://0", -- Astralith_Shiny
+		Void = "rbxassetid://0", -- Astralith_Void
+	},
 	Blazehorn = {
 		Crystal = "rbxassetid://0", -- Blazehorn_Crystal
 		Golden = "rbxassetid://0", -- Blazehorn_Golden
 		Rainbow = "rbxassetid://0", -- Blazehorn_Rainbow
 		Shiny = "rbxassetid://0", -- Blazehorn_Shiny
 		Void = "rbxassetid://0", -- Blazehorn_Void
+	},
+	Boltaroo = {
+		Crystal = "rbxassetid://0", -- Boltaroo_Crystal
+		Golden = "rbxassetid://0", -- Boltaroo_Golden
+		Rainbow = "rbxassetid://0", -- Boltaroo_Rainbow
+		Shiny = "rbxassetid://0", -- Boltaroo_Shiny
+		Void = "rbxassetid://0", -- Boltaroo_Void
 	},
 	Bramblepup = {
 		Crystal = "rbxassetid://0", -- Bramblepup_Crystal
@@ -287,12 +306,26 @@ AssetIds.Mutations = {
 		Shiny = "rbxassetid://0", -- Glimmoth_Shiny
 		Void = "rbxassetid://0", -- Glimmoth_Void
 	},
+	Koiren = {
+		Crystal = "rbxassetid://0", -- Koiren_Crystal
+		Golden = "rbxassetid://0", -- Koiren_Golden
+		Rainbow = "rbxassetid://0", -- Koiren_Rainbow
+		Shiny = "rbxassetid://0", -- Koiren_Shiny
+		Void = "rbxassetid://0", -- Koiren_Void
+	},
 	Lumenjaw = {
 		Crystal = "rbxassetid://0", -- Lumenjaw_Crystal
 		Golden = "rbxassetid://0", -- Lumenjaw_Golden
 		Rainbow = "rbxassetid://0", -- Lumenjaw_Rainbow
 		Shiny = "rbxassetid://0", -- Lumenjaw_Shiny
 		Void = "rbxassetid://0", -- Lumenjaw_Void
+	},
+	Lunowl = {
+		Crystal = "rbxassetid://0", -- Lunowl_Crystal
+		Golden = "rbxassetid://0", -- Lunowl_Golden
+		Rainbow = "rbxassetid://0", -- Lunowl_Rainbow
+		Shiny = "rbxassetid://0", -- Lunowl_Shiny
+		Void = "rbxassetid://0", -- Lunowl_Void
 	},
 	Mossback = {
 		Crystal = "rbxassetid://0", -- Mossback_Crystal

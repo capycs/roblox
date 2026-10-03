@@ -29,12 +29,15 @@ RULES
   src/server -> ServerScriptService.Server, src/client -> StarterPlayerScripts.Client).
 
 STEP 1 - Import the 3D models (Import 3D, scale unit Stud, rotation 0, keep skinning)
-- 21 creatures: assets/creatures/<Name>/<Name>.glb -> ServerStorage/Creatures/<Name>
-  (Bramblepup, Shellsnap, Shroomtoad, Sparkit, Mossback, Pumpkit, Tidefin, Blazehorn,
-  Frostfawn, Glimmoth, Emberfang, Frostusk, Umbrapaw, Geodillo, Voltgriff, Nyxwing,
-  Solarion, Glaciarch, Sylvanthorn, Lumenjaw, Aetherion).
+- 25 creatures: assets/creatures/<Name>/<Name>.glb -> ServerStorage/Creatures/<Name>
+  (Bramblepup, Shellsnap, Shroomtoad, Sparkit, Mossback, Pumpkit, Boltaroo, Tidefin,
+  Blazehorn, Frostfawn, Glimmoth, Lunowl, Emberfang, Frostusk, Umbrapaw, Geodillo, Koiren,
+  Voltgriff, Nyxwing, Solarion, Glaciarch, Sylvanthorn, Lumenjaw, Aetherion, Astralith).
+  Not all have four legs: CreatureConfig style.body = "biped" (Boltaroo, Lunowl, Astralith)
+  or "fish" (Koiren) makes CreatureAnimation.client use Poses/Biped or Poses/Fish.
+  Koiren and Astralith float above the ground on their own; place their pivot at ground level.
   Keep the rig. Legendaries/mythic have extra spinner bones (Halo, SunOrbit, FrostOrbit,
-  CrownHover, WispOrbit, RuneRing, Halo1-3, Crown, ElementOrbit, Rune*, Lure, AbyssOrbit) that
+  CrownHover, WispOrbit, RuneRing, Halo1-3, Crown, ElementOrbit, Rune*, Lure, AbyssOrbit, Galaxy, Monoliths, StarOrbit, Crown) that
   CreatureAnimator spins; they must survive the import.
 - v2 props: assets/v2/props/<Category>/<Name>/<Name>.glb -> ServerStorage/Props/<Category>/<Name>
   (categories Nature, Clutter, Eggs, Icons, Systems, Shops; full list in the reference below).
@@ -68,12 +71,12 @@ STEP 2 - Replace the old models in the map
 STEP 3 - Upload images and paste their IDs into src/shared/AssetIds.luau
 - Asset Manager > Bulk Import, then copy each ID into the matching key:
   assets/fx/textures/*.png (41 particle textures, AssetIds.Fx)
-  assets/ui/icons/*.png (55 icons incl. ElementPrism, AssetIds.Icons)
-  assets/creatures/<Name>/mutations/<Mutation>.png (105 mutation body textures,
+  assets/ui/icons/*.png (56 icons incl. ElementPrism and ElementCosmic, AssetIds.Icons)
+  assets/creatures/<Name>/mutations/<Mutation>.png (125 mutation body textures,
     AssetIds.Mutations[species][mutation])
   assets/textures/<Name>/{color,normal,roughness}.png (14 ground materials, AssetIds.Textures)
   assets/sky/{Day,Dusk}/{Bk,Dn,Ft,Lf,Rt,Up}.png (AssetIds.Sky)
-  assets/creatures/<Name>/previews/hero.png (21 portraits, AssetIds.Portraits)
+  assets/creatures/<Name>/previews/hero.png (25 portraits, AssetIds.Portraits)
 - Optional: assets/v2/icons/*.png are transparent renders of the 3D icon models (coins,
   gems, potions, trophy...) for shop/reward UI. Not wired to any key yet.
 - Anything left at rbxassetid://0 is skipped with a warning, so missing IDs show up in
@@ -118,14 +121,14 @@ STEP 7 - Effects (particles)
   (ThornBurst, TidalShell, StaticDash, SporeBloom, RiptideSpiral, MagmaCharge, AuroraVeil,
   FlamePounce, GlacierStomp, ShadeStep, ThunderDive, UmbralVeil, SolarFlare, AbsoluteZero,
   AncientGrove, PrismJudgement, PuffballBounce, LanternPop, DazzleDust, GeodeRoll,
-  AbyssalLure). Burst at the creature's PrimaryPart CFrame when it uses
+  AbyssalLure, Haymaker, MoonScreech, PearlSurge, Starfall). Burst at the creature's PrimaryPart CFrame when it uses
   its ability. Previews: assets/fx/previews/<Name>.png.
 - Mutation auras (MutShiny, MutGolden, MutCrystal, MutVoid, MutRainbow, MutGiant,
   MutCharged) are attached automatically by MutationVisuals.client - don't add them by hand.
 
 STEP 7b - Creature data, abilities and mutations (server)
 - src/shared/Creatures/CreatureInfo.luau: rarity, element, description, ability
-  (name, description, effect, cooldown, power, radius) and passive for all 21. Index order:
+  (name, description, effect, cooldown, power, radius) and passive for all 25. Index order:
   CreatureInfo.Order. Build the hatch tables from it (pick species by egg rarity).
 - src/shared/Creatures/Mutations.luau: on hatch, muts = Mutations.roll(rng, luck) then
   Mutations.applyServer(model, muts) after CreatureSetup.prepare. That sets the
@@ -174,7 +177,7 @@ STEP 8 - Check it
 
 | Path | What |
 |---|---|
-| `assets/creatures/<Name>/<Name>.glb` | 21 rigged creatures (skinned, 26-41 bones, baked clips incl. spinners). `previews/` has renders, `mutations/` the mutation textures. See `docs/CREATURES.md`. |
+| `assets/creatures/<Name>/<Name>.glb` | 25 rigged creatures (skinned, 26-41 bones, baked clips incl. spinners). `previews/` has renders, `mutations/` the mutation textures. See `docs/CREATURES.md`. |
 | `assets/props/<Category>/<Name>/<Name>.glb` | 96 original props + `meta.json` (meshes, tris, animated parts, pivots) + `hero.png` |
 | `assets/v2/props/<Category>/<Name>/<Name>.glb` | 97 new props, each with a baked `Idle` clip. v2 wins on name clashes. |
 | `assets/v2/icons/*.png` | 24 transparent renders of the 3D icon models |

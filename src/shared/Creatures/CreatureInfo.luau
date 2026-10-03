@@ -58,6 +58,12 @@ local Info: { [string]: Info } = {
 		ability = { name = "Lantern Pop", effect = "LanternPop", cooldown = 7, power = 1.0, radius = 8,
 			description = "Its carved windows flare and it spits a glowing pumpkin seed that bursts into a ring of candle flames, burning enemies and lighting up the area for 5 seconds." },
 	},
+	Boltaroo = {
+		element = "Storm", rarity = "Uncommon",
+		description = "An upright kangaroo boxer with crackling blue gloves and a battery in its pouch. Bounces on its toes and never backs down from a fight.",
+		ability = { name = "Haymaker", effect = "Haymaker", cooldown = 7, power = 1.1, radius = 6,
+			description = "Winds up and throws a lightning-charged punch that knocks the target back and zaps anything standing behind it." },
+	},
 	-- Rare
 	Tidefin = {
 		element = "Water", rarity = "Rare",
@@ -83,6 +89,12 @@ local Info: { [string]: Info } = {
 		ability = { name = "Dazzle Dust", effect = "DazzleDust", cooldown = 10, power = 1.1, radius = 11,
 			description = "Beats its wings and showers crackling eye-spot dust. Enemies caught in it are dazzled (40% of their attacks miss for 3 seconds) and take small shocks." },
 	},
+	Lunowl = {
+		element = "Shadow", rarity = "Rare",
+		description = "A round midnight owl with huge amber eyes and a glowing crescent on its forehead. Only truly wakes up after dark.",
+		ability = { name = "Moon Screech", effect = "MoonScreech", cooldown = 10, power = 1.1, radius = 12,
+			description = "Lets out an eerie screech in rings of moonlight. Enemies hit are confused for 2 seconds and wander the wrong way." },
+	},
 	-- Epic
 	Emberfang = {
 		element = "Fire", rarity = "Epic",
@@ -107,6 +119,12 @@ local Info: { [string]: Info } = {
 		description = "A stocky armadillo whose shell has cracked open into amethyst geodes. Digs tunnels and hoards shiny rocks.",
 		ability = { name = "Geode Roll", effect = "GeodeRoll", cooldown = 9, power = 1.5, radius = 7,
 			description = "Curls into an armoured ball and rolls forward, bowling enemies over. When it stops, its geodes burst and fire amethyst shards in every direction." },
+	},
+	Koiren = {
+		element = "Water", rarity = "Epic",
+		description = "A koi that swims through the air as if it were water, trailing ribbon fins. It guards a glowing pearl under its chin.",
+		ability = { name = "Pearl Surge", effect = "PearlSurge", cooldown = 11, power = 1.4, radius = 12,
+			description = "Its pearl flares and bursts into a ring of water that knocks enemies away and heals nearby friendly creatures a little." },
 	},
 	-- Legendary
 	Voltgriff = {
@@ -158,6 +176,13 @@ local Info: { [string]: Info } = {
 		ability = { name = "Prism Judgement", effect = "PrismJudgement", cooldown = 25, power = 3.5, radius = 22,
 			description = "Rises with every halo spinning, fires a beam of each element from its six orbs, then detonates a prismatic nova that hits with all elements at once. Your whole party gets +50% power for 10 seconds." },
 		passive = "Sovereign: counts as every element; immune to knockdown.",
+	},
+	Astralith = {
+		element = "Cosmic", rarity = "Mythic",
+		description = "The Star Colossus. A floating titan of obsidian and gold with a galaxy turning in its chest, six rune monoliths circling behind it and three tiny planets orbiting its waist.",
+		ability = { name = "Starfall", effect = "Starfall", cooldown = 25, power = 3.5, radius = 24,
+			description = "Raises both fists to the sky and calls down a shower of falling stars, then slams the ground with a shockwave that stuns every enemy in range for 2 seconds." },
+		passive = "Gravity Well: enemies near it move 25% slower, and coins and eggs nearby are pulled toward you.",
 	},
 }
 

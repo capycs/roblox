@@ -1,0 +1,79 @@
+{
+  "name": "Lunowl",
+  "element": "Shadow",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 12584,
+        "verts": 9587
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Glow": {
+        "tris": 176,
+        "verts": 220
+      },
+      "GlowCore": {
+        "tris": 256,
+        "verts": 199
+      }
+    },
+    "bones": 32,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.6
+      },
+      {
+        "name": "Walk",
+        "duration": 0.8
+      },
+      {
+        "name": "Run",
+        "duration": 0.5
+      },
+      {
+        "name": "Attack",
+        "duration": 0.9
+      },
+      {
+        "name": "Roar",
+        "duration": 2.4
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 52,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.6
+    },
+    "Walk": {
+      "frames": 16,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.8
+    },
+    "Run": {
+      "frames": 10,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.5
+    },
+    "Attack": {
+      "frames": 18,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.9
+    },
+    "Roar": {
+      "frames": 48,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.4
+    }
+  }
+}

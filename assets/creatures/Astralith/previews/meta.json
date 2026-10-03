@@ -1,0 +1,87 @@
+{
+  "name": "Astralith",
+  "element": "Cosmic",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 18030,
+        "verts": 16046
+      },
+      "Eyes": {
+        "tris": 24,
+        "verts": 48
+      },
+      "Glow": {
+        "tris": 3788,
+        "verts": 2827
+      },
+      "GlowCore": {
+        "tris": 1460,
+        "verts": 1355
+      },
+      "Nebula": {
+        "tris": 792,
+        "verts": 589
+      },
+      "Star": {
+        "tris": 2456,
+        "verts": 1855
+      }
+    },
+    "bones": 30,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3.4
+      },
+      {
+        "name": "Walk",
+        "duration": 1.6
+      },
+      {
+        "name": "Run",
+        "duration": 1
+      },
+      {
+        "name": "Attack",
+        "duration": 1.6
+      },
+      {
+        "name": "Roar",
+        "duration": 3
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 68,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3.4
+    },
+    "Walk": {
+      "frames": 32,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.6
+    },
+    "Run": {
+      "frames": 20,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1
+    },
+    "Attack": {
+      "frames": 32,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.6
+    },
+    "Roar": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    }
+  }
+}
