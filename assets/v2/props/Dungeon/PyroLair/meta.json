@@ -1,0 +1,69 @@
+{
+  "name": "PyroLair",
+  "category": "Dungeon",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 15194,
+        "verts": 26829
+      },
+      "Floor": {
+        "tris": 256,
+        "verts": 388
+      },
+      "Magma": {
+        "tris": 6440,
+        "verts": 4854
+      },
+      "GlowCore": {
+        "tris": 1268,
+        "verts": 1243
+      },
+      "Flame": {
+        "tris": 4080,
+        "verts": 2190
+      },
+      "PortalRing": {
+        "tris": 1420,
+        "verts": 799
+      }
+    },
+    "parts": {
+      "Floor": {
+        "pivot": [
+          0,
+          0,
+          0
+        ],
+        "pivotFromCenter": [
+          0,
+          1.2000000238418576,
+          0
+        ]
+      },
+      "PortalRing": {
+        "pivot": [
+          0,
+          6.5,
+          -51.2
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          7.748603820800781e-7
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

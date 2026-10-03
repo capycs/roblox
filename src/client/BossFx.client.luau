@@ -1,5 +1,5 @@
 --!strict
--- Client half of boss fights: ground telegraphs, attack effects, the fire breath stream from the
+-- Client half of boss fights: red warning circles, attack effects, the fire breath stream from the
 -- jaw, falling meteors, camera shake, the volcano aura (stronger in phase 2) and a boss HP bar
 -- at the top of the screen while you're near a boss. Driven by BossService over "BossEvent"
 -- and the Boss/HP/MaxHP/Phase/DisplayName attributes on the model.
@@ -62,7 +62,7 @@ end
 event.OnClientEvent:Connect(function(msg: any)
 	local k = msg.k
 	if k == "tele" then
-		Telegraph.show(msg.shape, msg.cf, msg.size, msg.dur)
+		Telegraph.circle(msg.pos, msg.radius, msg.dur)
 	elseif k == "fx" then
 		Effects.burst(msg.name, msg.target)
 	elseif k == "shake" then

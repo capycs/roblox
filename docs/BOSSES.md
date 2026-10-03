@@ -2,7 +2,7 @@
 
 ## Pyrothrax, the Volcano Tyrant (Fire)
 
-A kaiju dragon about 26 studs long at boss scale (the model is 16 studs; `BossConfig.scale` is 1.6).
+A kaiju dragon about 26 studs long at boss scale (the model is 16 studs; `BossConfig.scale` is 1.6). It guards its eggs in the middle of its own lair: players fight it in a boss run, then grab the eggs and run out.
 
 **Look**
 - Crimson scales under obsidian armour plates, with magma glowing through every seam and down cracks in its flanks, legs and tail.
@@ -23,52 +23,71 @@ A kaiju dragon about 26 studs long at boss scale (the model is 16 studs; `BossCo
 
 Mutations work like every other creature: `mutations/<Mutation>.png` holds the textures, and `previews/mut_*.png` the renders.
 
-### Design
+### Boss runs
 
-Built from the usual boss-design rules (sources at the bottom):
-- **Every attack telegraphs.** A wind-up pose plays, and at the same time a red shape appears on the ground. An inner fill grows to the edge at the exact moment the hit lands, so the timing reads at a glance, even on a phone (`Fx/Telegraph.luau`).
-- **Readable silhouette.** The volcano, horns and wings read from any distance. Each attack has a different body shape: head reared back, coiled sideways, rearing up, crouched low.
-- **Recovery windows.** Each clip has a slow recovery after the strike, plus a 1.4 to 2.4 second breather before the next attack. That is the time for players to punish it.
-- **Phases.** At 50% HP it plays **Enrage**:
-  - it gets 30% faster and hits 25% harder;
-  - **Eruption** is unlocked;
-  - the volcano smoke and embers nearly double;
-  - the HP bar border turns red and shows ENRAGED.
-- **Impact.** Every big hit has flashes, shockwaves, debris and distance-scaled camera shake.
+Bosses only show up in boss runs:
+1. **Queue.** Players stand on the pad of a PyroGate tagged `BossRunPortal` in the lobby. A 10 second countdown starts with the first player, then the group (up to 4) is sent in together.
+2. **Arrive.** Each group gets its own copy of **PyroLair**, built out of sight at y = 3000, so several groups can run at once. Players arrive inside the gate, facing the boss.
+3. **Fight.** Pyrothrax stands on the dark disc in the middle and never moves; it only turns to face its target. Its three eggs sit in the nest behind it, locked. Every attack is red circles on the floor (below).
+4. **Escape.** When it dies, the eggs unlock after its death animation and the cave starts collapsing:
+   - Hold the prompt on an egg to grab it. Eggs stack on your head, up to 3, and each one slows you down (×0.85 walk speed per egg).
+   - Rocks fall on red circles around the players, more often around whoever is carrying.
+   - Get hit while carrying and you drop your eggs where you stand. Anyone can pick them back up.
+   - The EXIT marker shows over the portal in the gate. Walk into it to leave with whatever you're carrying.
+   - 45 seconds on the clock. When it runs out, anyone still inside is sent back and the eggs they were holding are lost.
+5. **Rewards.** Every egg carried out fires `DungeonService.EggExtracted(player, "EggPyrothrax", info)`. Hook it to give the egg.
 
-### Attacks
+If everyone dies during the fight, the run fails and the copy is cleaned up. Boss HP goes up 60% for each extra player.
 
-Timings are fractions of the clip. They live in `BossConfig.luau` and match the poses in `Poses/Boss.luau`.
+### Attacks: red circles
 
-| Attack | Clip | Wind-up (telegraph) | Hit | Shape | Damage | Notes |
-|---|---|---|---|---|---|---|
-| Bite | Attack | 0.39s, head pulls back | 0.55s | cone 14 studs, 70° | 30 + knockback | close range only |
-| Fire Breath | FireBreath (3.0s) | 0.84s, rears its head, chest swells | 0.9s to 2.55s | cone 32 studs, 50° | 12 per 0.25s | the head sweeps left and right; the flame stream comes from the Jaw bone |
-| Tail Swipe | TailSwipe (1.8s) | 0.68s, coils, tail drawn to one side | 0.83s | ring 20 studs around it | 45 + big knockback | stand far away or jump the tail |
-| Stomp | Stomp (2.2s) | 0.97s, rears up on its hind legs, wings spread | 1.03s | circle 18 studs, 6 in front | 60 + knockback | heaviest camera shake |
-| Eruption | Eruption (3.2s), phase 2 | 1.1s, crouches and trembles | 1.28s to 2.56s | 8 meteor circles, 8 studs each | 55 each | one meteor targets each player, the rest are random; the circles land in sequence |
-| Enrage | Enrage (3.0s) | none | none | none | none | phase change; interrupts whatever it was doing |
-| Hurt | Hurt (0.6s) | none | none | none | none | flinch when damaged, at most every 2s |
-| Death | Death (3.0s) | none | none | none | none | collapses and holds the last frame; burst of smoke, embers and coins |
+Every attack puts red circles on the floor. Each circle fills from the middle and reaches its edge at the exact moment the hit lands, then flashes white. Step out before it fills. The animation is timed so the strike lands with the circle.
+
+| Attack | Clip | Circles | Warning | Damage | Notes |
+|---|---|---|---|---|---|
+| Bite | Attack | one circle (radius 11) right in front of its mouth | 1.0s | 35 + knockback | only when someone is within 30 studs |
+| Fire Breath | FireBreath | a line of 7 circles (radius 6.5) from its mouth toward a player, landing one after another | 1.3s, then 0.16s each | 35 per circle | fire stream from the jaw; **3 lines** fanned out in phase 2 |
+| Tail Swipe | TailSwipe | one huge circle (radius 24) around itself | 1.4s | 45 + big knockback | only when someone is within 30 studs; run away |
+| Stomp | Stomp | a circle (radius 9) under every player | 1.4s | 50 + knockback | heaviest camera shake; **3 extra random circles** in phase 2 |
+| Eruption | Eruption, phase 2 only | a circle under every player plus 9 random ones across the arena, landing in sequence | 1.3s, then 0.14s each | 55 per circle | a burning meteor falls onto each circle |
+| Enrage | Enrage | none | none | none | phase change at 50% HP; interrupts whatever it was doing |
+| Hurt | Hurt | none | none | none | flinch when damaged, at most every 2s |
+| Death | Death | none | none | none | collapses and holds the last frame; burst of smoke and embers |
+
+It waits 1.6 to 2.6 seconds between attacks (30% less in phase 2). That's the window to hit it.
+
+**Phase 2 at 50% HP:** plays Enrage, attacks come 30% faster and hit 25% harder, Eruption unlocks, Fire Breath and Stomp add circles, the volcano smoke nearly doubles, and the HP bar border turns red with ENRAGED.
+
+Everything is tunable in `src/shared/Creatures/BossConfig.luau` (patterns: `front`, `self`, `targets`, `line`, `random`; `warn` is the dodge time) and `src/shared/Dungeon/DungeonConfig.luau` (party size, eggs, carry limit and slowdown, escape timer, falling rocks).
+
+### Lair layout
+
+`assets/v2/props/Dungeon/PyroLair` (1 unit = 1 stud):
+- Arena radius 50: cracked basalt floor with magma veins, ringed by rock cliffs with lavafalls, obsidian pillars with braziers, and a gate with dragon-horn arch, skull keystone and fire portal (the exit).
+- Boss on the dark disc in the middle, facing the gate. Nest 30 studs behind it. Players arrive 36 studs in front of it; the exit is at 46.
+- `Floor` is its own mesh and the only part that collides. DungeonService turns collision off on the rest and builds an invisible wall ring at the arena edge (mesh hulls would fill the arena).
+- Positions are set in `DungeonConfig.layout`. Parts or Attachments named `BossSpawn`, `PlayerSpawn`, `Exit` or `EggSpot1..3` inside the lair override them, so a different dungeon can be built by hand.
+
+**Boss egg:** `assets/v2/props/Eggs/EggPyrothrax`, an obsidian egg with dragon scales, magma cracks, a glowing eye slit, horns, a molten crest and three orbiting ember rocks. It spawns at 1.6× size.
+
+**Lobby gate:** `assets/v2/props/Dungeon/PyroGate`, a rock arch with dragon horns, a spinning fire portal and a rune-circle queue pad. A sign over it shows the run name, players ready and the countdown.
 
 ### How it runs
 
-- **Server:** `src/server/BossService.luau`.
-  - `BossService.spawn("Pyrothrax", cframe)` clones the model from `ServerStorage/Creatures` and prepares it.
-  - It then scales it, rolls mutations and starts its brain.
-  - The brain turns toward and walks to the nearest player, picks a weighted attack (by phase, cooldown and distance band), and fires the telegraph.
-  - It then plays the clip, applies damage at the strike, and waits out the recovery.
-  - `BossService.damage(boss, amount, player)` takes damage, plays Hurt, triggers phase 2 and kills it.
-  - `BossService.Defeated` fires `(model, species, rewards, topDamager, damageByPlayer)`. Hook rewards in there. Coins are already multiplied by the mutation's coins stat.
-- **Client:** `src/client/BossFx.client.luau`. It handles:
-  - telegraphs;
-  - attack effects;
-  - the fire breath stream;
-  - falling meteors (a glowing rock with a flame trail drops onto each circle);
-  - camera shake;
-  - the volcano aura;
-  - the boss HP bar at the top of the screen (shown within 120 studs).
-- **Demo:** `src/server/BossDemo.server.luau` spawns the boss on a Part named `Workspace/BossArena` and respawns it 20s after it's defeated. To test phase 2 and the death, run this in the command bar: `require(game.ServerScriptService.Server.BossService).damage(workspace.Pyrothrax, 5000)`.
+- **Server:**
+  - `src/server/DungeonService.luau` runs the boss runs: copies of the lair, the party, the eggs, carrying and dropping, the escape timer, falling rocks and the exit.
+    - `DungeonService.start("Pyrothrax", players, returnCFrame)` starts a run directly.
+    - Events: `EggExtracted(player, eggName, { run, boss, bossMutations })` and `RunEnded(runName, "cleared" | "failed" | "timeout", players, bossRewards)`.
+  - `src/server/DungeonPortal.server.luau` runs the queue pads (`BossRunPortal` tag, optional `Run` attribute) and their countdown signs.
+  - `src/server/BossService.luau` runs the boss:
+    - `BossService.spawn(name, cframe, { arena, players, hpMul })`; the boss stands still at `cframe`.
+    - `BossService.damage(boss, amount, player)` takes damage, plays Hurt, triggers phase 2 and kills it.
+    - `BossService.circle(...)` drops one red circle anywhere (used for the falling rocks).
+    - Events: `Defeated(model, species, rewards, topDamager, damageByPlayer)` (coins already multiplied by the mutation's coins stat) and `PlayerHit(player, damage, boss)`.
+- **Client:**
+  - `src/client/BossFx.client.luau`: red circles (`Fx/Telegraph.luau`, drawn with a SurfaceGui so the edge stays crisp on phones), attack effects, the fire breath stream, falling meteors, camera shake, the volcano aura and the boss HP bar.
+  - `src/client/Dungeon.client.luau`: run HUD with the objective line and escape timer under the HP bar, a carried-eggs chip, and big banners (run start, lair collapsing, escaped, too slow, knocked out).
+- **Testing in Studio:** stand on the gate's pad. Nothing in the repo damages the boss yet (hook your combat/abilities to `BossService.damage`). To test phase 2 and the escape, run this in the command bar twice: `require(game.ServerScriptService.Server.BossService).damage(workspace.Pyrothrax, 14000)`
 - **Animation:** `CreatureConfig.Pyrothrax.style.body = "boss"` makes `CreatureAnimation.client` use `Poses/Boss.luau`: the quadruped base clips plus the boss clips. Clips marked `hold` (Death) stay on their last frame.
 
 ### Mutations

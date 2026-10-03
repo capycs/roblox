@@ -1,0 +1,36 @@
+{
+  "name": "EggPyrothrax",
+  "category": "Eggs",
+  "whole": "wobble",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3614,
+        "verts": 3013
+      },
+      "Glow": {
+        "tris": 1114,
+        "verts": 610
+      },
+      "GlowCore": {
+        "tris": 60,
+        "verts": 55
+      },
+      "HoverGlow": {
+        "tris": 240,
+        "verts": 720
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2.857
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2.857
+  }
+}

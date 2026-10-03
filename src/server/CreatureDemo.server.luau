@@ -92,7 +92,7 @@ end
 
 local lane = 0
 for _, template in (folder :: Instance):GetChildren() do
-	if template:IsA("Model") and Config.Species[template.Name] and not Config.Species[template.Name].boss then -- bosses have BossDemo
+	if template:IsA("Model") and Config.Species[template.Name] and not Config.Species[template.Name].boss then -- bosses only spawn in dungeon runs
 		local home = origin + Vector3.new(lane * 14, 0, 0)
 		lane += 1
 		task.spawn(runCreature, template, template.Name, home)

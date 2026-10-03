@@ -40,7 +40,9 @@ STEP 1 - Import the 3D models (Import 3D, scale unit Stud, rotation 0, keep skin
   CrownHover, WispOrbit, RuneRing, Halo1-3, Crown, ElementOrbit, Rune*, Lure, AbyssOrbit, Galaxy, Monoliths, StarOrbit, Crown) that
   CreatureAnimator spins; they must survive the import.
 - v2 props: assets/v2/props/<Category>/<Name>/<Name>.glb -> ServerStorage/Props/<Category>/<Name>
-  (categories Nature, Clutter, Eggs, Icons, Systems, Shops; full list in the reference below).
+  (categories Nature, Clutter, Eggs, Icons, Systems, Shops, Dungeon; full list in the reference below).
+  Exception: the boss lair assets/v2/props/Dungeon/PyroLair goes to ServerStorage/Dungeons/PyroLair
+  (DungeonService clones it per run); PyroGate goes in the lobby map.
   Every v2 GLB has a baked "Idle" clip, and PropAnimation.client animates the same parts
   in code (PropAnimData). Use the code path (it's distance-culled); don't also play the
   baked clip on the same model.
@@ -142,15 +144,29 @@ STEP 7b - Creature data, abilities and mutations (server)
   server (damage = power x creature stat x Mutations.stat(muts, "ability")), then
   FxService.play the effect preset for everyone nearby.
 
-STEP 7b2 - Boss: Pyrothrax, the Volcano Tyrant (docs/BOSSES.md)
+STEP 7b2 - Boss run: Pyrothrax's Lair (docs/BOSSES.md)
+- Bosses only appear in boss runs. The boss stands still in the middle of its lair guarding its
+  eggs and throws attacks; every attack is red circles on the floor that fill up before the hit.
+  Kill it, grab the eggs from the nest behind it, carry them out through the exit portal before
+  the cave collapses.
 - Import assets/creatures/Pyrothrax/Pyrothrax.glb into ServerStorage/Creatures/Pyrothrax like the
   creatures (33 bones incl. MagmaOrbit; keep the rig). CreatureDemo skips it (it's a boss).
-- Place an anchored Part named Workspace/BossArena where it should fight; BossDemo.server spawns it
-  there. Real game: BossService.spawn("Pyrothrax", cframe) and hook BossService.Defeated for rewards.
-- Damage it from combat/abilities with BossService.damage(model, amount, player).
-- Telegraphs, attack effects, meteors, camera shake, the volcano aura and the HP bar are client-side
-  already (BossFx.client). Check all attacks: FireBreath, TailSwipe, Stomp, Eruption (phase 2), and
-  that Enrage triggers at 50% HP and Death holds its pose.
+- Import assets/v2/props/Dungeon/PyroLair/PyroLair.glb into ServerStorage/Dungeons/PyroLair (keep the
+  mesh names; "Floor" must stay its own MeshPart). Import assets/v2/props/Eggs/EggPyrothrax into
+  ServerStorage/Props/Eggs/EggPyrothrax. Run PropSetup.prepareAll on ServerStorage once more.
+- Put PyroGate (assets/v2/props/Dungeon/PyroGate) in the lobby and tag it "BossRunPortal". Players who
+  stand on its pad queue; after a 10s countdown the group (max 4) is sent into its own copy of the
+  lair built at y = 3000 (DungeonConfig.InstanceOrigin). Check the copy lines up: boss on the dark
+  disc in the middle, eggs on the nest, players arriving inside the gate. If the importer rotated
+  the lair, fix the template's rotation or add marker Parts (BossSpawn, PlayerSpawn, Exit,
+  EggSpot1..3) inside it.
+- Hook DungeonService.EggExtracted (player, eggName, info) to give the player the egg, and
+  BossService.Defeated / DungeonService.RunEnded for coins/gems. Damage the boss from
+  combat/abilities with BossService.damage(model, amount, player).
+- Circles, attack effects, meteors, camera shake, the volcano aura, the boss HP bar and the run HUD
+  are client-side already (BossFx.client, Dungeon.client). Check every attack (Bite, FireBreath,
+  TailSwipe, Stomp, Eruption in phase 2), Enrage at 50% HP, Death holding its pose, eggs unlocking,
+  carrying (eggs stack on your head, you slow down, getting hit drops them), the exit, the timer.
 
 STEP 7c - Gameplay-system props (assets/v2/props/Systems), suggested wiring
 - ZoneGate: zone unlock gate (sign glows). TeleportPortal: zone teleport (ring spins).
@@ -220,9 +236,10 @@ STEP 8 - Check it
 |---|---|---|
 | Nature | 7 | Bush, BushBerry, BushFlower, TreeBlossom, TreeOak, TreePine, TreePineSnow (Zelda-style leafy canopies; replace the originals) |
 | Clutter | 28 | Beehive, Bench, CampTent, ClayPot, ClayPotGroup, FenceSegment, FlowerBed, FlowerPot, GardenArch, HayBale, Haystack, HedgeCorner, HedgeStraight, LanternPost, LeafPile, PicnicSet, Pinwheel, PlanterBox, ProduceCrate, Pumpkins, Scarecrow, SteppingStones, StoneLantern, Topiary, VineCurtain, Well, Wheelbarrow, Woodpile |
-| Eggs | 14 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggRainbow, EggSpooky, EggStorm, EggVoid, EggVolcano |
+| Eggs | 15 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggPyrothrax (boss egg), EggRainbow, EggSpooky, EggStorm, EggVoid, EggVolcano |
 | Icons | 24 | Bolt3D, ChestRarity, Clover3D, Coin3D, CoinStack, Crown3D, Gem3D, GemPile, GiftBox3D, Heart3D, Hourglass3D, Key3D, Lock3D, Magnet3D, Paw3D, PotionCoins, PotionLuck, PotionPower, PotionSpeed, Scroll3D, Shield3D, Star3D, Ticket3D, Trophy3D |
 | Shops | 7 | EggShop, GemShop, Incubator, IncubatorStation, IndexKiosk, QuestBoard, UpgradeBooth (rebuilt: stone-and-plank bases, billowing scalloped awnings, swinging signs, lanterns, waving bunting, potted plants, v2 eggs on display; replace the originals) |
+| Dungeon | 2 | PyroGate (lobby entrance + queue pad), PyroLair (boss arena, goes in ServerStorage/Dungeons) |
 | Systems | 17 | BreakableChest, BreakableCoins, BreakableGems, DailyChest, EggCapsule, EnchantAltar, Hoverboard, LeaderboardStand, PetPedestal, PotionShelf, RebirthShrine, SpawnPad, SpinWheel, TeleportPortal, TradingBooth, VIPRope, ZoneGate |
 
 ### Ground textures -> terrain material
@@ -241,6 +258,8 @@ Grass→Grass, GrassLush→LeafyGrass, Dirt→Ground, Mud→Mud, Rock→Rock, Cl
 | `Outlines.client` | outline-only Highlight pool on the nearest `Creature`/`Outline` tagged models |
 | `Critters.client` | butterflies and birds |
 | `Fx.client` | plays server-requested effects |
+| `BossFx.client` | boss red circles, attack effects, meteors, camera shake, volcano aura, boss HP bar |
+| `Dungeon.client` | boss-run HUD: objective, escape timer, carried eggs, banners |
 | `UIController.client` + `UI/` | HUD, shop, Index, incubators, hatch reveal, expedition HUD (demo data in `UI/State.luau`) |
 
 ### Wind swirls

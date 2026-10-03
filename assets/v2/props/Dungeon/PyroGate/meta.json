@@ -1,0 +1,53 @@
+{
+  "name": "PyroGate",
+  "category": "Dungeon",
+  "whole": null,
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3108,
+        "verts": 2828
+      },
+      "Magma": {
+        "tris": 640,
+        "verts": 705
+      },
+      "GlowCore": {
+        "tris": 424,
+        "verts": 460
+      },
+      "Flame": {
+        "tris": 816,
+        "verts": 438
+      },
+      "PortalRing": {
+        "tris": 1200,
+        "verts": 677
+      }
+    },
+    "parts": {
+      "PortalRing": {
+        "pivot": [
+          0,
+          6,
+          1.2
+        ],
+        "pivotFromCenter": [
+          0,
+          0,
+          -2.9802322387695312e-8
+        ]
+      }
+    },
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 2
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

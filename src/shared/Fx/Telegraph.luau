@@ -1,18 +1,21 @@
 --!strict
--- Ground telegraphs for boss attacks (client side). A flat warning shape appears with a dim fill
--- and a bright outline; an inner fill grows from the centre and reaches the edge exactly when
--- the hit lands, so players can read the timing at a glance (works on small phone screens too).
+-- Red warning circles for boss attacks (client side). A circle appears on the floor where the
+-- hit will land: dim red fill with a bright red rim, and an inner fill that grows from the
+-- centre and touches the rim at the exact moment the hit lands, then flashes white. Step out
+-- before it fills. Drawn with a SurfaceGui so the edge stays crisp on any screen size.
 --
--- Telegraph.show("circle", cframe, { radius = 18 }, duration)
--- Telegraph.show("cone", cframe, { range = 30, angle = 50 }, duration)  -- cframe at the mouth, looking along the cone
--- Telegraph.show("ring", cframe, { radius = 20 }, duration)
+-- Telegraph.circle(position, radius, duration)
 
-local TweenService = game:GetService("TweenService")
+local CollectionService = game:GetService("CollectionService")
 local Debris = game:GetService("Debris")
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
 
 local Telegraph = {}
-Telegraph.Color = Color3.fromRGB(255, 70, 40)
-Telegraph.Fill = Color3.fromRGB(255, 150, 60)
+Telegraph.Color = Color3.fromRGB(255, 40, 40)
+Telegraph.Fill = Color3.fromRGB(255, 110, 50)
+Telegraph.Flash = Color3.fromRGB(255, 240, 220)
+Telegraph.IgnoreTags = { "Boss", "Creature" } -- the floor raycast passes through these
 
 local function folder(): Folder
 	local f = workspace:FindFirstChild("Telegraphs")
@@ -24,90 +27,99 @@ local function folder(): Folder
 	return f :: Folder
 end
 
-local function part(shape: Enum.PartType?): Part
-	local p = Instance.new("Part")
-	p.Anchored, p.CanCollide, p.CanQuery, p.CanTouch, p.CastShadow = true, false, false, false, false
-	p.Material = Enum.Material.Neon
-	p.Shape = shape or Enum.PartType.Block
-	p.Parent = folder()
-	return p
-end
-
--- flat disc lying on the ground (a Cylinder's axis is X, so turn it on its side)
-local function disc(cf: CFrame, r: number, color: Color3, transparency: number, y: number): Part
-	local p = part(Enum.PartType.Cylinder)
-	p.Size = Vector3.new(0.08, r * 2, r * 2)
-	p.CFrame = cf * CFrame.new(0, y, 0) * CFrame.Angles(0, 0, math.pi / 2)
-	p.Color, p.Transparency = color, transparency
-	return p
-end
-
-local function ground(cf: CFrame): CFrame
-	local origin = cf.Position + Vector3.new(0, 8, 0)
-	local params = RaycastParams.new()
-	params.FilterDescendantsInstances = { folder() }
-	params.FilterType = Enum.RaycastFilterType.Exclude
-	local hit = workspace:Raycast(origin, Vector3.new(0, -60, 0), params)
-	local y = if hit then hit.Position.Y else cf.Position.Y
-	local look = Vector3.new(cf.LookVector.X, 0, cf.LookVector.Z)
-	if look.Magnitude < 1e-3 then
-		look = Vector3.new(0, 0, -1)
-	end
-	return CFrame.lookAt(Vector3.new(cf.Position.X, y + 0.05, cf.Position.Z), Vector3.new(cf.Position.X, y + 0.05, cf.Position.Z) + look.Unit)
-end
-
-local function grow(p: Part, size: Vector3, duration: number)
-	TweenService:Create(p, TweenInfo.new(duration, Enum.EasingStyle.Linear), { Size = size }):Play()
-end
-
-local function cleanup(parts: { Instance }, duration: number)
-	task.delay(duration, function()
-		for _, p in parts do
-			if p:IsA("BasePart") then
-				p.Color = Color3.new(1, 1, 1)
-				TweenService:Create(p, TweenInfo.new(0.25), { Transparency = 1 }):Play()
-			end
-			Debris:AddItem(p, 0.3)
+-- the floor under `pos` (ignores bosses, creatures, characters and other telegraphs)
+local function floorAt(pos: Vector3): Vector3
+	local ignore: { Instance } = { folder() }
+	for _, tag in Telegraph.IgnoreTags do
+		for _, m in CollectionService:GetTagged(tag) do
+			table.insert(ignore, m)
 		end
+	end
+	for _, pl in Players:GetPlayers() do
+		if pl.Character then
+			table.insert(ignore, pl.Character)
+		end
+	end
+	local params = RaycastParams.new()
+	params.FilterDescendantsInstances = ignore
+	params.FilterType = Enum.RaycastFilterType.Exclude
+	local hit = workspace:Raycast(pos + Vector3.new(0, 6, 0), Vector3.new(0, -30, 0), params)
+	return if hit then hit.Position else pos
+end
+
+local function round(f: GuiObject)
+	local c = Instance.new("UICorner")
+	c.CornerRadius = UDim.new(0.5, 0)
+	c.Parent = f
+end
+
+function Telegraph.circle(position: Vector3, radius: number, duration: number)
+	local ground = floorAt(position)
+	local d = radius * 2
+	local part = Instance.new("Part")
+	part.Name = "Circle"
+	part.Anchored, part.CanCollide, part.CanQuery, part.CanTouch, part.CastShadow = true, false, false, false, false
+	part.Transparency = 1
+	part.Size = Vector3.new(d, 0.05, d)
+	part.CFrame = CFrame.new(ground + Vector3.new(0, 0.4, 0)) -- above floor tiles and magma veins
+	part.Parent = folder()
+
+	local px = 512 -- canvas size in pixels whatever the radius, so the rim reads the same
+	local gui = Instance.new("SurfaceGui")
+	gui.Face = Enum.NormalId.Top
+	gui.SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud
+	gui.PixelsPerStud = px / d
+	gui.LightInfluence = 0
+	gui.Brightness = 1.6
+	gui.ZOffset = 1
+	gui.Parent = part
+
+	local area = Instance.new("Frame")
+	area.Size = UDim2.fromScale(1, 1)
+	area.BackgroundColor3 = Telegraph.Color
+	area.BackgroundTransparency = 0.62
+	area.BorderSizePixel = 0
+	area.Parent = gui
+	round(area)
+	local rim = Instance.new("UIStroke")
+	rim.Color = Telegraph.Color
+	rim.Thickness = 14
+	rim.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	rim.Parent = area
+
+	local fill = Instance.new("Frame")
+	fill.AnchorPoint = Vector2.new(0.5, 0.5)
+	fill.Position = UDim2.fromScale(0.5, 0.5)
+	fill.Size = UDim2.fromScale(0.04, 0.04)
+	fill.BackgroundColor3 = Telegraph.Fill
+	fill.BackgroundTransparency = 0.3
+	fill.BorderSizePixel = 0
+	fill.Parent = area
+	round(fill)
+
+	-- pop in, then the fill grows to the rim over the warning time
+	area.Size = UDim2.fromScale(0.6, 0.6)
+	area.AnchorPoint = Vector2.new(0.5, 0.5)
+	area.Position = UDim2.fromScale(0.5, 0.5)
+	TweenService:Create(area, TweenInfo.new(0.15, Enum.EasingStyle.Back, Enum.EasingDirection.Out), { Size = UDim2.fromScale(1, 1) }):Play()
+	TweenService:Create(fill, TweenInfo.new(duration, Enum.EasingStyle.Linear), { Size = UDim2.fromScale(1, 1) }):Play()
+	-- last quarter second: the rim pulses so the timing is unmistakable
+	task.delay(math.max(0, duration - 0.3), function()
+		TweenService:Create(rim, TweenInfo.new(0.3), { Thickness = 26, Color = Telegraph.Fill }):Play()
+	end)
+	task.delay(duration, function()
+		fill.BackgroundColor3 = Telegraph.Flash
+		fill.BackgroundTransparency = 0
+		TweenService:Create(fill, TweenInfo.new(0.3), { BackgroundTransparency = 1 }):Play()
+		TweenService:Create(area, TweenInfo.new(0.3), { BackgroundTransparency = 1 }):Play()
+		TweenService:Create(rim, TweenInfo.new(0.3), { Transparency = 1 }):Play()
+		Debris:AddItem(part, 0.35)
 	end)
 end
 
-function Telegraph.show(shape: string, cf: CFrame, size: { [string]: number }, duration: number)
-	local g = ground(cf)
-	local parts: { Instance } = {}
-	if shape == "circle" or shape == "ring" then
-		local r = size.radius or 10
-		table.insert(parts, disc(g, r, Telegraph.Color, 0.72, 0))
-		table.insert(parts, disc(g, r + 0.3, Telegraph.Color, 0.15, -0.02)) -- outline peeks out under the fill
-		local fill = disc(g, 0.2, Telegraph.Fill, 0.45, 0.02)
-		grow(fill, Vector3.new(0.08, r * 2, r * 2), duration)
-		table.insert(parts, fill)
-		if shape == "ring" then
-			-- safe spot marker in the middle is the boss itself; add a pulsing edge ring
-			local edge = disc(g, r * 0.25, Color3.fromRGB(40, 20, 20), 0.5, 0.03)
-			table.insert(parts, edge)
-		end
-	elseif shape == "cone" then
-		local range, angle = size.range or 20, math.rad(size.angle or 45)
-		local n = math.max(3, math.floor(angle / math.rad(9)))
-		for i = 0, n - 1 do
-			local a = -angle / 2 + (i + 0.5) * angle / n
-			local w = 2 * range * math.tan(angle / n / 2) + 0.15
-			local wedge = part()
-			wedge.Size = Vector3.new(w, 0.08, range)
-			wedge.CFrame = g * CFrame.Angles(0, -a, 0) * CFrame.new(0, 0, -range / 2)
-			wedge.Color, wedge.Transparency = Telegraph.Color, 0.7
-			table.insert(parts, wedge)
-			local fill = part()
-			fill.Size = Vector3.new(w * 0.9, 0.1, 0.2)
-			fill.CFrame = g * CFrame.Angles(0, -a, 0) * CFrame.new(0, 0.02, -0.1)
-			fill.Color, fill.Transparency = Telegraph.Fill, 0.45
-			-- the fill grows outward from the mouth
-			TweenService:Create(fill, TweenInfo.new(duration, Enum.EasingStyle.Linear), { Size = Vector3.new(w * 0.9, 0.1, range), CFrame = g * CFrame.Angles(0, -a, 0) * CFrame.new(0, 0.02, -range / 2) }):Play()
-			table.insert(parts, fill)
-		end
-	end
-	cleanup(parts, duration)
+-- older call shape; everything is a circle now
+function Telegraph.show(_shape: string, cf: CFrame, size: { [string]: number }, duration: number)
+	Telegraph.circle(cf.Position, size.radius or 10, duration)
 end
 
 return Telegraph

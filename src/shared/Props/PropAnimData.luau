@@ -51,6 +51,7 @@ return {
 		EggFrost = "wobble",
 		EggGoldenHuge = "wobble",
 		EggOcean = "wobble",
+		EggPyrothrax = "wobble",
 		EggRainbow = "wobble",
 		EggSpooky = "wobble",
 		EggStorm = "wobble",
@@ -239,6 +240,13 @@ return {
 		},
 		Pumpkins = {
 			Rustle = Vector3.new(0.0741, -0.08, -0.0311),
+		},
+		PyroGate = {
+			PortalRing = Vector3.new(0, 0, 0),
+		},
+		PyroLair = {
+			Floor = Vector3.new(0, 1.2, 0),
+			PortalRing = Vector3.new(0, 0, 0),
 		},
 		QuestBoard = {
 			Swing = Vector3.new(0, 0.5295, 0.036),
