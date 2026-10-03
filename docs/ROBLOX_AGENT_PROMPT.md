@@ -142,6 +142,16 @@ STEP 7b - Creature data, abilities and mutations (server)
   server (damage = power x creature stat x Mutations.stat(muts, "ability")), then
   FxService.play the effect preset for everyone nearby.
 
+STEP 7b2 - Boss: Pyrothrax, the Volcano Tyrant (docs/BOSSES.md)
+- Import assets/creatures/Pyrothrax/Pyrothrax.glb into ServerStorage/Creatures/Pyrothrax like the
+  creatures (33 bones incl. MagmaOrbit; keep the rig). CreatureDemo skips it (it's a boss).
+- Place an anchored Part named Workspace/BossArena where it should fight; BossDemo.server spawns it
+  there. Real game: BossService.spawn("Pyrothrax", cframe) and hook BossService.Defeated for rewards.
+- Damage it from combat/abilities with BossService.damage(model, amount, player).
+- Telegraphs, attack effects, meteors, camera shake, the volcano aura and the HP bar are client-side
+  already (BossFx.client). Check all attacks: FireBreath, TailSwipe, Stomp, Eruption (phase 2), and
+  that Enrage triggers at 50% HP and Death holds its pose.
+
 STEP 7c - Gameplay-system props (assets/v2/props/Systems), suggested wiring
 - ZoneGate: zone unlock gate (sign glows). TeleportPortal: zone teleport (ring spins).
 - RebirthShrine, EnchantAltar, PetPedestal (pet display), EggCapsule (egg-shop display,
@@ -187,6 +197,7 @@ STEP 8 - Check it
 | `assets/ui/icons/*.png` | 55 UI icons |
 | `assets/sky/{Day,Dusk}/` | skybox faces |
 | `src/` | all Luau (Rojo) |
+| `docs/BOSSES.md` | the Pyrothrax boss: attacks, timings, phases, mutations, API |
 | `tools/art/` | the generators (three.js, run headless). `npm run build/props/textures/fx/icons/sky`, then `npm run prop-anim` and `npm run asset-ids` |
 
 ### Props by category

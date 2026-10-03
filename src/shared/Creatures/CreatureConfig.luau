@@ -327,5 +327,20 @@ return {
 			pulse = { Glow = 0.3, Star = 0.25, Nebula = 0.35, GlowCore = 0.15 },
 			yawOffset = 0,
 		},
+		-- bosses: style.body = "boss" adds the attack clips in Poses/Boss; fight data in BossConfig
+		Pyrothrax = {
+			element = "Fire",
+			boss = true,
+			style = {
+				body = "boss", wings = true, wingRest = 0.12, tip = "TailTip", attack = "bite",
+				dur = { Idle = 3.2, Walk = 1.5, Run = 0.9, Attack = 1.3, Roar = 2.8, FireBreath = 3.0, TailSwipe = 1.8, Stomp = 2.2, Eruption = 3.2, Enrage = 3.0, Hurt = 0.6, Death = 3.0 },
+				walk = { 0.38, 0.55, 0.36, 0.45 }, run = { 0.6, 0.75, 0.6, 0.65 }, bob = 1.0, roll = 0.05, sway = 0.8, tail = 1.1, neck = 0.5, headLow = -0.05,
+			},
+			glow = { Eyes = Color3.fromRGB(255, 211, 74), Magma = Color3.fromRGB(255, 106, 26), GlowCore = Color3.fromRGB(255, 224, 138), Flame = Color3.fromRGB(255, 138, 42) },
+			light = { bone = "Spine", color = Color3.fromRGB(255, 122, 42), brightness = 3, range = 26 },
+			spinners = { { bone = "MagmaOrbit", axis = Vector3.new(0, 1, 0), speed = 0.9, bob = 0.25, bobFreq = 0.4 } },
+			pulse = { Magma = 0.35, GlowCore = 0.2 },
+			yawOffset = 0,
+		},
 	},
 }

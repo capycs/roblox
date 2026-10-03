@@ -183,6 +183,26 @@
     "frames": 30,
     "duration": 2.2
   },
+  "BossFireBreath": {
+    "frames": 24,
+    "duration": 1.2
+  },
+  "BossTailSwipe": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BossStomp": {
+    "frames": 24,
+    "duration": 1.8
+  },
+  "BossMeteorImpact": {
+    "frames": 24,
+    "duration": 1.4
+  },
+  "BossEnrage": {
+    "frames": 30,
+    "duration": 2
+  },
   "PrismJudgement": {
     "frames": 30,
     "duration": 2

@@ -16,6 +16,10 @@ const sin = Math.sin, cos = Math.cos;
 
 export const CLIP_NAMES = ['Idle', 'Walk', 'Run', 'Attack', 'Roar'];
 export const LOOPS = { Idle: true, Walk: true, Run: true, Attack: false, Roar: false };
+// Bosses (style.body = 'boss') keep the quadruped base clips and add their own attacks.
+// Every attack is wind-up (telegraph) -> strike -> recovery so players can read it.
+export const BOSS_CLIPS = ['FireBreath', 'TailSwipe', 'Stomp', 'Eruption', 'Enrage', 'Hurt', 'Death'];
+export const clipNames = (style) => (style.body === 'boss' ? [...CLIP_NAMES, ...BOSS_CLIPS] : CLIP_NAMES);
 
 export const DEFAULT_STYLE = {
   tip: 'TailFlame', // bone at the tail tip that flickers
@@ -59,6 +63,7 @@ function wing(add, part, v, sweep = 0) {
 export function pose(style, name, t) {
   if (style.body === 'biped') return poseBiped(style, name, t);
   if (style.body === 'fish') return poseFish(style, name, t);
+  if (style.body === 'boss' && BOSS_CLIPS.includes(name)) return poseBoss(style, name, t);
   return poseQuad(style, name, t);
 }
 
@@ -284,6 +289,79 @@ function poseFish(S, name, t) {
   return { rot, hips };
 }
 
+// ---------- boss attacks (quadruped dragon rig with wings). u = 0..1 through the clip.
+// Phase windows are shared with BossConfig.luau (telegraph = wind-up, hit = strike frame). ----------
+function poseBoss(S, name, t) {
+  const rot = {}; const hips = [0, 0, 0];
+  const add = (b, x = 0, y = 0, z = 0) => { const r = rot[b] || (rot[b] = [0, 0, 0]); r[0] += x; r[1] += y; r[2] += z; };
+  const T = S.dur[name], u = t / T, p = TAU * u;
+  const wing = (part, v, sweep = 0) => { add(`WingL${part}`, 0, sweep, -v); add(`WingR${part}`, 0, -sweep, v); };
+  const legs4 = (fu, fl, bu, bl) => { for (const s of ['L', 'R']) { add(`Front${s}Upper`, fu); add(`Front${s}Lower`, fl); add(`Front${s}Paw`, -(fu + fl) * 0.7); add(`Back${s}Upper`, bu); add(`Back${s}Lower`, bl); add(`Back${s}Paw`, -(bu + bl) * 0.7); } };
+  const tail = (x, y) => { for (let i = 1; i <= 4; i++) add('Tail' + i, x * (0.6 + 0.15 * i), y * (0.5 + 0.2 * i)); };
+  if (name === 'FireBreath') {
+    // wind-up: rears its head back, chest swells, glow builds; breath: head low, sweeping left-right
+    const wind = ss(0, 0.25, u) * (1 - ss(0.25, 0.32, u)), breath = ss(0.27, 0.33, u) * (1 - ss(0.82, 0.92, u));
+    add('Chest', 0.18 * wind - 0.05 * breath); add('Spine', 0.08 * wind);
+    add('Neck', 0.45 * wind - 0.15 * breath, 0.55 * breath * sin(TAU * (u - 0.3) * 1.6)); add('Head', 0.35 * wind - 0.2 * breath, 0.25 * breath * sin(TAU * (u - 0.3) * 1.6 - 0.4));
+    add('Jaw', -0.25 * wind - 0.85 * breath - 0.06 * breath * sin(TAU * u * 30));
+    hips[1] = 0.15 * wind - 0.1 * breath; hips[2] = 0.3 * wind;
+    legs4(-0.15 * wind + 0.2 * breath, 0.1 * wind, 0.2 * wind, -0.25 * wind);
+    wing('Upper', 0.4 * wind + 0.15 * breath, -0.2 * wind); wing('Lower', 0.2 * wind);
+    tail(-0.1 * breath, 0.2 * breath * sin(p * 3));
+  } else if (name === 'TailSwipe') {
+    // wind-up: coils, tail drawn to one side, looks back; strike: whips the tail round in a wide arc
+    const wind = ss(0, 0.35, u) * (1 - ss(0.38, 0.45, u)), swipe = ss(0.38, 0.52, u) * (1 - ss(0.62, 0.95, u));
+    add('Hips', 0, 0.3 * wind - 0.5 * swipe); add('Spine', 0, 0.3 * wind - 0.45 * swipe); add('Chest', 0, 0.15 * wind - 0.3 * swipe);
+    add('Neck', 0, 0.35 * wind - 0.25 * swipe); add('Head', 0, 0.3 * wind - 0.2 * swipe);
+    for (let i = 1; i <= 4; i++) add('Tail' + i, -0.05 * wind, (0.35 * wind - 0.55 * swipe) * (0.7 + 0.15 * i));
+    hips[0] = 0.4 * wind - 0.7 * swipe; hips[1] = -0.2 * wind + 0.15 * swipe;
+    legs4(0.15 * wind - 0.1 * swipe, -0.2 * wind, -0.15 * wind + 0.2 * swipe, 0.15 * wind);
+    wing('Upper', 0.25 * swipe, 0.3 * swipe);
+  } else if (name === 'Stomp') {
+    // wind-up: rears up on its hind legs, wings spread, front claws raised; strike: slams down
+    const rise = ss(0, 0.4, u) * (1 - ss(0.44, 0.5, u)), slam = ss(0.44, 0.5, u) * (1 - ss(0.62, 0.95, u));
+    add('Hips', 0.5 * rise - 0.12 * slam); add('Spine', 0.12 * rise); add('Chest', 0.1 * rise - 0.08 * slam);
+    add('Neck', 0.2 * rise - 0.25 * slam); add('Head', 0.15 * rise - 0.2 * slam); add('Jaw', -0.5 * rise - 0.3 * slam);
+    hips[1] = 1.1 * rise - 0.35 * slam; hips[2] = 0.4 * rise - 0.3 * slam;
+    for (const s of ['L', 'R']) {
+      add(`Front${s}Upper`, 1.0 * rise + 0.35 * slam); add(`Front${s}Lower`, -0.9 * rise - 0.2 * slam); add(`Front${s}Paw`, 0.3 * rise);
+      add(`Back${s}Upper`, -0.55 * rise + 0.25 * slam); add(`Back${s}Lower`, 0.2 * rise - 0.35 * slam);
+    }
+    wing('Upper', 0.8 * rise - 0.2 * slam, -0.3 * rise); wing('Lower', 0.4 * rise); wing('Tip', 0.3 * rise);
+    tail(0.15 * rise - 0.2 * slam, 0);
+  } else if (name === 'Eruption') {
+    // wind-up: crouches low and trembles, the volcano on its back swells; erupt: arches up, roars at the sky
+    const crouch = ss(0, 0.3, u) * (1 - ss(0.3, 0.36, u)), erupt = ss(0.32, 0.38, u) * (1 - ss(0.75, 0.95, u));
+    const shake = 0.04 * (crouch + erupt) * sin(TAU * u * 28);
+    hips[1] = -0.45 * crouch + 0.2 * erupt; add('Hips', shake * 0.5, 0, shake);
+    add('Spine', -0.12 * crouch + 0.22 * erupt, 0, shake); add('Chest', -0.08 * crouch + 0.2 * erupt);
+    add('Neck', -0.3 * crouch + 0.5 * erupt); add('Head', -0.2 * crouch + 0.35 * erupt, 0.15 * erupt * sin(TAU * u * 3)); add('Jaw', -0.15 * crouch - 0.8 * erupt);
+    legs4(0.25 * crouch - 0.1 * erupt, -0.5 * crouch, 0.35 * crouch, -0.6 * crouch);
+    wing('Upper', -0.15 * crouch + 0.9 * erupt + 0.1 * erupt * sin(TAU * u * 6), -0.3 * erupt); wing('Lower', 0.4 * erupt); wing('Tip', 0.35 * erupt);
+    tail(-0.2 * crouch + 0.25 * erupt, 0.1 * erupt * sin(p * 4));
+  } else if (name === 'Enrage') {
+    // phase 2: rises, wings fully spread, shakes its head and roars, magma flares
+    const rise = ss(0, 0.25, u) * (1 - ss(0.8, 0.97, u)), roar = ss(0.2, 0.3, u) * (1 - ss(0.72, 0.85, u));
+    hips[1] = 0.5 * rise; add('Hips', 0.25 * rise); add('Spine', 0.12 * rise); add('Chest', 0.18 * rise);
+    add('Neck', 0.4 * rise - 0.1 * roar); add('Head', 0.4 * rise - 0.2 * roar, 0.3 * roar * sin(TAU * u * 4), 0.06 * roar * sin(TAU * u * 22)); add('Jaw', -0.95 * roar);
+    for (const s of ['L', 'R']) { add(`Front${s}Upper`, 0.5 * rise); add(`Front${s}Lower`, -0.5 * rise); add(`Back${s}Upper`, -0.25 * rise); add(`Back${s}Lower`, 0.1 * rise); }
+    wing('Upper', 1.0 * rise + 0.2 * roar * sin(TAU * u * 5), -0.35 * rise); wing('Lower', 0.45 * rise + 0.15 * roar * sin(TAU * u * 5 - 0.8)); wing('Tip', 0.4 * rise);
+    tail(0.2 * roar, 0.35 * roar * sin(TAU * u * 3));
+  } else if (name === 'Hurt') {
+    const h = ss(0, 0.15, u) * (1 - ss(0.3, 1, u));
+    add('Neck', -0.25 * h, 0.2 * h); add('Head', -0.3 * h, 0.15 * h); add('Jaw', -0.4 * h); add('Chest', -0.1 * h);
+    hips[2] = 0.35 * h; hips[1] = -0.15 * h; wing('Upper', 0.3 * h, 0.2 * h); tail(0.2 * h, 0.2 * h);
+  } else if (name === 'Death') {
+    // staggers, buckles and collapses onto its side, wings and tail go limp (holds the last frame)
+    const stag = ss(0, 0.25, u), fall = ss(0.25, 0.7, u), settle = ss(0.7, 1, u);
+    add('Hips', -0.1 * fall, 0, 0.45 * fall); add('Spine', 0, 0, 0.1 * fall); hips[1] = -1.2 * fall; hips[0] = 0.5 * fall;
+    add('Neck', 0.3 * stag * (1 - fall) - 0.5 * fall, 0.4 * fall); add('Head', -0.3 * fall, 0.2 * fall, 0.3 * fall); add('Jaw', -0.5 * stag * (1 - settle) - 0.2 * settle);
+    legs4(0.6 * fall, -1.0 * fall, -0.5 * fall, 0.9 * fall);
+    wing('Upper', -0.35 * fall, 0.4 * fall); wing('Lower', -0.2 * fall); tail(0.25 * fall, 0.4 * fall);
+  }
+  return { rot, hips };
+}
+
 // Apply a pose to three.js bones (rest positions captured once).
 export function applyPose(style, boneMap, rest, name, t) {
   const { rot, hips } = pose(style, name, t);
@@ -299,7 +377,7 @@ export function applyPose(style, boneMap, rest, name, t) {
 // to whole turns per clip so each clip still loops seamlessly.
 export function bakeClips(style, boneMap, fps = 30, spinners = []) {
   const names = Object.keys(boneMap);
-  return CLIP_NAMES.map((clip) => {
+  return clipNames(style).map((clip) => {
     const D = style.dur[clip];
     const n = Math.round(D * fps), times = [];
     const q = Object.fromEntries(names.map((b) => [b, []])), hp = [];

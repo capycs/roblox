@@ -8,7 +8,7 @@ import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js'
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { buildCreature, paletteCanvas } from './lib.js';
-import { CLIP_NAMES, makeStyle, applyPose, bakeClips } from './poses.js';
+import { CLIP_NAMES, clipNames, makeStyle, applyPose, bakeClips } from './poses.js';
 
 export function paletteTexture(spec) {
   const t = new THREE.CanvasTexture(paletteCanvas(spec.palette));
@@ -213,7 +213,7 @@ export async function runAll(specName) {
   const r = makeRenderer(FW, FH);
   const camera = fitCam(S, 28, FW, FH, V.sprite || [-9.5, 2.0, -8.7], F.sprite || 0.66);
   out.sprites = {};
-  for (const clip of CLIP_NAMES) {
+  for (const clip of clipNames(style)) {
     const D = style.dur[clip], n = Math.round(D * FPS);
     const sheet = document.createElement('canvas'); sheet.width = FW * n; sheet.height = FH;
     const g = sheet.getContext('2d');

@@ -12,8 +12,9 @@ local CreatureSetup = require(Creatures.CreatureSetup)
 local Quadruped = require(Creatures.Poses.Quadruped)
 local Biped = require(Creatures.Poses.Biped)
 local Fish = require(Creatures.Poses.Fish)
+local Boss = require(Creatures.Poses.Boss)
 -- style.body picks the pose set: four legs (default), two legs (arms, wings or hovering), or a fish
-local BODIES: { [string]: any } = { quad = Quadruped, biped = Biped, fish = Fish }
+local BODIES: { [string]: any } = { quad = Quadruped, biped = Biped, fish = Fish, boss = Boss }
 
 -- One poses module per species, built from its style in CreatureConfig.
 local posesBySpecies: { [string]: any } = {}

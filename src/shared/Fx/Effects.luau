@@ -454,6 +454,61 @@ local ABILITIES: { [string]: { colors: { Color3 }?, light: { range: number, brig
 		{ tex = "SparkleFlipbook", count = 60, life = NumberRange.new(1, 1.6), size = grow(2, 1), speed = NumberRange.new(16, 40), drag = 2.5, flipbook = FLIP, flipOnce = true, light = 1, colorIndex = 2 },
 		smoke(12, 4, 2),
 	} },
+	-- ---- boss: Pyrothrax ----
+	-- looping from the Jaw bone while the breath lasts (Effects.attach(..., jawBone, { duration = ... }))
+	BossFireBreath = { loop = true, colors = { Color3.fromRGB(255, 230, 120), Color3.fromRGB(255, 90, 20) }, emitters = {
+		{ tex = "FlameFlipbook", rate = 90, life = NumberRange.new(0.6, 0.85), size = seq(0, 1.2, 0.3, 4.5, 1, 7), speed = NumberRange.new(36, 46), spread = Vector2.new(9, 9), drag = 0.8, flipbook = FLIP, light = 1, emitDir = Enum.NormalId.Front, transparency = seq(0, 0.1, 0.7, 0.3, 1, 1), z = 1 },
+		{ tex = "SoftGlow", rate = 30, life = NumberRange.new(0.4, 0.6), size = grow(2, 6), speed = NumberRange.new(30, 40), spread = Vector2.new(6, 6), transparency = seq(0, 0.3, 1, 1), light = 1, colorIndex = 1, emitDir = Enum.NormalId.Front },
+		{ tex = "Ember", rate = 60, life = NumberRange.new(0.8, 1.2), size = grow(0.5, 0.1), speed = NumberRange.new(30, 50), spread = Vector2.new(16, 16), accel = Vector3.new(0, 6, 0), light = 1, colorIndex = 2, emitDir = Enum.NormalId.Front },
+		{ tex = "SmokeFlipbook", rate = 14, life = NumberRange.new(1, 1.4), size = grow(4, 8), speed = NumberRange.new(24, 32), spread = Vector2.new(12, 12), drag = 1, accel = Vector3.new(0, 4, 0), transparency = seq(0, 0.5, 1, 1), flipbook = FLIP, flipOnce = true, color = Color3.fromRGB(70, 50, 50), emitDir = Enum.NormalId.Front, z = -1 },
+	} },
+	BossTailSwipe = { colors = { Color3.fromRGB(255, 210, 110), Color3.fromRGB(255, 90, 20) }, emitters = {
+		flash(10), floor("Shockwave", 42, 0.5), floor("Ring", 40, 0.6, 0, 1),
+		{ tex = "FlameFlipbook", count = 28, life = NumberRange.new(0.6, 0.9), size = popSize(3), speed = NumberRange.new(30, 44), spread = RING_OUT, drag = 3, accel = Vector3.new(0, 10, 0), flipbook = FLIP, light = 1 },
+		{ tex = "Dust", count = 18, life = NumberRange.new(0.6, 1), size = grow(1.2, 0.6), speed = NumberRange.new(20, 34), spread = RING_OUT, accel = Vector3.new(0, -30, 0), color = Color3.fromRGB(90, 70, 60) },
+		smoke(10, 4, 1),
+	} },
+	BossStomp = { colors = { Color3.fromRGB(255, 220, 120), Color3.fromRGB(255, 80, 20) }, light = { range = 40, brightness = 8 }, emitters = {
+		flash(18), impact(16, 1), floor("CrackBurst", 30, 1.4), floor("Shockwave", 40, 0.7), floor("Ring", 34, 0.9, 0, 1),
+		{ tex = "FlameFlipbook", count = 30, life = NumberRange.new(0.7, 1.1), size = popSize(4), speed = NumberRange.new(24, 40), spread = RING_OUT, drag = 2.5, accel = Vector3.new(0, 14, 0), flipbook = FLIP, light = 1 },
+		{ tex = "Dust", count = 24, life = NumberRange.new(0.9, 1.3), size = grow(1.6, 0.8), speed = NumberRange.new(26, 40), spread = Vector2.new(60, 60), accel = Vector3.new(0, -50, 0), rotSpeed = NumberRange.new(-200, 200), color = Color3.fromRGB(60, 45, 45) },
+		{ tex = "Ember", count = 50, life = NumberRange.new(1, 1.6), size = grow(0.7, 0.1), speed = NumberRange.new(26, 50), spread = Vector2.new(70, 70), accel = Vector3.new(0, -12, 0), light = 1, colorIndex = 2 },
+		smoke(16, 6, 1),
+	} },
+	-- falling meteor (client moves a host part down from the sky, this trails behind it)
+	BossMeteorTrail = { loop = true, colors = { Color3.fromRGB(255, 220, 120), Color3.fromRGB(255, 90, 20) }, emitters = {
+		{ tex = "FlameFlipbook", rate = 60, life = NumberRange.new(0.3, 0.5), size = grow(3.5, 1), speed = NumberRange.new(2, 4), flipbook = FLIP, light = 1 },
+		{ tex = "SmokeFlipbook", rate = 20, life = NumberRange.new(0.8, 1.2), size = grow(2, 5), speed = NumberRange.new(1, 2), transparency = seq(0, 0.4, 1, 1), flipbook = FLIP, flipOnce = true, color = Color3.fromRGB(60, 45, 45), z = -1 },
+		{ tex = "Ember", rate = 40, life = NumberRange.new(0.5, 0.9), size = grow(0.5, 0.1), speed = NumberRange.new(4, 10), light = 1, colorIndex = 2 },
+	} },
+	BossMeteorImpact = { colors = { Color3.fromRGB(255, 220, 120), Color3.fromRGB(255, 80, 20) }, light = { range = 24, brightness = 6 }, emitters = {
+		flash(12), impact(10, 1), floor("CrackBurst", 16, 1.2), floor("Shockwave", 20, 0.5),
+		{ tex = "FlameFlipbook", count = 18, life = NumberRange.new(0.6, 0.9), size = popSize(3), speed = NumberRange.new(16, 30), spread = Vector2.new(60, 60), drag = 2, accel = Vector3.new(0, 16, 0), flipbook = FLIP, light = 1 },
+		{ tex = "Dust", count = 14, life = NumberRange.new(0.8, 1.1), size = grow(1.2, 0.6), speed = NumberRange.new(18, 30), spread = Vector2.new(50, 50), accel = Vector3.new(0, -50, 0), color = Color3.fromRGB(60, 45, 45) },
+		{ tex = "Ember", count = 26, life = NumberRange.new(0.8, 1.3), size = grow(0.6, 0.1), speed = NumberRange.new(18, 36), spread = Vector2.new(60, 60), accel = Vector3.new(0, -16, 0), light = 1, colorIndex = 2 },
+		smoke(8, 4, 1),
+	} },
+	BossEnrage = { colors = { Color3.fromRGB(255, 240, 160), Color3.fromRGB(255, 60, 20) }, light = { range = 60, brightness = 10 }, emitters = {
+		flash(30),
+		{ tex = "Rays", count = 1, life = NumberRange.new(1.6), size = seq(0, 6, 0.25, 40, 1, 46), rotSpeed = NumberRange.new(30), transparency = seq(0, 0, 0.6, 0.3, 1, 1), light = 1, z = -2 },
+		floor("Shockwave", 60, 0.9), floor("RuneCircle", 40, 1.8, 50, 2),
+		{ tex = "FlameFlipbook", count = 40, life = NumberRange.new(0.9, 1.4), size = popSize(5), speed = NumberRange.new(20, 40), spread = Vector2.new(40, 40), accel = Vector3.new(0, 20, 0), drag = 1.5, flipbook = FLIP, light = 1 },
+		{ tex = "Ember", count = 80, life = NumberRange.new(1.2, 2), size = grow(0.8, 0.1), speed = NumberRange.new(20, 50), drag = 1.5, accel = Vector3.new(0, 10, 0), light = 1, colorIndex = 2 },
+		smoke(14, 7, 2),
+	} },
+	BossDeath = { colors = { Color3.fromRGB(255, 220, 140), Color3.fromRGB(255, 90, 20) }, light = { range = 50, brightness = 8 }, emitters = {
+		flash(26), floor("Shockwave", 50, 1.0),
+		{ tex = "SmokeFlipbook", count = 30, life = NumberRange.new(2, 3), size = grow(6, 14), speed = NumberRange.new(4, 12), drag = 1, accel = Vector3.new(0, 4, 0), transparency = seq(0, 0.2, 1, 1), flipbook = FLIP, flipOnce = true, color = Color3.fromRGB(70, 55, 55), z = -1 },
+		{ tex = "Ember", count = 100, life = NumberRange.new(1.5, 2.5), size = grow(0.8, 0.1), speed = NumberRange.new(10, 30), drag = 1, accel = Vector3.new(0, 8, 0), light = 1, colorIndex = 2 },
+		{ tex = "Coin", count = 30, life = NumberRange.new(1.2, 1.6), size = popSize(1.6), speed = NumberRange.new(20, 36), spread = Vector2.new(50, 50), accel = Vector3.new(0, -50, 0), rotSpeed = NumberRange.new(-300, 300), raw = true, delay = 0.4 },
+		twinkles(40, 30, 2),
+	} },
+	-- looping on the MagmaOrbit bone above the crater: smoke plume and rising embers (x1.8 in phase 2)
+	BossVolcanoAura = { loop = true, colors = { Color3.fromRGB(255, 200, 100), Color3.fromRGB(255, 90, 20) }, emitters = {
+		{ tex = "SmokeFlipbook", rate = 6, life = NumberRange.new(3, 4), size = grow(3, 9), speed = NumberRange.new(3, 5), spread = Vector2.new(15, 15), accel = Vector3.new(0, 2, 0), drag = 0.3, windDrag = true, transparency = seq(0, 0.4, 1, 1), flipbook = FLIP, flipOnce = true, color = Color3.fromRGB(60, 50, 50), emitDir = Enum.NormalId.Top, z = -1 },
+		{ tex = "Ember", rate = 22, life = NumberRange.new(1.5, 2.5), size = grow(0.5, 0.05), speed = NumberRange.new(5, 10), spread = Vector2.new(25, 25), accel = Vector3.new(0, 3, 0), light = 1, colorIndex = 2, emitDir = Enum.NormalId.Top },
+		{ tex = "FlameFlipbook", rate = 6, life = NumberRange.new(0.5, 0.8), size = grow(2, 0.5), speed = NumberRange.new(2, 4), spread = Vector2.new(10, 10), flipbook = FLIP, light = 1, emitDir = Enum.NormalId.Top },
+	} },
 	-- Mythic: every element at once, then a rainbow nova.
 	PrismJudgement = { colors = { Color3.fromRGB(255, 255, 255), Color3.fromRGB(255, 140, 230) }, light = { range = 50, brightness = 10 }, emitters = {
 		flash(24),

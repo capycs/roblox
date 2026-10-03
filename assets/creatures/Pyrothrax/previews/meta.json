@@ -1,0 +1,153 @@
+{
+  "name": "Pyrothrax",
+  "element": "Fire",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 19950,
+        "verts": 15629
+      },
+      "Eyes": {
+        "tris": 704,
+        "verts": 442
+      },
+      "Magma": {
+        "tris": 5520,
+        "verts": 3574
+      },
+      "GlowCore": {
+        "tris": 240,
+        "verts": 229
+      },
+      "Flame": {
+        "tris": 1990,
+        "verts": 1063
+      }
+    },
+    "bones": 33,
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 3.2
+      },
+      {
+        "name": "Walk",
+        "duration": 1.5
+      },
+      {
+        "name": "Run",
+        "duration": 0.9
+      },
+      {
+        "name": "Attack",
+        "duration": 1.3
+      },
+      {
+        "name": "Roar",
+        "duration": 2.8
+      },
+      {
+        "name": "FireBreath",
+        "duration": 3
+      },
+      {
+        "name": "TailSwipe",
+        "duration": 1.8
+      },
+      {
+        "name": "Stomp",
+        "duration": 2.2
+      },
+      {
+        "name": "Eruption",
+        "duration": 3.2
+      },
+      {
+        "name": "Enrage",
+        "duration": 3
+      },
+      {
+        "name": "Hurt",
+        "duration": 0.6
+      },
+      {
+        "name": "Death",
+        "duration": 3
+      }
+    ]
+  },
+  "sprites": {
+    "Idle": {
+      "frames": 64,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3.2
+    },
+    "Walk": {
+      "frames": 30,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.5
+    },
+    "Run": {
+      "frames": 18,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.9
+    },
+    "Attack": {
+      "frames": 26,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.3
+    },
+    "Roar": {
+      "frames": 56,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.8
+    },
+    "FireBreath": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "TailSwipe": {
+      "frames": 36,
+      "fw": 400,
+      "fh": 320,
+      "duration": 1.8
+    },
+    "Stomp": {
+      "frames": 44,
+      "fw": 400,
+      "fh": 320,
+      "duration": 2.2
+    },
+    "Eruption": {
+      "frames": 64,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3.2
+    },
+    "Enrage": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    },
+    "Hurt": {
+      "frames": 12,
+      "fw": 400,
+      "fh": 320,
+      "duration": 0.6
+    },
+    "Death": {
+      "frames": 60,
+      "fw": 400,
+      "fh": 320,
+      "duration": 3
+    }
+  }
+}

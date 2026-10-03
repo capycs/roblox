@@ -48,6 +48,8 @@ Anything still at `rbxassetid://0` is skipped (icons show a coloured placeholder
 - **Effects:** `Effects.burst("HatchBurst", cframe, { color = ... })` on the client, or `FxService.play(...)` from the server. Every creature has an ability preset (`CreatureInfo.Species[name].ability.effect`).
 - **Mutations:** set a creature's `Mutations` attribute (e.g. `"Rainbow,Giant"`) and `MutationVisuals.client` swaps its texture, recolours its glow and adds the aura. Server: `Mutations.roll` + `Mutations.applyServer`. Details in `docs/CREATURES.md`.
 
+- **Boss:** put the Pyrothrax model in `ServerStorage/Creatures` and an anchored Part named `Workspace/BossArena` in the map. It spawns there and fights nearby players. Details in `docs/BOSSES.md`.
+
 Product and game-pass IDs go in `src/shared/Shop/ShopCatalog.luau`.
 
 Not yet tested inside Roblox Studio: the Luau compiles, and the creature animation maths matches the previews exactly.

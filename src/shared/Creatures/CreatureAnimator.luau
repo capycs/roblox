@@ -143,7 +143,8 @@ function Animator.step(self: Animator, dt: number)
 	if self.action then
 		local clip = clips[self.action]
 		self.actionT += dt
-		if self.actionT < clip.duration then
+		-- clips marked hold (a boss's Death) stay on their last frame until another action plays
+		if self.actionT < clip.duration or clip.hold then
 			self.actionW = math.min(1, self.actionW + dt / Config.ActionFadeIn)
 		else
 			self.actionW = math.max(0, self.actionW - dt / Config.ActionFadeOut)
@@ -157,7 +158,7 @@ function Animator.step(self: Animator, dt: number)
 			rot[b] = (rot[b] or Vector3.zero) + v * aw
 		end
 		hips = hips * (1 - aw) + h * aw
-		if self.actionT >= clip.duration and aw <= 0 then
+		if self.actionT >= clip.duration and aw <= 0 and not clip.hold then
 			self.action = nil
 			self.actionT = 0
 		end

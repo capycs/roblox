@@ -217,6 +217,7 @@ AssetIds.Portraits = {
 	Mossback = "rbxassetid://0",
 	Nyxwing = "rbxassetid://0",
 	Pumpkit = "rbxassetid://0",
+	Pyrothrax = "rbxassetid://0",
 	Shellsnap = "rbxassetid://0",
 	Shroomtoad = "rbxassetid://0",
 	Solarion = "rbxassetid://0",
@@ -347,6 +348,13 @@ AssetIds.Mutations = {
 		Rainbow = "rbxassetid://0", -- Pumpkit_Rainbow
 		Shiny = "rbxassetid://0", -- Pumpkit_Shiny
 		Void = "rbxassetid://0", -- Pumpkit_Void
+	},
+	Pyrothrax = {
+		Crystal = "rbxassetid://0", -- Pyrothrax_Crystal
+		Golden = "rbxassetid://0", -- Pyrothrax_Golden
+		Rainbow = "rbxassetid://0", -- Pyrothrax_Rainbow
+		Shiny = "rbxassetid://0", -- Pyrothrax_Shiny
+		Void = "rbxassetid://0", -- Pyrothrax_Void
 	},
 	Shellsnap = {
 		Crystal = "rbxassetid://0", -- Shellsnap_Crystal
