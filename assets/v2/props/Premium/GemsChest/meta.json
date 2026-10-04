@@ -1,0 +1,32 @@
+{
+  "name": "GemsChest",
+  "category": "Premium",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 512,
+        "verts": 891
+      },
+      "Glow": {
+        "tris": 32,
+        "verts": 96
+      },
+      "Shine": {
+        "tris": 120,
+        "verts": 91
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

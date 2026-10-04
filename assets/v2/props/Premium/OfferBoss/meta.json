@@ -1,0 +1,36 @@
+{
+  "name": "OfferBoss",
+  "category": "Premium",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 1360,
+        "verts": 956
+      },
+      "Glow": {
+        "tris": 32,
+        "verts": 96
+      },
+      "Lava": {
+        "tris": 144,
+        "verts": 78
+      },
+      "Tide": {
+        "tris": 144,
+        "verts": 240
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

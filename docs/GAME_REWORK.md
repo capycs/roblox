@@ -125,8 +125,10 @@ repo). Read src/server/DungeonService.luau and src/shared/Eggs/BossEggs.luau fir
 - Coins/gems: BossService.Defeated (model, species, rewards, topDamager, damageByPlayer) and
   DungeonService.RunEnded (runName, result, players, rewards). Give rewards once per run, to
   players who were in it.
-- Shop: the Mythic egg is now "boss run only" (ShopCatalog bossRunOnly). If the place has its
-  own shop or expedition code, remove the expedition references the same way.
+- Shop: the repo's premium shop (docs/PREMIUM_UI.md) replaces any old shop UI in the place: remove
+  place-only shop GUIs (to the backup folder). Put product/pass IDs in ShopCatalog, grant them in
+  ProcessReceipt (example in PREMIUM_UI.md) and call PassService.grantOffer for one-time offers.
+  The Mythic egg is "boss run only" (ShopCatalog bossRunOnly).
 - If the place has old expedition data fields in DataStore (carried eggs, run timers), stop
   writing them, but don't wipe saved data.
 - Turn off the creature demo for live: CreatureConfig.DemoEnabled = false (repo change; tell me).

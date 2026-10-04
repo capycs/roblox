@@ -1,0 +1,36 @@
+{
+  "name": "PassBossKey",
+  "category": "Premium",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 768,
+        "verts": 558
+      },
+      "Glow": {
+        "tris": 16,
+        "verts": 48
+      },
+      "Fire": {
+        "tris": 86,
+        "verts": 67
+      },
+      "Tide": {
+        "tris": 86,
+        "verts": 67
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

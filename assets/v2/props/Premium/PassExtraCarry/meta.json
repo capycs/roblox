@@ -1,0 +1,32 @@
+{
+  "name": "PassExtraCarry",
+  "category": "Premium",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 2556,
+        "verts": 1845
+      },
+      "Glow": {
+        "tris": 16,
+        "verts": 48
+      },
+      "Lava": {
+        "tris": 40,
+        "verts": 22
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

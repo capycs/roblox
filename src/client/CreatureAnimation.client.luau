@@ -9,23 +9,7 @@ local Creatures = ReplicatedStorage:WaitForChild("Shared"):WaitForChild("Creatur
 local Config = require(Creatures.CreatureConfig)
 local Animator = require(Creatures.CreatureAnimator)
 local CreatureSetup = require(Creatures.CreatureSetup)
-local Quadruped = require(Creatures.Poses.Quadruped)
-local Biped = require(Creatures.Poses.Biped)
-local Fish = require(Creatures.Poses.Fish)
-local Boss = require(Creatures.Poses.Boss)
--- style.body picks the pose set: four legs (default), two legs (arms, wings or hovering), or a fish
-local BODIES: { [string]: any } = { quad = Quadruped, biped = Biped, fish = Fish, boss = Boss }
-
--- One poses module per species, built from its style in CreatureConfig.
-local posesBySpecies: { [string]: any } = {}
-local function posesFor(species: string, def: any): any
-	local p = posesBySpecies[species]
-	if not p then
-		p = (BODIES[def.style.body or "quad"] or Quadruped).make(def.style)
-		posesBySpecies[species] = p
-	end
-	return p
-end
+local PoseSets = require(Creatures.PoseSets)
 
 local active: { [Model]: { animator: Animator.Animator, conn: RBXScriptConnection } } = {}
 
@@ -38,7 +22,7 @@ local function attach(inst: Instance)
 	if not def then
 		return
 	end
-	local animator = Animator.new(inst, posesFor(species, def))
+	local animator = Animator.new(inst, PoseSets.get(species))
 	local conn = inst:GetAttributeChangedSignal("ActionSeq"):Connect(function()
 		local action = inst:GetAttribute("Action")
 		if typeof(action) == "string" then

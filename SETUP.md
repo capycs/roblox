@@ -28,6 +28,7 @@ Asset Manager > Bulk Import, then copy each ID:
 - `assets/textures/<Name>/{color,normal,roughness}.png` (14 terrain materials)
 - `assets/sky/{Day,Dusk}/{Bk,Dn,Ft,Lf,Rt,Up}.png` (skyboxes)
 - `assets/creatures/<Name>/previews/hero.png` (portraits for the Index and hatch reveal)
+- `assets/v2/icons/<Name>.png` + `<Name>_spin.png` for the 14 premium icons (`AssetIds.Premium`, spinning shop/offer icons)
 
 Anything still at `rbxassetid://0` is skipped (icons show a coloured placeholder). Re-running
 `npm run asset-ids` keeps IDs you already filled in.
@@ -50,6 +51,7 @@ Anything still at `rbxassetid://0` is skipped (icons show a coloured placeholder
 - **Mutations:** set a creature's `Mutations` attribute (e.g. `"Rainbow,Giant"`) and `MutationVisuals.client` swaps its texture, recolours its glow and adds the aura. Server: `Mutations.roll` + `Mutations.applyServer`. Details in `docs/CREATURES.md`.
 
 - **Boss runs:** Pyrothrax and Thalassor in `ServerStorage/Creatures`, PyroLair and TideLair in `ServerStorage/Dungeons`, EggPyrothrax and EggThalassor in `ServerStorage/Props/Eggs`, and PyroGate and TideGate tagged `BossRunPortal` in Haven. Stand on a gate's pad to start a run. Details in `docs/BOSSES.md`; moving an old place over: `docs/GAME_REWORK.md`.
+- **Premium shop:** frosted-glass shop with live 3D creatures, offers with real timers, honest value ladder, odds panels and spinning premium icons. Product IDs go in `ShopCatalog`; how to go live (incl. a ProcessReceipt example) in `docs/PREMIUM_UI.md`.
 
 Product and game-pass IDs go in `src/shared/Shop/ShopCatalog.luau`.
 

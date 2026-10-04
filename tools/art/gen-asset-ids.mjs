@@ -64,6 +64,16 @@ for (const c of fs.readdirSync(path.join(repo, 'assets/creatures')).filter((d) =
 }
 lines.push('}');
 lines.push('');
+lines.push('--[Premium] assets/v2/icons/<Name>.png (still) and <Name>_spin.png (4x4 spin sheet, Premium.spriteIcon)');
+lines.push('AssetIds.Premium = {');
+for (const n of list('assets/v2/icons').filter((f) => f.endsWith('_spin')).map((f) => f.replace(/_spin$/, ''))) {
+  const st = old.match(new RegExp(`still = "(rbxassetid://\\d+)", -- ${n}\\b`)), sp = old.match(new RegExp(`spin = "(rbxassetid://\\d+)", -- ${n}_spin\\b`));
+  lines.push(`\t${n} = { still = "${st ? st[1] : 'rbxassetid://0'}", -- ${n}`);
+  lines.push(`\t\tspin = "${sp ? sp[1] : 'rbxassetid://0'}", -- ${n}_spin`);
+  lines.push('\t},');
+}
+lines.push('}');
+lines.push('');
 lines.push('--[Sky] assets/sky/<Name>/<Face>.png');
 lines.push('AssetIds.Sky = {');
 for (const sky of fs.readdirSync(path.join(repo, 'assets/sky')).sort()) {

@@ -22,6 +22,9 @@ return {
 
 	-- Only animate creatures within this distance of the camera.
 	AnimateDistance = 220,
+	-- CreatureModels.server copies the imported models to ReplicatedStorage/CreatureModels so the
+	-- client can show live 3D creatures in the UI (shop offers, hatch reveal). Turn off to save memory.
+	UIModels = true,
 
 	-- One entry per creature. `style` mirrors the species file in tools/art/species
 	-- (same keys as Poses/Quadruped.luau). `glow` maps mesh names to Neon colours.

@@ -161,6 +161,23 @@ export async function runProps(file) {
     const olc = spec.outline || '#120c10';
     out.images.hero = shootOutlined(r, S.scene, cam, bloom, olc, Math.max(2, Math.round(w / 220))).toDataURL('image/png');
     if (spec.icon) out.images.icon = shootOutlined(r, S.scene, cam, bloom * 0.6, olc, Math.max(3, Math.round(w / 140)), true).toDataURL('image/png');
+    if (spec.iconSprite) {
+      // transparent 4x4 sheet (1024x1024, Roblox's max image size): one full turn with a gentle bob,
+      // played in UI with ImageRectOffset (Premium.spriteIcon)
+      const FS = 256, rr = makeRenderer(FS, FS);
+      const c3 = fitBox(S.box, spec.fov || 30, FS, FS, view, (spec.margin || 0.84) * 0.86, S.pts);
+      const sheet = document.createElement('canvas'); sheet.width = FS * 4; sheet.height = FS * 4;
+      const g0 = S.model.group, baseRot = g0.rotation.y, baseY = g0.position.y;
+      for (let i = 0; i < 16; i++) {
+        const u = i / 16;
+        g0.rotation.y = baseRot + u * Math.PI * 2; g0.position.y = baseY + Math.sin(u * Math.PI * 2) * (S.size?.y || 2) * 0.03;
+        for (const [n, m] of Object.entries(S.model.meshes)) animate3(m, n, u * 2);
+        sheet.getContext('2d').drawImage(shootOutlined(rr, S.scene, c3, bloom * 0.6, olc, 3, true), (i % 4) * FS, Math.floor(i / 4) * FS);
+      }
+      g0.rotation.y = baseRot; g0.position.y = baseY;
+      out.images.iconSprite = sheet.toDataURL('image/png');
+      rr.dispose(); rr.forceContextLoss();
+    }
     r.dispose(); r.forceContextLoss();
     if (animated) {
       const FW = 400, FH = 320, n = spec.frames || 24;

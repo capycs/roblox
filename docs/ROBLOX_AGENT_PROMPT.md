@@ -80,8 +80,9 @@ STEP 3 - Upload images and paste their IDs into src/shared/AssetIds.luau
   assets/textures/<Name>/{color,normal,roughness}.png (14 ground materials, AssetIds.Textures)
   assets/sky/{Day,Dusk}/{Bk,Dn,Ft,Lf,Rt,Up}.png (AssetIds.Sky)
   assets/creatures/<Name>/previews/hero.png (25 portraits, AssetIds.Portraits)
-- Optional: assets/v2/icons/*.png are transparent renders of the 3D icon models (coins,
-  gems, potions, trophy...) for shop/reward UI. Not wired to any key yet.
+- Premium icons: assets/v2/icons/<Name>.png and <Name>_spin.png for the 14 premium icons (passes,
+  gem tiers, offers) -> AssetIds.Premium[name].still / .spin. The shop, offer popup and HUD spin
+  them (Premium.spriteIcon). The other assets/v2/icons renders (coins, potions...) are optional.
 - Anything left at rbxassetid://0 is skipped with a warning, so missing IDs show up in
   Output. Fix every "[Effects] Fx texture ... has no asset ID" warning.
 
@@ -217,6 +218,7 @@ STEP 8 - Check it
 | `assets/sky/{Day,Dusk}/` | skybox faces |
 | `src/` | all Luau (Rojo) |
 | `docs/BOSSES.md` | boss runs: Pyrothrax and Thalassor, red-circle attacks, phases, mutations, boss egg odds, API |
+| `docs/PREMIUM_UI.md` | premium shop, offers, odds panel, 3D creatures in UI, premium icons, monetisation rules, ProcessReceipt example |
 | `docs/GAME_REWORK.md` | prompt for removing the old maps and moving the place to Haven + boss runs |
 | `tools/art/` | the generators (three.js, run headless). `npm run build/props/textures/fx/icons/sky`, then `npm run prop-anim` and `npm run asset-ids` |
 
@@ -243,6 +245,7 @@ STEP 8 - Check it
 | Eggs | 16 | EggCandy, EggCelestial, EggCosmic, EggCrystal, EggDragon, EggForest, EggFrost, EggGoldenHuge, EggOcean, EggPyrothrax (boss egg), EggRainbow, EggSpooky, EggStorm, EggThalassor (boss egg), EggVoid, EggVolcano |
 | Icons | 24 | Bolt3D, ChestRarity, Clover3D, Coin3D, CoinStack, Crown3D, Gem3D, GemPile, GiftBox3D, Heart3D, Hourglass3D, Key3D, Lock3D, Magnet3D, Paw3D, PotionCoins, PotionLuck, PotionPower, PotionSpeed, Scroll3D, Shield3D, Star3D, Ticket3D, Trophy3D |
 | Shops | 7 | EggShop, GemShop, Incubator, IncubatorStation, IndexKiosk, QuestBoard, UpgradeBooth (rebuilt: stone-and-plank bases, billowing scalloped awnings, swinging signs, lanterns, waving bunting, potted plants, v2 eggs on display; replace the originals) |
+| Premium | 14 | PassVIP, PassLucky, PassDoubleCoins, PassFastHatch, PassExtraCarry, PassBossKey, PassMutation, PassTripleHatch, GemsPouch, GemsPile, GemsChest, GemsVault, OfferStarter, OfferBoss (icon models; use the renders in assets/v2/icons) |
 | Dungeon | 4 | PyroGate, TideGate (Haven entrances + queue pads), PyroLair, TideLair (boss arenas, go in ServerStorage/Dungeons) |
 | Systems | 17 | BreakableChest, BreakableCoins, BreakableGems, DailyChest, EggCapsule, EnchantAltar, Hoverboard, LeaderboardStand, PetPedestal, PotionShelf, RebirthShrine, SpawnPad, SpinWheel, TeleportPortal, TradingBooth, VIPRope, ZoneGate |
 

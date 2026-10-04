@@ -74,4 +74,5 @@ add({
   build(B) { B.add(new THREE.BoxGeometry(1.6, 0.9, 1.0), { pos: [0, 0.45, 0], color: 'wood' }); const lid = new THREE.CylinderGeometry(0.5, 0.5, 1.6, 16, 1, false, 0, Math.PI); lid.rotateZ(Math.PI / 2); B.add(lid, { pos: [0, 0.9, 0], color: 'woodDeep' }); for (const x of [-0.7, 0.7]) B.add(new THREE.BoxGeometry(0.14, 0.95, 1.04), { pos: [x, 0.47, 0], color: 'gold' }); for (const x of [-0.7, 0.7]) { const b = new THREE.CylinderGeometry(0.53, 0.53, 0.14, 16, 1, false, 0, Math.PI); b.rotateZ(Math.PI / 2); B.add(b, { pos: [x, 0.9, 0], color: 'gold' }); } B.add(new THREE.BoxGeometry(0.35, 0.4, 0.08), { pos: [0, 0.82, -0.53], color: 'goldDeep' }); B.add(ell(0.6, 0.1, 0.35, 10, 4), { pos: [0, 0.92, -0.4], mesh: 'Glow' }); },
 });
 
+export { coin, gem, slab, starPts, heartPts, tilt, lathe, potion, GOLD, GEM };
 export default list;

@@ -422,6 +422,52 @@ AssetIds.Mutations = {
 	},
 }
 
+--[Premium] assets/v2/icons/<Name>.png (still) and <Name>_spin.png (4x4 spin sheet, Premium.spriteIcon)
+AssetIds.Premium = {
+	GemsChest = { still = "rbxassetid://0", -- GemsChest
+		spin = "rbxassetid://0", -- GemsChest_spin
+	},
+	GemsPile = { still = "rbxassetid://0", -- GemsPile
+		spin = "rbxassetid://0", -- GemsPile_spin
+	},
+	GemsPouch = { still = "rbxassetid://0", -- GemsPouch
+		spin = "rbxassetid://0", -- GemsPouch_spin
+	},
+	GemsVault = { still = "rbxassetid://0", -- GemsVault
+		spin = "rbxassetid://0", -- GemsVault_spin
+	},
+	OfferBoss = { still = "rbxassetid://0", -- OfferBoss
+		spin = "rbxassetid://0", -- OfferBoss_spin
+	},
+	OfferStarter = { still = "rbxassetid://0", -- OfferStarter
+		spin = "rbxassetid://0", -- OfferStarter_spin
+	},
+	PassBossKey = { still = "rbxassetid://0", -- PassBossKey
+		spin = "rbxassetid://0", -- PassBossKey_spin
+	},
+	PassDoubleCoins = { still = "rbxassetid://0", -- PassDoubleCoins
+		spin = "rbxassetid://0", -- PassDoubleCoins_spin
+	},
+	PassExtraCarry = { still = "rbxassetid://0", -- PassExtraCarry
+		spin = "rbxassetid://0", -- PassExtraCarry_spin
+	},
+	PassFastHatch = { still = "rbxassetid://0", -- PassFastHatch
+		spin = "rbxassetid://0", -- PassFastHatch_spin
+	},
+	PassLucky = { still = "rbxassetid://0", -- PassLucky
+		spin = "rbxassetid://0", -- PassLucky_spin
+	},
+	PassMutation = { still = "rbxassetid://0", -- PassMutation
+		spin = "rbxassetid://0", -- PassMutation_spin
+	},
+	PassTripleHatch = { still = "rbxassetid://0", -- PassTripleHatch
+		spin = "rbxassetid://0", -- PassTripleHatch_spin
+	},
+	PassVIP = { still = "rbxassetid://0", -- PassVIP
+		spin = "rbxassetid://0", -- PassVIP_spin
+	},
+}
+
 --[Sky] assets/sky/<Name>/<Face>.png
 AssetIds.Sky = {
 	Day = {

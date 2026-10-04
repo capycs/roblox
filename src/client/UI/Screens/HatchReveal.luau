@@ -1,6 +1,7 @@
 --!strict
 -- Big hatch moment: dim, spinning light rays, the egg shakes and cracks, a flash, then
--- the creature pops in with a rarity ribbon, element badge and NEW/GOLD tags.
+-- the creature pops out as a live 3D model (Premium.creature, roaring, camera orbiting) over a
+-- rarity disc, with sparkles, a rarity ribbon, element badge and NEW/mutation tags.
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -8,6 +9,7 @@ local RunService = game:GetService("RunService")
 local Kit = require(script.Parent.Parent.Kit)
 local Theme = require(script.Parent.Parent.Theme)
 local AssetIds = require(ReplicatedStorage:WaitForChild("Shared"):WaitForChild("AssetIds"))
+local Premium = require(script.Parent.Parent.Premium)
 
 return function(gui: ScreenGui, ctx: any)
 	local new = Kit.new
@@ -63,8 +65,16 @@ return function(gui: ScreenGui, ctx: any)
 		Kit.tween(flash, 0.6, { BackgroundTransparency = 1 })
 		egg:Destroy()
 		local holder = new("Frame", { BackgroundColor3 = color, Size = UDim2.fromOffset(380, 380), Position = UDim2.fromScale(0.5, 0.5), AnchorPoint = Vector2.new(0.5, 0.5), ClipsDescendants = true, ZIndex = 43, Parent = stage }, { Kit.corner(UDim.new(1, 0)), Kit.stroke(6), Kit.gradient(Theme.shade(color, 0.4), Theme.shade(color, -0.15)) })
+		-- live 3D creature popping out of the disc (falls back to the portrait/element icon)
+		local live = Premium.creature(info.species, UDim2.fromOffset(500, 500), { mutations = info.mutations or (if info.gold then { "Golden" } else nil), action = "Roar", spin = 0.45, z = 45 })
 		local portrait = AssetIds.get(AssetIds.Portraits[info.species])
-		if portrait then
+		if live:IsA("ViewportFrame") then
+			live.AnchorPoint = Vector2.new(0.5, 0.5)
+			live.Position = UDim2.fromScale(0.5, 0.45)
+			live.Parent = stage
+			Kit.pop(live, true)
+			Premium.sparkles(stage, if info.rarity == "Legendary" or info.rarity == "Mythic" then 14 else 7, Theme.shade(color, 0.6))
+		elseif portrait then
 			new("ImageLabel", { BackgroundTransparency = 1, Image = portrait, Size = UDim2.fromScale(1.25, 1.25), Position = UDim2.fromScale(0.5, 0.55), AnchorPoint = Vector2.new(0.5, 0.5), ScaleType = Enum.ScaleType.Crop, ZIndex = 44, Parent = holder })
 		else
 			Kit.icon("Element" .. info.element, 220, { pos = UDim2.fromScale(0.5, 0.5), anchor = Vector2.new(0.5, 0.5) }).Parent = holder

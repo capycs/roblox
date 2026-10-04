@@ -1,0 +1,32 @@
+{
+  "name": "GemsVault",
+  "category": "Premium",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 3392,
+        "verts": 6303
+      },
+      "Glow": {
+        "tris": 48,
+        "verts": 144
+      },
+      "Shine": {
+        "tris": 64,
+        "verts": 68
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

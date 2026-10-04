@@ -1,0 +1,28 @@
+{
+  "name": "PassMutation",
+  "category": "Premium",
+  "whole": "spinbob",
+  "stats": {
+    "meshes": {
+      "Body": {
+        "tris": 316,
+        "verts": 860
+      },
+      "Glow": {
+        "tris": 48,
+        "verts": 144
+      }
+    },
+    "parts": {},
+    "clips": [
+      {
+        "name": "Idle",
+        "duration": 5.235987755982989
+      }
+    ]
+  },
+  "sprite": {
+    "frames": 24,
+    "duration": 2
+  }
+}

@@ -118,6 +118,11 @@ local function eggsLeft(run: Run): number
 	return n
 end
 
+-- Egg Carrier pass: one more egg on your head
+local function maxCarry(run: Run, pl: Player): number
+	return run.def.maxCarry + (if pl:GetAttribute("Pass_ExtraCarry") == true then 1 else 0)
+end
+
 local function sync(run: Run)
 	local left = eggsLeft(run)
 	for _, pl in run.players do
@@ -126,7 +131,7 @@ local function sync(run: Run)
 		pl:SetAttribute("DungeonState", run.state)
 		pl:SetAttribute("DungeonEndsAt", run.endsAt)
 		pl:SetAttribute("CarryEggs", if list then #list else 0)
-		pl:SetAttribute("CarryMax", run.def.maxCarry)
+		pl:SetAttribute("CarryMax", maxCarry(run, pl))
 		pl:SetAttribute("DungeonEggsLeft", left)
 	end
 end
@@ -218,7 +223,7 @@ local function pickUp(run: Run, egg: Egg, pl: Player)
 	end
 	local root = rootOf(pl)
 	local list = run.carry[pl] or {}
-	if not root or #list >= run.def.maxCarry then
+	if not root or #list >= maxCarry(run, pl) then
 		return
 	end
 	egg.carrier = pl
@@ -257,7 +262,14 @@ local function spawnEggs(run: Run, lair: Instance)
 		warn("[DungeonService] Import the " .. run.def.egg .. " egg into " .. table.concat(DungeonConfig.EggFolder, "/"))
 		return
 	end
-	for i = 1, run.def.eggCount do
+	-- Boss Key pass: anyone in the party who owns it adds a bonus egg to the nest
+	local bonus = 0
+	for _, pl in run.players do
+		if pl:GetAttribute("Pass_BossKey") == true then
+			bonus = 1
+		end
+	end
+	for i = 1, run.def.eggCount + bonus do
 		local offset = run.def.layout.eggs[(i - 1) % #run.def.layout.eggs + 1]
 		local home = point(run, lair, "EggSpot" .. i, offset)
 		local model = template:Clone()

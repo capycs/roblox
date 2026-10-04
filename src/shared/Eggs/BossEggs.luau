@@ -9,6 +9,7 @@
 --   info.egg = BossEggs.data("EggPyrothrax", { "Golden" })   -- store this with the player's egg
 -- Later, when it hatches (incubator, hatch button...):
 --   local species, mutations = BossEggs.hatch(eggData, Random.new())
+--   BossEggs.hatch(eggData, rng, 2)   -- x2 mutation luck (Mutation Hunter pass)
 -- For a "chances" panel in the UI:
 --   BossEggs.odds(eggData)  -> { { species = "Solarion", chance = 0.064 }, ... } (sorted, sums to 1)
 --   BossEggs.mutationOdds(eggData) -> { Golden = 0.16, Shiny = 0.5, ... } (chance per mutation)
@@ -92,12 +93,12 @@ local function boosts(data: EggData): { [string]: number }
 end
 
 -- Chance of each mutation on its own (colour mutations exclude each other, rarest first).
-function BossEggs.mutationOdds(data: EggData): { [string]: number }
+function BossEggs.mutationOdds(data: EggData, extraLuck: number?): { [string]: number }
 	local def = BossEggs.Eggs[data.egg]
-	return Mutations.chances(def.mutationLuck, boosts(data))
+	return Mutations.chances(def.mutationLuck * (extraLuck or 1), boosts(data))
 end
 
-function BossEggs.hatch(data: EggData, rng: Random): (string, { string })
+function BossEggs.hatch(data: EggData, rng: Random, extraLuck: number?): (string, { string })
 	local def = BossEggs.Eggs[data.egg]
 	local roll, species = rng:NextNumber(), nil
 	local list = BossEggs.odds(data)
@@ -108,7 +109,7 @@ function BossEggs.hatch(data: EggData, rng: Random): (string, { string })
 			break
 		end
 	end
-	return species or list[#list].species, Mutations.roll(rng, def.mutationLuck, boosts(data))
+	return species or list[#list].species, Mutations.roll(rng, def.mutationLuck * (extraLuck or 1), boosts(data))
 end
 
 return BossEggs

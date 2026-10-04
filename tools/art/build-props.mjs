@@ -14,8 +14,9 @@ for (const file of files) {
     const dir = path.join(repo, out.v2 ? 'assets/v2/props' : 'assets/props', out.category, out.name);
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, out.name + '.glb'), Buffer.from(out.glb, 'base64'));
-    for (const [img, url] of Object.entries(out.images)) writeDataUrl(path.join(dir, img + '.png'), url);
+    for (const [img, url] of Object.entries(out.images)) if (img !== 'iconSprite') writeDataUrl(path.join(dir, img + '.png'), url);
     if (out.images.icon) { fs.mkdirSync(path.join(repo, 'assets/v2/icons'), { recursive: true }); writeDataUrl(path.join(repo, 'assets/v2/icons', out.name + '.png'), out.images.icon); }
+    if (out.images.iconSprite) writeDataUrl(path.join(repo, 'assets/v2/icons', out.name + '_spin.png'), out.images.iconSprite);
     fs.writeFileSync(path.join(dir, 'meta.json'), JSON.stringify({ name: out.name, category: out.category, whole: out.whole, stats: out.stats, sprite: out.sprite }, null, 2));
     const tris = Object.values(out.stats.meshes).reduce((s, m) => s + m.tris, 0);
     const big = Object.entries(out.stats.meshes).filter(([, m]) => m.tris > 20000).map(([n]) => n);

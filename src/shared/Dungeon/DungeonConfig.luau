@@ -60,7 +60,8 @@ local LAYOUT = {
 	spawn = Vector3.new(0, 0, -36),
 	exit = Vector3.new(0, 0, -46),
 	exitRadius = 6,
-	eggs = { Vector3.new(-3.2, 0.7, 29), Vector3.new(3.2, 0.7, 29.6), Vector3.new(0, 0.7, 33.2) },
+	-- the 4th spot is for the Boss Key pass bonus egg
+	eggs = { Vector3.new(-3.2, 0.7, 29), Vector3.new(3.2, 0.7, 29.6), Vector3.new(0, 0.7, 33.2), Vector3.new(0, 0.7, 26.6) },
 }
 
 DungeonConfig.Runs = {
