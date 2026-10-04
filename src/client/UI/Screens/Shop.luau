@@ -53,11 +53,11 @@ return function(gui: ScreenGui, ctx: any)
 		end
 		for n, b in tabButtons do
 			local face = b:FindFirstChild("Face") :: Frame
-			face.BackgroundColor3 = if n == name then Theme.Gold else Theme.shade(Premium.Glass.Tint, 0.25)
+			face.BackgroundColor3 = if n == name then Premium.Palette.Accent else Premium.Palette.Control
 		end
 	end
 	for i, n in { "Featured", "Gems", "Passes", "Eggs" } do
-		local b = Kit.button({ name = n, text = n, color = Theme.shade(Premium.Glass.Tint, 0.25), size = UDim2.fromOffset(150, 46), textSize = 22, depth = 4, order = i, onClick = function() select(n) end })
+		local b = Kit.button({ name = n, text = n, color = Premium.Palette.Control, size = UDim2.fromOffset(150, 46), textSize = 22, depth = 4, order = i, onClick = function() select(n) end })
 		b.Parent = tabs
 		Premium.hover(b, 0.04)
 		tabButtons[n] = b
@@ -86,7 +86,7 @@ return function(gui: ScreenGui, ctx: any)
 	end
 
 	local function infoButton(parent: Instance, pos: UDim2, onClick: () -> ())
-		local b = Kit.button({ name = "Odds", color = Theme.Blue, size = UDim2.fromOffset(40, 44), text = "i", textSize = 24, radius = UDim.new(1, 0), depth = 4, onClick = onClick })
+		local b = Kit.button({ name = "Odds", color = Premium.Palette.Control, size = UDim2.fromOffset(40, 44), text = "i", textSize = 24, radius = UDim.new(1, 0), depth = 4, onClick = onClick })
 		b.Position = pos
 		b.ZIndex = 30
 		b.Parent = parent
@@ -111,9 +111,9 @@ return function(gui: ScreenGui, ctx: any)
 
 	local function offerCard(offer: any, size: UDim2, pos: UDim2, big: boolean)
 		local endsAt = player:GetAttribute(offer.id .. "EndsAt") :: number?
-		local holder, body = Premium.glass({ name = offer.id, size = size, pos = pos, tint = if big then Color3.fromRGB(70, 30, 90) else Color3.fromRGB(20, 50, 80), alpha = 0.2 })
+		local holder, body = Premium.glass({ name = offer.id, size = size, pos = pos, tint = Premium.Palette.Raised, alpha = 0 })
 		holder.Parent = featured
-		Premium.animatedStroke(body, if big then Premium.Glass.Gold else Premium.Glass.Gem, 3, 70)
+		Premium.animatedStroke(body, if big then Premium.Glass.Gold else Premium.Glass.Steel, if big then 2.5 else 2, 50)
 		Premium.shine(body, 4)
 		Premium.sparkles(body, if big then 8 else 5)
 		-- live creature
@@ -130,7 +130,7 @@ return function(gui: ScreenGui, ctx: any)
 		local y = if big then 78 else 52
 		contentsList(body, offer, UDim2.fromOffset(vpSize, y), (size.X.Offset - vpSize - 24))
 		if offer.oneTime then
-			Premium.ribbon(body, "ONE TIME", Theme.Pink)
+			Premium.ribbon(body, "ONE TIME", Premium.Palette.Accent)
 		end
 		-- honest value line: the gems alone, at the cheapest pack's price
 		local gems = 0
@@ -185,7 +185,7 @@ return function(gui: ScreenGui, ctx: any)
 	-- VIP strip under the side offer
 	do
 		local vip = Catalog.Passes[1]
-		local holder, body = Premium.glass({ name = "VIPStrip", size = UDim2.fromOffset(350, 136), pos = UDim2.fromOffset(600, 320), tint = Color3.fromRGB(80, 60, 20), alpha = 0.2 })
+		local holder, body = Premium.glass({ name = "VIPStrip", size = UDim2.fromOffset(350, 136), pos = UDim2.fromOffset(600, 320), tint = Premium.Palette.Raised, alpha = 0 })
 		holder.Parent = featured
 		Premium.animatedStroke(body, Premium.Glass.Gold, 2.5, 50)
 		Premium.spriteIcon(vip.icon, 110, { pos = UDim2.fromOffset(4, 12), z = 4 }).Parent = body
@@ -219,23 +219,22 @@ return function(gui: ScreenGui, ctx: any)
 		for i, p in Catalog.GemPacks do
 			local isBest = p.id == bestId
 			local h = 360 + (i - 1) * 22 -- each tier a little taller: the ladder reads at a glance
-			local holder, body = Premium.glass({ name = p.id, size = UDim2.fromOffset(w, h), pos = UDim2.fromOffset((i - 1) * (w + gap) + (932 - n * w - (n - 1) * gap) / 2, 450 - h), tint = if isBest then Color3.fromRGB(70, 40, 120) else Premium.Glass.Tint, alpha = if isBest then 0.15 else 0.28 })
+			local holder, body = Premium.glass({ name = p.id, size = UDim2.fromOffset(w, h), pos = UDim2.fromOffset((i - 1) * (w + gap) + (932 - n * w - (n - 1) * gap) / 2, 450 - h), tint = if isBest then Premium.Palette.Control else Premium.Palette.Raised, alpha = 0 })
 			holder.Parent = gemsPage
 			if isBest then
 				Premium.animatedStroke(body, Premium.Glass.Gold, 3.5, 90)
 				Premium.shine(body, 3)
-				Premium.ribbon(body, "BEST VALUE", Theme.Red)
+				Premium.ribbon(body, "BEST VALUE", Premium.Palette.Accent)
 				Premium.sparkles(body, 7)
 			elseif p.popular then
-				Premium.animatedStroke(body, Premium.Glass.Gem, 2.5, 60)
-				Premium.ribbon(body, "POPULAR", Theme.Blue)
+				Premium.ribbon(body, "POPULAR", Premium.Palette.Divider)
 			end
 			local iconSize = 120 + (i - 1) * 16
 			Premium.spriteIcon(p.icon, iconSize, { pos = UDim2.new(0.5, 0, 0, 20 + iconSize / 2), anchor = Vector2.new(0.5, 0.5), z = 4, fps = 9 + i }).Parent = body
 			local amount = Kit.text(Kit.abbreviate(p.gems), { size = 40, color = Theme.White, outline = 3.5, box = UDim2.new(1, 0, 0, 44) })
 			amount.Position = UDim2.fromOffset(0, 40 + iconSize)
 			amount.Parent = body
-			new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Theme.White, Color3.fromRGB(200, 170, 255)), Parent = amount })
+			new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Theme.White, Color3.fromRGB(205, 205, 212)), Parent = amount })
 			local name = Kit.text(p.name, { size = 17, color = Theme.shade(Theme.White, -0.1), box = UDim2.new(1, 0, 0, 20), font = Theme.Body })
 			name.Position = UDim2.fromOffset(0, 84 + iconSize)
 			name.Parent = body
@@ -243,7 +242,7 @@ return function(gui: ScreenGui, ctx: any)
 			if more > 0 then
 				Premium.badge(body, `+{more}% MORE`, Theme.Green, { pos = UDim2.new(0.5, 0, 0, 110 + iconSize), anchor = Vector2.new(0.5, 0), textSize = 17 })
 			end
-			local buy = Premium.buyButton({ color = Theme.Gem, size = UDim2.new(1, -24, 0, 54), text = `R$ {p.robux}`, shine = isBest, onClick = function()
+			local buy = Premium.buyButton({ color = Theme.Gold, size = UDim2.new(1, -24, 0, 54), text = `R$ {p.robux}`, shine = isBest, onClick = function()
 				prompt(p.productId, nil, p.name, p.icon)
 			end })
 			buy.Position = UDim2.new(0, 12, 1, -66)
@@ -261,7 +260,7 @@ return function(gui: ScreenGui, ctx: any)
 	end
 	for i, pass in Catalog.Passes do
 		local owned = ownsPass(pass.id)
-		local holder, body = Premium.glass({ name = pass.id, size = UDim2.fromOffset(220, 228), order = i, alpha = 0.26 })
+		local holder, body = Premium.glass({ name = pass.id, size = UDim2.fromOffset(220, 228), order = i, tint = Premium.Palette.Raised, alpha = 0 })
 		holder.Parent = passPage
 		if pass.id == "VIP" then
 			Premium.animatedStroke(body, Premium.Glass.Gold, 3, 70)
@@ -297,8 +296,10 @@ return function(gui: ScreenGui, ctx: any)
 	new("UIPadding", { PaddingTop = UDim.new(0, 6), PaddingBottom = UDim.new(0, 12), Parent = eggPage })
 	for i, egg in Catalog.Eggs do
 		local color = Theme.Rarity[egg.rarity] or Theme.Gold
-		local holder, body = Premium.glass({ name = egg.id, size = UDim2.fromOffset(290, 214), order = i, tint = Theme.shade(color, -0.55), alpha = 0.25 })
+		local holder, body = Premium.glass({ name = egg.id, size = UDim2.fromOffset(290, 214), order = i, tint = Premium.Palette.Raised, alpha = 0 })
 		holder.Parent = eggPage
+		-- rarity shows as a thin bar along the top, not a tinted card
+		new("Frame", { Name = "RarityBar", BackgroundColor3 = color, BorderSizePixel = 0, Size = UDim2.new(1, 0, 0, 5), ZIndex = 3, Parent = body })
 		if egg.rarity == "Legendary" or egg.rarity == "Mythic" then
 			Premium.animatedStroke(body, if egg.rarity == "Mythic" then Premium.Glass.Rainbow else Premium.Glass.Gold, 3, 70)
 			Premium.sparkles(body, 5)

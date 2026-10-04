@@ -15,7 +15,7 @@ return function(gui: ScreenGui, ctx: any)
 	local top = new("Frame", { Name = "Currencies", BackgroundTransparency = 1, Size = UDim2.fromOffset(460, 54), Position = UDim2.fromOffset(40, 22), Parent = root }, { Kit.list(Enum.FillDirection.Horizontal, 28, Enum.HorizontalAlignment.Left) })
 	local coinPill, setCoins = Kit.pill({ name = "Coins", icon = "Coin", order = 1, width = 210, onPlus = function() ctx.open("Shop", "Eggs") end })
 	coinPill.Parent = top
-	local gemPill, setGems = Kit.pill({ name = "Gems", icon = "Gem", order = 2, width = 180, plusColor = Theme.Gem, shine = true, onPlus = function() ctx.open("Shop", "Gems") end })
+	local gemPill, setGems = Kit.pill({ name = "Gems", icon = "Gem", order = 2, width = 180, plusColor = Theme.Gold, shine = true, onPlus = function() ctx.open("Shop", "Gems") end })
 	gemPill.Parent = top
 	State.on("coins", setCoins)
 	State.on("gems", setGems)
@@ -45,7 +45,7 @@ return function(gui: ScreenGui, ctx: any)
 		return b
 	end
 	local player = game:GetService("Players").LocalPlayer
-	local offerBtn = premiumButton("Offer", "OfferStarter", "Offer", 2, Theme.shade(Theme.Pink, 0.4), function() ctx.open("Offer", "StarterPack") end)
+	local offerBtn = premiumButton("Offer", "OfferStarter", "Offer", 2, Premium.Palette.Raised, function() ctx.open("Offer", "StarterPack") end)
 	offerBtn.Parent = right
 	-- real time left on the starter offer (server attribute); the button goes away when it ends or is bought
 	local function refreshOffer()
@@ -65,7 +65,7 @@ return function(gui: ScreenGui, ctx: any)
 	player:GetAttributeChangedSignal("StarterPackEndsAt"):Connect(refreshOffer)
 	player:GetAttributeChangedSignal("Owned_StarterPack"):Connect(refreshOffer)
 	refreshOffer()
-	premiumButton("VIP", "PassVIP", "VIP", 3, Theme.shade(Theme.Gold, 0.55), function() ctx.open("Shop", "Passes") end).Parent = right
+	premiumButton("VIP", "PassVIP", "VIP", 3, Premium.Palette.Raised, function() ctx.open("Shop", "Passes") end).Parent = right
 	Kit.iconButton({ name = "Settings", icon = "Settings", label = "Settings", order = 4, onClick = function() ctx.toast("Settings coming soon", "Settings") end }).Parent = right
 
 	-- companion card

@@ -36,14 +36,27 @@ local Mutations = require(Creatures:WaitForChild("Mutations"))
 local new = Kit.new
 local Premium = {}
 
+-- Charcoal ladder (dark grey, never pure black): depth comes from lighter greys, not colour.
+-- Gold is the one premium accent (offers, best value, Robux buys); green stays for coin buys.
+Premium.Palette = {
+	Canvas = Color3.fromRGB(14, 14, 17), -- modal backdrop tint
+	Surface = Color3.fromRGB(24, 24, 28), -- windows
+	Raised = Color3.fromRGB(32, 32, 37), -- cards on a window
+	Control = Color3.fromRGB(44, 44, 50), -- tabs, small buttons
+	Divider = Color3.fromRGB(64, 64, 70),
+	TextDim = Color3.fromRGB(168, 168, 176),
+	Accent = Color3.fromRGB(245, 181, 46),
+}
+
 Premium.Glass = {
-	Tint = Color3.fromRGB(40, 26, 70), -- deep indigo glass
-	Alpha = 0.32, -- background transparency of the glass body
+	Tint = Premium.Palette.Surface,
+	Alpha = 0.06, -- barely see-through: the blurred world shows faintly at the edges
 	Rim = Color3.fromRGB(255, 255, 255),
 	Gold = { Color3.fromRGB(255, 236, 160), Color3.fromRGB(245, 181, 46), Color3.fromRGB(255, 120, 60), Color3.fromRGB(245, 181, 46), Color3.fromRGB(255, 236, 160) },
 	Rainbow = { Color3.fromRGB(255, 94, 94), Color3.fromRGB(255, 200, 74), Color3.fromRGB(111, 220, 90), Color3.fromRGB(74, 184, 255), Color3.fromRGB(154, 106, 255), Color3.fromRGB(255, 94, 94) },
-	Gem = { Color3.fromRGB(220, 200, 255), Color3.fromRGB(138, 90, 230), Color3.fromRGB(80, 200, 255), Color3.fromRGB(138, 90, 230), Color3.fromRGB(220, 200, 255) },
+	Steel = { Color3.fromRGB(235, 235, 240), Color3.fromRGB(130, 130, 140), Color3.fromRGB(80, 80, 90), Color3.fromRGB(130, 130, 140), Color3.fromRGB(235, 235, 240) },
 }
+Premium.Glass.Gem = Premium.Glass.Steel -- old name
 
 ---------------------------------------------------------------- shared animation loop
 
@@ -116,17 +129,18 @@ function Premium.glass(props: { [string]: any }?): (Frame, Frame)
 	end
 	local body = new("Frame", { Name = "Body", BackgroundColor3 = tint, BackgroundTransparency = p.alpha or Premium.Glass.Alpha, Size = UDim2.fromScale(1, 1), ClipsDescendants = true, Parent = holder }, {
 		new("UICorner", { CornerRadius = radius }),
-		-- lighter at the top, denser at the bottom, with a faint colour lift
-		new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Theme.shade(tint, 0.35), Theme.shade(tint, -0.15)), Transparency = seqT(0, 0, 1, 0.12) }),
+		-- a whisper of light at the top, no colour shift
+		new("UIGradient", { Rotation = 90, Color = ColorSequence.new(Theme.shade(tint, 0.05), Theme.shade(tint, -0.04)) }),
 	})
 	-- glossy top sheen: a white band that fades out halfway down
 	new("Frame", { Name = "Sheen", BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0, Size = UDim2.new(1, 0, 0.5, 0), ZIndex = 0, Parent = body }, {
-		new("UIGradient", { Rotation = 90, Transparency = seqT(0, 0.84, 0.6, 0.96, 1, 1) }),
+		new("UIGradient", { Rotation = 90, Transparency = seqT(0, 0.95, 0.5, 0.99, 1, 1) }),
 	})
 	if p.rim ~= false then
 		-- light catching the top edge: bright rim fading to the tint at the bottom
-		local rim = new("UIStroke", { Name = "Rim", Thickness = p.rimThickness or 2, Color = Premium.Glass.Rim, Transparency = 0.2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = body })
-		new("UIGradient", { Rotation = 90, Transparency = seqT(0, 0.1, 0.5, 0.65, 1, 0.85), Parent = rim })
+		-- hairline border, a touch brighter along the top edge
+		local rim = new("UIStroke", { Name = "Rim", Thickness = p.rimThickness or 1.5, Color = Premium.Glass.Rim, Transparency = 0, ApplyStrokeMode = Enum.ApplyStrokeMode.Border, Parent = body })
+		new("UIGradient", { Rotation = 90, Transparency = seqT(0, 0.78, 0.4, 0.9, 1, 0.92), Parent = rim })
 	end
 	return holder, body
 end
@@ -309,7 +323,7 @@ function Premium.creature(species: string, size: UDim2, opts: { [string]: any }?
 		return f
 	end
 	local vpf = new("ViewportFrame", { Name = species, BackgroundTransparency = if o.bg then 0 else 1, BackgroundColor3 = o.bg or Color3.new(), Size = size, ZIndex = o.z or 1,
-		Ambient = Color3.fromRGB(150, 140, 170), LightColor = Color3.fromRGB(255, 244, 230), LightDirection = Vector3.new(-0.6, -1, -0.7) })
+		Ambient = Color3.fromRGB(150, 150, 156), LightColor = Color3.fromRGB(255, 244, 230), LightDirection = Vector3.new(-0.6, -1, -0.7) })
 	local world = new("WorldModel", { Parent = vpf })
 	local model = src:Clone()
 	CreatureSetup.prepare(model, species)
@@ -369,8 +383,8 @@ end
 ]=]
 function Premium.modal(parent: Instance, props: { [string]: any })
 	local z = props.z or 20
-	local root = new("Frame", { Name = props.name or "PremiumModal", BackgroundColor3 = Color3.fromRGB(8, 4, 16), BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Visible = false, ZIndex = z, Parent = parent })
-	local holder, win = Premium.glass({ name = "Window", size = props.size or UDim2.fromOffset(980, 620), pos = UDim2.fromScale(0.5, 0.53), anchor = Vector2.new(0.5, 0.5), alpha = 0.22 })
+	local root = new("Frame", { Name = props.name or "PremiumModal", BackgroundColor3 = Premium.Palette.Canvas, BackgroundTransparency = 1, Size = UDim2.fromScale(1, 1), Visible = false, ZIndex = z, Parent = parent })
+	local holder, win = Premium.glass({ name = "Window", size = props.size or UDim2.fromOffset(980, 620), pos = UDim2.fromScale(0.5, 0.53), anchor = Vector2.new(0.5, 0.5), alpha = 0.04 })
 	holder.Parent = root
 	if props.border then
 		Premium.animatedStroke(win, props.border, 3, 60)

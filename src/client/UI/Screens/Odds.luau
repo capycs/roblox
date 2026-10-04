@@ -34,7 +34,7 @@ local MUT_ORDER = { "Shiny", "Golden", "Crystal", "Void", "Rainbow", "Giant", "S
 
 return function(gui: ScreenGui, ctx: any)
 	local new = Kit.new
-	local m = Premium.modal(gui, { name = "Odds", title = "Odds", icon = "PassLucky", size = UDim2.fromOffset(900, 600), z = 60, accent = Theme.Blue })
+	local m = Premium.modal(gui, { name = "Odds", title = "Odds", icon = "PassLucky", size = UDim2.fromOffset(900, 600), z = 60, accent = Theme.Gold })
 	local eggTabs = new("Frame", { Name = "EggTabs", BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 44), Parent = m.body }, { Kit.list(Enum.FillDirection.Horizontal, 8, Enum.HorizontalAlignment.Left) })
 	local list = new("ScrollingFrame", { Name = "List", BackgroundTransparency = 1, BorderSizePixel = 0, Size = UDim2.new(0.58, -8, 1, -52), Position = UDim2.fromOffset(0, 52), ScrollBarThickness = 6, ScrollBarImageColor3 = Theme.White, CanvasSize = UDim2.new(), AutomaticCanvasSize = Enum.AutomaticSize.Y, Parent = m.body }, { Kit.list(Enum.FillDirection.Vertical, 6, Enum.HorizontalAlignment.Left, Enum.VerticalAlignment.Top) })
 	local side = new("Frame", { Name = "Mutations", BackgroundTransparency = 1, Size = UDim2.new(0.42, -8, 1, -52), Position = UDim2.new(0.58, 8, 0, 52), Parent = m.body })
@@ -96,7 +96,7 @@ return function(gui: ScreenGui, ctx: any)
 		header(side, 0, "Mutation", "Chance", boostLabel)
 		for i, name in MUT_ORDER do
 			local c = base[name] or 0
-			row(side, i, Theme.Pink, name, nil, string.format("%.2f%%", c * 100), if boosted then string.format("%.2f%%", (boosted[name] or 0) * 100) else nil)
+			row(side, i, Theme.Gold, name, nil, string.format("%.2f%%", c * 100), if boosted then string.format("%.2f%%", (boosted[name] or 0) * 100) else nil)
 		end
 		local n = Kit.text(note or "Each mutation is rolled separately. Colour mutations (Shiny to Rainbow) can't stack: you get at most one.", { size = 15, color = Theme.shade(Theme.White, -0.2), wrap = true, align = Enum.TextXAlignment.Left, box = UDim2.new(1, -10, 0, 60), font = Theme.Body, order = 20 })
 		n.Parent = side
@@ -105,7 +105,7 @@ return function(gui: ScreenGui, ctx: any)
 	local function eggButtons(eggs: { string }, onPick: (string) -> ())
 		clear(eggTabs)
 		for i, id in eggs do
-			local b = Kit.button({ text = short(id), color = Theme.shade(Theme.Blue, -0.2), size = UDim2.fromOffset(120, 40), textSize = 18, depth = 3, order = i, onClick = function() onPick(id) end })
+			local b = Kit.button({ text = short(id), color = Premium.Palette.Control, size = UDim2.fromOffset(120, 40), textSize = 18, depth = 3, order = i, onClick = function() onPick(id) end })
 			b.Parent = eggTabs
 		end
 	end

@@ -4,6 +4,18 @@ What makes the shop, offers and big moments feel premium, what was built, and ho
 
 ## What the research says
 
+- **Charcoal, not coloured gradients.** Dark UIs read as premium on a ladder of dark greys, never pure black (pure black causes halation and hides depth). Higher surfaces are shown by lighter greys, not shadows or colour shifts. Saturated colours vibrate on dark backgrounds, so accents stay sparing. The Epic Games Store is the model: a near-black charcoal ladder with one accent colour used in only a few places. The palette (`Premium.Palette`):
+
+  | Role | Colour |
+  |---|---|
+  | Backdrop | #0E0E11 |
+  | Windows | #18181C |
+  | Cards | #202025 |
+  | Controls | #2C2C32 |
+  | Dividers | #404046 |
+  | Accent (gold) | #F5B52E |
+
+  Gold is used only for premium highlights (offers, best value, VIP, Robux buy buttons), and green only for coin buys. Borders are hairlines that are brighter along the top edge.
 - **Glass needs a blurred world behind it.** Glassmorphism is translucency, a light rim, a top sheen and a blurred background, layered so panels float. Roblox can't blur behind a UI frame, so the shop blurs the 3D world itself (a Lighting `BlurEffect`) while it's open. Every panel is a tinted translucent body with a gradient rim and a white sheen fading down. That's what makes "transparent" read as glass instead of washed out.
 - **3D creatures sell creatures.** A `ViewportFrame` with a `WorldModel` renders the real rigged model in the UI, animated. Keep the number on screen low: transparent overdraw and texture memory hurt phones (over 70% of Roblox players). `CanvasGroup` costs a full texture per group, so it isn't used here.
 - **Motion only where the money is.** Light sweeps make an item look premium and clickable. Use them, rotating borders, glints and spinning icons only on purchase surfaces (featured offers, the best-value tier, VIP, buy buttons). Everything else stays still, so the eye goes where you want it.
@@ -19,6 +31,9 @@ Sources:
 - [GameAnalytics: make your game UI shine and increase conversions](https://www.gameanalytics.com/blog/how-to-make-your-game-ui-shine-and-increase-conversions)
 - [Adrian Crook: psychological pricing tactics for freemium games](https://adriancrook.com/5-psychological-pricing-tactics-for-freemium-games/)
 - [DevForum: what is CanvasGroup (memory cost)](https://devforum.roblox.com/t/1797885)
+- [Material Design: dark theme](https://material.io/develop/android/theming/dark)
+- [UX Planet: dark theme UI tips](https://uxplanet.org/dark-theme-5-ui-design-tips-d70d86441757)
+- [Epic Games Store design breakdown](https://www.shadcn.io/design/epic-games)
 
 ## What was built
 
@@ -26,10 +41,10 @@ Sources:
 
 | Function | What it does |
 |---|---|
-| `glass(props)` | Frosted panel: tinted translucent body, gradient rim, top sheen, soft shadow |
+| `glass(props)` | Charcoal panel (barely see-through over the blurred world), hairline rim, faint top light, soft shadow |
 | `blur(on)` | Blurs the 3D world behind open premium windows (reference-counted) |
 | `modal(parent, props)` | Glass window with a spinning icon, gradient title, close button and blur |
-| `animatedStroke(obj, colors)` | Rotating gradient border. Presets: `Premium.Glass.Gold`, `.Gem`, `.Rainbow` |
+| `animatedStroke(obj, colors)` | Rotating gradient border. Presets: `Premium.Glass.Gold`, `.Steel`, `.Rainbow` (Mutation Hunter only) |
 | `shine(obj, period)` | Diagonal light sweep every few seconds |
 | `ribbon(parent, text, color)` | Corner ribbon ("BEST VALUE", "ONE TIME") with a slow pulse |
 | `badge(parent, text, color)` | Pill badge ("+47% MORE", "OWNED") |
